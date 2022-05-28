@@ -28,13 +28,16 @@ async function init() {
 }
 
 async function onConnect() {
+	document.querySelector('#btn-wallet-connect').style.display = 'none';
+	document.querySelector('#btn-wallet-disconnect').style.display = 'none';
+
 	try {
 		provider = await web3Modal.connect();
 	} catch (e) {
 		console.log('Could not get a wallet connection', e);
 		document.querySelector('#wallet-popup').style.display = 'none';
 		document.querySelector('#wallet-popup').style.opacity = 0;
-		document.querySelector('#btn-wallet').style.pointerEvents = 'all';
+		document.querySelector('#btn-wallet-connect').style.display = 'block';
 		return;
 	}
 
@@ -55,20 +58,17 @@ async function onConnect() {
 
 	await fetchAccountData();
 
-	document.querySelector('#btn-wallet').classList.add('btn-connected');
-	document.querySelector('#btn-wallet').innerHTML = 'Desconectar';
-
 	if (window.location.pathname === '/nft/form') updateInterface(provider, selectedAccount);
 	document.querySelector('#wallet-popup').style.display = 'none';
 	document.querySelector('#wallet-popup').style.opacity = 0;
-	document.querySelector('#btn-wallet').style.pointerEvents = 'all';
 
 	document.querySelector('#wallet-popup').classList.remove('wallet-popup');
+	document.querySelector('#btn-wallet-disconnect').style.display = 'block';
 }
 
 async function onDisconnect() {
-	document.querySelector('#btn-wallet').innerHTML = 'Criar/Conectar Conta';
-	document.querySelector('#btn-wallet').classList.remove('btn-connected');
+	document.querySelector('#btn-wallet-connect').style.display = 'none';
+	document.querySelector('#btn-wallet-disconnect').style.display = 'none';
 
 	if (window.torus) {
 		await window.torus.logout();
@@ -85,6 +85,7 @@ async function onDisconnect() {
 	if (window.location.pathname === '/nft/form') updateInterface(provider, selectedAccount);
 
 	document.querySelector('#wallet-popup').classList.add('wallet-popup');
+	document.querySelector('#btn-wallet-connect').style.display = 'block';
 }
 
 async function fetchAccountData() {
@@ -105,7 +106,6 @@ async function btnHandler() {
 	if (selectedAccount) {
 		await onDisconnect();
 	} else {
-		document.querySelector('#btn-wallet').style.pointerEvents = 'none';
 		await onConnect();
 	}
 }
@@ -115,5 +115,5 @@ window.addEventListener('load', async () => {
 	await init();
 	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) await onConnect();
 
-	document.querySelector('#btn-wallet').addEventListener('click', btnHandler);
+	document.querySelector('.nav-button').addEventListener('click', btnHandler);
 });
