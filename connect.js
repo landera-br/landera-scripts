@@ -28,6 +28,10 @@ async function init() {
 }
 
 async function onConnect() {
+	setTimeout(() => {
+		$('#wallet-popup').fadeIn();
+	}, 1000);
+
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
 	document.querySelector('#btn-wallet-disconnect').style.display = 'none';
 
@@ -103,7 +107,6 @@ async function fetchAccountData() {
 }
 
 async function btnHandler() {
-	console.log('Entrou Handler');
 	if (selectedAccount) {
 		await onDisconnect();
 	} else {
@@ -115,7 +118,7 @@ async function btnHandler() {
 window.addEventListener('load', async () => {
 	await init();
 	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) await onConnect();
-	$('.btn-connection').on('click', function (event) {
+	$('.nav-button').on('click', function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
 		btnHandler();
