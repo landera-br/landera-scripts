@@ -66,7 +66,7 @@ async function onDisconnect() {
 	document.querySelector('#btn-wallet').classList.remove('btn-connected');
 
 	console.log('AQUIIIIIII');
-	console.log(window.torus);
+	console.log(provider);
 
 	if (window.torus) {
 		await window.torus.logout();
