@@ -1,3 +1,6 @@
+// NOTE External CDN URL https://cdn.jsdelivr.net/gh/landera-br/landera-scripts@latest/connect.js
+// NOTE 👆 Update CDN URL https://purge.jsdelivr.net/gh/landera-br/landera-scripts@latest/connect.js
+
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
 let web3Modal;
@@ -59,6 +62,8 @@ async function onConnect() {
 	document.querySelector('#wallet-popup').style.display = 'none';
 	document.querySelector('#wallet-popup').style.opacity = 0;
 	document.querySelector('#btn-wallet').style.pointerEvents = 'all';
+
+	document.querySelector('#wallet-popup').classList.remove('wallet-popup');
 }
 
 async function onDisconnect() {
@@ -78,6 +83,8 @@ async function onDisconnect() {
 	selectedAccount = null;
 
 	if (window.location.pathname === '/nft/form') updateInterface(provider, selectedAccount);
+
+	document.querySelector('#wallet-popup').classList.add('wallet-popup');
 }
 
 async function fetchAccountData() {

@@ -1,3 +1,6 @@
+// NOTE External CDN URL https://cdn.jsdelivr.net/gh/landera-br/landera-scripts@latest/form.js
+// NOTE 👆 Update CDN URL https://purge.jsdelivr.net/gh/landera-br/landera-scripts@latest/form.js
+
 function updateInterface(provider = null, selectedAccount = null) {
 	const formBlock = document.querySelector('#form-block');
 	const helpBlock = document.querySelector('#help-block');
