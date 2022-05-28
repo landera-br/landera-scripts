@@ -55,7 +55,7 @@ async function onConnect() {
 	document.querySelector('#btn-wallet').classList.add('btn-connected');
 	document.querySelector('#btn-wallet').innerHTML = 'Desconectar';
 
-	if (window.location.pathname === '/nft/form') updateInterface();
+	if (window.location.pathname === '/nft/form') updateInterface(provider);
 	document.querySelector('#wallet-popup').style.display = 'none';
 	document.querySelector('#wallet-popup').style.opacity = 0;
 	document.querySelector('#btn-wallet').style.pointerEvents = 'all';
@@ -76,7 +76,7 @@ async function onDisconnect() {
 	provider = null;
 
 	selectedAccount = null;
-	if (window.location.pathname === '/nft/form') updateInterface();
+	if (window.location.pathname === '/nft/form') updateInterface(provider);
 }
 
 async function fetchAccountData() {

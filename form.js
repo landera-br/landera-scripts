@@ -1,6 +1,4 @@
-function updateInterface() {
-	console.log('Atualizou');
-	const formTitle = document.querySelector('#help-title');
+function updateInterface(provider) {
 	const formBlock = document.querySelector('#form-block');
 	const helpBlock = document.querySelector('#help-block');
 
