@@ -36,9 +36,11 @@ $('#checkbox-house').click(function () {
 $('#checkbox-apartment').click(function () {
 	$('#checkbox-apartment-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-apartment').is(':checked')) {
+		$('.apt-props').show();
 		$('#checkbox-house').prop('checked', false);
 		$('#checkbox-house-field').removeClass('checkbox-selected');
 	} else {
+		$('.apt-props').hide();
 		$('#checkbox-apartment').prop('checked', false);
 	}
 });
@@ -46,9 +48,11 @@ $('#checkbox-apartment').click(function () {
 $('#checkbox-furniture').click(function () {
 	$('#checkbox-furniture-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-furniture').is(':checked')) {
+		$('.furniture-props').show();
 		$('#checkbox-no-furniture').prop('checked', false);
 		$('#checkbox-no-furniture-field').removeClass('checkbox-selected');
 	} else {
+		$('.furniture-props').hide();
 		$('#checkbox-furniture').prop('checked', false);
 	}
 });
@@ -56,9 +60,11 @@ $('#checkbox-furniture').click(function () {
 $('#checkbox-no-furniture').click(function () {
 	$('#checkbox-no-furniture-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-no-furniture').is(':checked')) {
+		$('.furniture-props').hide();
 		$('#checkbox-furniture').prop('checked', false);
 		$('#checkbox-furniture-field').removeClass('checkbox-selected');
 	} else {
+		$('.furniture-props').show();
 		$('#checkbox-no-furniture').prop('checked', false);
 	}
 });
@@ -66,9 +72,11 @@ $('#checkbox-no-furniture').click(function () {
 $('#checkbox-condo').click(function () {
 	$('#checkbox-condo-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-condo').is(':checked')) {
+		$('.condo-props').show();
 		$('#checkbox-no-condo').prop('checked', false);
 		$('#checkbox-no-condo-field').removeClass('checkbox-selected');
 	} else {
+		$('.condo-props').hide();
 		$('#checkbox-condo').prop('checked', false);
 	}
 });
@@ -76,9 +84,11 @@ $('#checkbox-condo').click(function () {
 $('#checkbox-no-condo').click(function () {
 	$('#checkbox-no-condo-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-no-condo').is(':checked')) {
+		$('.condo-props').hide();
 		$('#checkbox-condo').prop('checked', false);
 		$('#checkbox-condo-field').removeClass('checkbox-selected');
 	} else {
+		$('.condo-props').show();
 		$('#checkbox-no-condo').prop('checked', false);
 	}
 });
