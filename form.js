@@ -24,9 +24,11 @@ function updateInterface(provider = null, selectedAccount = null) {
 $('#checkbox-house').click(function () {
 	$('#checkbox-house-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-house').is(':checked')) {
+		$('.apt-props').css('display', 'none');
 		$('#checkbox-apartment').prop('checked', false);
 		$('#checkbox-apartment-field').removeClass('checkbox-selected');
 	} else {
+		$('.apt-props').css('display', 'block');
 		$('#checkbox-house').prop('checked', false);
 	}
 });
@@ -34,11 +36,11 @@ $('#checkbox-house').click(function () {
 $('#checkbox-apartment').click(function () {
 	$('#checkbox-apartment-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-apartment').is(':checked')) {
-		$('.apt-props').show();
+		$('.apt-props').css('display', 'block');
 		$('#checkbox-house').prop('checked', false);
 		$('#checkbox-house-field').removeClass('checkbox-selected');
 	} else {
-		$('.apt-props').hide();
+		$('.apt-props').css('display', 'none');
 		$('#checkbox-apartment').prop('checked', false);
 	}
 });
@@ -46,11 +48,11 @@ $('#checkbox-apartment').click(function () {
 $('#checkbox-furniture').click(function () {
 	$('#checkbox-furniture-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-furniture').is(':checked')) {
-		$('.furniture-props').show();
+		$('.furniture-props').css('display', 'grid');
 		$('#checkbox-no-furniture').prop('checked', false);
 		$('#checkbox-no-furniture-field').removeClass('checkbox-selected');
 	} else {
-		$('.furniture-props').hide();
+		$('.furniture-props').css('display', 'none');
 		$('#checkbox-furniture').prop('checked', false);
 	}
 });
@@ -58,11 +60,11 @@ $('#checkbox-furniture').click(function () {
 $('#checkbox-no-furniture').click(function () {
 	$('#checkbox-no-furniture-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-no-furniture').is(':checked')) {
-		$('.furniture-props').hide();
+		$('.furniture-props').css('display', 'none');
 		$('#checkbox-furniture').prop('checked', false);
 		$('#checkbox-furniture-field').removeClass('checkbox-selected');
 	} else {
-		$('.furniture-props').show();
+		$('.furniture-props').css('display', 'grid');
 		$('#checkbox-no-furniture').prop('checked', false);
 	}
 });
@@ -70,11 +72,11 @@ $('#checkbox-no-furniture').click(function () {
 $('#checkbox-condo').click(function () {
 	$('#checkbox-condo-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-condo').is(':checked')) {
-		$('.condo-props').show();
+		$('.condo-props').css('display', 'block');
 		$('#checkbox-no-condo').prop('checked', false);
 		$('#checkbox-no-condo-field').removeClass('checkbox-selected');
 	} else {
-		$('.condo-props').hide();
+		$('.condo-props').css('display', 'none');
 		$('#checkbox-condo').prop('checked', false);
 	}
 });
@@ -82,11 +84,11 @@ $('#checkbox-condo').click(function () {
 $('#checkbox-no-condo').click(function () {
 	$('#checkbox-no-condo-field').toggleClass('checkbox-selected');
 	if ($('#checkbox-no-condo').is(':checked')) {
-		$('.condo-props').hide();
+		$('.condo-props').css('display', 'none');
 		$('#checkbox-condo').prop('checked', false);
 		$('#checkbox-condo-field').removeClass('checkbox-selected');
 	} else {
-		$('.condo-props').show();
+		$('.condo-props').css('display', 'block');
 		$('#checkbox-no-condo').prop('checked', false);
 	}
 });
