@@ -1,4 +1,4 @@
-function updateInterface(provider) {
+function updateInterface(provider = null, selectedAccount = null) {
 	const formBlock = document.querySelector('#form-block');
 	const helpBlock = document.querySelector('#help-block');
 
