@@ -65,6 +65,7 @@ async function onDisconnect() {
 	document.querySelector('#btn-wallet').innerHTML = 'Criar/Conectar Conta';
 	document.querySelector('#btn-wallet').classList.remove('btn-connected');
 
+	console.log('AQUIIIIIII');
 	console.log(window.torus);
 
 	if (window.torus) {
