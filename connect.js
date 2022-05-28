@@ -103,6 +103,7 @@ async function fetchAccountData() {
 }
 
 async function btnHandler() {
+	console.log('Entrou Handler');
 	if (selectedAccount) {
 		await onDisconnect();
 	} else {
@@ -114,6 +115,6 @@ async function btnHandler() {
 window.addEventListener('load', async () => {
 	await init();
 	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) await onConnect();
-
+	console.log(document.querySelector('.nav-button'));
 	document.querySelector('.nav-button').addEventListener('click', btnHandler);
 });
