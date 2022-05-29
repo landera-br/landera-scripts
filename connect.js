@@ -29,7 +29,7 @@ async function init() {
 
 async function onConnect() {
 	setTimeout(() => {
-		$('#wallet-popup').fadeIn();
+		$('#wallet-popup').css('display', 'flex').hide().fadeIn();
 	}, 1000);
 
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
@@ -40,7 +40,6 @@ async function onConnect() {
 	} catch (e) {
 		console.log('Could not get a wallet connection', e);
 		document.querySelector('#wallet-popup').style.display = 'none';
-		document.querySelector('#wallet-popup').style.opacity = 0;
 		document.querySelector('#btn-wallet-connect').style.display = 'block';
 		return;
 	}
