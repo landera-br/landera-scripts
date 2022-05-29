@@ -30,7 +30,7 @@ async function init() {
 async function onConnect() {
 	setTimeout(() => {
 		$('#wallet-popup').css('display', 'flex').css('opacity', 1).hide().fadeIn();
-	}, 1000);
+	}, 500);
 
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
 	document.querySelector('#btn-wallet-disconnect').style.display = 'none';
