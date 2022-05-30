@@ -27,10 +27,12 @@ async function init() {
 	});
 }
 
-async function onConnect() {
-	setTimeout(() => {
-		$('#wallet-popup').css('display', 'flex').css('opacity', 1).hide().fadeIn();
-	}, 500);
+async function onConnect(auto = false) {
+	if (auto) {
+		setTimeout(() => {
+			$('#wallet-popup').css('display', 'flex').css('opacity', 1).hide().fadeIn();
+		}, 500);
+	}
 
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
 	document.querySelector('#btn-wallet-disconnect').style.display = 'none';
@@ -113,7 +115,7 @@ async function btnHandler() {
 // NOTE Main entry point
 window.addEventListener('load', async () => {
 	await init();
-	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) await onConnect();
+	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) await onConnect(true);
 	$('.nav-button').on('click', function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
