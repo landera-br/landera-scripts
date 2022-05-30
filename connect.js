@@ -28,7 +28,7 @@ async function init() {
 }
 
 async function onConnect(auto = false) {
-	if (auto) {
+	if (!auto) {
 		setTimeout(() => {
 			$('#wallet-popup').css('display', 'flex').css('opacity', 1).hide().fadeIn();
 		}, 500);
