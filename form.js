@@ -292,7 +292,9 @@ $('#btn-submit').on('click', async (e) => {
 	// NOTE Get form data
 	getFormData();
 
-	console.log(formData.entries());
+	for (let [key, value] of formData.entries()) {
+		console.log(`${key}: ${value}`);
+	}
 
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
@@ -326,164 +328,220 @@ $('#btn-submit').on('click', async (e) => {
 });
 
 function getFormData() {
-	formData.append('mint_to_address', getField($('#field-wallet-address').val()));
-	formData.append('listing[owner_email]', getField($('#field-owner-email').val()));
-	formData.append('listing[plan]', $('#select-plan').val());
+	if ($('#field-wallet-address').val())
+		formData.append('mint_to_address', $('#field-wallet-address').val());
+
+	if ($('#field-owner-email').val())
+		formData.append('listing[owner_email]', $('#field-owner-email').val());
+
+	if ($('#select-plan').val()) formData.append('listing[plan]', $('#select-plan').val());
+
 	formData.append('listing[offer_type][sale]', $('#checkbox-sale').is(':checked') ? true : false);
+
 	formData.append('listing[offer_type][rent]', $('#checkbox-rent').is(':checked') ? true : false);
-	formData.append('listing[price]', getField($('#field-listing-price').val()));
-	formData.append('listing[description]', getField($('#field-description').val()));
-	formData.append('listing[overview][area]', getField($('#field-area').val()));
-	formData.append(
-		'listing[overview][in_condo]',
-		$('#checkbox-condo').is(':checked')
-			? true
-			: $('#checkbox-no-condo').is(':checked')
-			? false
-			: undefined
-	);
-	formData.append(
-		'listing[overview][furnished]',
-		$('#checkbox-furnished').is(':checked')
-			? true
-			: $('#checkbox-unfurnished').is(':checked')
-			? false
-			: undefined
-	);
-	formData.append(
-		'listing[overview][occupied]',
-		$('#radio-occupied').is(':checked')
-			? true
-			: $('#radio-unoccupied').is(':checked')
-			? false
-			: undefined
-	);
-	formData.append('listing[overview][parking_lots]', getField($('#field-parking-lots').val()));
-	formData.append(
-		'listing[overview][penthouse]',
-		$('#radio-penthouse').is(':checked')
-			? true
-			: $('#radio-no-penthouse').is(':checked')
-			? false
-			: undefined
-	);
-	formData.append('listing[overview][solar_face]', $('#select-solar-face').val());
-	formData.append('listing[overview][total_floors]', getField($('#field-total-floors').val()));
-	formData.append(
-		'listing[overview][prop_type]',
-		$('#checkbox-house').is(':checked')
-			? 'house'
-			: $('#checkbox-apartment').is(':checked')
-			? 'apartment'
-			: undefined
-	);
-	formData.append('listing[address][cep]', getField($('#field-cep').val()));
-	formData.append('listing[address][city]', getField($('#field-city').val()));
-	formData.append('listing[address][hood]', getField($('#field-hood').val()));
-	formData.append('listing[address][state]', getField($('#field-state').val()));
-	formData.append('listing[address][street_name]', getField($('#field-street-name').val()));
-	formData.append('listing[address][street_number]', getField($('#field-street-number').val()));
-	formData.append('listing[address][addon]', getField($('#field-addon').val()));
+
+	if ($('#field-listing-price').val())
+		formData.append('listing[price]', $('#field-listing-price').val());
+
+	if ($('#field-description').val())
+		formData.append('listing[description]', $('#field-description').val());
+
+	if ($('#field-area').val()) formData.append('listing[overview][area]', $('#field-area').val());
+
+	if ($('#checkbox-condo').is(':checked') || $('#checkbox-no-condo').is(':checked'))
+		formData.append(
+			'listing[overview][in_condo]',
+			$('#checkbox-condo').is(':checked') ? true : false
+		);
+
+	if ($('#checkbox-furnished').is(':checked') || $('#checkbox-unfurnished').is(':checked'))
+		formData.append(
+			'listing[overview][furnished]',
+			$('#checkbox-furnished').is(':checked') ? true : false
+		);
+
+	if ($('#radio-occupied').is(':checked') || $('#radio-unoccupied').is(':checked'))
+		formData.append(
+			'listing[overview][occupied]',
+			$('#radio-occupied').is(':checked') ? true : false
+		);
+
+	if ($('#field-parking-lots').val())
+		formData.append('listing[overview][parking_lots]', $('#field-parking-lots').val());
+
+	if ($('#radio-penthouse').is(':checked') || $('#radio-no-penthouse').is(':checked'))
+		formData.append(
+			'listing[overview][penthouse]',
+			$('#radio-penthouse').is(':checked') ? true : false
+		);
+
+	if ($('#select-solar-face').val())
+		formData.append('listing[overview][solar_face]', $('#select-solar-face').val());
+
+	if ($('#field-total-floors').val())
+		formData.append('listing[overview][total_floors]', $('#field-total-floors').val());
+
+	if ($('#checkbox-house').is(':checked') || $('#checkbox-apartment').is(':checked'))
+		formData.append(
+			'listing[overview][prop_type]',
+			$('#checkbox-house').is(':checked') ? 'house' : 'apartment'
+		);
+
+	if ($('#field-cep').val()) formData.append('listing[address][cep]', $('#field-cep').val());
+	if ($('#field-city').val()) formData.append('listing[address][city]', $('#field-city').val());
+	if ($('#field-hood').val()) formData.append('listing[address][hood]', $('#field-hood').val());
+	if ($('#field-state').val()) formData.append('listing[address][state]', $('#field-state').val());
+	if ($('#field-street-name').val())
+		formData.append('listing[address][street_name]', $('#field-street-name').val());
+	if ($('#field-street-number').val())
+		formData.append('listing[address][street_number]', $('#field-street-number').val());
+	if ($('#field-addon').val()) formData.append('listing[address][addon]', $('#field-addon').val());
+
 	formData.append(
 		'listing[condo_amn][fitness_studio]',
 		$('#checkbox-checkbox-condo-fitness-studio').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][pool]',
 		$('#checkbox-checkbox-condo-pool').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][green_area]',
 		$('#checkbox-checkbox-condo-green-area').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][party_room]',
 		$('#checkbox-checkbox-condo-party-room').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][game_room]',
 		$('#checkbox-checkbox-condo-game-room').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][sports_court]',
 		$('#checkbox-checkbox-condo-sports-court').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][laundry]',
 		$('#checkbox-checkbox-condo-laundry').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][playground]',
 		$('#checkbox-checkbox-condo-playground').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][toy_room]',
 		$('#checkbox-checkbox-condo-toy-room').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][sauna]',
 		$('#checkbox-checkbox-condo-sauna').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[condo_amn][pet_friendly]',
 		$('#checkbox-pet-friendly').is(':checked') ? true : false
 	);
+
 	formData.append('listing[interior_amn][sofa]', $('#checkbox-sofa').is(':checked') ? true : false);
+
 	formData.append(
 		'listing[interior_amn][table]',
 		$('#checkbox-table').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[interior_amn][kitchen_cabinet]',
 		$('#checkbox-kitchen-cabinet').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[interior_amn][refrigerator]',
 		$('#checkbox-refrigerator').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[interior_amn][wardrobe]',
 		$('#checkbox-wardrobe').is(':checked') ? true : false
 	);
+
 	formData.append('listing[interior_amn][bed]', $('#checkbox-bed').is(':checked') ? true : false);
+
 	formData.append(
 		'listing[interior_amn][garden]',
 		$('#checkbox-garden').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[interior_amn][gas_shower]',
 		$('#checkbox-gas-shower').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[interior_amn][stove]',
 		$('#checkbox-stove').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[interior_amn][microwave]',
 		$('#checkbox-microwave').is(':checked') ? true : false
 	);
+
 	formData.append(
 		'listing[interior_amn][fitness_studio]',
 		$('#checkbox-fitness-studio').is(':checked') ? true : false
 	);
-	formData.append('listing[interior_amn][pool]', $('#checkbox-pool').is(':checked') ? true : false);
-	formData.append('listing[rooms][bedrooms]', getField($('#field-bedrooms').val()));
-	formData.append('listing[rooms][suites]', getField($('#field-suites').val()));
-	formData.append('listing[rooms][bathrooms]', getField($('#field-bathrooms').val()));
-	formData.append('listing[rooms][toilets]', getField($('#field-toilets').val()));
-	formData.append('listing[rooms][kitchens]', getField($('#field-kitchens').val()));
-	formData.append('listing[rooms][offices]', getField($('#field-offices').val()));
-	formData.append('listing[rooms][dining_rooms]', getField($('#field-dining-rooms').val()));
-	formData.append('listing[rooms][living_rooms]', getField($('#field-living-rooms').val()));
-	formData.append('listing[rooms][toy_rooms]', getField($('#field-toy-rooms').val()));
-	formData.append('listing[rooms][eating_areas]', getField($('#field-eating-areas').val()));
-	formData.append('listing[rooms][service_areas]', getField($('#field-service-areas').val()));
-	formData.append('listing[rooms][home_theaters]', getField($('#field-home-theaters').val()));
-	formData.append('listing[taxes][condo]', getField($('#field-condo').val()));
-	formData.append('listing[taxes][iptu]', getField($('#field-iptu').val()));
-	formData.append('listing[taxes][others]', getField($('#field-iptu-extra').val()));
-}
 
-function getField(string) {
-	return string !== undefined && string !== '' ? string : undefined;
+	formData.append('listing[interior_amn][pool]', $('#checkbox-pool').is(':checked') ? true : false);
+
+	if ($('#field-bedrooms').val())
+		formData.append('listing[rooms][bedrooms]', $('#field-bedrooms').val());
+
+	if ($('#field-suites').val()) formData.append('listing[rooms][suites]', $('#field-suites').val());
+
+	if ($('#field-bathrooms').val())
+		formData.append('listing[rooms][bathrooms]', $('#field-bathrooms').val());
+
+	if ($('#field-toilets').val())
+		formData.append('listing[rooms][toilets]', $('#field-toilets').val());
+
+	if ($('#field-kitchens').val())
+		formData.append('listing[rooms][kitchens]', $('#field-kitchens').val());
+
+	if ($('#field-offices').val())
+		formData.append('listing[rooms][offices]', $('#field-offices').val());
+
+	if ($('#field-dining-rooms').val())
+		formData.append('listing[rooms][dining_rooms]', $('#field-dining-rooms').val());
+
+	if ($('#field-living-rooms').val())
+		formData.append('listing[rooms][living_rooms]', $('#field-living-rooms').val());
+
+	if ($('#field-toy-rooms').val())
+		formData.append('listing[rooms][toy_rooms]', $('#field-toy-rooms').val());
+
+	if ($('#field-eating-areas').val())
+		formData.append('listing[rooms][eating_areas]', $('#field-eating-areas').val());
+
+	if ($('#field-service-areas').val())
+		formData.append('listing[rooms][service_areas]', $('#field-service-areas').val());
+
+	if ($('#field-home-theaters').val())
+		formData.append('listing[rooms][home_theaters]', $('#field-home-theaters').val());
+
+	if ($('#field-condo').val()) formData.append('listing[taxes][condo]', $('#field-condo').val());
+
+	if ($('#field-iptu').val()) formData.append('listing[taxes][iptu]', $('#field-iptu').val());
+
+	if ($('#field-iptu-extra').val())
+		formData.append('listing[taxes][others]', $('#field-iptu-extra').val());
 }
