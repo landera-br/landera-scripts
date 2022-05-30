@@ -17,7 +17,7 @@ function updateInterface(provider = null, selectedAccount = null) {
 	const chain = document.querySelector('#field-chain');
 	const walletAddress = document.querySelector('#field-wallet-address');
 
-	chain.value = 'Ethereum';
+	chain.value = 'Polygon';
 	chain.disabled = true;
 	walletAddress.value = selectedAccount;
 	walletAddress.disabled = true;
@@ -255,7 +255,6 @@ let formData = new FormData();
 
 const searchParams = new URLSearchParams(window.location.search);
 
-console.log(searchParams.get('plan'));
 if (searchParams.has('plan'))
 	if (searchParams.get('plan') === 'premium') $('#select-plan').val('premium');
 
@@ -324,43 +323,12 @@ $('#btn-submit').on('click', async (e) => {
 		$('#btn-submit').addClass('error-button');
 		$('#btn-submit').val('Ocorreu um erro');
 	}
-
-	// NOTE Init transaction
-	// fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions', {
-	// 	method: 'post',
-	// 	body: formData,
-	// })
-	// 	.then((response) => {
-	// 		if (!response.ok) throw Error(response.statusText);
-
-	// 		return response.json();
-	// 	})
-	// 	.catch((error) => {
-	// 		console.log('Catou um erro');
-	// 		$('#btn-submit').addClass('error-button');
-	// 		$('#btn-submit').val('Ocorreu um erro');
-	// 	})
-	// 	.finally((data) => {
-	// 		console.log('finalmente');
-	// 		if (!Object.keys(data).length || data.ipfs_cid === '') {
-	// 			$('#btn-submit').addClass('error-button');
-	// 			$('#btn-submit').val('Ocorreu um erro');
-	// 			throw Error('Unable to upload data');
-	// 		}
-	// 		$('#ipfs-cid').val(data.ipfs_cid);
-
-	// 		// NOTE Redirect to Stripe
-	// 		$('#select-plan').val() === 'premium'
-	// 			? $('#form-block').attr('action', '/test1')
-	// 			: $('#form-block').attr('action', '/test2');
-
-	// 		$('#form-block').submit();
-	// 	});
 });
 
 function getFormData() {
 	formData.append('mint_to_address', $('#field-wallet-address').val());
 	formData.append('listing[owner_email]', $('#field-owner-email').val());
+	formData.append('listing[plan]', $('#select-plan').val());
 	formData.append('listing[offer_type][sale]', $('#checkbox-sale').is(':checked') ? true : false);
 	formData.append('listing[offer_type][rent]', $('#checkbox-rent').is(':checked') ? true : false);
 	formData.append('listing[price]', $('#field-listing-price').val());
@@ -368,26 +336,46 @@ function getFormData() {
 	formData.append('listing[overview][area]', $('#field-area').val());
 	formData.append(
 		'listing[overview][in_condo]',
-		$('#checkbox-condo').is(':checked') ? true : false
+		$('#checkbox-condo').is(':checked')
+			? true
+			: $('#checkbox-no-condo').is(':checked')
+			? false
+			: undefined
 	);
 	formData.append(
 		'listing[overview][furnished]',
-		$('#checkbox-furnished').is(':checked') ? true : false
+		$('#checkbox-furnished').is(':checked')
+			? true
+			: $('#checkbox-unfurnished').is(':checked')
+			? false
+			: undefined
 	);
 	formData.append(
 		'listing[overview][occupied]',
-		$('#radio-occupied').is(':checked') ? true : false
+		$('#radio-occupied').is(':checked')
+			? true
+			: $('#radio-unoccupied').is(':checked')
+			? false
+			: undefined
 	);
 	formData.append('listing[overview][parking_lots]', $('#field-parking-lots').val());
 	formData.append(
 		'listing[overview][penthouse]',
-		$('#radio-penthouse').is(':checked') ? true : false
+		$('#radio-penthouse').is(':checked')
+			? true
+			: $('#radio-no-penthouse').is(':checked')
+			? false
+			: undefined
 	);
 	formData.append('listing[overview][solar_face]', $('#field-solar-face').val());
 	formData.append('listing[overview][total_floors]', $('#field-total-floors').val());
 	formData.append(
 		'listing[overview][prop_type]',
-		$('#checkbox-house').is(':checked') ? 'house' : 'apartment'
+		$('#checkbox-house').is(':checked')
+			? 'house'
+			: $('#checkbox-apartment').is(':checked')
+			? 'apartment'
+			: undefined
 	);
 	formData.append('listing[address][cep]', $('#field-cep').val());
 	formData.append('listing[address][city]', $('#field-city').val());
