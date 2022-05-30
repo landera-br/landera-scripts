@@ -63,6 +63,7 @@ $('#checkbox-furnished').click(function () {
 	} else {
 		$('.furniture-props').css('display', 'none');
 		$('#checkbox-furnished').prop('checked', false);
+		cleanFurniture();
 	}
 });
 
@@ -72,6 +73,7 @@ $('#checkbox-unfurnished').click(function () {
 		$('.furniture-props').css('display', 'none');
 		$('#checkbox-furnished').prop('checked', false);
 		$('#checkbox-furnished-field').removeClass('checkbox-selected');
+		cleanFurniture();
 	} else {
 		$('.furniture-props').css('display', 'grid');
 		$('#checkbox-unfurnished').prop('checked', false);
@@ -87,6 +89,7 @@ $('#checkbox-condo').click(function () {
 	} else {
 		$('.condo-props').css('display', 'none');
 		$('#checkbox-condo').prop('checked', false);
+		cleanCondo();
 	}
 });
 
@@ -96,6 +99,7 @@ $('#checkbox-no-condo').click(function () {
 		$('.condo-props').css('display', 'none');
 		$('#checkbox-condo').prop('checked', false);
 		$('#checkbox-condo-field').removeClass('checkbox-selected');
+		cleanCondo();
 	} else {
 		$('.condo-props').css('display', 'block');
 		$('#checkbox-no-condo').prop('checked', false);
@@ -118,134 +122,134 @@ $('#field-service-areas').val(0);
 $('#field-home-theaters').val(0);
 
 $('#plus-bedrooms').on('click', () =>
-	$('#input-bedrooms').val() !== ''
-		? $('#input-bedrooms').val(parseInt($('#input-bedrooms').val()) + 1)
-		: $('#input-bedrooms').val(1)
+	$('#field-bedrooms').val() !== ''
+		? $('#field-bedrooms').val(parseInt($('#field-bedrooms').val()) + 1)
+		: $('#field-bedrooms').val(1)
 );
 
 $('#minus-bedrooms').on('click', () => {
-	if ($('#input-bedrooms').val() > 0)
-		$('#input-bedrooms').val(parseInt($('#input-bedrooms').val()) - 1);
+	if ($('#field-bedrooms').val() > 0)
+		$('#field-bedrooms').val(parseInt($('#field-bedrooms').val()) - 1);
 });
 
 $('#plus-suites').on('click', () =>
-	$('#input-suites').val() !== ''
-		? $('#input-suites').val(parseInt($('#input-suites').val()) + 1)
-		: $('#input-suites').val(1)
+	$('#field-suites').val() !== ''
+		? $('#field-suites').val(parseInt($('#field-suites').val()) + 1)
+		: $('#field-suites').val(1)
 );
 
 $('#minus-suites').on('click', () => {
-	if ($('#input-suites').val() > 0) $('#input-suites').val(parseInt($('#input-suites').val()) - 1);
+	if ($('#field-suites').val() > 0) $('#field-suites').val(parseInt($('#field-suites').val()) - 1);
 });
 
 $('#plus-bathrooms').on('click', () =>
-	$('#input-bathrooms').val() !== ''
-		? $('#input-bathrooms').val(parseInt($('#input-bathrooms').val()) + 1)
-		: $('#input-bathrooms').val(1)
+	$('#field-bathrooms').val() !== ''
+		? $('#field-bathrooms').val(parseInt($('#field-bathrooms').val()) + 1)
+		: $('#field-bathrooms').val(1)
 );
 
 $('#minus-bathrooms').on('click', () => {
-	if ($('#input-bathrooms').val() > 0)
-		$('#input-bathrooms').val(parseInt($('#input-bathrooms').val()) - 1);
+	if ($('#field-bathrooms').val() > 0)
+		$('#field-bathrooms').val(parseInt($('#field-bathrooms').val()) - 1);
 });
 
 $('#plus-toilets').on('click', () =>
-	$('#input-toilets').val() !== ''
-		? $('#input-toilets').val(parseInt($('#input-toilets').val()) + 1)
-		: $('#input-toilets').val(1)
+	$('#field-toilets').val() !== ''
+		? $('#field-toilets').val(parseInt($('#field-toilets').val()) + 1)
+		: $('#field-toilets').val(1)
 );
 
 $('#minus-toilets').on('click', () => {
-	if ($('#input-toilets').val() > 0)
-		$('#input-toilets').val(parseInt($('#input-toilets').val()) - 1);
+	if ($('#field-toilets').val() > 0)
+		$('#field-toilets').val(parseInt($('#field-toilets').val()) - 1);
 });
 
 $('#plus-kitchens').on('click', () =>
-	$('#input-kitchens').val() !== ''
-		? $('#input-kitchens').val(parseInt($('#input-kitchens').val()) + 1)
-		: $('#input-kitchens').val(1)
+	$('#field-kitchens').val() !== ''
+		? $('#field-kitchens').val(parseInt($('#field-kitchens').val()) + 1)
+		: $('#field-kitchens').val(1)
 );
 
 $('#minus-kitchens').on('click', () => {
-	if ($('#input-kitchens').val() > 0)
-		$('#input-kitchens').val(parseInt($('#input-kitchens').val()) - 1);
+	if ($('#field-kitchens').val() > 0)
+		$('#field-kitchens').val(parseInt($('#field-kitchens').val()) - 1);
 });
 
 $('#plus-offices').on('click', () =>
-	$('#input-offices').val() !== ''
-		? $('#input-offices').val(parseInt($('#input-offices').val()) + 1)
-		: $('#input-offices').val(1)
+	$('#field-offices').val() !== ''
+		? $('#field-offices').val(parseInt($('#field-offices').val()) + 1)
+		: $('#field-offices').val(1)
 );
 
 $('#minus-offices').on('click', () => {
-	if ($('#input-offices').val() > 0)
-		$('#input-offices').val(parseInt($('#input-offices').val()) - 1);
+	if ($('#field-offices').val() > 0)
+		$('#field-offices').val(parseInt($('#field-offices').val()) - 1);
 });
 
 $('#plus-dining-rooms').on('click', () =>
-	$('#input-dining-rooms').val() !== ''
-		? $('#input-dining-rooms').val(parseInt($('#input-dining-rooms').val()) + 1)
-		: $('#input-dining-rooms').val(1)
+	$('#field-dining-rooms').val() !== ''
+		? $('#field-dining-rooms').val(parseInt($('#field-dining-rooms').val()) + 1)
+		: $('#field-dining-rooms').val(1)
 );
 
 $('#minus-dining-rooms').on('click', () => {
-	if ($('#input-dining-rooms').val() > 0)
-		$('#input-dining-rooms').val(parseInt($('#input-dining-rooms').val()) - 1);
+	if ($('#field-dining-rooms').val() > 0)
+		$('#field-dining-rooms').val(parseInt($('#field-dining-rooms').val()) - 1);
 });
 
 $('#plus-living-rooms').on('click', () =>
-	$('#input-living-rooms').val() !== ''
-		? $('#input-living-rooms').val(parseInt($('#input-living-rooms').val()) + 1)
-		: $('#input-living-rooms').val(1)
+	$('#field-living-rooms').val() !== ''
+		? $('#field-living-rooms').val(parseInt($('#field-living-rooms').val()) + 1)
+		: $('#field-living-rooms').val(1)
 );
 
 $('#minus-living-rooms').on('click', () => {
-	if ($('#input-living-rooms').val() > 0)
-		$('#input-living-rooms').val(parseInt($('#input-living-rooms').val()) - 1);
+	if ($('#field-living-rooms').val() > 0)
+		$('#field-living-rooms').val(parseInt($('#field-living-rooms').val()) - 1);
 });
 
 $('#plus-toy-rooms').on('click', () =>
-	$('#input-toy-rooms').val() !== ''
-		? $('#input-toy-rooms').val(parseInt($('#input-toy-rooms').val()) + 1)
-		: $('#input-toy-rooms').val(1)
+	$('#field-toy-rooms').val() !== ''
+		? $('#field-toy-rooms').val(parseInt($('#field-toy-rooms').val()) + 1)
+		: $('#field-toy-rooms').val(1)
 );
 
 $('#minus-toy-rooms').on('click', () => {
-	if ($('#input-toy-rooms').val() > 0)
-		$('#input-toy-rooms').val(parseInt($('#input-toy-rooms').val()) - 1);
+	if ($('#field-toy-rooms').val() > 0)
+		$('#field-toy-rooms').val(parseInt($('#field-toy-rooms').val()) - 1);
 });
 
 $('#plus-eating-areas').on('click', () =>
-	$('#input-eating-areas').val() !== ''
-		? $('#input-eating-areas').val(parseInt($('#input-eating-areas').val()) + 1)
-		: $('#input-eating-areas').val(1)
+	$('#field-eating-areas').val() !== ''
+		? $('#field-eating-areas').val(parseInt($('#field-eating-areas').val()) + 1)
+		: $('#field-eating-areas').val(1)
 );
 
 $('#minus-eating-areas').on('click', () => {
-	if ($('#input-eating-areas').val() > 0)
-		$('#input-eating-areas').val(parseInt($('#input-eating-areas').val()) - 1);
+	if ($('#field-eating-areas').val() > 0)
+		$('#field-eating-areas').val(parseInt($('#field-eating-areas').val()) - 1);
 });
 
 $('#plus-service-areas').on('click', () =>
-	$('#input-service-areas').val() !== ''
-		? $('#input-service-areas').val(parseInt($('#input-service-areas').val()) + 1)
-		: $('#input-service-areas').val(1)
+	$('#field-service-areas').val() !== ''
+		? $('#field-service-areas').val(parseInt($('#field-service-areas').val()) + 1)
+		: $('#field-service-areas').val(1)
 );
 
 $('#minus-service-areas').on('click', () => {
-	if ($('#input-service-areas').val() > 0)
-		$('#input-service-areas').val(parseInt($('#input-service-areas').val()) - 1);
+	if ($('#field-service-areas').val() > 0)
+		$('#field-service-areas').val(parseInt($('#field-service-areas').val()) - 1);
 });
 
 $('#plus-home-theaters').on('click', () =>
-	$('#input-home-theaters').val() !== ''
-		? $('#input-home-theaters').val(parseInt($('#input-home-theaters').val()) + 1)
-		: $('#input-home-theaters').val(1)
+	$('#field-home-theaters').val() !== ''
+		? $('#field-home-theaters').val(parseInt($('#field-home-theaters').val()) + 1)
+		: $('#field-home-theaters').val(1)
 );
 
 $('#minus-home-theaters').on('click', () => {
-	if ($('#input-home-theaters').val() > 0)
-		$('#input-home-theaters').val(parseInt($('#input-home-theaters').val()) - 1);
+	if ($('#field-home-theaters').val() > 0)
+		$('#field-home-theaters').val(parseInt($('#field-home-theaters').val()) - 1);
 });
 
 // NOTE File upload
@@ -550,4 +554,33 @@ function getFormData() {
 
 	if ($('#field-iptu-extra').val())
 		formData.append('listing[taxes][others]', $('#field-iptu-extra').val());
+}
+
+function cleanFurniture() {
+	$('#checkbox-sofa').prop('checked', false);
+	$('#checkbox-table').prop('checked', false);
+	$('#checkbox-kitchen-cabinet').prop('checked', false);
+	$('#checkbox-refrigerator').prop('checked', false);
+	$('#checkbox-wardrobe').prop('checked', false);
+	$('#checkbox-bed').prop('checked', false);
+	$('#checkbox-garden').prop('checked', false);
+	$('#checkbox-gas-shower').prop('checked', false);
+	$('#checkbox-stove').prop('checked', false);
+	$('#checkbox-microwave').prop('checked', false);
+	$('#checkbox-fitness-studio').prop('checked', false);
+	$('#checkbox-pool').prop('checked', false);
+}
+
+function cleanCondo() {
+	$('#checkbox-condo-fitness-studio').prop('checked', false);
+	$('#checkbox-condo-pool').prop('checked', false);
+	$('#checkbox-condo-green-area').prop('checked', false);
+	$('#checkbox-condo-party-room').prop('checked', false);
+	$('#checkbox-condo-game-room').prop('checked', false);
+	$('#checkbox-condo-sports-court').prop('checked', false);
+	$('#checkbox-condo-laundry').prop('checked', false);
+	$('#checkbox-condo-playground').prop('checked', false);
+	$('#checkbox-condo-toy-room').prop('checked', false);
+	$('#checkbox-condo-sauna').prop('checked', false);
+	$('#checkbox-condo-pet-friendly').prop('checked', false);
 }
