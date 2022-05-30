@@ -253,6 +253,12 @@ const imagesDropzone = document.querySelector('#images-dropzone');
 
 let formData = new FormData();
 
+const searchParams = new URLSearchParams(window.location.search);
+
+console.log(searchParams.get('plan'));
+if (searchParams.has('plan'))
+	if (searchParams.get('plan') === 'premium') $('#select-plan').val('premium');
+
 thumbInput.addEventListener('change', function (e) {
 	formData.delete('thumb');
 	formData.append('thumb', e.target.files[0]);
@@ -285,89 +291,177 @@ $('#btn-submit').on('click', async (e) => {
 		return false;
 
 	// NOTE Get form data
-	// formData.append('mint_to_address', $('#field-wallet-address').val());
-	// formData.append('listing[owner_email]', $('#').val());
-	// formData.append('listing[offer_type]', $('#').val());
-	// formData.append('listing[price]', $('#field-listing-price').val());
-	// formData.append('listing[description]', $('#field-description').val());
-	// formData.append('listing[overview][area]', $('#field-area').val());
-	// formData.append('listing[overview][furnished]', $('#').val());
-	// formData.append('listing[overview][occupied]', $('#').val());
-	// formData.append('listing[overview][parking_lots]', $('#field-parking-lots').val());
-	// formData.append('listing[overview][penthouse]', $('#').val());
-	// formData.append('listing[overview][solar_face]', $('#field-solar-face').val());
-	// formData.append('listing[overview][total_floors]', $('#field-total-floors').val());
-	// formData.append('listing[overview][prop_type]', $('#').val());
-	// formData.append('listing[address][cep]', $('#field-cep').val());
-	// formData.append('listing[address][city]', $('#field-city').val());
-	// formData.append('listing[address][hood]', $('#field-hood').val());
-	// formData.append('listing[address][state]', $('#field-state').val());
-	// formData.append('listing[address][street_name]', $('#field-street-name').val());
-	// formData.append('listing[address][street_number]', $('#field-street-number').val());
-	// formData.append('listing[address][addon]', $('#field-addon').val());
-	// formData.append('listing[condo_amn][fitness_studio]', $('#').val());
-	// formData.append('listing[condo_amn][game_room]', $('#').val());
-	// formData.append('listing[condo_amn][green_area]', $('#').val());
-	// formData.append('listing[condo_amn][laundry]', $('#').val());
-	// formData.append('listing[condo_amn][party_room]', $('#').val());
-	// formData.append('listing[condo_amn][pet_friendly]', $('#').val());
-	// formData.append('listing[condo_amn][playground]', $('#').val());
-	// formData.append('listing[condo_amn][pool]', $('#').val());
-	// formData.append('listing[condo_amn][sauna]', $('#').val());
-	// formData.append('listing[condo_amn][sports_court]', $('#').val());
-	// formData.append('listing[condo_amn][toy_room]', $('#').val());
-	// formData.append('listing[interior_amn][bed]', $('#').val());
-	// formData.append('listing[interior_amn][fitness_studio]', $('#').val());
-	// formData.append('listing[interior_amn][garden]', $('#').val());
-	// formData.append('listing[interior_amn][gas_shower]', $('#').val());
-	// formData.append('listing[interior_amn][kitchen_cabinet]', $('#').val());
-	// formData.append('listing[interior_amn][microwave]', $('#').val());
-	// formData.append('listing[interior_amn][pool]', $('#').val());
-	// formData.append('listing[interior_amn][refrigerator]', $('#').val());
-	// formData.append('listing[interior_amn][sofa]', $('#').val());
-	// formData.append('listing[interior_amn][stove]', $('#').val());
-	// formData.append('listing[interior_amn][table]', $('#').val());
-	// formData.append('listing[interior_amn][wardrobe]', $('#').val());
-	// formData.append('listing[rooms][bedrooms]', $('#').val());
-	// formData.append('listing[rooms][suites]', $('#').val());
-	// formData.append('listing[rooms][bathrooms]', $('#').val());
-	// formData.append('listing[rooms][kitchens]', $('#').val());
-	// formData.append('listing[rooms][toilets]', $('#').val());
-	// formData.append('listing[rooms][offices]', $('#').val());
-	// formData.append('listing[rooms][dining_rooms]', $('#').val());
-	// formData.append('listing[rooms][living_rooms]', $('#').val());
-	// formData.append('listing[rooms][toy_rooms]', $('#').val());
-	// formData.append('listing[rooms][eating_areas]', $('#').val());
-	// formData.append('listing[rooms][home_theaters]', $('#').val());
-	// formData.append('listing[rooms][service_areas]', $('#').val());
-	// formData.append('listing[taxes][condo]', $('#field-condo').val());
-	// formData.append('listing[taxes][iptu]', $('#field-iptu').val());
-	// formData.append('listing[taxes][others]', $('#field-iptu-extra').val());
+	getFormData();
 
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
 
-	// NOTE Upload images
-	fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/images', {
+	// NOTE Init transaction
+	fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions', {
 		method: 'post',
 		body: formData,
 	})
 		.then((response) => {
-			if (!response.ok) {
-				$('#btn-submit').addClass('error-button');
-				$('#btn-submit').val('Ocorreu um erro');
-				throw Error(response.statusText);
-			}
+			if (!response.ok) throw Error(response.statusText);
 
 			return response.json();
 		})
-		.then((data) => {
+		.catch((error) => {
+			$('#btn-submit').addClass('error-button');
+			$('#btn-submit').val('Ocorreu um erro');
+		})
+		.finally((data) => {
+			console.log('finalmente');
 			if (!Object.keys(data).length || data.ipfs_cid === '') {
 				$('#btn-submit').addClass('error-button');
 				$('#btn-submit').val('Ocorreu um erro');
 				throw Error('Unable to upload data');
 			}
 			$('#ipfs-cid').val(data.ipfs_cid);
+
+			// NOTE Redirect to Stripe
+			$('#select-plan').val() === 'premium'
+				? $('#form-block').attr('action', '/test1')
+				: $('#form-block').attr('action', '/test2');
+
 			$('#form-block').submit();
 		});
 });
+
+function getFormData() {
+	formData.append('mint_to_address', $('#field-wallet-address').val());
+	formData.append('listing[owner_email]', $('#field-owner-email').val());
+	formData.append('listing[offer_type][sale]', $('#checkbox-sale').is(':checked') ? true : false);
+	formData.append('listing[offer_type][rent]', $('#checkbox-rent').is(':checked') ? true : false);
+	formData.append('listing[price]', $('#field-listing-price').val());
+	formData.append('listing[description]', $('#field-description').val());
+	formData.append('listing[overview][area]', $('#field-area').val());
+	formData.append(
+		'listing[overview][in_condo]',
+		$('#checkbox-condo').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[overview][furnished]',
+		$('#checkbox-furnished').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[overview][occupied]',
+		$('#radio-occupied').is(':checked') ? true : false
+	);
+	formData.append('listing[overview][parking_lots]', $('#field-parking-lots').val());
+	formData.append(
+		'listing[overview][penthouse]',
+		$('#radio-penthouse').is(':checked') ? true : false
+	);
+	formData.append('listing[overview][solar_face]', $('#field-solar-face').val());
+	formData.append('listing[overview][total_floors]', $('#field-total-floors').val());
+	formData.append(
+		'listing[overview][prop_type]',
+		$('#checkbox-house').is(':checked') ? 'house' : 'apartment'
+	);
+	formData.append('listing[address][cep]', $('#field-cep').val());
+	formData.append('listing[address][city]', $('#field-city').val());
+	formData.append('listing[address][hood]', $('#field-hood').val());
+	formData.append('listing[address][state]', $('#field-state').val());
+	formData.append('listing[address][street_name]', $('#field-street-name').val());
+	formData.append('listing[address][street_number]', $('#field-street-number').val());
+	formData.append('listing[address][addon]', $('#field-addon').val());
+	formData.append(
+		'listing[condo_amn][fitness_studio]',
+		$('#checkbox-checkbox-condo-fitness-studio').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][pool]',
+		$('#checkbox-checkbox-condo-pool').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][green_area]',
+		$('#checkbox-checkbox-condo-green-area').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][party_room]',
+		$('#checkbox-checkbox-condo-party-room').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][game_room]',
+		$('#checkbox-checkbox-condo-game-room').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][sports_court]',
+		$('#checkbox-checkbox-condo-sports-court').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][laundry]',
+		$('#checkbox-checkbox-condo-laundry').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][playground]',
+		$('#checkbox-checkbox-condo-playground').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][toy_room]',
+		$('#checkbox-checkbox-condo-toy-room').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][sauna]',
+		$('#checkbox-checkbox-condo-sauna').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[condo_amn][pet_friendly]',
+		$('#checkbox-pet-friendly').is(':checked') ? true : false
+	);
+	formData.append('listing[interior_amn][sofa]', $('#checkbox-sofa').is(':checked') ? true : false);
+	formData.append(
+		'listing[interior_amn][table]',
+		$('#checkbox-table').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[interior_amn][kitchen_cabinet]',
+		$('#checkbox-kitchen-cabinet').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[interior_amn][refrigerator]',
+		$('#checkbox-refrigerator').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[interior_amn][wardrobe]',
+		$('#checkbox-wardrobe').is(':checked') ? true : false
+	);
+	formData.append('listing[interior_amn][bed]', $('#checkbox-bed').is(':checked') ? true : false);
+	formData.append(
+		'listing[interior_amn][garden]',
+		$('#checkbox-garden').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[interior_amn][gas_shower]',
+		$('#checkbox-gas-shower').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[interior_amn][stove]',
+		$('#checkbox-stove').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[interior_amn][microwave]',
+		$('#checkbox-microwave').is(':checked') ? true : false
+	);
+	formData.append(
+		'listing[interior_amn][fitness_studio]',
+		$('#checkbox-fitness-studio').is(':checked') ? true : false
+	);
+	formData.append('listing[interior_amn][pool]', $('#checkbox-pool').is(':checked') ? true : false);
+	formData.append('listing[rooms][bedrooms]', $('#field-bedrooms').val());
+	formData.append('listing[rooms][suites]', $('#field-suites').val());
+	formData.append('listing[rooms][bathrooms]', $('#field-bathrooms').val());
+	formData.append('listing[rooms][toilets]', $('#field-toilets').val());
+	formData.append('listing[rooms][kitchens]', $('#field-kitchens').val());
+	formData.append('listing[rooms][offices]', $('#field-offices').val());
+	formData.append('listing[rooms][dining_rooms]', $('#field-dining-rooms').val());
+	formData.append('listing[rooms][living_rooms]', $('#field-living-rooms').val());
+	formData.append('listing[rooms][toy_rooms]', $('#field-toy-rooms').val());
+	formData.append('listing[rooms][eating_areas]', $('#field-eating-areas').val());
+	formData.append('listing[rooms][service_areas]', $('#field-service-areas').val());
+	formData.append('listing[rooms][home_theaters]', $('#field-home-theaters').val());
+	formData.append('listing[taxes][condo]', $('#field-condo').val());
+	formData.append('listing[taxes][iptu]', $('#field-iptu').val());
+	formData.append('listing[taxes][others]', $('#field-iptu-extra').val());
+}
