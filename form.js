@@ -293,39 +293,69 @@ $('#btn-submit').on('click', async (e) => {
 	// NOTE Get form data
 	getFormData();
 
+	console.log(formData);
+
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
 
-	// NOTE Init transaction
-	fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions', {
-		method: 'post',
-		body: formData,
-	})
-		.then((response) => {
-			if (!response.ok) throw Error(response.statusText);
-
-			return response.json();
-		})
-		.catch((error) => {
-			$('#btn-submit').addClass('error-button');
-			$('#btn-submit').val('Ocorreu um erro');
-		})
-		.finally((data) => {
-			console.log('finalmente');
-			if (!Object.keys(data).length || data.ipfs_cid === '') {
-				$('#btn-submit').addClass('error-button');
-				$('#btn-submit').val('Ocorreu um erro');
-				throw Error('Unable to upload data');
+	try {
+		const response = await fetch(
+			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
+			{
+				method: 'post',
+				body: formData,
 			}
-			$('#ipfs-cid').val(data.ipfs_cid);
+		);
 
-			// NOTE Redirect to Stripe
-			$('#select-plan').val() === 'premium'
-				? $('#form-block').attr('action', '/test1')
-				: $('#form-block').attr('action', '/test2');
+		console.log(response);
 
-			$('#form-block').submit();
-		});
+		if (!Object.keys(response).length || response.ipfs_cid === '')
+			throw Error('Unable to upload data');
+
+		$('#ipfs-cid').val(response.ipfs_cid);
+
+		// NOTE Redirect to Stripe
+		$('#select-plan').val() === 'premium'
+			? $('#form-block').attr('action', '/test1')
+			: $('#form-block').attr('action', '/test2');
+
+		$('#form-block').submit();
+	} catch (error) {
+		$('#btn-submit').addClass('error-button');
+		$('#btn-submit').val('Ocorreu um erro');
+	}
+
+	// NOTE Init transaction
+	// fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions', {
+	// 	method: 'post',
+	// 	body: formData,
+	// })
+	// 	.then((response) => {
+	// 		if (!response.ok) throw Error(response.statusText);
+
+	// 		return response.json();
+	// 	})
+	// 	.catch((error) => {
+	// 		console.log('Catou um erro');
+	// 		$('#btn-submit').addClass('error-button');
+	// 		$('#btn-submit').val('Ocorreu um erro');
+	// 	})
+	// 	.finally((data) => {
+	// 		console.log('finalmente');
+	// 		if (!Object.keys(data).length || data.ipfs_cid === '') {
+	// 			$('#btn-submit').addClass('error-button');
+	// 			$('#btn-submit').val('Ocorreu um erro');
+	// 			throw Error('Unable to upload data');
+	// 		}
+	// 		$('#ipfs-cid').val(data.ipfs_cid);
+
+	// 		// NOTE Redirect to Stripe
+	// 		$('#select-plan').val() === 'premium'
+	// 			? $('#form-block').attr('action', '/test1')
+	// 			: $('#form-block').attr('action', '/test2');
+
+	// 		$('#form-block').submit();
+	// 	});
 });
 
 function getFormData() {
