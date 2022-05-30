@@ -292,7 +292,7 @@ $('#btn-submit').on('click', async (e) => {
 	// NOTE Get form data
 	getFormData();
 
-	console.log(formData);
+	console.log(formData.entries());
 
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
@@ -326,14 +326,14 @@ $('#btn-submit').on('click', async (e) => {
 });
 
 function getFormData() {
-	formData.append('mint_to_address', $('#field-wallet-address').val());
-	formData.append('listing[owner_email]', $('#field-owner-email').val());
+	formData.append('mint_to_address', getField($('#field-wallet-address').val()));
+	formData.append('listing[owner_email]', getField($('#field-owner-email').val()));
 	formData.append('listing[plan]', $('#select-plan').val());
 	formData.append('listing[offer_type][sale]', $('#checkbox-sale').is(':checked') ? true : false);
 	formData.append('listing[offer_type][rent]', $('#checkbox-rent').is(':checked') ? true : false);
-	formData.append('listing[price]', $('#field-listing-price').val());
-	formData.append('listing[description]', $('#field-description').val());
-	formData.append('listing[overview][area]', $('#field-area').val());
+	formData.append('listing[price]', getField($('#field-listing-price').val()));
+	formData.append('listing[description]', getField($('#field-description').val()));
+	formData.append('listing[overview][area]', getField($('#field-area').val()));
 	formData.append(
 		'listing[overview][in_condo]',
 		$('#checkbox-condo').is(':checked')
@@ -358,7 +358,7 @@ function getFormData() {
 			? false
 			: undefined
 	);
-	formData.append('listing[overview][parking_lots]', $('#field-parking-lots').val());
+	formData.append('listing[overview][parking_lots]', getField($('#field-parking-lots').val()));
 	formData.append(
 		'listing[overview][penthouse]',
 		$('#radio-penthouse').is(':checked')
@@ -367,8 +367,8 @@ function getFormData() {
 			? false
 			: undefined
 	);
-	formData.append('listing[overview][solar_face]', $('#field-solar-face').val());
-	formData.append('listing[overview][total_floors]', $('#field-total-floors').val());
+	formData.append('listing[overview][solar_face]', $('#select-solar-face').val());
+	formData.append('listing[overview][total_floors]', getField($('#field-total-floors').val()));
 	formData.append(
 		'listing[overview][prop_type]',
 		$('#checkbox-house').is(':checked')
@@ -377,13 +377,13 @@ function getFormData() {
 			? 'apartment'
 			: undefined
 	);
-	formData.append('listing[address][cep]', $('#field-cep').val());
-	formData.append('listing[address][city]', $('#field-city').val());
-	formData.append('listing[address][hood]', $('#field-hood').val());
-	formData.append('listing[address][state]', $('#field-state').val());
-	formData.append('listing[address][street_name]', $('#field-street-name').val());
-	formData.append('listing[address][street_number]', $('#field-street-number').val());
-	formData.append('listing[address][addon]', $('#field-addon').val());
+	formData.append('listing[address][cep]', getField($('#field-cep').val()));
+	formData.append('listing[address][city]', getField($('#field-city').val()));
+	formData.append('listing[address][hood]', getField($('#field-hood').val()));
+	formData.append('listing[address][state]', getField($('#field-state').val()));
+	formData.append('listing[address][street_name]', getField($('#field-street-name').val()));
+	formData.append('listing[address][street_number]', getField($('#field-street-number').val()));
+	formData.append('listing[address][addon]', getField($('#field-addon').val()));
 	formData.append(
 		'listing[condo_amn][fitness_studio]',
 		$('#checkbox-checkbox-condo-fitness-studio').is(':checked') ? true : false
@@ -467,19 +467,23 @@ function getFormData() {
 		$('#checkbox-fitness-studio').is(':checked') ? true : false
 	);
 	formData.append('listing[interior_amn][pool]', $('#checkbox-pool').is(':checked') ? true : false);
-	formData.append('listing[rooms][bedrooms]', $('#field-bedrooms').val());
-	formData.append('listing[rooms][suites]', $('#field-suites').val());
-	formData.append('listing[rooms][bathrooms]', $('#field-bathrooms').val());
-	formData.append('listing[rooms][toilets]', $('#field-toilets').val());
-	formData.append('listing[rooms][kitchens]', $('#field-kitchens').val());
-	formData.append('listing[rooms][offices]', $('#field-offices').val());
-	formData.append('listing[rooms][dining_rooms]', $('#field-dining-rooms').val());
-	formData.append('listing[rooms][living_rooms]', $('#field-living-rooms').val());
-	formData.append('listing[rooms][toy_rooms]', $('#field-toy-rooms').val());
-	formData.append('listing[rooms][eating_areas]', $('#field-eating-areas').val());
-	formData.append('listing[rooms][service_areas]', $('#field-service-areas').val());
-	formData.append('listing[rooms][home_theaters]', $('#field-home-theaters').val());
-	formData.append('listing[taxes][condo]', $('#field-condo').val());
-	formData.append('listing[taxes][iptu]', $('#field-iptu').val());
-	formData.append('listing[taxes][others]', $('#field-iptu-extra').val());
+	formData.append('listing[rooms][bedrooms]', getField($('#field-bedrooms').val()));
+	formData.append('listing[rooms][suites]', getField($('#field-suites').val()));
+	formData.append('listing[rooms][bathrooms]', getField($('#field-bathrooms').val()));
+	formData.append('listing[rooms][toilets]', getField($('#field-toilets').val()));
+	formData.append('listing[rooms][kitchens]', getField($('#field-kitchens').val()));
+	formData.append('listing[rooms][offices]', getField($('#field-offices').val()));
+	formData.append('listing[rooms][dining_rooms]', getField($('#field-dining-rooms').val()));
+	formData.append('listing[rooms][living_rooms]', getField($('#field-living-rooms').val()));
+	formData.append('listing[rooms][toy_rooms]', getField($('#field-toy-rooms').val()));
+	formData.append('listing[rooms][eating_areas]', getField($('#field-eating-areas').val()));
+	formData.append('listing[rooms][service_areas]', getField($('#field-service-areas').val()));
+	formData.append('listing[rooms][home_theaters]', getField($('#field-home-theaters').val()));
+	formData.append('listing[taxes][condo]', getField($('#field-condo').val()));
+	formData.append('listing[taxes][iptu]', getField($('#field-iptu').val()));
+	formData.append('listing[taxes][others]', getField($('#field-iptu-extra').val()));
+}
+
+function getField(string) {
+	return string !== undefined && string !== '' ? string : undefined;
 }
