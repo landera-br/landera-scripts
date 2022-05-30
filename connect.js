@@ -115,7 +115,11 @@ async function btnHandler() {
 // NOTE Main entry point
 window.addEventListener('load', async () => {
 	await init();
-	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) await onConnect(true);
+	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
+		await onConnect(true);
+	} else {
+		document.querySelector('#btn-wallet-connect').style.display = 'block';
+	}
 	$('.nav-button').on('click', function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
