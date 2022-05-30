@@ -30,8 +30,11 @@ $('#checkbox-house').click(function () {
 		$('.apt-props').css('display', 'none');
 		$('#checkbox-apartment').prop('checked', false);
 		$('#checkbox-apartment-field').removeClass('checkbox-selected');
+
+		$('#field-total-floors').val('');
+		$('#radio-penthouse').prop('checked', false);
+		$('#radio-no-penthouse').prop('checked', false);
 	} else {
-		$('.apt-props').css('display', 'block');
 		$('#checkbox-house').prop('checked', false);
 	}
 });
@@ -45,30 +48,33 @@ $('#checkbox-apartment').click(function () {
 	} else {
 		$('.apt-props').css('display', 'none');
 		$('#checkbox-apartment').prop('checked', false);
+		$('#field-total-floors').val('');
+		$('#radio-penthouse').prop('checked', false);
+		$('#radio-no-penthouse').prop('checked', false);
 	}
 });
 
-$('#checkbox-furniture').click(function () {
-	$('#checkbox-furniture-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-furniture').is(':checked')) {
+$('#checkbox-furnished').click(function () {
+	$('#checkbox-furnished-field').toggleClass('checkbox-selected');
+	if ($('#checkbox-furnished').is(':checked')) {
 		$('.furniture-props').css('display', 'grid');
-		$('#checkbox-no-furniture').prop('checked', false);
-		$('#checkbox-no-furniture-field').removeClass('checkbox-selected');
+		$('#checkbox-unfurnished').prop('checked', false);
+		$('#checkbox-unfurnished-field').removeClass('checkbox-selected');
 	} else {
 		$('.furniture-props').css('display', 'none');
-		$('#checkbox-furniture').prop('checked', false);
+		$('#checkbox-furnished').prop('checked', false);
 	}
 });
 
-$('#checkbox-no-furniture').click(function () {
-	$('#checkbox-no-furniture-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-no-furniture').is(':checked')) {
+$('#checkbox-unfurnished').click(function () {
+	$('#checkbox-unfurnished-field').toggleClass('checkbox-selected');
+	if ($('#checkbox-unfurnished').is(':checked')) {
 		$('.furniture-props').css('display', 'none');
-		$('#checkbox-furniture').prop('checked', false);
-		$('#checkbox-furniture-field').removeClass('checkbox-selected');
+		$('#checkbox-furnished').prop('checked', false);
+		$('#checkbox-furnished-field').removeClass('checkbox-selected');
 	} else {
 		$('.furniture-props').css('display', 'grid');
-		$('#checkbox-no-furniture').prop('checked', false);
+		$('#checkbox-unfurnished').prop('checked', false);
 	}
 });
 
@@ -98,18 +104,18 @@ $('#checkbox-no-condo').click(function () {
 
 // NOTE Counters
 
-$('#input-bedrooms').val(0);
-$('#input-suites').val(0);
-$('#input-bathrooms').val(0);
-$('#input-toilets').val(0);
-$('#input-kitchens').val(0);
-$('#input-offices').val(0);
-$('#input-dining-rooms').val(0);
-$('#input-living-rooms').val(0);
-$('#input-toy-rooms').val(0);
-$('#input-eating-areas').val(0);
-$('#input-service-areas').val(0);
-$('#input-home-theaters').val(0);
+$('#field-bedrooms').val(0);
+$('#field-suites').val(0);
+$('#field-bathrooms').val(0);
+$('#field-toilets').val(0);
+$('#field-kitchens').val(0);
+$('#field-offices').val(0);
+$('#field-dining-rooms').val(0);
+$('#field-living-rooms').val(0);
+$('#field-toy-rooms').val(0);
+$('#field-eating-areas').val(0);
+$('#field-service-areas').val(0);
+$('#field-home-theaters').val(0);
 
 $('#plus-bedrooms').on('click', () =>
 	$('#input-bedrooms').val() !== ''
