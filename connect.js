@@ -28,7 +28,6 @@ async function init() {
 }
 
 async function onConnect(auto = false) {
-	await fetchAccountData();
 	if (!auto) {
 		setTimeout(() => {
 			$('#wallet-popup').css('display', 'flex').css('opacity', 1).hide().fadeIn();
@@ -40,7 +39,6 @@ async function onConnect(auto = false) {
 
 	try {
 		provider = await web3Modal.connect();
-		console.log(provider);
 	} catch (e) {
 		console.log('Could not get a wallet connection', e);
 		document.querySelector('#wallet-popup').style.display = 'none';
@@ -98,14 +96,12 @@ async function fetchAccountData() {
 
 	// Get connected chain id from Ethereum node
 	const chainId = await web3.eth.getChainId();
-	console.log(`Chain ID: ${chainId}`);
 
 	// Get list of accounts of the connected wallet
 	const accounts = await web3.eth.getAccounts();
 
 	// MetaMask does not give you all accounts, only the selected account
 	selectedAccount = accounts[0];
-	console.log(`Account: ${selectedAccount}`);
 }
 
 async function btnHandler() {
