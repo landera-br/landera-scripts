@@ -334,6 +334,11 @@ $('#btn-submit').on('click', async (e) => {
 	} catch (error) {
 		$('#btn-submit').addClass('error-button');
 		$('#btn-submit').val('Ocorreu um erro');
+		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
+			$('#btn-submit').removeClass('error-button');
+			$('#btn-submit').removeClass('sending-button');
+			$('#btn-submit').val('Seguir para pagamento');
+		}
 	}
 });
 
