@@ -436,7 +436,7 @@ function getFormData() {
 		},
 	};
 
-	formData = objectToFormData(data, formData);
+	formData = objectToFormData(cleanObj(data), formData);
 }
 
 function objectToFormData(obj, form, namespace) {
@@ -465,6 +465,29 @@ function objectToFormData(obj, form, namespace) {
 	return fd;
 }
 
+// NOTE Remove undefined, null and '' values
+function cleanObj(object) {
+	Object.entries(object).forEach(([k, v]) => {
+		if (v && typeof v === 'object') {
+			clean(v);
+		}
+		if (
+			(v && typeof v === 'object' && !Object.keys(v).length) ||
+			v === null ||
+			v === undefined ||
+			v === ''
+		) {
+			if (Array.isArray(object)) {
+				object.splice(k, 1);
+			} else {
+				delete object[k];
+			}
+		}
+	});
+	return object;
+}
+
+// NOTE Clean furniture data
 function cleanFurniture() {
 	$('#checkbox-sofa').prop('checked', false);
 	$('#checkbox-table').prop('checked', false);
@@ -480,6 +503,7 @@ function cleanFurniture() {
 	$('#checkbox-pool').prop('checked', false);
 }
 
+// NOTE Clean condo data
 function cleanCondo() {
 	$('#checkbox-condo-fitness-studio').prop('checked', false);
 	$('#checkbox-condo-pool').prop('checked', false);
