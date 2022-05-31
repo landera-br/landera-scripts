@@ -34,7 +34,7 @@ $('#checkbox-house').click(function () {
 
 		$('#field-total-floors').val('');
 		$('#radio-penthouse').prop('checked', false);
-		$('#radio-no-penthouse').prop('checked', false);
+		$('#radio-no-penthouse').prop('checked', true);
 	} else {
 		$('#checkbox-house').prop('checked', false);
 	}
@@ -51,7 +51,7 @@ $('#checkbox-apartment').click(function () {
 		$('#checkbox-apartment').prop('checked', false);
 		$('#field-total-floors').val('');
 		$('#radio-penthouse').prop('checked', false);
-		$('#radio-no-penthouse').prop('checked', false);
+		$('#radio-no-penthouse').prop('checked', true);
 	}
 });
 
@@ -301,11 +301,6 @@ $('#btn-submit').on('click', async (e) => {
 	// NOTE Get form data
 	getFormData();
 
-	for (let [key, value] of formData.entries()) {
-		console.log(`${key}: ${value}`);
-		console.log(typeof value);
-	}
-
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
 
@@ -335,6 +330,7 @@ $('#btn-submit').on('click', async (e) => {
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
 			$('#btn-submit').removeClass('sending-button');
 			$('#btn-submit').val('Seguir para pagamento');
+			formData = new FormData();
 		}
 	}
 });
@@ -365,11 +361,7 @@ function getFormData() {
 					? false
 					: undefined,
 				parking_lots: Number($('#field-parking-lots').val()),
-				penthouse: $('#radio-penthouse').is(':checked')
-					? true
-					: $('#radio-no-penthouse').is(':checked')
-					? false
-					: undefined,
+				penthouse: $('#radio-penthouse').is(':checked') ? true : false,
 				solar_face: $('#select-solar-face').val(),
 				total_floors: Number($('#field-total-floors').val()),
 				prop_type: $('#checkbox-house').is(':checked')
