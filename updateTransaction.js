@@ -17,7 +17,9 @@ window.addEventListener('load', async () => {
 		const responseData = await response.json();
 
 		if (!Object.keys(responseData).length) throw Error('Unable to update data');
+
+		$('#success-page').style.display = 'block';
 	} catch (error) {
-		window.location.replace('nft/error');
+		window.location.replace('/error');
 	}
 });
