@@ -469,7 +469,7 @@ function objectToFormData(obj, form, namespace) {
 function cleanObj(object) {
 	Object.entries(object).forEach(([k, v]) => {
 		if (v && typeof v === 'object') {
-			clean(v);
+			cleanObj(v);
 		}
 		if (
 			(v && typeof v === 'object' && !Object.keys(v).length) ||
