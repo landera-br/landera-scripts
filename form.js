@@ -323,8 +323,8 @@ $('#btn-submit').on('click', async (e) => {
 		// NOTE Redirect to Stripe
 		const redirectUrl =
 			$('#select-plan').val() === 'premium'
-				? $('#form-block').attr('action', 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL')
-				: $('#form-block').attr('action', 'https://buy.stripe.com/test_00g4je9Re3aHdFu006');
+				? 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL'
+				: 'https://buy.stripe.com/test_00g4je9Re3aHdFu006';
 
 		window.location.replace(redirectUrl);
 		$('#form-block').submit();
