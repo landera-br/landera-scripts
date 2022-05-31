@@ -346,6 +346,7 @@ function getFormData() {
 			owner_email: $('#field-owner-email').val(),
 			price: Number($('#field-listing-price').val()),
 			description: $('#field-description').val(),
+			plan: $('#select-plan').val(),
 			offer_type: {
 				sale: $('#checkbox-sale').is(':checked'),
 				rent: $('#checkbox-rent').is(':checked'),
@@ -453,7 +454,7 @@ function objectToFormData(obj, form, namespace) {
 			// if the property is an object, but not a File,
 			// use recursivity.
 			if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
-				objectToFormData(obj[property], fd, property);
+				objectToFormData(obj[property], fd, formKey);
 			} else {
 				// if it's a string or a File object
 				fd.append(formKey, obj[property]);
