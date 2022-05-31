@@ -43,6 +43,7 @@ async function onConnect(auto = false) {
 		console.log('Could not get a wallet connection', e);
 		document.querySelector('#wallet-popup').style.display = 'none';
 		document.querySelector('#btn-wallet-connect').style.display = 'block';
+		updateInterface();
 		return;
 	}
 
