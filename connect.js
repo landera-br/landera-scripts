@@ -119,7 +119,7 @@ window.addEventListener('load', async () => {
 	if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
 		await onConnect(true);
 	} else {
-		document.querySelector('#btn-wallet-connect').style.display = 'block';
+		await onDisconnect(); // clean cached data
 	}
 	$('.nav-button').on('click', function (event) {
 		event.stopPropagation();
