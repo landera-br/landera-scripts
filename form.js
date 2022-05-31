@@ -312,11 +312,16 @@ $('#btn-submit').on('click', async (e) => {
 			})
 		).json();
 
-		if (!Object.keys(response).length || response.ipfs_cid === '')
+		console.log(response);
+		console.log(!Object.keys(response).length);
+		console.log(response.ipfs_cid === '');
+
+		if (!Object.keys(response).length || response.ipfs_cid === '') {
+			console.log('Deu ruim!');
 			throw Error('Unable to upload data');
+		}
 
 		console.log('Passou!');
-		throw Error('Unable to upload data');
 
 		$('#ipfs-cid').val(response.ipfs_cid);
 
