@@ -44,6 +44,7 @@ async function onConnect(auto = false) {
 		document.querySelector('#wallet-popup').style.display = 'none';
 		document.querySelector('#btn-wallet-connect').style.display = 'block';
 		updateInterface();
+		await onDisconnect();
 		return;
 	}
 
