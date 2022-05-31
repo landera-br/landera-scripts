@@ -327,8 +327,8 @@ $('#btn-submit').on('click', async (e) => {
 
 		// NOTE Redirect to Stripe
 		$('#select-plan').val() === 'premium'
-			? $('#form-block').attr('action', '/test1')
-			: $('#form-block').attr('action', '/test2');
+			? $('#form-block').attr('action', 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL')
+			: $('#form-block').attr('action', 'https://buy.stripe.com/test_00g4je9Re3aHdFu006');
 
 		$('#form-block').submit();
 	} catch (error) {
@@ -409,57 +409,57 @@ function getFormData() {
 
 	formData.append(
 		'listing[condo_amn][fitness_studio]',
-		$('#checkbox-checkbox-condo-fitness-studio').is(':checked') ? true : false
+		$('#checkbox-condo-fitness-studio').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][pool]',
-		$('#checkbox-checkbox-condo-pool').is(':checked') ? true : false
+		$('#checkbox-condo-pool').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][green_area]',
-		$('#checkbox-checkbox-condo-green-area').is(':checked') ? true : false
+		$('#checkbox-condo-green-area').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][party_room]',
-		$('#checkbox-checkbox-condo-party-room').is(':checked') ? true : false
+		$('#checkbox-condo-party-room').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][game_room]',
-		$('#checkbox-checkbox-condo-game-room').is(':checked') ? true : false
+		$('#checkbox-condo-game-room').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][sports_court]',
-		$('#checkbox-checkbox-condo-sports-court').is(':checked') ? true : false
+		$('#checkbox-condo-sports-court').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][laundry]',
-		$('#checkbox-checkbox-condo-laundry').is(':checked') ? true : false
+		$('#checkbox-condo-laundry').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][playground]',
-		$('#checkbox-checkbox-condo-playground').is(':checked') ? true : false
+		$('#checkbox-condo-playground').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][toy_room]',
-		$('#checkbox-checkbox-condo-toy-room').is(':checked') ? true : false
+		$('#checkbox-condo-toy-room').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][sauna]',
-		$('#checkbox-checkbox-condo-sauna').is(':checked') ? true : false
+		$('#checkbox-condo-sauna').is(':checked') ? true : false
 	);
 
 	formData.append(
 		'listing[condo_amn][pet_friendly]',
-		$('#checkbox-pet-friendly').is(':checked') ? true : false
+		$('#checkbox-condo-pet-friendly').is(':checked') ? true : false
 	);
 
 	formData.append('listing[interior_amn][sofa]', $('#checkbox-sofa').is(':checked') ? true : false);
