@@ -25,6 +25,8 @@ window.addEventListener('load', async () => {
 
 		$('#success-page').style.display = 'flex';
 	} catch (error) {
-		window.location.replace('/nft/error');
+		console.log('ENTROU NO ERRO!');
+		console.log(error);
+		// window.location.replace('/nft/error');
 	}
 });
