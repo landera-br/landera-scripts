@@ -304,6 +304,14 @@ $('#btn-submit').on('click', async (e) => {
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
 
+	// NOTE Redirect to Stripe
+	const redirectUrl =
+		$('#select-plan').val() === 'premium'
+			? 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL'
+			: 'https://buy.stripe.com/test_00g4je9Re3aHdFu006';
+
+	window.location.replace(redirectUrl);
+
 	try {
 		const response = await fetch(
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
@@ -320,13 +328,6 @@ $('#btn-submit').on('click', async (e) => {
 
 		$('#ipfs-cid').val(responseData.ipfs_cid);
 
-		// NOTE Redirect to Stripe
-		const redirectUrl =
-			$('#select-plan').val() === 'premium'
-				? 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL'
-				: 'https://buy.stripe.com/test_00g4je9Re3aHdFu006';
-
-		window.location.replace(redirectUrl);
 		$('#form-block').submit();
 	} catch (error) {
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
