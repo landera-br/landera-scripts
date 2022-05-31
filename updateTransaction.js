@@ -8,6 +8,10 @@ window.addEventListener('load', async () => {
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
 			{
 				method: 'patch',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
 				body: JSON.stringify({ checkout_session_id: searchParams.get('session_id') }),
 			}
 		);

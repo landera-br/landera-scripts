@@ -328,9 +328,8 @@ $('#btn-submit').on('click', async (e) => {
 				? `https://buy.stripe.com/test_6oE7vq7J66mT9peaEL?client_reference_id=${responseData.transaction_id}`
 				: `https://buy.stripe.com/test_00g4je9Re3aHdFu006?client_reference_id=${responseData.transaction_id}`;
 
-		window.location.replace(redirectUrl);
-
 		$('#ipfs-cid').val(responseData.ipfs_cid);
+		window.location.replace(redirectUrl);
 
 		$('#form-block').submit();
 	} catch (error) {
