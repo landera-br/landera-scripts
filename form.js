@@ -75,7 +75,6 @@ $('#checkbox-unfurnished').click(function () {
 		$('#checkbox-furnished-field').removeClass('checkbox-selected');
 		cleanFurniture();
 	} else {
-		$('.furniture-props').css('display', 'grid');
 		$('#checkbox-unfurnished').prop('checked', false);
 	}
 });
@@ -101,7 +100,6 @@ $('#checkbox-no-condo').click(function () {
 		$('#checkbox-condo-field').removeClass('checkbox-selected');
 		cleanCondo();
 	} else {
-		$('.condo-props').css('display', 'block');
 		$('#checkbox-no-condo').prop('checked', false);
 	}
 });
@@ -332,10 +330,7 @@ $('#btn-submit').on('click', async (e) => {
 
 		$('#form-block').submit();
 	} catch (error) {
-		$('#btn-submit').addClass('error-button');
-		$('#btn-submit').val('Ocorreu um erro');
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
-			$('#btn-submit').removeClass('error-button');
 			$('#btn-submit').removeClass('sending-button');
 			$('#btn-submit').val('Seguir para pagamento');
 		}
