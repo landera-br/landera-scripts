@@ -20,6 +20,6 @@ window.addEventListener('load', async () => {
 
 		$('#success-page').style.display = 'block';
 	} catch (error) {
-		window.location.replace('/error');
+		window.location.replace('/nft/error');
 	}
 });
