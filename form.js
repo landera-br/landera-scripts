@@ -315,23 +315,18 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
-		console.log(responseData);
-		console.log(!Object.keys(responseData).length);
-
-		if (!Object.keys(responseData).length || responseData.ipfs_cid === '') {
-			console.log('Deu ruim!');
+		if (!Object.keys(responseData).length || responseData.ipfs_cid === '')
 			throw Error('Unable to upload data');
-		}
-
-		console.log('Passou!');
 
 		$('#ipfs-cid').val(responseData.ipfs_cid);
 
 		// NOTE Redirect to Stripe
-		$('#select-plan').val() === 'premium'
-			? $('#form-block').attr('action', 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL')
-			: $('#form-block').attr('action', 'https://buy.stripe.com/test_00g4je9Re3aHdFu006');
+		const redirectUrl =
+			$('#select-plan').val() === 'premium'
+				? $('#form-block').attr('action', 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL')
+				: $('#form-block').attr('action', 'https://buy.stripe.com/test_00g4je9Re3aHdFu006');
 
+		window.location.replace(redirectUrl);
 		$('#form-block').submit();
 	} catch (error) {
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
