@@ -16,9 +16,11 @@ window.addEventListener('load', async () => {
 
 		const responseData = await response.json();
 
-		if (!Object.keys(responseData).length) throw Error('Unable to update data');
+		console.log(responseData);
 
-		$('#success-page').style.display = 'block';
+		// if (!Object.keys(responseData).length) throw Error('Unable to update data');
+
+		$('#success-page').style.display = 'flex';
 	} catch (error) {
 		window.location.replace('/nft/error');
 	}
