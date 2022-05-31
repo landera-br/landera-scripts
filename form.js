@@ -305,18 +305,18 @@ $('#btn-submit').on('click', async (e) => {
 	$('#btn-submit').addClass('sending-button');
 
 	try {
-		const response = await fetch(
-			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
-			{
+		const response = (
+			await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions', {
 				method: 'post',
 				body: formData,
-			}
-		);
-
-		console.log(response);
+			})
+		).json();
 
 		if (!Object.keys(response).length || response.ipfs_cid === '')
 			throw Error('Unable to upload data');
+
+		console.log('Passou!');
+		throw Error('Unable to upload data');
 
 		$('#ipfs-cid').val(response.ipfs_cid);
 
@@ -330,7 +330,7 @@ $('#btn-submit').on('click', async (e) => {
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
 			$('#btn-submit').removeClass('sending-button');
 			$('#btn-submit').val('Seguir para pagamento');
-			formData = new FormData();
+			resetFormData();
 		}
 	}
 });
@@ -477,6 +477,16 @@ function cleanObj(object) {
 		}
 	});
 	return object;
+}
+
+function resetFormData() {
+	const thumb = formData.get('thumb');
+	const images = formData.getAll('images');
+
+	formData = new FormData();
+
+	formData.append('thumb', thumb);
+	images.forEach((image) => formData.append('images', image));
 }
 
 // NOTE Clean furniture data
