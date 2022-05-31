@@ -305,25 +305,27 @@ $('#btn-submit').on('click', async (e) => {
 	$('#btn-submit').addClass('sending-button');
 
 	try {
-		const response = (
-			await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions', {
+		const response = await fetch(
+			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
+			{
 				method: 'post',
 				body: formData,
-			})
-		).json();
+			}
+		);
 
-		console.log(response);
-		console.log(!Object.keys(response).length);
-		console.log(response.ipfs_cid === '');
+		const responseData = await response.json();
 
-		if (!Object.keys(response).length || response.ipfs_cid === '') {
+		console.log(responseData);
+		console.log(!Object.keys(responseData).length);
+
+		if (!Object.keys(responseData).length || responseData.ipfs_cid === '') {
 			console.log('Deu ruim!');
 			throw Error('Unable to upload data');
 		}
 
 		console.log('Passou!');
 
-		$('#ipfs-cid').val(response.ipfs_cid);
+		$('#ipfs-cid').val(responseData.ipfs_cid);
 
 		// NOTE Redirect to Stripe
 		$('#select-plan').val() === 'premium'
