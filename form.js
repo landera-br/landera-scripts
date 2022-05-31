@@ -6,11 +6,14 @@ function updateInterface(provider = null, selectedAccount = null) {
 	const helpBlock = document.querySelector('#help-block');
 
 	if (provider) {
+		console.log('Tem provider');
 		helpBlock.style.display = 'none';
 		formBlock.style.display = 'block';
 	} else {
+		console.log('Não tem provider');
 		formBlock.style.display = 'none';
 		helpBlock.style.display = 'block';
+		return;
 	}
 
 	// NOTE Get forms wallet data
