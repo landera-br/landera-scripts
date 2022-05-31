@@ -304,14 +304,6 @@ $('#btn-submit').on('click', async (e) => {
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
 
-	// NOTE Redirect to Stripe
-	const redirectUrl =
-		$('#select-plan').val() === 'premium'
-			? 'https://buy.stripe.com/test_6oE7vq7J66mT9peaEL'
-			: 'https://buy.stripe.com/test_00g4je9Re3aHdFu006';
-
-	window.location.replace(redirectUrl);
-
 	try {
 		const response = await fetch(
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
@@ -323,8 +315,20 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
-		if (!Object.keys(responseData).length || responseData.ipfs_cid === '')
+		if (
+			!Object.keys(responseData).length ||
+			responseData.ipfs_cid === '' ||
+			responseData.transaction_id === ''
+		)
 			throw Error('Unable to upload data');
+
+		// NOTE Redirect to Stripe
+		const redirectUrl =
+			$('#select-plan').val() === 'premium'
+				? `https://buy.stripe.com/test_6oE7vq7J66mT9peaEL?client_reference_id=${responseData.transaction_id}`
+				: `https://buy.stripe.com/test_00g4je9Re3aHdFu006?client_reference_id=${responseData.transaction_id}`;
+
+		window.location.replace(redirectUrl);
 
 		$('#ipfs-cid').val(responseData.ipfs_cid);
 

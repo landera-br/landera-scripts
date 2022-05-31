@@ -18,9 +18,10 @@ window.addEventListener('load', async () => {
 
 		if (!Object.keys(responseData).length) throw Error('Unable to update data');
 
+		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 		window.location.replace('/nft/error');
 	}
 });
