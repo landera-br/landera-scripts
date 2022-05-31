@@ -344,14 +344,14 @@ function getFormData() {
 		mint_to_address: $('#field-wallet-address').val(),
 		listing: {
 			owner_email: $('#field-owner-email').val(),
-			price: $('#field-listing-price').val(),
+			price: Number($('#field-listing-price').val()),
 			description: $('#field-description').val(),
 			offer_type: {
 				sale: $('#checkbox-sale').is(':checked'),
 				rent: $('#checkbox-rent').is(':checked'),
 			},
 			overview: {
-				area: $('#field-area').val(),
+				area: Number($('#field-area').val()),
 				in_condo: $('#checkbox-condo').is(':checked'),
 				furnished: $('#checkbox-furnished').is(':checked')
 					? true
@@ -363,14 +363,14 @@ function getFormData() {
 					: $('#radio-unoccupied').is(':checked')
 					? false
 					: undefined,
-				parking_lots: $('#field-parking-lots').val(),
+				parking_lots: Number($('#field-parking-lots').val()),
 				penthouse: $('#radio-penthouse').is(':checked')
 					? true
 					: $('#radio-no-penthouse').is(':checked')
 					? false
 					: undefined,
 				solar_face: $('#select-solar-face').val(),
-				total_floors: $('#field-total-floors').val(),
+				total_floors: Number($('#field-total-floors').val()),
 				prop_type: $('#checkbox-house').is(':checked')
 					? 'house'
 					: $('#checkbox-apartment').is(':checked')
@@ -383,7 +383,7 @@ function getFormData() {
 				hood: $('#field-hood').val(),
 				state: $('#field-state').val(),
 				street_name: $('#field-street-name').val(),
-				street_number: $('#field-street-number').val(),
+				street_number: Number($('#field-street-number').val()),
 				addon: $('#field-addon').val(),
 			},
 			condo_amn: {
@@ -414,32 +414,28 @@ function getFormData() {
 				pool: $('#checkbox-pool').is(':checked'),
 			},
 			rooms: {
-				bedrooms: $('#field-bedrooms').val(),
-				suites: $('#field-suites').val(),
-				bathrooms: $('#field-bathrooms').val(),
-				toilets: $('#field-toilets').val(),
-				kitchens: $('#field-kitchens').val(),
-				offices: $('#field-offices').val(),
-				dining_rooms: $('#field-dining-rooms').val(),
-				living_rooms: $('#field-living-rooms').val(),
-				toy_rooms: $('#field-toy-rooms').val(),
-				eating_areas: $('#field-eating-areas').val(),
-				service_areas: $('#field-service-areas').val(),
-				home_theaters: $('#field-home-theaters').val(),
+				bedrooms: Number($('#field-bedrooms').val()),
+				suites: Number($('#field-suites').val()),
+				bathrooms: Number($('#field-bathrooms').val()),
+				toilets: Number($('#field-toilets').val()),
+				kitchens: Number($('#field-kitchens').val()),
+				offices: Number($('#field-offices').val()),
+				dining_rooms: Number($('#field-dining-rooms').val()),
+				living_rooms: Number($('#field-living-rooms').val()),
+				toy_rooms: Number($('#field-toy-rooms').val()),
+				eating_areas: Number($('#field-eating-areas').val()),
+				service_areas: Number($('#field-service-areas').val()),
+				home_theaters: Number($('#field-home-theaters').val()),
 			},
 			taxes: {
-				condo: $('#field-condo').val(),
-				iptu: $('#field-iptu').val(),
-				others: $('#field-iptu-extra').val(),
+				condo: Number($('#field-condo').val()),
+				iptu: Number($('#field-iptu').val()),
+				others: Number($('#field-iptu-extra').val()),
 			},
 		},
 	};
 
 	formData = objectToFormData(data, formData);
-
-	// $.each(data, (key, value) => {
-	// 	if (value) formData.append(key, JSON.stringify(value));
-	// });
 }
 
 function objectToFormData(obj, form) {
@@ -448,7 +444,11 @@ function objectToFormData(obj, form) {
 
 	for (var property in obj) {
 		if (obj.hasOwnProperty(property)) {
-			formKey = property;
+			if (namespace) {
+				formKey = namespace + '[' + property + ']';
+			} else {
+				formKey = property;
+			}
 
 			// if the property is an object, but not a File,
 			// use recursivity.
