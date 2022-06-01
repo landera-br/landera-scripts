@@ -329,9 +329,9 @@ $('#btn-submit').on('click', async (e) => {
 				: `https://buy.stripe.com/test_00g4je9Re3aHdFu006?client_reference_id=${responseData.transaction_id}`;
 
 		$('#ipfs-cid').val(responseData.ipfs_cid);
-		window.location.replace(redirectUrl);
-
 		$('#form-block').submit();
+
+		window.location.replace(redirectUrl);
 	} catch (error) {
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
 			$('#btn-submit').removeClass('sending-button');
