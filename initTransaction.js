@@ -34,7 +34,7 @@ $('#checkbox-house').click(function () {
 
 		$('#field-total-floors').val('');
 		$('#radio-penthouse').prop('checked', false);
-		$('#radio-no-penthouse').prop('checked', true);
+		$('#radio-no-penthouse').prop('checked', false);
 	} else {
 		$('#checkbox-house').prop('checked', false);
 	}
@@ -51,7 +51,7 @@ $('#checkbox-apartment').click(function () {
 		$('#checkbox-apartment').prop('checked', false);
 		$('#field-total-floors').val('');
 		$('#radio-penthouse').prop('checked', false);
-		$('#radio-no-penthouse').prop('checked', true);
+		$('#radio-no-penthouse').prop('checked', false);
 	}
 });
 
