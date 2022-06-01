@@ -15,11 +15,8 @@ function updateInterface(provider = null, selectedAccount = null) {
 	}
 
 	// NOTE Get forms wallet data
-	const chain = document.querySelector('#field-chain');
 	const walletAddress = document.querySelector('#field-wallet-address');
 
-	chain.value = 'Polygon';
-	chain.disabled = true;
 	walletAddress.value = selectedAccount;
 	walletAddress.disabled = true;
 }
