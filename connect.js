@@ -127,4 +127,12 @@ window.addEventListener('load', async () => {
 		event.stopImmediatePropagation();
 		btnHandler();
 	});
+
+	if (window.location.pathname === '/nft/form') {
+		$('#btn-init-form').on('click', function (event) {
+			event.stopPropagation();
+			event.stopImmediatePropagation();
+			btnHandler();
+		});
+	}
 });

@@ -10,7 +10,7 @@ function updateInterface(provider = null, selectedAccount = null) {
 		formBlock.style.display = 'block';
 	} else {
 		formBlock.style.display = 'none';
-		helpBlock.style.display = 'block';
+		helpBlock.style.display = 'flex';
 		return;
 	}
 
