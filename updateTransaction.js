@@ -3,7 +3,7 @@ window.addEventListener('load', async () => {
 		const searchParams = new URLSearchParams(window.location.search);
 
 		// TODO Loading time - could be removed
-		setTimeout(() => {}, 5000);
+		await delay(10000);
 
 		// TODO When switch to paid plans
 		// if (!searchParams.has('session_id')) throw Error('Unable to update data');
@@ -32,3 +32,5 @@ window.addEventListener('load', async () => {
 		window.location.replace('/nft/error');
 	}
 });
+
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));

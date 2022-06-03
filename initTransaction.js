@@ -335,7 +335,6 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
-		console.log(error);
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
 			$('#btn-submit').removeClass('sending-button');
 			$('#btn-submit').val('Seguir para pagamento');
