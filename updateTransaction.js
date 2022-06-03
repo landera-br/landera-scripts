@@ -3,7 +3,7 @@ window.addEventListener('load', async () => {
 		const searchParams = new URLSearchParams(window.location.search);
 
 		// TODO Loading time - could be removed
-		await delay(10000);
+		await delay(5000);
 
 		// TODO When switch to paid plans
 		// if (!searchParams.has('session_id')) throw Error('Unable to update data');
@@ -24,7 +24,7 @@ window.addEventListener('load', async () => {
 
 		const responseData = await response.json();
 
-		if (!Object.keys(responseData).length) throw Error('Unable to update data');
+		if (!response.ok || !Object.keys(responseData).length) throw Error('Unable to update data');
 
 		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';
