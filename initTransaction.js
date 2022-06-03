@@ -313,7 +313,7 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
-		console.log(response);
+		console.log(response.ok);
 		console.log(responseData);
 
 		if (
