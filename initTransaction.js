@@ -313,10 +313,8 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
-		console.log(response.ok);
-		console.log(responseData);
-
 		if (
+			!Sresponse.ok ||
 			!Object.keys(responseData).length ||
 			responseData.ipfs_cid === '' ||
 			responseData.transaction_id === ''
@@ -330,7 +328,7 @@ $('#btn-submit').on('click', async (e) => {
 		// 		: `https://buy.stripe.com/test_00g4je9Re3aHdFu006?client_reference_id=${responseData.transaction_id}`;
 
 		// NOTE Redirecting to Success Page
-		const redirectUrl = `https://landera.com.br/nft/success?client_reference_id=${responseData.transaction_id}`;
+		const redirectUrl = `/nft/success?client_reference_id=${responseData.transaction_id}`;
 
 		$('#ipfs-cid').val(responseData.ipfs_cid);
 		$('#form-block').submit();
