@@ -314,7 +314,7 @@ $('#btn-submit').on('click', async (e) => {
 		const responseData = await response.json();
 
 		if (
-			!Sresponse.ok ||
+			!response.ok ||
 			!Object.keys(responseData).length ||
 			responseData.ipfs_cid === '' ||
 			responseData.transaction_id === ''
@@ -335,6 +335,7 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
+		console.log(error);
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
 			$('#btn-submit').removeClass('sending-button');
 			$('#btn-submit').val('Seguir para pagamento');
