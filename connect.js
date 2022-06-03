@@ -44,7 +44,7 @@ async function onConnect(auto = false) {
 		document.querySelector('#wallet-popup').style.display = 'none';
 		document.querySelector('#btn-wallet-connect').style.display = 'block';
 		await onDisconnect();
-		if (window.location.pathname === '/nft/form') updateInterface();
+		if (window.location.pathname === '/form/nft') updateInterface();
 		return;
 	}
 
@@ -68,7 +68,7 @@ async function onConnect(auto = false) {
 
 	await fetchAccountData();
 
-	if (window.location.pathname === '/nft/form') updateInterface(provider, selectedAccount);
+	if (window.location.pathname === '/form/nft') updateInterface(provider, selectedAccount);
 }
 
 async function onDisconnect() {
@@ -87,7 +87,7 @@ async function onDisconnect() {
 	provider = null;
 	selectedAccount = null;
 
-	if (window.location.pathname === '/nft/form') updateInterface(provider, selectedAccount);
+	if (window.location.pathname === '/form/nft') updateInterface(provider, selectedAccount);
 
 	document.querySelector('#btn-wallet-connect').style.display = 'block';
 }
@@ -128,7 +128,7 @@ window.addEventListener('load', async () => {
 		btnHandler();
 	});
 
-	if (window.location.pathname === '/nft/form') {
+	if (window.location.pathname === '/form/nft') {
 		$('#btn-init-form').on('click', function (event) {
 			event.stopPropagation();
 			event.stopImmediatePropagation();

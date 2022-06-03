@@ -29,7 +29,7 @@ window.addEventListener('load', async () => {
 		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';
 	} catch (error) {
-		window.location.replace('/nft/error');
+		window.location.replace('/form/nft-error');
 	}
 });
 
