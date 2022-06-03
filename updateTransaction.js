@@ -2,7 +2,9 @@ window.addEventListener('load', async () => {
 	try {
 		const searchParams = new URLSearchParams(window.location.search);
 
-		if (!searchParams.has('session_id')) throw Error('Unable to update data');
+		// TODO When switch to paid plans
+		// if (!searchParams.has('session_id')) throw Error('Unable to update data');
+		if (!searchParams.has('transaction_id')) throw Error('Unable to update data');
 
 		const response = await fetch(
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
@@ -12,7 +14,8 @@ window.addEventListener('load', async () => {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ checkout_session_id: searchParams.get('session_id') }),
+				// body: JSON.stringify({ checkout_session_id: searchParams.get('session_id') }),
+				body: JSON.stringify({ transaction_id: searchParams.get('transaction_id') }),
 			}
 		);
 

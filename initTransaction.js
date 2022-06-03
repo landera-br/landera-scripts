@@ -261,8 +261,9 @@ let formData = new FormData();
 
 const searchParams = new URLSearchParams(window.location.search);
 
-if (searchParams.has('plan'))
-	if (searchParams.get('plan') === 'premium') $('#select-plan').val('premium');
+// TODO When switch to paid plans
+// if (searchParams.has('plan'))
+// 	if (searchParams.get('plan') === 'premium') $('#select-plan').val('premium');
 
 thumbInput.addEventListener('change', function (e) {
 	formData.delete('thumb');
@@ -312,6 +313,9 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
+		console.log(response);
+		console.log(responseData);
+
 		if (
 			!Object.keys(responseData).length ||
 			responseData.ipfs_cid === '' ||
@@ -319,11 +323,14 @@ $('#btn-submit').on('click', async (e) => {
 		)
 			throw Error('Unable to upload data');
 
-		// NOTE Redirect to Stripe
-		const redirectUrl =
-			$('#select-plan').val() === 'premium'
-				? `https://buy.stripe.com/test_6oE7vq7J66mT9peaEL?client_reference_id=${responseData.transaction_id}`
-				: `https://buy.stripe.com/test_00g4je9Re3aHdFu006?client_reference_id=${responseData.transaction_id}`;
+		// NOTE Redirecting to Stripe
+		// const redirectUrl =
+		// 	$('#select-plan').val() === 'premium'
+		// 		? `https://buy.stripe.com/test_6oE7vq7J66mT9peaEL?client_reference_id=${responseData.transaction_id}`
+		// 		: `https://buy.stripe.com/test_00g4je9Re3aHdFu006?client_reference_id=${responseData.transaction_id}`;
+
+		// NOTE Redirecting to Success Page
+		const redirectUrl = `https://landera.com.br/nft/success?client_reference_id=${responseData.transaction_id}`;
 
 		$('#ipfs-cid').val(responseData.ipfs_cid);
 		$('#form-block').submit();
