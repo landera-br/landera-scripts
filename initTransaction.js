@@ -19,7 +19,7 @@ function updateInterface(provider = null, selectedAccount = null) {
 
 	walletAddress.value = selectedAccount;
 	walletAddress.disabled = true;
-	walletAddress.style.background = '#2c2366';
+	walletAddress.style.backgroundColor = '#2c2366';
 }
 
 // NOTE Checkboxes
