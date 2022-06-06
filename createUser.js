@@ -24,6 +24,8 @@ function updateInterface(provider = null, selectedAccount = null) {
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
 
+	$('#btn-submit').val('Enviando...');
+
 	// NOTE Get form data
 	const data = {
 		name: $('#field-name').val(),
@@ -31,12 +33,13 @@ $('#btn-submit').on('click', async (e) => {
 		creci: $('#field-creci').val(),
 		phone: $('#field-phone').val(),
 		plan: $('#select-plan').val(),
+		plan: $('#field-wallet-address').val(),
 	};
 
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'post',
-			body: data,
+			body: JSON.stringify(data),
 		});
 
 		const responseData = await response.json();

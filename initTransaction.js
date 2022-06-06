@@ -307,7 +307,7 @@ $('#btn-submit').on('click', async (e) => {
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
 			{
 				method: 'post',
-				body: formData,
+				body: JSON.stringify(formData),
 			}
 		);
 
