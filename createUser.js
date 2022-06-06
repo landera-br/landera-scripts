@@ -1,4 +1,5 @@
 function updateInterface(provider = null, selectedAccount = null) {
+	console.log('Entrou');
 	const formBlock = document.querySelector('#form-block');
 	const helpBlock = document.querySelector('#help-block');
 
