@@ -1,3 +1,23 @@
+function updateInterface(provider = null, selectedAccount = null) {
+	const formBlock = document.querySelector('#form-block');
+	const helpBlock = document.querySelector('#help-block');
+
+	if (provider) {
+		helpBlock.style.display = 'none';
+		formBlock.style.display = 'block';
+	} else {
+		formBlock.style.display = 'none';
+		helpBlock.style.display = 'flex';
+		return;
+	}
+
+	// NOTE Get forms wallet data
+	const walletAddress = document.querySelector('#field-wallet-address');
+
+	walletAddress.value = selectedAccount;
+	walletAddress.disabled = true;
+}
+
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
