@@ -1,5 +1,4 @@
 function updateInterface(provider = null, selectedAccount = null) {
-	console.log('Entrou');
 	const formBlock = document.querySelector('#form-block');
 	const helpBlock = document.querySelector('#help-block');
 
@@ -33,18 +32,20 @@ $('#btn-submit').on('click', async (e) => {
 		creci: $('#field-creci').val(),
 		phone: $('#field-phone').val(),
 		plan: $('#select-plan').val(),
-		plan: $('#field-wallet-address').val(),
+		wallet_address: $('#field-wallet-address').val(),
 	};
 
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'post',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify(data),
 		});
 
 		const responseData = await response.json();
-
-		console.log(responseData);
 
 		if (!response.ok || !Object.keys(responseData).length) throw Error('Unable to upload data');
 
@@ -58,6 +59,8 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
-		alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!');
+		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
+			$('#btn-submit').val('Registrar');
+		}
 	}
 });
