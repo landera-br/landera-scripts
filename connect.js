@@ -128,7 +128,7 @@ window.addEventListener('load', async () => {
 		btnHandler();
 	});
 
-	if (window.location.pathname === '/form/nft') {
+	if (window.location.pathname === '/form/nft' || window.location.pathname === '/form/user') {
 		$('#btn-init-form').on('click', function (event) {
 			event.stopPropagation();
 			event.stopImmediatePropagation();

@@ -19,6 +19,7 @@ window.addEventListener('load', async () => {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
+				// TODO When switch to paid plans
 				// body: JSON.stringify({ checkout_session_id: searchParams.get('session_id') }),
 			}
 		);
@@ -31,8 +32,7 @@ window.addEventListener('load', async () => {
 		document.querySelector('#success-page').style.display = 'flex';
 	} catch (error) {
 		console.log(error);
-		console.log(error.message);
-		// window.location.replace('/form/error');
+		window.location.replace('/form/error');
 	}
 });
 
