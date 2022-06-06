@@ -17,6 +17,7 @@ function updateInterface(provider = null, selectedAccount = null) {
 
 	walletAddress.value = selectedAccount;
 	walletAddress.disabled = true;
+	walletAddress.style.backgroundColor = '#2c2366';
 }
 
 // NOTE When form is submitted
@@ -31,8 +32,6 @@ $('#btn-submit').on('click', async (e) => {
 		phone: $('#field-phone').val(),
 		plan: $('#select-plan').val(),
 	};
-
-	console.log(data);
 
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
