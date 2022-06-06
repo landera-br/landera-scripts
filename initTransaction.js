@@ -7,7 +7,7 @@ function updateInterface(provider = null, selectedAccount = null) {
 
 	if (provider) {
 		helpBlock.style.display = 'none';
-		formBlock.style.display = 'block';
+		formBlock.style.display = 'flex';
 	} else {
 		formBlock.style.display = 'none';
 		helpBlock.style.display = 'flex';
@@ -19,6 +19,7 @@ function updateInterface(provider = null, selectedAccount = null) {
 
 	walletAddress.value = selectedAccount;
 	walletAddress.disabled = true;
+	walletAddress.style.background = '#2c2366';
 }
 
 // NOTE Checkboxes

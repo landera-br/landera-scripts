@@ -5,7 +5,7 @@ function updateInterface(provider = null, selectedAccount = null) {
 
 	if (provider) {
 		helpBlock.style.display = 'none';
-		formBlock.style.display = 'block';
+		formBlock.style.display = 'flex';
 	} else {
 		formBlock.style.display = 'none';
 		helpBlock.style.display = 'flex';
