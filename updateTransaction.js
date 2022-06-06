@@ -10,7 +10,9 @@ window.addEventListener('load', async () => {
 		if (!searchParams.has('transaction_id')) throw Error('Unable to update data');
 
 		const response = await fetch(
-			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions/${searchParams.get(
+				'transaction_id'
+			)}`,
 			{
 				method: 'patch',
 				headers: {
@@ -18,7 +20,6 @@ window.addEventListener('load', async () => {
 					'Content-Type': 'application/json',
 				},
 				// body: JSON.stringify({ checkout_session_id: searchParams.get('session_id') }),
-				body: JSON.stringify({ transaction_id: searchParams.get('transaction_id') }),
 			}
 		);
 
@@ -29,7 +30,9 @@ window.addEventListener('load', async () => {
 		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';
 	} catch (error) {
-		window.location.replace('/form/nft-error');
+		console.log(error);
+		console.log(error.message);
+		// window.location.replace('/form/error');
 	}
 });
 
