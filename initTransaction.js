@@ -346,11 +346,14 @@ $('#btn-submit').on('click', async (e) => {
 function getFormData() {
 	const data = {
 		mint_to_address: $('#field-wallet-address').val(),
+		subscription: {
+			type: 'personal',
+			plan: $('#select-plan').val(),
+		},
 		listing: {
 			owner_email: $('#field-owner-email').val(),
 			price: Number($('#field-listing-price').val()),
 			description: $('#field-description').val(),
-			plan: $('#select-plan').val(),
 			offer_type: {
 				sale: $('#checkbox-sale').is(':checked'),
 				rent: $('#checkbox-rent').is(':checked'),
