@@ -344,7 +344,6 @@ function getFormData() {
 	const data = {
 		mint_to_address: $('#field-wallet-address').val(),
 		subscription: {
-			type: 'personal',
 			plan: $('#select-plan').val(),
 		},
 		listing: {
