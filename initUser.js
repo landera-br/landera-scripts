@@ -1,7 +1,7 @@
-const searchParams = new URLSearchParams(window.location.search);
+// const searchParams = new URLSearchParams(window.location.search);
 
-if (searchParams.has('plan'))
-	if (searchParams.get('plan') === 'standard') $('#select-plan').val('standard');
+// if (searchParams.has('plan'))
+// 	if (searchParams.get('plan') === 'standard') $('#select-plan').val('standard');
 
 function updateInterface(provider = null, selectedAccount = null) {
 	const formBlock = document.querySelector('#form-block');
