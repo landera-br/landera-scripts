@@ -23,9 +23,7 @@ window.addEventListener('load', async () => {
 			}
 		);
 
-		const responseData = await response.json();
-
-		if (!response.ok || !Object.keys(responseData).length) throw Error('Unable to update data');
+		if (!response.ok) throw Error('Unable to update data');
 
 		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';
