@@ -330,10 +330,6 @@ $('#btn-submit').on('click', async (e) => {
 		// NOTE Redirecting to Success Page
 		const redirectUrl = `/form/listing-success?transaction_id=${responseData.transaction_id}`;
 
-		$('#ipfs-cid').val(responseData.ipfs_cid);
-		$('#transaction-id').val(responseData.transaction_id);
-		$('#form-block').submit();
-
 		window.location.replace(redirectUrl);
 	} catch (error) {
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
