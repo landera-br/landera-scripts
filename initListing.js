@@ -331,6 +331,7 @@ $('#btn-submit').on('click', async (e) => {
 		const redirectUrl = `/form/listing-success?transaction_id=${responseData.transaction_id}`;
 
 		$('#ipfs-cid').val(responseData.ipfs_cid);
+		$('#transaction-id').val(responseData.transaction_id);
 		$('#form-block').submit();
 
 		window.location.replace(redirectUrl);
