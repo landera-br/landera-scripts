@@ -304,7 +304,7 @@ $('#btn-submit').on('click', async (e) => {
 
 	try {
 		const response = await fetch(
-			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
+			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings',
 			{
 				method: 'post',
 				body: formData,

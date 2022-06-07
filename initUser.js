@@ -1,3 +1,6 @@
+if (searchParams.has('plan'))
+	if (searchParams.get('plan') === 'standard') $('#select-plan').val('standard');
+
 function updateInterface(provider = null, selectedAccount = null) {
 	const formBlock = document.querySelector('#form-block');
 	const helpBlock = document.querySelector('#help-block');
