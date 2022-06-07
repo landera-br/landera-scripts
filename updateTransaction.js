@@ -2,25 +2,24 @@ window.addEventListener('load', async () => {
 	try {
 		const searchParams = new URLSearchParams(window.location.search);
 
-		// TODO Loading time - could be removed
+		// NOTE Loading time - could be removed
 		await delay(5000);
 
-		// TODO When switch to paid plans
-		// if (!searchParams.has('session_id')) throw Error('Unable to update data');
-		if (!searchParams.has('transaction_id')) throw Error('Unable to update data');
+		// NOTE transaction_id is only used on free plans
+		if (!searchParams.has('session_id') && !searchParams.has('transaction_id'))
+			throw Error('Unable to update data');
 
 		const response = await fetch(
-			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions/${searchParams.get(
-				'transaction_id'
-			)}`,
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions`,
 			{
 				method: 'patch',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-				// TODO When switch to paid plans
-				// body: JSON.stringify({ checkout_session_id: searchParams.get('session_id') }),
+				body: searchParams.has('session_id')
+					? JSON.stringify({ checkout_session_id: searchParams.get('session_id') })
+					: JSON.stringify({ transaction_id: searchParams.get('transaction_id') }),
 			}
 		);
 
