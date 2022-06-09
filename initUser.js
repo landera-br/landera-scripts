@@ -28,7 +28,11 @@ function updateInterface(provider = null, selectedAccount = null) {
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
 
+	if ($('#btn-submit').hasClass('error-button') || $('#btn-submit').hasClass('sending-button'))
+		return false;
+
 	$('#btn-submit').val('Enviando...');
+	$('#btn-submit').addClass('sending-button');
 
 	// NOTE Get form data
 	const data = {
@@ -68,6 +72,7 @@ $('#btn-submit').on('click', async (e) => {
 	} catch (error) {
 		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
 			$('#btn-submit').val('Registrar');
+			$('#btn-submit').removeClass('sending-button');
 		}
 	}
 });
