@@ -44,7 +44,7 @@ async function onConnect(auto = false) {
 		document.querySelector('#wallet-popup').style.display = 'none';
 		document.querySelector('#btn-wallet-connect').style.display = 'block';
 		await onDisconnect();
-		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency')
 			updateInterface();
 		return;
 	}
@@ -69,7 +69,7 @@ async function onConnect(auto = false) {
 
 	await fetchAccountData();
 
-	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency')
 		updateInterface(provider, selectedAccount);
 }
 
@@ -89,7 +89,7 @@ async function onDisconnect() {
 	provider = null;
 	selectedAccount = null;
 
-	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency')
 		updateInterface(provider, selectedAccount);
 
 	document.querySelector('#btn-wallet-connect').style.display = 'block';
@@ -131,7 +131,7 @@ window.addEventListener('load', async () => {
 		btnHandler();
 	});
 
-	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
+	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency') {
 		$('#btn-init-form').on('click', function (event) {
 			event.stopPropagation();
 			event.stopImmediatePropagation();

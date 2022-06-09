@@ -36,7 +36,7 @@ $('#btn-submit').on('click', async (e) => {
 
 	// NOTE Get form data
 	const data = {
-		user: {
+		agency: {
 			name: $('#field-name').val(),
 			email: $('#field-email').val(),
 			creci: $('#field-creci').val(),
@@ -49,14 +49,17 @@ $('#btn-submit').on('click', async (e) => {
 	};
 
 	try {
-		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
-			method: 'post',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		});
+		const response = await fetch(
+			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/agencies',
+			{
+				method: 'post',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			}
+		);
 
 		const responseData = await response.json();
 
