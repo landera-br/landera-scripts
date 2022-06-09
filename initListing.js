@@ -332,10 +332,20 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
-		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
-			$('#btn-submit').removeClass('sending-button');
-			$('#btn-submit').val('Confirmar');
-			resetFormData();
+		if (error.message) {
+			if (!alert(error.message)) {
+				$('#btn-submit').removeClass('sending-button');
+				$('#btn-submit').val('Confirmar');
+				resetFormData();
+			}
+		} else {
+			if (
+				!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')
+			) {
+				$('#btn-submit').removeClass('sending-button');
+				$('#btn-submit').val('Confirmar');
+				resetFormData();
+			}
 		}
 	}
 });
