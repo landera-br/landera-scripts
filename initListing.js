@@ -313,14 +313,19 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
-		console.log(response);
+		console.log(responseData);
+
 		if (
 			!response.ok ||
 			!Object.keys(responseData).length ||
 			responseData.ipfs_cid === '' ||
 			responseData.transaction_id === ''
 		)
-			throw Error('Unable to upload data');
+			throw Error(
+				responseData.message
+					? responseData.message
+					: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!'
+			);
 
 		// NOTE Redirecting to Stripe
 		// const redirectUrl =
@@ -334,20 +339,10 @@ $('#btn-submit').on('click', async (e) => {
 		window.location.replace(redirectUrl);
 	} catch (error) {
 		console.log(error);
-		if (error.message) {
-			if (!alert(error.message)) {
-				$('#btn-submit').removeClass('sending-button');
-				$('#btn-submit').val('Confirmar');
-				resetFormData();
-			}
-		} else {
-			if (
-				!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')
-			) {
-				$('#btn-submit').removeClass('sending-button');
-				$('#btn-submit').val('Confirmar');
-				resetFormData();
-			}
+		if (!alert(error.message)) {
+			$('#btn-submit').removeClass('sending-button');
+			$('#btn-submit').val('Confirmar');
+			resetFormData();
 		}
 	}
 });
