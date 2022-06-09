@@ -313,6 +313,7 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
+		console.log(response);
 		if (
 			!response.ok ||
 			!Object.keys(responseData).length ||
@@ -332,6 +333,7 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
+		console.log(error);
 		if (error.message) {
 			if (!alert(error.message)) {
 				$('#btn-submit').removeClass('sending-button');
