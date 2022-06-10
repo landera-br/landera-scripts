@@ -144,7 +144,6 @@ async function fetchAccountData() {
 	// MetaMask does not give you all accounts, only the selected account
 	selectedAccount = accounts[0];
 
-	console.log(localStorage.getItem('stripe_customer_id'));
 	if (!localStorage.getItem('stripe_customer_id')) {
 		// NOTE Get/Create user and get stripe_customer_id
 		try {
