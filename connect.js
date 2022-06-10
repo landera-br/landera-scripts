@@ -65,8 +65,9 @@ async function onConnect(auto = false) {
 	});
 
 	document.querySelector('#wallet-popup').style.display = 'none';
-	await fetchAccountData();
 	document.querySelector('#btn-account').style.display = 'flex';
+
+	await fetchAccountData();
 
 	// NOTE btn-stripe-session and btn-wallet-disconnect
 	$('#btn-stripe-session').on('click', async function () {
@@ -87,9 +88,7 @@ async function onConnect(auto = false) {
 			const responseData = await response.json();
 
 			if (!response.ok || !responseData.stripe_session_url)
-				alert('Não foi possível recuperar os dados do cliente.');
-
-			console.log(responseData);
+				if (!alert('Não foi possível recuperar os dados do cliente.')) return;
 
 			window.location.replace(responseData.stripe_session_url);
 		} catch (error) {
@@ -142,7 +141,6 @@ async function fetchAccountData() {
 	// MetaMask does not give you all accounts, only the selected account
 	selectedAccount = accounts[0];
 
-	console.log(localStorage.getItem('stripe_customer_id'));
 	if (!localStorage.getItem('stripe_customer_id')) {
 		// NOTE Get/Create user and get stripe_customer_id
 		try {
@@ -159,9 +157,6 @@ async function fetchAccountData() {
 
 			// NOTE Save stripe_customer_id in cache
 			localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
-			// $('#btn-stripe-session').attr('href', responseData.stripe_session_url);
-
-			console.log(`Armazenou stripe_customer_id: ${responseData.stripe_customer_id}`);
 		} catch (error) {
 			alert('Não foi possível recuperar os dados do cliente.');
 		}
