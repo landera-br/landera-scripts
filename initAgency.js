@@ -68,8 +68,12 @@ $('#btn-submit').on('click', async (e) => {
 		// NOTE Redirecting to Stripe
 		const redirectUrl =
 			$('#select-plan').val() === 'standard'
-				? `https://buy.stripe.com/test_6oEg1Wd3q8v1eJy8wF?client_reference_id=${responseData.transaction_id}`
-				: `https://buy.stripe.com/test_00g8zu3sQfXtbxm008?client_reference_id=${responseData.transaction_id}`;
+				? `https://buy.stripe.com/test_6oEg1Wd3q8v1eJy8wF?customer=${localStorage.getItem(
+						'stripe_customer_id'
+				  )}&client_reference_id=${responseData.transaction_id}`
+				: `https://buy.stripe.com/test_00g8zu3sQfXtbxm008?customer=${localStorage.getItem(
+						'stripe_customer_id'
+				  )}&client_reference_id=${responseData.transaction_id}`;
 
 		window.location.replace(redirectUrl);
 	} catch (error) {

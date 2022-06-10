@@ -74,7 +74,7 @@ async function onConnect(auto = false) {
 
 	// NOTE btn-stripe-session and btn-wallet-disconnect
 	$('#btn-stripe-session').on('click', async function () {
-		// NOTE Get stripe_customer_id
+		// NOTE Get stripe_session_url
 		try {
 			const response = await fetch(
 				'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users/sessions',
