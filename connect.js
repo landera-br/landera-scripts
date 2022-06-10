@@ -28,6 +28,8 @@ async function init() {
 }
 
 async function onConnect(auto = false) {
+	console.log('Teste 0');
+
 	if (!auto) {
 		setTimeout(() => {
 			$('#wallet-popup').css('display', 'flex').css('opacity', 1).hide().fadeIn();
@@ -36,6 +38,8 @@ async function onConnect(auto = false) {
 
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
 	document.querySelector('#btn-account').style.display = 'none';
+
+	console.log('Teste 1');
 
 	try {
 		provider = await web3Modal.connect();
@@ -48,6 +52,8 @@ async function onConnect(auto = false) {
 			updateInterface();
 		return;
 	}
+
+	console.log('Teste 2');
 
 	// Subscribe to accounts change
 	provider.on('accountsChanged', async (accounts) => {
@@ -63,6 +69,8 @@ async function onConnect(auto = false) {
 	provider.on('chainChanged', async (networkId) => {
 		await fetchAccountData();
 	});
+
+	console.log('Teste 3');
 
 	document.querySelector('#wallet-popup').style.display = 'none';
 	document.querySelector('#btn-account').style.display = 'flex';
