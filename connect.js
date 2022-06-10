@@ -125,23 +125,23 @@ window.addEventListener('load', async () => {
 	} else {
 		await onDisconnect(); // clean cached data
 	}
-	$('#btn-wallet-connect').on('click', async function (event) {
+	$('#btn-wallet-connect').on('click', function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
-		await onConnect();
+		onConnect();
 	});
 
-	$('#btn-wallet-disconnect').on('click', async function (event) {
+	$('#btn-wallet-disconnect').on('click', function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
-		await onDisconnect();
+		onDisconnect();
 	});
 
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency') {
 		$('#btn-init-form').on('click', function (event) {
 			event.stopPropagation();
 			event.stopImmediatePropagation();
-			await onConnect();
+			onConnect();
 		});
 	}
 });
