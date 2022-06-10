@@ -28,8 +28,6 @@ async function init() {
 }
 
 async function onConnect(auto = false) {
-	console.log('Teste 0');
-
 	if (auto) {
 		document.querySelector('#btn-wallet-connect').style.display = 'none';
 		document.querySelector('#btn-account').style.display = 'flex';
@@ -45,6 +43,7 @@ async function onConnect(auto = false) {
 	try {
 		provider = await web3Modal.connect();
 		document.querySelector('#wallet-popup').style.display = 'none';
+		document.querySelector('#btn-account').style.display = 'flex';
 	} catch (e) {
 		console.log('Could not get a wallet connection', e);
 		document.querySelector('#wallet-popup').style.display = 'none';
