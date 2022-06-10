@@ -68,6 +68,38 @@ async function onConnect(auto = false) {
 	await fetchAccountData();
 	document.querySelector('#btn-account').style.display = 'flex';
 
+	// NOTE btn-stripe-session and btn-wallet-disconnect
+	$('#btn-stripe-session').on('click', async function () {
+		// NOTE Get stripe_customer_id
+		try {
+			const response = await fetch(
+				'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users/sessions',
+				{
+					method: 'post',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ stripe_customer_id: localStorage.getItem('stripe_customer_id') }),
+				}
+			);
+
+			const responseData = await response.json();
+
+			console.log(responseData);
+
+			window.location.replace(responseData.stripe_session_url);
+		} catch (error) {
+			alert('Não foi possível recuperar os dados do cliente.');
+		}
+	});
+
+	$('#btn-wallet-disconnect').on('click', function (event) {
+		event.stopPropagation();
+		event.stopImmediatePropagation();
+		onDisconnect();
+	});
+
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency')
 		updateInterface(provider, selectedAccount);
 }
@@ -107,30 +139,29 @@ async function fetchAccountData() {
 	// MetaMask does not give you all accounts, only the selected account
 	selectedAccount = accounts[0];
 
-	// NOTE Get/Create user and get stripe_customer_id
-	try {
-		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
-			method: 'post',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ wallet_address: selectedAccount }),
-		});
+	console.log(localStorage.getItem('stripe_customer_id'));
+	if (!localStorage.getItem('stripe_customer_id')) {
+		// NOTE Get/Create user and get stripe_customer_id
+		try {
+			const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
+				method: 'post',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ wallet_address: selectedAccount }),
+			});
 
-		const responseData = await response.json();
+			const responseData = await response.json();
 
-		$('#btn-stripe-session').attr('href', responseData.stripe_session_url);
-	} catch (error) {
-		alert('Não foi possível recuperar os dados do cliente.');
-	}
-}
+			// NOTE Save stripe_customer_id in cache
+			localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
+			// $('#btn-stripe-session').attr('href', responseData.stripe_session_url);
 
-async function btnHandler() {
-	if (selectedAccount) {
-		await onDisconnect();
-	} else {
-		await onConnect();
+			console.log(`Armazenou stripe_customer_id: ${responseData.stripe_customer_id}`);
+		} catch (error) {
+			alert('Não foi possível recuperar os dados do cliente.');
+		}
 	}
 }
 
@@ -142,16 +173,11 @@ window.addEventListener('load', async () => {
 	} else {
 		await onDisconnect(); // clean cached data
 	}
+
 	$('#btn-wallet-connect').on('click', function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
 		onConnect();
-	});
-
-	$('#btn-wallet-disconnect').on('click', function (event) {
-		event.stopPropagation();
-		event.stopImmediatePropagation();
-		onDisconnect();
 	});
 
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency') {
