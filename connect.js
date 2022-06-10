@@ -86,6 +86,9 @@ async function onConnect(auto = false) {
 
 			const responseData = await response.json();
 
+			if (!response.ok || !responseData.stripe_session_url)
+				alert('Não foi possível recuperar os dados do cliente.');
+
 			console.log(responseData);
 
 			window.location.replace(responseData.stripe_session_url);
