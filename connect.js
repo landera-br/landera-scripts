@@ -64,9 +64,8 @@ async function onConnect(auto = false) {
 		await fetchAccountData();
 	});
 
-	await fetchAccountData();
-
 	document.querySelector('#wallet-popup').style.display = 'none';
+	await fetchAccountData();
 	document.querySelector('#btn-account').style.display = 'flex';
 
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency')
@@ -108,8 +107,6 @@ async function fetchAccountData() {
 	// MetaMask does not give you all accounts, only the selected account
 	selectedAccount = accounts[0];
 
-	console.log(selectedAccount);
-
 	// NOTE Get/Create user and get stripe_customer_id
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
@@ -122,8 +119,6 @@ async function fetchAccountData() {
 		});
 
 		const responseData = await response.json();
-
-		console.log(responseData);
 
 		$('#btn-stripe-session').attr('href', responseData.stripe_session_url);
 	} catch (error) {
