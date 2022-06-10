@@ -35,7 +35,7 @@ async function onConnect(auto = false) {
 	}
 
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
-	document.querySelector('#btn-wallet-disconnect').style.display = 'none';
+	document.querySelector('#btn-account').style.display = 'none';
 
 	try {
 		provider = await web3Modal.connect();
@@ -65,7 +65,7 @@ async function onConnect(auto = false) {
 	});
 
 	document.querySelector('#wallet-popup').style.display = 'none';
-	document.querySelector('#btn-wallet-disconnect').style.display = 'block';
+	document.querySelector('#btn-account').style.display = 'flex';
 
 	await fetchAccountData();
 
@@ -75,7 +75,7 @@ async function onConnect(auto = false) {
 
 async function onDisconnect() {
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
-	document.querySelector('#btn-wallet-disconnect').style.display = 'none';
+	document.querySelector('#btn-account').style.display = 'none';
 
 	if (window.torus) {
 		await window.torus.logout();
@@ -125,17 +125,23 @@ window.addEventListener('load', async () => {
 	} else {
 		await onDisconnect(); // clean cached data
 	}
-	$('.nav-button').on('click', function (event) {
+	$('#btn-wallet-connect').on('click', async function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
-		btnHandler();
+		await onConnect();
+	});
+
+	$('#btn-wallet-disconnect').on('click', async function (event) {
+		event.stopPropagation();
+		event.stopImmediatePropagation();
+		await onDisconnect();
 	});
 
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency') {
 		$('#btn-init-form').on('click', function (event) {
 			event.stopPropagation();
 			event.stopImmediatePropagation();
-			btnHandler();
+			await onConnect();
 		});
 	}
 });
