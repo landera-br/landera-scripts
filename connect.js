@@ -30,30 +30,31 @@ async function init() {
 async function onConnect(auto = false) {
 	console.log('Teste 0');
 
-	if (!auto) {
+	if (auto) {
+		document.querySelector('#btn-wallet-connect').style.display = 'none';
+		document.querySelector('#btn-account').style.display = 'flex';
+	} else {
+		document.querySelector('#btn-wallet-connect').style.display = 'none';
+		document.querySelector('#btn-account').style.display = 'none';
+
 		setTimeout(() => {
 			$('#wallet-popup').css('display', 'flex').css('opacity', 1).hide().fadeIn();
 		}, 500);
 	}
 
-	document.querySelector('#btn-wallet-connect').style.display = 'none';
-	document.querySelector('#btn-account').style.display = 'none';
-
-	console.log('Teste 1');
-
 	try {
 		provider = await web3Modal.connect();
+		document.querySelector('#wallet-popup').style.display = 'none';
 	} catch (e) {
 		console.log('Could not get a wallet connection', e);
 		document.querySelector('#wallet-popup').style.display = 'none';
 		document.querySelector('#btn-wallet-connect').style.display = 'block';
+		document.querySelector('#btn-account').style.display = 'none';
 		await onDisconnect();
 		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency')
 			updateInterface();
 		return;
 	}
-
-	console.log('Teste 2');
 
 	// Subscribe to accounts change
 	provider.on('accountsChanged', async (accounts) => {
@@ -69,11 +70,6 @@ async function onConnect(auto = false) {
 	provider.on('chainChanged', async (networkId) => {
 		await fetchAccountData();
 	});
-
-	console.log('Teste 3');
-
-	document.querySelector('#wallet-popup').style.display = 'none';
-	document.querySelector('#btn-account').style.display = 'flex';
 
 	await fetchAccountData();
 
@@ -149,6 +145,7 @@ async function fetchAccountData() {
 	// MetaMask does not give you all accounts, only the selected account
 	selectedAccount = accounts[0];
 
+	console.log(localStorage.getItem('stripe_customer_id'));
 	if (!localStorage.getItem('stripe_customer_id')) {
 		// NOTE Get/Create user and get stripe_customer_id
 		try {
