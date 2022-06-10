@@ -64,10 +64,10 @@ async function onConnect(auto = false) {
 		await fetchAccountData();
 	});
 
+	await fetchAccountData();
+
 	document.querySelector('#wallet-popup').style.display = 'none';
 	document.querySelector('#btn-account').style.display = 'flex';
-
-	await fetchAccountData();
 
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/agency')
 		updateInterface(provider, selectedAccount);
@@ -107,6 +107,28 @@ async function fetchAccountData() {
 
 	// MetaMask does not give you all accounts, only the selected account
 	selectedAccount = accounts[0];
+
+	console.log(selectedAccount);
+
+	// NOTE Get/Create user and get stripe_customer_id
+	try {
+		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
+			method: 'post',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ wallet_address: selectedAccount }),
+		});
+
+		const responseData = await response.json();
+
+		console.log(responseData);
+
+		$('#btn-stripe-session').attr('href', responseData.stripe_session_url);
+	} catch (error) {
+		alert('Não foi possível recuperar os dados do cliente.');
+	}
 }
 
 async function btnHandler() {
