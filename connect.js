@@ -77,7 +77,7 @@ async function onConnect(auto = false) {
 		// NOTE Get stripe_session_url
 		try {
 			const response = await fetch(
-				'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users/sessions',
+				'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users/sessions/portal',
 				{
 					method: 'post',
 					headers: {

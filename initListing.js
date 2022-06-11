@@ -322,14 +322,11 @@ $('#btn-submit').on('click', async (e) => {
 			throw Error(
 				responseData.message
 					? responseData.message
-					: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!'
+					: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
 			);
 
-		// NOTE Redirecting to Stripe
-		// const redirectUrl =
-		// 	$('#select-plan').val() === 'premium'
-		// 		? `https://buy.stripe.com/test_6oE7vq7J66mT9peaEL?client_reference_id=${responseData.transaction_id}`
-		// 		: `https://buy.stripe.com/test_00g4je9Re3aHdFu006?client_reference_id=${responseData.transaction_id}`;
+		// TODO When paid plans, redirect to  session_url (Stripe)
+		// const redirectUrl = responseData.session_url;
 
 		// NOTE Redirecting to Success Page
 		const redirectUrl = `/form/listing-success?transaction_id=${responseData.transaction_id}`;

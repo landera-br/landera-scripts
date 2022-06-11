@@ -46,6 +46,7 @@ $('#btn-submit').on('click', async (e) => {
 			plan: $('#select-plan').val(),
 		},
 		mint_to_address: $('#field-wallet-address').val(),
+		stripe_customer_id: localStorage.getItem('stripe_customer_id'),
 	};
 
 	try {
@@ -60,24 +61,16 @@ $('#btn-submit').on('click', async (e) => {
 				body: JSON.stringify(data),
 			}
 		);
-
 		const responseData = await response.json();
 
 		if (!response.ok || !Object.keys(responseData).length) throw Error('Unable to upload data');
-
-		// NOTE Redirecting to Stripe
-		const redirectUrl =
-			$('#select-plan').val() === 'standard'
-				? `https://buy.stripe.com/test_6oEg1Wd3q8v1eJy8wF?customer=${localStorage.getItem(
-						'stripe_customer_id'
-				  )}&client_reference_id=${responseData.transaction_id}`
-				: `https://buy.stripe.com/test_00g8zu3sQfXtbxm008?customer=${localStorage.getItem(
-						'stripe_customer_id'
-				  )}&client_reference_id=${responseData.transaction_id}`;
-
-		window.location.replace(redirectUrl);
+		window.location.replace(responseData.checkout_url);
 	} catch (error) {
-		if (!alert('Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos!')) {
+		if (
+			!alert(
+				'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
+			)
+		) {
 			$('#btn-submit').val('Registrar');
 			$('#btn-submit').removeClass('sending-button');
 		}
