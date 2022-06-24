@@ -113,6 +113,8 @@ async function onDisconnect() {
 	document.querySelector('#btn-wallet-connect').style.display = 'none';
 	document.querySelector('#btn-account').style.display = 'none';
 
+	localStorage.removeItem('stripe_customer_id');
+
 	if (window.torus) {
 		await window.torus.logout();
 		await window.torus.cleanUp();
@@ -157,8 +159,6 @@ async function fetchAccountData() {
 			});
 
 			const responseData = await response.json();
-
-			console.log(responseData.stripe_customer_id);
 
 			// NOTE Save stripe_customer_id in cache
 			localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
