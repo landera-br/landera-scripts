@@ -158,6 +158,8 @@ async function fetchAccountData() {
 
 			const responseData = await response.json();
 
+			console.log(responseData.stripe_customer_id);
+
 			// NOTE Save stripe_customer_id in cache
 			localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
 		} catch (error) {
