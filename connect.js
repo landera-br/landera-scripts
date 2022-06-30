@@ -13,6 +13,7 @@ let provider = null;
 			appLogo:
 				'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
 			loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
+			theme: $('.navbar-dark')[0] ? 'dark' : 'light',
 		},
 		chainConfig: {
 			chainNamespace: 'eip155',
