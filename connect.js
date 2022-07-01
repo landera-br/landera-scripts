@@ -1,8 +1,6 @@
 let web3auth = null;
 let provider = null;
 
-$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
-
 (async function init() {
 	$('#btn-wallet-connect').hide();
 
@@ -38,6 +36,9 @@ $('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
 
 $('#btn-wallet-connect').click(async function (event) {
 	console.log('conectando');
+
+	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
+
 	try {
 		const provider = await web3auth.connect();
 		$('#btn-account').show();
