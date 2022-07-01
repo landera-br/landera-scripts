@@ -1,25 +1,26 @@
-// NOTE External CDN URL https://cdn.jsdelivr.net/gh/landera-br/landera-scripts@latest/form.js
-// NOTE 👆 Update CDN URL https://purge.jsdelivr.net/gh/landera-br/landera-scripts@latest/form.js
+// // NOTE Get forms wallet data
+// const walletAddress = document.querySelector('#field-wallet-address');
 
-function updateInterface(provider = null, selectedAccount = null) {
-	const formBlock = document.querySelector('#form-block');
-	const helpBlock = document.querySelector('#help-block');
+// walletAddress.value = selectedAccount;
+// walletAddress.disabled = true;
 
-	if (provider) {
-		helpBlock.style.display = 'none';
-		formBlock.style.display = 'flex';
-	} else {
-		formBlock.style.display = 'none';
-		helpBlock.style.display = 'flex';
-		return;
+$('#btn-init-form').on('click', async function (event) {
+	event.stopPropagation();
+	event.stopImmediatePropagation();
+	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
+
+	try {
+		const provider = await web3auth.connect();
+
+		$('#btn-account').show();
+		$('#btn-wallet-connect').hide();
+
+		showForm(true);
+	} catch (error) {
+		console.error(error.message);
+		showForm(false);
 	}
-
-	// NOTE Get forms wallet data
-	const walletAddress = document.querySelector('#field-wallet-address');
-
-	walletAddress.value = selectedAccount;
-	walletAddress.disabled = true;
-}
+});
 
 // NOTE Checkboxes
 $('#checkbox-house').click(function () {

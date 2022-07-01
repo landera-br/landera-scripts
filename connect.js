@@ -23,26 +23,44 @@ let provider = null;
 
 	await web3auth.initModal();
 
-	console.log('PROVIDER');
-	console.log(web3auth.provider);
-	if (web3auth.provider) {
-		if (web3auth.connectedAdapterName === 'openlogin') {
-			$('#btn-account').show();
-		}
+	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+		// NOTE Logged
+		$('#btn-account').show();
+
+		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+			showForm(true);
 	} else {
+		// NOTE Not Logged
 		$('#btn-wallet-connect').show();
+
+		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+			showForm(false);
 	}
 })();
 
 $('#btn-wallet-connect').click(async function (event) {
-	console.log('conectando');
-
 	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
 
 	try {
 		const provider = await web3auth.connect();
 		$('#btn-account').show();
 		$('#btn-wallet-connect').hide();
+
+		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+			showForm(true);
+	} catch (error) {
+		console.error(error.message);
+	}
+});
+
+$('#btn-wallet-disconnect').click(async function (event) {
+	try {
+		await web3auth.logout();
+		$('#btn-wallet-connect').show();
+		$('#btn-account').hide();
+
+		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+			showForm(false);
 	} catch (error) {
 		console.error(error.message);
 	}
@@ -51,7 +69,6 @@ $('#btn-wallet-connect').click(async function (event) {
 // $('#get-user-info').click(async function (event) {
 // 	try {
 // 		const user = await web3auth.getUserInfo();
-// 		console.log(user);
 // 	} catch (error) {
 // 		console.error(error.message);
 // 	}
@@ -60,7 +77,6 @@ $('#btn-wallet-connect').click(async function (event) {
 // $('#get-accounts').click(async function (event) {
 // 	try {
 // 		const accounts = await rpc.getAccounts(web3auth.provider);
-// 		console.log(accounts);
 // 	} catch (error) {
 // 		console.error(error.message);
 // 	}
@@ -69,7 +85,6 @@ $('#btn-wallet-connect').click(async function (event) {
 // $('#get-balance').click(async function (event) {
 // 	try {
 // 		const balance = await rpc.getBalance(web3auth.provider);
-// 		console.log(balance);
 // 	} catch (error) {
 // 		console.error(error.message);
 // 	}
@@ -78,19 +93,15 @@ $('#btn-wallet-connect').click(async function (event) {
 // $('#sign-message').click(async function (event) {
 // 	try {
 // 		const signedMsg = await rpc.signMessage(web3auth.provider);
-// 		console.log(signedMsg);
 // 	} catch (error) {
 // 		console.error(error.message);
 // 	}
 // });
 
-$('#btn-wallet-disconnect').click(async function (event) {
-	try {
-		console.log('desconectando');
-		await web3auth.logout();
-		$('#btn-wallet-connect').show();
-		$('#btn-account').hide();
-	} catch (error) {
-		console.error(error.message);
-	}
-});
+function showForm(show) {
+	const helpBlock = document.querySelector('#help-block');
+	const formBlock = document.querySelector('#form-block');
+
+	helpBlock.style.display = show ? 'none' : 'flex';
+	formBlock.style.display = show ? 'flex' : 'none';
+}
