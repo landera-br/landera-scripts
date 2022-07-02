@@ -27,13 +27,32 @@ let web3auth = null;
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			showForm(true);
 		} else {
+			showForm(false);
 			try {
 				await web3auth.connect();
 				showForm(true);
 			} catch (error) {
 				console.error(error.message);
-				showForm(false);
 			}
+
+			// NOTE Form login button
+			$('#btn-init-form').on('click', async function (event) {
+				event.stopPropagation();
+				event.stopImmediatePropagation();
+				$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
+
+				try {
+					console.log('Bora conectar');
+					const provider = await web3auth.connect();
+
+					$('#btn-account').show();
+					$('#btn-wallet-connect').hide();
+
+					showForm(true);
+				} catch (error) {
+					console.error(error.message);
+				}
+			});
 		}
 	}
 

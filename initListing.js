@@ -4,45 +4,6 @@
 // walletAddress.value = selectedAccount;
 // walletAddress.disabled = true;
 
-let web3auth = null;
-
-$('#btn-init-form').on('click', async function (event) {
-	event.stopPropagation();
-	event.stopImmediatePropagation();
-	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
-
-	try {
-		const clientId =
-			'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A';
-
-		web3auth = new window.Web3auth.Web3Auth({
-			clientId,
-			uiConfig: {
-				appLogo:
-					'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
-				loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
-			},
-			chainConfig: {
-				chainNamespace: 'eip155',
-				chainId: '0x1',
-				rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
-			},
-		});
-
-		console.log('Bora conectar');
-
-		const provider = await web3auth.connect();
-
-		$('#btn-account').show();
-		$('#btn-wallet-connect').hide();
-
-		showForm(true);
-	} catch (error) {
-		console.error(error.message);
-		showForm(false);
-	}
-});
-
 // NOTE Checkboxes
 $('#checkbox-house').click(function () {
 	$('#checkbox-house-field').toggleClass('checkbox-selected');
