@@ -28,15 +28,14 @@ let web3auth = null;
 			showForm(true);
 		} else {
 			showForm(false);
-			try {
-				await web3auth.connect();
-				showForm(true);
-			} catch (error) {
-				console.error(error.message);
-			}
+			const provider = await web3auth.connect();
+			console.log(provider);
+			showForm(true);
 
+			console.log('Pulou');
 			// NOTE Form login button
 			$('#btn-init-form').on('click', async function (event) {
+				console.log('Clicou');
 				event.stopPropagation();
 				event.stopImmediatePropagation();
 				$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
