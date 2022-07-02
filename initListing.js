@@ -24,6 +24,8 @@ $('#btn-init-form').on('click', async function (event) {
 		},
 	});
 
+	await web3auth.initModal();
+
 	try {
 		console.log('Bora conectar');
 		const provider = await web3auth.connect();

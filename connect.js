@@ -1,5 +1,4 @@
 let web3auth = null;
-let provider = null;
 
 (async function init() {
 	$('#btn-wallet-connect').hide();
