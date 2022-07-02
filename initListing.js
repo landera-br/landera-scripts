@@ -9,6 +9,21 @@ $('#btn-init-form').on('click', async function (event) {
 	event.stopImmediatePropagation();
 	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
 
+	const web3auth = new window.Web3auth.Web3Auth({
+		clientId:
+			'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A',
+		uiConfig: {
+			appLogo:
+				'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
+			loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
+		},
+		chainConfig: {
+			chainNamespace: 'eip155',
+			chainId: '0x1',
+			rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
+		},
+	});
+
 	try {
 		const provider = await web3auth.connect();
 
@@ -21,6 +36,14 @@ $('#btn-init-form').on('click', async function (event) {
 		showForm(false);
 	}
 });
+
+function showForm(show) {
+	const helpBlock = document.querySelector('#help-block');
+	const formBlock = document.querySelector('#form-block');
+
+	helpBlock.style.display = show ? 'none' : 'flex';
+	formBlock.style.display = show ? 'flex' : 'none';
+}
 
 // NOTE Checkboxes
 $('#checkbox-house').click(function () {
