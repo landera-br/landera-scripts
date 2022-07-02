@@ -25,14 +25,17 @@ $('#btn-init-form').on('click', async function (event) {
 	});
 
 	try {
+		console.log('Bora conectar');
 		const provider = await web3auth.connect();
 
 		$('#btn-account').show();
 		$('#btn-wallet-connect').hide();
 
+		console.log('Mostrou form');
 		showForm(true);
 	} catch (error) {
 		console.error(error.message);
+		console.log('Escondeu form');
 		showForm(false);
 	}
 });
