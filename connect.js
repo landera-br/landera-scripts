@@ -22,6 +22,14 @@ let web3auth = null;
 
 	await web3auth.initModal();
 
+	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+		// NOTE Logged
+		$('#btn-account').show();
+	} else {
+		// NOTE Not Logged
+		$('#btn-wallet-connect').show();
+	}
+
 	// NOTE Form Pages
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
@@ -30,25 +38,20 @@ let web3auth = null;
 			showForm(false);
 			const provider = await web3auth.connect();
 			showForm(true);
+			$('#btn-account').show();
+			$('#btn-wallet-connect').hide();
 		}
-	}
-
-	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
-		// NOTE Logged
-		$('#btn-account').show();
-	} else {
-		// NOTE Not Logged
-		$('#btn-wallet-connect').show();
 	}
 })();
 
+if ($('#w3a-container')[0]) $('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
+
 // NOTE Form login button
-if ($('#btn-init-form')[0])
+if ($('#btn-init-form')[0]) {
 	$('#btn-init-form').on('click', async function (event) {
 		console.log('Clicou');
 		event.stopPropagation();
 		event.stopImmediatePropagation();
-		$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
 
 		try {
 			console.log('Bora conectar');
@@ -61,10 +64,9 @@ if ($('#btn-init-form')[0])
 			console.error(error.message);
 		}
 	});
+}
 
 $('#btn-wallet-connect').click(async function (event) {
-	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
-
 	try {
 		const provider = await web3auth.connect();
 		$('#btn-account').show();
