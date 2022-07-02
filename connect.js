@@ -62,10 +62,10 @@ if ($('#btn-init-form')[0]) {
 			showForm(true);
 			// TODO Wallet field
 			const user = await web3auth.getUserInfo();
-			const accounts = await rpc.getAccounts(web3auth.provider);
+			// const accounts = await rpc.getAccounts(web3auth.provider);
 
 			console.log(user);
-			console.log(accounts);
+			// console.log(accounts);
 		} catch (error) {
 			console.error(error.message);
 		}
