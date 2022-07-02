@@ -22,21 +22,24 @@ const web3auth = new window.Web3auth.Web3Auth({
 	},
 });
 
-await web3auth.initModal();
+(async function init() {
+	console.log('Iniciou modal');
+	await web3auth.initModal();
 
-if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
-	console.log('Está logado');
-	formBlock.style.display = 'flex';
-} else {
-	console.log('Não está logado');
-	try {
-		await web3auth.connect();
-		helpBlock.style.display = 'none';
+	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+		console.log('Está logado');
 		formBlock.style.display = 'flex';
-	} catch (error) {
-		helpBlock.style.display = 'flex';
+	} else {
+		console.log('Não está logado');
+		try {
+			await web3auth.connect();
+			helpBlock.style.display = 'none';
+			formBlock.style.display = 'flex';
+		} catch (error) {
+			helpBlock.style.display = 'flex';
+		}
 	}
-}
+})();
 
 $('#btn-init-form').on('click', async function (event) {
 	event.stopPropagation();
@@ -44,6 +47,7 @@ $('#btn-init-form').on('click', async function (event) {
 	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
 
 	try {
+		console.log('Bora conectar');
 		const provider = await web3auth.connect();
 
 		$('#btn-account').show();
