@@ -4,27 +4,32 @@
 // walletAddress.value = selectedAccount;
 // walletAddress.disabled = true;
 
+let web3auth = null;
 const helpBlock = document.querySelector('#help-block');
 const formBlock = document.querySelector('#form-block');
 
-const web3auth = new window.Web3auth.Web3Auth({
-	clientId:
-		'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A',
-	uiConfig: {
-		appLogo:
-			'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
-		loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
-	},
-	chainConfig: {
-		chainNamespace: 'eip155',
-		chainId: '0x1',
-		rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
-	},
-});
-
 (async function init() {
-	console.log('Iniciou modal');
-	await web3auth.initModal();
+	web3auth = new window.Web3auth.Web3Auth({
+		clientId:
+			'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A',
+		uiConfig: {
+			appLogo:
+				'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
+			loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
+		},
+		chainConfig: {
+			chainNamespace: 'eip155',
+			chainId: '0x1',
+			rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
+		},
+	});
+	try {
+		await web3auth.initModal();
+	} catch (error) {
+		console.error(error.message);
+	}
+
+	console.log('Após init modal');
 
 	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 		console.log('Está logado');
