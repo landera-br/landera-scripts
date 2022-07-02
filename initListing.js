@@ -9,6 +9,7 @@ const helpBlock = document.querySelector('#help-block');
 const formBlock = document.querySelector('#form-block');
 
 (async function init() {
+	console.log('Começou init');
 	web3auth = new window.Web3auth.Web3Auth({
 		clientId:
 			'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A',
@@ -23,6 +24,8 @@ const formBlock = document.querySelector('#form-block');
 			rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
 		},
 	});
+
+	console.log('Init modal');
 	try {
 		await web3auth.initModal();
 	} catch (error) {
