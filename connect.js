@@ -34,6 +34,8 @@ let web3auth = null;
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			showForm(true);
+
+			// TODO Wallet field
 		} else {
 			showForm(false);
 			const provider = await web3auth.connect();
@@ -49,17 +51,19 @@ if ($('#w3a-container')[0]) $('#w3a-container').css({ position: 'relative', 'z-i
 // NOTE Form login button
 if ($('#btn-init-form')[0]) {
 	$('#btn-init-form').on('click', async function (event) {
-		console.log('Clicou');
 		event.stopPropagation();
 		event.stopImmediatePropagation();
 
 		try {
-			console.log('Bora conectar');
 			const provider = await web3auth.connect();
 
 			$('#btn-account').show();
 			$('#btn-wallet-connect').hide();
 			showForm(true);
+			// TODO Wallet field
+			console.log(provider);
+			console.log(web3auth);
+			console.log(web3auth.provider);
 		} catch (error) {
 			console.error(error.message);
 		}
