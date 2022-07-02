@@ -4,51 +4,57 @@
 // walletAddress.value = selectedAccount;
 // walletAddress.disabled = true;
 
+const helpBlock = document.querySelector('#help-block');
+const formBlock = document.querySelector('#form-block');
+
+const web3auth = new window.Web3auth.Web3Auth({
+	clientId:
+		'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A',
+	uiConfig: {
+		appLogo:
+			'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
+		loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
+	},
+	chainConfig: {
+		chainNamespace: 'eip155',
+		chainId: '0x1',
+		rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
+	},
+});
+
+await web3auth.initModal();
+
+if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+	console.log('Está logado');
+	formBlock.style.display = 'flex';
+} else {
+	console.log('Não está logado');
+	try {
+		await web3auth.connect();
+		helpBlock.style.display = 'none';
+		formBlock.style.display = 'flex';
+	} catch (error) {
+		helpBlock.style.display = 'flex';
+	}
+}
+
 $('#btn-init-form').on('click', async function (event) {
 	event.stopPropagation();
 	event.stopImmediatePropagation();
 	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
 
-	const web3auth = new window.Web3auth.Web3Auth({
-		clientId:
-			'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A',
-		uiConfig: {
-			appLogo:
-				'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
-			loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
-		},
-		chainConfig: {
-			chainNamespace: 'eip155',
-			chainId: '0x1',
-			rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
-		},
-	});
-
-	await web3auth.initModal();
-
 	try {
-		console.log('Bora conectar');
 		const provider = await web3auth.connect();
 
 		$('#btn-account').show();
 		$('#btn-wallet-connect').hide();
 
-		console.log('Mostrou form');
 		showForm(true);
 	} catch (error) {
 		console.error(error.message);
-		console.log('Escondeu form');
 		showForm(false);
 	}
 });
-
-function showForm(show) {
-	const helpBlock = document.querySelector('#help-block');
-	const formBlock = document.querySelector('#form-block');
-
-	helpBlock.style.display = show ? 'none' : 'flex';
-	formBlock.style.display = show ? 'flex' : 'none';
-}
 
 // NOTE Checkboxes
 $('#checkbox-house').click(function () {
