@@ -29,29 +29,7 @@ let web3auth = null;
 		} else {
 			showForm(false);
 			const provider = await web3auth.connect();
-			console.log(provider);
 			showForm(true);
-
-			console.log('Pulou');
-			// NOTE Form login button
-			$('#btn-init-form').on('click', async function (event) {
-				console.log('Clicou');
-				event.stopPropagation();
-				event.stopImmediatePropagation();
-				$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
-
-				try {
-					console.log('Bora conectar');
-					const provider = await web3auth.connect();
-
-					$('#btn-account').show();
-					$('#btn-wallet-connect').hide();
-
-					showForm(true);
-				} catch (error) {
-					console.error(error.message);
-				}
-			});
 		}
 	}
 
@@ -63,6 +41,26 @@ let web3auth = null;
 		$('#btn-wallet-connect').show();
 	}
 })();
+
+// NOTE Form login button
+if ($('#btn-init-form')[0])
+	$('#btn-init-form').on('click', async function (event) {
+		console.log('Clicou');
+		event.stopPropagation();
+		event.stopImmediatePropagation();
+		$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
+
+		try {
+			console.log('Bora conectar');
+			const provider = await web3auth.connect();
+
+			$('#btn-account').show();
+			$('#btn-wallet-connect').hide();
+			showForm(true);
+		} catch (error) {
+			console.error(error.message);
+		}
+	});
 
 $('#btn-wallet-connect').click(async function (event) {
 	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
