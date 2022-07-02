@@ -22,18 +22,27 @@ let web3auth = null;
 
 	await web3auth.initModal();
 
+	// NOTE Form Pages
+	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
+		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+			showForm(true);
+		} else {
+			try {
+				await web3auth.connect();
+				showForm(true);
+			} catch (error) {
+				console.error(error.message);
+				showForm(false);
+			}
+		}
+	}
+
 	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 		// NOTE Logged
 		$('#btn-account').show();
-
-		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
-			showForm(true);
 	} else {
 		// NOTE Not Logged
 		$('#btn-wallet-connect').show();
-
-		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
-			showForm(false);
 	}
 })();
 

@@ -5,49 +5,6 @@
 // walletAddress.disabled = true;
 
 let web3auth = null;
-const helpBlock = document.querySelector('#help-block');
-const formBlock = document.querySelector('#form-block');
-
-(async function init() {
-	console.log('Começou init');
-	web3auth = new window.Web3auth.Web3Auth({
-		clientId:
-			'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A',
-		uiConfig: {
-			appLogo:
-				'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
-			loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
-		},
-		chainConfig: {
-			chainNamespace: 'eip155',
-			chainId: '0x1',
-			rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
-		},
-	});
-
-	console.log('Init modal');
-	try {
-		await web3auth.initModal();
-	} catch (error) {
-		console.error(error.message);
-	}
-
-	console.log('Após init modal');
-
-	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
-		console.log('Está logado');
-		formBlock.style.display = 'flex';
-	} else {
-		console.log('Não está logado');
-		try {
-			await web3auth.connect();
-			helpBlock.style.display = 'none';
-			formBlock.style.display = 'flex';
-		} catch (error) {
-			helpBlock.style.display = 'flex';
-		}
-	}
-})();
 
 $('#btn-init-form').on('click', async function (event) {
 	event.stopPropagation();
@@ -55,7 +12,25 @@ $('#btn-init-form').on('click', async function (event) {
 	$('#w3a-container').css({ position: 'relative', 'z-index': 1001 });
 
 	try {
+		const clientId =
+			'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A';
+
+		web3auth = new window.Web3auth.Web3Auth({
+			clientId,
+			uiConfig: {
+				appLogo:
+					'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/62752e31ab07d394b483c18e_landera-icon.png',
+				loginMethodsOrder: ['google', 'apple', 'facebook', 'twitter', 'reddit'],
+			},
+			chainConfig: {
+				chainNamespace: 'eip155',
+				chainId: '0x1',
+				rpcTarget: 'https://rpc.ankr.com/eth', // This is the testnet RPC we have added, please pass on your own endpoint while creating an app
+			},
+		});
+
 		console.log('Bora conectar');
+
 		const provider = await web3auth.connect();
 
 		$('#btn-account').show();
