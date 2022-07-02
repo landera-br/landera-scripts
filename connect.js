@@ -61,9 +61,11 @@ if ($('#btn-init-form')[0]) {
 			$('#btn-wallet-connect').hide();
 			showForm(true);
 			// TODO Wallet field
-			console.log(provider);
-			console.log(web3auth);
-			console.log(web3auth.provider);
+			const user = await web3auth.getUserInfo();
+			const accounts = await rpc.getAccounts(web3auth.provider);
+
+			console.log(user);
+			console.log(accounts);
 		} catch (error) {
 			console.error(error.message);
 		}
