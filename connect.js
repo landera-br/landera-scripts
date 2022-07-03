@@ -35,7 +35,10 @@ let web3auth = null;
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			showForm(true);
 
-			// TODO Wallet field
+			// NOTE Wallet field
+			const accounts = await rpc.getAccounts(web3auth.provider);
+			walletAddress.value = accounts[0];
+			walletAddress.disabled = true;
 		} else {
 			showForm(false);
 			const provider = await web3auth.connect();
