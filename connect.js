@@ -34,18 +34,25 @@ let web3auth = null;
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			showForm(true);
-			const walletAddress = document.querySelector('#field-wallet-address');
 
 			// NOTE Wallet field
+			const walletAddress = document.querySelector('#field-wallet-address');
 			const accounts = await rpc.getAccounts(web3auth.provider);
 			walletAddress.value = accounts[0];
 			walletAddress.disabled = true;
 		} else {
 			showForm(false);
-			const provider = await web3auth.connect();
-			showForm(true);
+			await web3auth.connect();
+
 			$('#btn-account').show();
 			$('#btn-wallet-connect').hide();
+			showForm(true);
+
+			// NOTE Wallet field
+			const walletAddress = document.querySelector('#field-wallet-address');
+			const accounts = await rpc.getAccounts(web3auth.provider);
+			walletAddress.value = accounts[0];
+			walletAddress.disabled = true;
 		}
 	}
 })();
@@ -54,8 +61,6 @@ if ($('#w3a-container')[0]) $('#w3a-container').css({ position: 'relative', 'z-i
 
 // NOTE Form login button
 if ($('#btn-init-form')[0]) {
-	const walletAddress = document.querySelector('#field-wallet-address');
-
 	$('#btn-init-form').on('click', async function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
@@ -68,6 +73,7 @@ if ($('#btn-init-form')[0]) {
 			showForm(true);
 
 			// NOTE Wallet field
+			const walletAddress = document.querySelector('#field-wallet-address');
 			const accounts = await rpc.getAccounts(web3auth.provider);
 			walletAddress.value = accounts[0];
 			walletAddress.disabled = true;
