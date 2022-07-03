@@ -33,14 +33,13 @@ let web3auth = null;
 	// NOTE Form Pages
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+			showForm(true);
 			const walletAddress = document.querySelector('#field-wallet-address');
 
 			// NOTE Wallet field
 			const accounts = await rpc.getAccounts(web3auth.provider);
 			walletAddress.value = accounts[0];
 			walletAddress.disabled = true;
-
-			showForm(true);
 		} else {
 			showForm(false);
 			const provider = await web3auth.connect();
