@@ -50,22 +50,23 @@ if ($('#w3a-container')[0]) $('#w3a-container').css({ position: 'relative', 'z-i
 
 // NOTE Form login button
 if ($('#btn-init-form')[0]) {
+	const walletAddress = document.querySelector('#field-wallet-address');
+
 	$('#btn-init-form').on('click', async function (event) {
 		event.stopPropagation();
 		event.stopImmediatePropagation();
 
 		try {
-			const provider = await web3auth.connect();
+			await web3auth.connect();
 
 			$('#btn-account').show();
 			$('#btn-wallet-connect').hide();
 			showForm(true);
-			// TODO Wallet field
-			const user = await web3auth.getUserInfo();
-			const accounts = await rpc.getAccounts(web3auth.provider);
 
-			console.log(user);
-			console.log(accounts);
+			// NOTE Wallet field
+			const accounts = await rpc.getAccounts(web3auth.provider);
+			walletAddress.value = accounts[0];
+			walletAddress.disabled = true;
 		} catch (error) {
 			console.error(error.message);
 		}

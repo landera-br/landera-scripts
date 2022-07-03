@@ -1,9 +1,3 @@
-// // NOTE Get forms wallet data
-// const walletAddress = document.querySelector('#field-wallet-address');
-
-// walletAddress.value = selectedAccount;
-// walletAddress.disabled = true;
-
 // NOTE Checkboxes
 $('#checkbox-house').click(function () {
 	$('#checkbox-house-field').toggleClass('checkbox-selected');
