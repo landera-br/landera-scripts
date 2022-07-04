@@ -32,10 +32,9 @@ let web3auth = null;
 
 	// NOTE Form Pages
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
-		console.log('entrou');
-		const user = await web3auth.getUserInfo();
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
-			console.log('logado');
+			const user = await web3auth.getUserInfo();
+
 			showForm(true);
 
 			if ($('#field-name').length && user.name) $('#field-name').val(user.name);
@@ -45,8 +44,8 @@ let web3auth = null;
 			const accounts = await rpc.getAccounts(web3auth.provider);
 			setForm(accounts[0]);
 		} else {
-			console.log('nao logado');
 			showForm(false);
+
 			await web3auth.connect();
 
 			$('#btn-account').show();
