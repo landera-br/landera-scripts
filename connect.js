@@ -97,8 +97,7 @@ $('#btn-wallet-connect').click(async function (event) {
 		const walletAddress = (await rpc.getAccounts(web3auth.provider))[0];
 		const user = await web3auth.getUserInfo();
 
-		console.log(user);
-		// await setUser(walletAddress);
+		await setUser(walletAddress, user.email, user.name);
 
 		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 			showForm(true);
@@ -134,6 +133,13 @@ function showForm(show) {
 }
 
 async function setUser(wallet_address, email, name) {
+	const payload = { wallet_address };
+
+	console.log(payload);
+
+	if (email) payload.email = email;
+	if (name) payload.name = name;
+
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'post',
@@ -141,7 +147,7 @@ async function setUser(wallet_address, email, name) {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ wallet_address, email, name }),
+			body: JSON.stringify(payload),
 		});
 
 		const responseData = await response.json();
