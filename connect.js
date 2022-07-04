@@ -34,29 +34,26 @@ let web3auth = null;
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			const user = await web3auth.getUserInfo();
+			const accounts = await rpc.getAccounts(web3auth.provider);
+
+			setForm(accounts[0], user);
 
 			showForm(true);
-
-			// NOTE Wallet field
-			const accounts = await rpc.getAccounts(web3auth.provider);
-			setForm(accounts[0], user);
 		} else {
 			showForm(false);
 
 			await web3auth.connect();
-			const user = await web3auth.getUserInfo();
-
 			$('#btn-account').show();
 			$('#btn-wallet-connect').hide();
-			showForm(true);
 
-			// NOTE Set user with wallet address, name and email
-			const walletAddress = (await rpc.getAccounts(web3auth.provider))[0];
+			const user = await web3auth.getUserInfo();
+			const accounts = await rpc.getAccounts(web3auth.provider);
 
-			await setUser(walletAddress, user.email, user.name);
+			await setUser(accounts[0], user.email, user.name);
 
-			// NOTE Wallet field
 			setForm(accounts[0], user);
+
+			showForm(true);
 		}
 	}
 })();
