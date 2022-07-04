@@ -47,6 +47,7 @@ let web3auth = null;
 			showForm(false);
 
 			await web3auth.connect();
+			const user = await web3auth.getUserInfo();
 
 			$('#btn-account').show();
 			$('#btn-wallet-connect').hide();
