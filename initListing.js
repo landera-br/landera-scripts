@@ -325,7 +325,7 @@ function getFormData() {
 			plan: $('#select-plan').val(),
 		},
 		listing: {
-			owner_email: $('#field-owner-email').val(),
+			owner_email: $('#field-email').val(),
 			price: Number($('#field-listing-price').val()),
 			description: $('#field-description').val(),
 			offer_type: {

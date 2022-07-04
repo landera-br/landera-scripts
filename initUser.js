@@ -3,15 +3,6 @@
 // if (searchParams.has('plan'))
 // 	if (searchParams.get('plan') === 'standard') $('#select-plan').val('standard');
 
-(async function initForm() {
-	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
-		console.log('user');
-		const user = await web3auth.getUserInfo();
-		$('#field-name').val(user.name);
-		$('#field-email').val(user.email);
-	}
-})();
-
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();

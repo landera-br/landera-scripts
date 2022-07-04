@@ -32,8 +32,12 @@ let web3auth = null;
 
 	// NOTE Form Pages
 	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
+		const user = await web3auth.getUserInfo();
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			showForm(true);
+
+			if ($('#field-name').length && user.name) $('#field-name').val(user.name);
+			if ($('#field-email').length && user.email) $('#field-email').val(user.email);
 
 			// NOTE Wallet field
 			const walletAddressElement = document.querySelector('#field-wallet-address');
@@ -50,7 +54,6 @@ let web3auth = null;
 
 			// NOTE Set user with wallet address, name and email
 			const walletAddress = (await rpc.getAccounts(web3auth.provider))[0];
-			const user = await web3auth.getUserInfo();
 
 			await setUser(walletAddress, user.email, user.name);
 
