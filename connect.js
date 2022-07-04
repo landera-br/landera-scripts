@@ -37,12 +37,9 @@ let web3auth = null;
 
 			showForm(true);
 
-			if ($('#field-name').length && user.name) $('#field-name').val(user.name);
-			if ($('#field-email').length && user.email) $('#field-email').val(user.email);
-
 			// NOTE Wallet field
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			setForm(accounts[0]);
+			setForm(accounts[0], user);
 		} else {
 			showForm(false);
 
@@ -59,10 +56,7 @@ let web3auth = null;
 			await setUser(walletAddress, user.email, user.name);
 
 			// NOTE Wallet field
-			const walletAddressElement = document.querySelector('#field-wallet-address');
-			const accounts = await rpc.getAccounts(web3auth.provider);
-			walletAddressElement.value = accounts[0];
-			walletAddressElement.disabled = true;
+			setForm(accounts[0], user);
 		}
 	}
 })();
@@ -77,6 +71,7 @@ if ($('#btn-init-form')[0]) {
 
 		try {
 			await web3auth.connect();
+			const user = await web3auth.getUserInfo();
 
 			$('#btn-account').show();
 			$('#btn-wallet-connect').hide();
@@ -84,7 +79,7 @@ if ($('#btn-init-form')[0]) {
 
 			// NOTE Wallet field
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			setForm(accounts[0]);
+			setForm(accounts[0], user);
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -94,19 +89,19 @@ if ($('#btn-init-form')[0]) {
 $('#btn-wallet-connect').click(async function (event) {
 	try {
 		await web3auth.connect();
+		const user = await web3auth.getUserInfo();
 
 		$('#btn-account').show();
 		$('#btn-wallet-connect').hide();
 
 		// NOTE Set user with wallet address, name and email
 		const walletAddress = (await rpc.getAccounts(web3auth.provider))[0];
-		const user = await web3auth.getUserInfo();
 
 		await setUser(walletAddress, user.email, user.name);
 
 		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 			showForm(true);
-			setForm(walletAddress);
+			setForm(walletAddress, user);
 		}
 	} catch (error) {
 		console.error(error.message);
@@ -159,9 +154,12 @@ async function setUser(wallet_address, email, name) {
 	}
 }
 
-function setForm(wallet_address) {
+function setForm(wallet_address, user) {
 	const walletAddressElement = document.querySelector('#field-wallet-address');
 	walletAddressElement.value = wallet_address;
 	walletAddressElement.disabled = true;
 	walletAddressElement.style.backgroundColor = '#2c2366';
+
+	if ($('#field-name').length && user.name) $('#field-name').val(user.name);
+	if ($('#field-email').length && user.email) $('#field-email').val(user.email);
 }
