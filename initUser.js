@@ -3,25 +3,11 @@
 // if (searchParams.has('plan'))
 // 	if (searchParams.get('plan') === 'standard') $('#select-plan').val('standard');
 
-function updateInterface(provider = null, selectedAccount = null) {
-	const formBlock = document.querySelector('#form-block');
-	const helpBlock = document.querySelector('#help-block');
-
-	if (provider) {
-		helpBlock.style.display = 'none';
-		formBlock.style.display = 'flex';
-	} else {
-		formBlock.style.display = 'none';
-		helpBlock.style.display = 'flex';
-		return;
-	}
-
-	// NOTE Get forms wallet data
-	const walletAddress = document.querySelector('#field-wallet-address');
-
-	walletAddress.value = selectedAccount;
-	walletAddress.disabled = true;
-	walletAddress.style.backgroundColor = '#2c2366';
+if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+	console.log('user');
+	const user = await web3auth.getUserInfo();
+	$('#field-name').val(user.name);
+	$('#field-email').val(user.email);
 }
 
 // NOTE When form is submitted
