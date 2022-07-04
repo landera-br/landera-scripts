@@ -36,10 +36,10 @@ let web3auth = null;
 			showForm(true);
 
 			// NOTE Wallet field
-			const walletAddress = document.querySelector('#field-wallet-address');
+			const walletAddressElement = document.querySelector('#field-wallet-address');
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			walletAddress.value = accounts[0];
-			walletAddress.disabled = true;
+			walletAddressElement.value = accounts[0];
+			walletAddressElement.disabled = true;
 		} else {
 			showForm(false);
 			await web3auth.connect();
@@ -48,11 +48,14 @@ let web3auth = null;
 			$('#btn-wallet-connect').hide();
 			showForm(true);
 
+			// TODO
+			await setUser();
+
 			// NOTE Wallet field
-			const walletAddress = document.querySelector('#field-wallet-address');
+			const walletAddressElement = document.querySelector('#field-wallet-address');
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			walletAddress.value = accounts[0];
-			walletAddress.disabled = true;
+			walletAddressElement.value = accounts[0];
+			walletAddressElement.disabled = true;
 		}
 	}
 })();
@@ -73,10 +76,10 @@ if ($('#btn-init-form')[0]) {
 			showForm(true);
 
 			// NOTE Wallet field
-			const walletAddress = document.querySelector('#field-wallet-address');
+			const walletAddressElement = document.querySelector('#field-wallet-address');
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			walletAddress.value = accounts[0];
-			walletAddress.disabled = true;
+			walletAddressElement.value = accounts[0];
+			walletAddressElement.disabled = true;
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -85,12 +88,25 @@ if ($('#btn-init-form')[0]) {
 
 $('#btn-wallet-connect').click(async function (event) {
 	try {
-		const provider = await web3auth.connect();
+		await web3auth.connect();
+
 		$('#btn-account').show();
 		$('#btn-wallet-connect').hide();
 
-		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+		// TODO Set user with wallet address, name and email
+		const walletAddress = (await rpc.getAccounts(web3auth.provider))[0];
+		const user = await web3auth.getUserInfo();
+
+		console.log(user);
+		// await setUser(walletAddress);
+
+		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 			showForm(true);
+
+			const walletAddressElement = document.querySelector('#field-wallet-address');
+			walletAddressElement.value = walletAddress;
+			walletAddressElement.disabled = true;
+		}
 	} catch (error) {
 		console.error(error.message);
 	}
@@ -109,42 +125,30 @@ $('#btn-wallet-disconnect').click(async function (event) {
 	}
 });
 
-// $('#get-user-info').click(async function (event) {
-// 	try {
-// 		const user = await web3auth.getUserInfo();
-// 	} catch (error) {
-// 		console.error(error.message);
-// 	}
-// });
-
-// $('#get-accounts').click(async function (event) {
-// 	try {
-// 		const accounts = await rpc.getAccounts(web3auth.provider);
-// 	} catch (error) {
-// 		console.error(error.message);
-// 	}
-// });
-
-// $('#get-balance').click(async function (event) {
-// 	try {
-// 		const balance = await rpc.getBalance(web3auth.provider);
-// 	} catch (error) {
-// 		console.error(error.message);
-// 	}
-// });
-
-// $('#sign-message').click(async function (event) {
-// 	try {
-// 		const signedMsg = await rpc.signMessage(web3auth.provider);
-// 	} catch (error) {
-// 		console.error(error.message);
-// 	}
-// });
-
 function showForm(show) {
 	const helpBlock = document.querySelector('#help-block');
 	const formBlock = document.querySelector('#form-block');
 
 	helpBlock.style.display = show ? 'none' : 'flex';
 	formBlock.style.display = show ? 'flex' : 'none';
+}
+
+async function setUser(wallet_address, email, name) {
+	try {
+		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
+			method: 'post',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ wallet_address, email, name }),
+		});
+
+		const responseData = await response.json();
+
+		// NOTE Save stripe_customer_id in cache
+		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
+	} catch (error) {
+		alert('Não foi possível recuperar os dados do cliente.');
+	}
 }
