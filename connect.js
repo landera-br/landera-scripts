@@ -40,10 +40,8 @@ let web3auth = null;
 			if ($('#field-email').length && user.email) $('#field-email').val(user.email);
 
 			// NOTE Wallet field
-			const walletAddressElement = document.querySelector('#field-wallet-address');
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			walletAddressElement.value = accounts[0];
-			walletAddressElement.disabled = true;
+			setForm(accounts[0]);
 		} else {
 			showForm(false);
 			await web3auth.connect();
@@ -82,10 +80,8 @@ if ($('#btn-init-form')[0]) {
 			showForm(true);
 
 			// NOTE Wallet field
-			const walletAddressElement = document.querySelector('#field-wallet-address');
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			walletAddressElement.value = accounts[0];
-			walletAddressElement.disabled = true;
+			setForm(accounts[0]);
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -107,10 +103,7 @@ $('#btn-wallet-connect').click(async function (event) {
 
 		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 			showForm(true);
-
-			const walletAddressElement = document.querySelector('#field-wallet-address');
-			walletAddressElement.value = walletAddress;
-			walletAddressElement.disabled = true;
+			setForm(walletAddress);
 		}
 	} catch (error) {
 		console.error(error.message);
@@ -161,4 +154,11 @@ async function setUser(wallet_address, email, name) {
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
+}
+
+function setForm(wallet_address) {
+	const walletAddressElement = document.querySelector('#field-wallet-address');
+	walletAddressElement.value = wallet_address;
+	walletAddressElement.disabled = true;
+	walletAddressElement.style.backgroundColor = '#2c2366';
 }
