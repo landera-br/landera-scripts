@@ -48,8 +48,11 @@ let web3auth = null;
 			$('#btn-wallet-connect').hide();
 			showForm(true);
 
-			// TODO
-			await setUser();
+			// NOTE Set user with wallet address, name and email
+			const walletAddress = (await rpc.getAccounts(web3auth.provider))[0];
+			const user = await web3auth.getUserInfo();
+
+			await setUser(walletAddress, user.email, user.name);
 
 			// NOTE Wallet field
 			const walletAddressElement = document.querySelector('#field-wallet-address');
@@ -93,7 +96,7 @@ $('#btn-wallet-connect').click(async function (event) {
 		$('#btn-account').show();
 		$('#btn-wallet-connect').hide();
 
-		// TODO Set user with wallet address, name and email
+		// NOTE Set user with wallet address, name and email
 		const walletAddress = (await rpc.getAccounts(web3auth.provider))[0];
 		const user = await web3auth.getUserInfo();
 
@@ -134,8 +137,6 @@ function showForm(show) {
 
 async function setUser(wallet_address, email, name) {
 	const payload = { wallet_address };
-
-	console.log(payload);
 
 	if (email) payload.email = email;
 	if (name) payload.name = name;
