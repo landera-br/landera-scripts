@@ -5,6 +5,8 @@
 
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
+	let checkout_url = '';
+
 	e.preventDefault();
 
 	if ($('#btn-submit').hasClass('error-button') || $('#btn-submit').hasClass('sending-button'))
@@ -13,37 +15,36 @@ $('#btn-submit').on('click', async (e) => {
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
 
-	// NOTE Get form data
-	const data = {
-		agency: {
+	// NOTE Update user
+	const payload = {
+		user: {
 			name: $('#field-name').val(),
 			email: $('#field-email').val(),
 			creci: $('#field-creci').val(),
 			phone: $('#field-phone').val(),
+			stripe_customer_id: localStorage.getItem('stripe_customer_id'),
 		},
-		subscription: {
-			plan: $('#select-plan').val(),
+		transaction: {
+			subscription: {
+				plan: $('#select-plan').val(),
+			},
 		},
-		mint_to_address: $('#field-wallet-address').val(),
-		stripe_customer_id: localStorage.getItem('stripe_customer_id'),
 	};
 
 	try {
-		const response = await fetch(
-			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/agencies',
-			{
-				method: 'post',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			}
-		);
+		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
+			method: 'patch',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(payload),
+		});
+
 		const responseData = await response.json();
 
 		if (!response.ok || !Object.keys(responseData).length) throw Error('Unable to upload data');
-		window.location.replace(responseData.checkout_url);
+		window.location.replace(checkout_url);
 	} catch (error) {
 		if (
 			!alert(
