@@ -158,7 +158,7 @@ function setForm(wallet_address, user, hasColor) {
 
 	console.log('adicionou email');
 	console.log($('#field-email').length);
-	console.log(user.email);
+	console.log(user);
 	if ($('#field-name').length && user.name) $('#field-name').val(user.name);
 	if ($('#field-email').length && user.email) $('#field-email').val(user.email);
 }
