@@ -13,8 +13,6 @@ if (searchParams.has('plan')) {
 
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
-	let checkout_url = '';
-
 	e.preventDefault();
 
 	if ($('#btn-submit').hasClass('error-button') || $('#btn-submit').hasClass('sending-button'))
