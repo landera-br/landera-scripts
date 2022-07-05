@@ -1,7 +1,15 @@
-// const searchParams = new URLSearchParams(window.location.search);
+const searchParams = new URLSearchParams(window.location.search);
 
-// if (searchParams.has('plan'))
-// 	if (searchParams.get('plan') === 'standard') $('#select-plan').val('standard');
+if (searchParams.has('plan')) {
+	if (searchParams.get('plan') === 'basic') {
+		$('#select-plan').val('basic');
+	}
+	if (searchParams.get('plan') === 'standard') {
+		$('#select-plan').val('standard');
+		$('#label-name').val('Nome da imobiliária');
+		$('#label-creci').val('CRECI-J');
+	}
+}
 
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
