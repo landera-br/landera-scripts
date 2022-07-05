@@ -6,8 +6,8 @@ if (searchParams.has('plan')) {
 	}
 	if (searchParams.get('plan') === 'standard') {
 		$('#select-plan').val('standard');
-		$('#label-name').val('Nome da imobiliária');
-		$('#label-creci').val('CRECI-J');
+		$('#label-name').text('Nome da imobiliária');
+		$('#label-creci').text('CRECI-J');
 	}
 }
 
