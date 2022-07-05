@@ -45,7 +45,8 @@ $('#btn-submit').on('click', async (e) => {
 		const responseData = await response.json();
 
 		if (!response.ok || !Object.keys(responseData).length) throw Error('Unable to upload data');
-		window.location.replace(checkout_url);
+
+		window.location.replace(responseData.checkout_url);
 	} catch (error) {
 		if (
 			!alert(
