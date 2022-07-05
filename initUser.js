@@ -23,6 +23,7 @@ $('#btn-submit').on('click', async (e) => {
 			creci: $('#field-creci').val(),
 			phone: $('#field-phone').val(),
 			stripe_customer_id: localStorage.getItem('stripe_customer_id'),
+			wallet_address: $('#field-wallet-address').val(),
 		},
 		transaction: {
 			subscription: {
