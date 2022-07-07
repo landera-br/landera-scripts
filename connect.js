@@ -1,14 +1,7 @@
 let web3auth = null;
 
 (async function init() {
-	// NOTE Cookies
-	if (getCookie('preference')) {
-		// have cookie
-		console.log('Have cookie');
-	} else {
-		// no cookie
-		console.log('No cookie');
-	}
+	setCookie();
 
 	$('#btn-wallet-connect').hide();
 
@@ -176,4 +169,17 @@ function getCookie(cookie) {
 		if (cookie == cookiePair[0].trim()) return decodeURIComponent(cookiePair[1]);
 	}
 	return null;
+}
+
+function setCookie() {
+	// NOTE Cookies
+	if (getCookie('preference')) {
+		console.log('Have cookie');
+		// TODO Show cookie tab
+		$('#cookie-tab').fadeIn();
+	} else {
+		console.log('No cookie');
+		// TODO Show cookie popup and listen to open/close preferences
+		$('#cookie-popup').fadeIn();
+	}
 }
