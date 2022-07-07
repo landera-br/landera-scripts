@@ -172,33 +172,36 @@ function getCookie(cookie) {
 }
 
 function setCookie() {
+	// NOTE Handlers
+	$('.btn-cookie-accept').click(() => {
+		$('#cookie-popup').fadeOut();
+		$('#cookie-preference').fadeOut();
+		document.cookie = 'consent=all';
+	});
+
+	$('#btn-cookie-save').click(() => {
+		$('#cookie-preference').fadeOut();
+		document.cookie = 'consent=all';
+	});
+
+	$('.btn-cookie-close').click(() => {
+		$('#cookie-popup').fadeOut();
+		$('#cookie-preference').fadeOut();
+	});
+
+	$('.btn-cookie-settings').click(() => {
+		$('#cookie-popup').fadeOut();
+		$('#cookie-preference').css('display', 'flex').hide().fadeIn();
+	});
+
 	// NOTE Cookies
-	if (getCookie('preference')) {
-		setTimeout(() => $('#cookie-tab').fadeIn(), 4000);
+	if (getCookie('consent')) {
+		setTimeout(() => {
+			$('#cookie-tab').fadeIn();
+		}, 4000);
 	} else {
 		setTimeout(() => {
 			$('#cookie-popup').fadeIn();
-
-			// TODO Listen to open/close preferences
-			$('.btn-cookie-accept').click(() => {
-				$('#cookie-popup').fadeOut();
-				document.cookie = 'consent=all';
-			});
-
-			$('#btn-cookie-settings').click(() => {
-				$('#cookie-popup').fadeOut();
-				$('#cookie-preference').css('display', 'flex').hide().fadeIn();
-
-				$('#btn-cookie-save').click(() => {
-					$('#cookie-preference').fadeOut();
-					document.cookie = 'consent=all';
-				});
-			});
-
-			$('.btn-cookie-close').click(() => {
-				$('#cookie-popup').fadeOut();
-				$('#cookie-preference').fadeOut();
-			});
 		}, 4000);
 	}
 }
