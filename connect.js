@@ -1,6 +1,14 @@
 let web3auth = null;
 
 (async function init() {
+	// NOTE Cookies
+	if (!!$.cookie('preferences')) {
+		// have cookie
+	} else {
+		// no cookie
+		console.log('No cookie');
+	}
+
 	$('#btn-wallet-connect').hide();
 
 	const clientId =
