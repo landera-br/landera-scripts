@@ -182,16 +182,16 @@ function setCookie() {
 			// TODO Listen to open/close preferences
 			$('#btn-cookie-accept').click(() => {
 				$('#cookie-popup').fadeOut();
-				document.cookie('preference', 'all');
+				document.cookie = 'consent=all';
 			});
 
 			$('#btn-cookie-settings').click(() => {
 				$('#cookie-popup').fadeOut();
-				$('#cookie-preference').fadeIn();
+				$('#cookie-preference').css('display', 'flex').hide().fadeIn();
 
 				$('#btn-cookie-save').click(() => {
 					$('#cookie-preference').fadeOut();
-					document.cookie('preference', 'all');
+					document.cookie = 'consent=all';
 				});
 			});
 
