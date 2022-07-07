@@ -2,8 +2,9 @@ let web3auth = null;
 
 (async function init() {
 	// NOTE Cookies
-	if (!!$.cookie('preferences')) {
+	if (getCookie('preference')) {
 		// have cookie
+		console.log('Have cookie');
 	} else {
 		// no cookie
 		console.log('No cookie');
@@ -166,4 +167,13 @@ function setForm(wallet_address, user, hasColor) {
 
 	if ($('#field-name').length && user.name) $('#field-name').val(user.name);
 	if ($('#field-email').length && user.email) $('#field-email').val(user.email);
+}
+
+function getCookie(cookie) {
+	var cookieArr = document.cookie.split(';');
+	for (var i = 0; i < cookieArr.length; i++) {
+		var cookiePair = cookieArr[i].split('=');
+		if (cookie == cookiePair[0].trim()) return decodeURIComponent(cookiePair[1]);
+	}
+	return null;
 }
