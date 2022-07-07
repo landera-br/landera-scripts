@@ -177,11 +177,13 @@ function setCookie() {
 		$('#cookie-popup').fadeOut();
 		$('#cookie-preference').fadeOut();
 		document.cookie = 'consent=all';
+		$('#cookie-tab').fadeIn();
 	});
 
 	$('#btn-cookie-save').click(() => {
 		$('#cookie-preference').fadeOut();
 		document.cookie = 'consent=all';
+		$('#cookie-tab').fadeIn();
 	});
 
 	$('.btn-cookie-close').click(() => {
@@ -200,6 +202,7 @@ function setCookie() {
 			$('#cookie-tab').fadeIn();
 		}, 4000);
 	} else {
+		$('#cookie-tab').fadeOut();
 		setTimeout(() => {
 			$('#cookie-popup').fadeIn();
 		}, 4000);
