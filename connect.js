@@ -174,12 +174,31 @@ function getCookie(cookie) {
 function setCookie() {
 	// NOTE Cookies
 	if (getCookie('preference')) {
-		console.log('Have cookie');
-		// TODO Show cookie tab
-		$('#cookie-tab').fadeIn();
+		setTimeout(() => $('#cookie-tab').fadeIn(), 4000);
 	} else {
-		console.log('No cookie');
-		// TODO Show cookie popup and listen to open/close preferences
-		$('#cookie-popup').fadeIn();
+		setTimeout(() => {
+			$('#cookie-popup').fadeIn();
+
+			// TODO Listen to open/close preferences
+			$('#btn-cookie-accept').click(() => {
+				$('#cookie-popup').fadeOut();
+				document.cookie('preference', 'all');
+			});
+
+			$('#btn-cookie-settings').click(() => {
+				$('#cookie-popup').fadeOut();
+				$('#cookie-preference').fadeIn();
+
+				$('#btn-cookie-save').click(() => {
+					$('#cookie-preference').fadeOut();
+					document.cookie('preference', 'all');
+				});
+			});
+
+			$('.btn-cookie-close').click(() => {
+				$('#cookie-popup').fadeOut();
+				$('#cookie-preference').fadeOut();
+			});
+		}, 4000);
 	}
 }
