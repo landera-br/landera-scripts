@@ -180,7 +180,7 @@ function setCookie() {
 			$('#cookie-popup').fadeIn();
 
 			// TODO Listen to open/close preferences
-			$('#btn-cookie-accept').click(() => {
+			$('.btn-cookie-accept').click(() => {
 				$('#cookie-popup').fadeOut();
 				document.cookie = 'consent=all';
 			});
