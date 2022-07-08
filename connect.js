@@ -174,37 +174,37 @@ function getCookie(cookie) {
 function setCookie() {
 	// NOTE Handlers
 	$('.btn-cookie-accept').click(() => {
-		$('#cookie-popup').fadeOut();
-		$('#cookie-preference').fadeOut();
+		$('#cookie-popup').hide();
+		$('#cookie-preference').hide();
 		document.cookie = 'consent=all';
-		$('#cookie-tab').fadeIn();
+		$('#cookie-tab').show();
 	});
 
 	$('#btn-cookie-save').click(() => {
-		$('#cookie-preference').fadeOut();
+		$('#cookie-preference').hide();
 		document.cookie = 'consent=all';
-		$('#cookie-tab').fadeIn();
+		$('#cookie-tab').show();
 	});
 
 	$('.btn-cookie-close').click(() => {
-		$('#cookie-popup').fadeOut();
-		$('#cookie-preference').fadeOut();
+		$('#cookie-popup').hide();
+		$('#cookie-preference').hide();
 	});
 
 	$('.btn-cookie-settings').click(() => {
-		$('#cookie-popup').fadeOut();
-		$('#cookie-preference').css('display', 'flex').hide().fadeIn();
+		$('#cookie-popup').hide();
+		$('#cookie-preference').css('display', 'flex').show();
 	});
 
 	// NOTE Cookies
 	if (getCookie('consent')) {
 		setTimeout(() => {
-			$('#cookie-tab').fadeIn();
+			$('#cookie-tab').show();
 		}, 4000);
 	} else {
-		$('#cookie-tab').fadeOut();
+		$('#cookie-tab').hide();
 		setTimeout(() => {
-			$('#cookie-popup').fadeIn();
+			$('#cookie-popup').show();
 		}, 4000);
 	}
 }
