@@ -7,5 +7,7 @@ $('#btn-interest').on('click', async (e) => {
 	$('#btn-interest-submit').on('click', async (e) => {
 		$('#form-modal').hide();
 		$('#form-modal').hide();
+
+		$('#form-interest').submit();
 	});
 });
