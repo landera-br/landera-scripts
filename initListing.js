@@ -348,7 +348,6 @@ function getFormData() {
 				parking_lots: Number($('#field-parking-lots').val()),
 				penthouse: $('#radio-penthouse').is(':checked') ? true : false,
 				solar_face: $('#select-solar-face').val(),
-				total_floors: Number($('#field-total-floors').val()),
 				prop_type: $('#checkbox-house').is(':checked')
 					? 'house'
 					: $('#checkbox-apartment').is(':checked')
@@ -363,6 +362,11 @@ function getFormData() {
 				street_name: $('#field-street-name').val(),
 				street_number: Number($('#field-street-number').val()),
 				addon: $('#field-addon').val(),
+			},
+			building: {
+				entrance: $('#select-entrance').val(),
+				total_floors: Number($('#field-total-floors').val()),
+				apts_per_floor: Number($('#field-apts-per-floor').val()),
 			},
 			condo_amn: {
 				fitness_studio: $('#checkbox-condo-fitness-studio').is(':checked'),
