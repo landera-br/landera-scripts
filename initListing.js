@@ -81,17 +81,17 @@ $('#checkbox-no-condo').click(function () {
 
 $('#checkbox-sales').change(function () {
 	if (this.checked) {
-		$('#sales-field').show();
+		$('.sales-field').show();
 	} else {
-		$('#sales-field').hide();
+		$('.sales-field').hide();
 	}
 });
 
 $('#checkbox-rent').change(function () {
 	if (this.checked) {
-		$('#rent-field').show();
+		$('.rent-field').show();
 	} else {
-		$('#rent-field').hide();
+		$('.rent-field').hide();
 	}
 });
 
