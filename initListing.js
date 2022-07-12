@@ -326,7 +326,8 @@ function getFormData() {
 		},
 		listing: {
 			owner_email: $('#field-email').val(),
-			price: Number($('#field-listing-price').val()),
+			sales_price: Number($('#field-listing-price').val()),
+			rent_price: Number($('#field-listing-price').val()),
 			description: $('#field-description').val(),
 			offer_type: {
 				sale: $('#checkbox-sale').is(':checked'),
