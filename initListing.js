@@ -79,6 +79,22 @@ $('#checkbox-no-condo').click(function () {
 	}
 });
 
+$('#checkbox-sales').change(function () {
+	if (this.checked) {
+		$('#sales-field').show();
+	} else {
+		$('#sales-field').hide();
+	}
+});
+
+$('#checkbox-rent').change(function () {
+	if (this.checked) {
+		$('#rent-field').show();
+	} else {
+		$('#rent-field').hide();
+	}
+});
+
 // NOTE Counters
 
 $('#field-bedrooms').val(0);
@@ -326,11 +342,11 @@ function getFormData() {
 		},
 		listing: {
 			owner_email: $('#field-email').val(),
-			sales_price: Number($('#field-listing-price').val()),
-			rent_price: Number($('#field-listing-price').val()),
+			sales_price: Number($('#field-sales-price').val()),
+			rent_price: Number($('#field-rent-price').val()),
 			description: $('#field-description').val(),
 			offer_type: {
-				sale: $('#checkbox-sale').is(':checked'),
+				sale: $('#checkbox-sales').is(':checked'),
 				rent: $('#checkbox-rent').is(':checked'),
 			},
 			overview: {
