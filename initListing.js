@@ -259,8 +259,8 @@ const searchParams = new URLSearchParams(window.location.search);
 // 	if (searchParams.get('plan') === 'premium') $('#select-plan').val('premium');
 
 thumbInput.addEventListener('change', function (e) {
-	formData.delete('thumb');
-	formData.append('thumb', e.target.files[0]);
+	formData.delete('primary_image');
+	formData.append('primary_image', e.target.files[0]);
 	thumbFilename.innerText = thumbInput.value.split('\\').pop();
 });
 
@@ -270,9 +270,9 @@ thumbInput.addEventListener('dragenter', function () {
 
 imagesInput.addEventListener('change', function (e) {
 	let filenames = '';
-	formData.delete('images');
+	formData.delete('secondary_images');
 	for (var i = 0; i < imagesInput.files.length; ++i) {
-		formData.append('images', e.target.files[i]);
+		formData.append('secondary_images', e.target.files[i]);
 		filenames = filenames.concat(imagesInput.files.item(i).name + '\n');
 	}
 	imagesFilename.innerText = filenames;
@@ -492,13 +492,13 @@ function cleanObj(object) {
 }
 
 function resetFormData() {
-	const thumb = formData.get('thumb');
-	const images = formData.getAll('images');
+	const thumb = formData.get('primary_image');
+	const images = formData.getAll('secondary_images');
 
 	formData = new FormData();
 
-	formData.append('thumb', thumb);
-	images.forEach((image) => formData.append('images', image));
+	formData.append('primary_image', thumb);
+	images.forEach((image) => formData.append('secondary_images', image));
 }
 
 // NOTE Clean furniture data
