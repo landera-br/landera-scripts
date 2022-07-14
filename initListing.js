@@ -326,7 +326,13 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
-		if (!alert(error.message)) {
+		if (
+			!alert(
+				error.message
+					? error.message
+					: 'Não foi possível enviar o formulário. Tente novamente mais tarde.'
+			)
+		) {
 			$('#btn-submit').removeClass('sending-button');
 			$('#btn-submit').val('Confirmar');
 			resetFormData();
