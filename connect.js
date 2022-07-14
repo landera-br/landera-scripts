@@ -1,7 +1,9 @@
 let web3auth = null;
 
 (async function init() {
-	setCookie();
+	window.addEventListener('load', function () {
+		setCookie();
+	});
 
 	$('#btn-wallet-connect').hide();
 
@@ -198,13 +200,9 @@ function setCookie() {
 
 	// NOTE Cookies
 	if (getCookie('consent')) {
-		setTimeout(() => {
-			$('#cookie-tab').show();
-		}, 4000);
+		$('#cookie-tab').show();
 	} else {
 		$('#cookie-tab').hide();
-		setTimeout(() => {
-			$('#cookie-popup').show();
-		}, 4000);
+		$('#cookie-popup').show();
 	}
 }
