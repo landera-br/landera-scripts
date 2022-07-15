@@ -56,6 +56,7 @@ let web3auth = null;
 			setForm(accounts[0], user, window.location.pathname === '/form/user');
 			showForm(true);
 
+			console.log(accounts);
 			await setUser(accounts[0], user.email, user.name);
 		}
 	}
