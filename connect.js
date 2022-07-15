@@ -56,7 +56,6 @@ let web3auth = null;
 			setForm(accounts[0], user, window.location.pathname === '/form/user');
 			showForm(true);
 
-			console.log(accounts);
 			await setUser(accounts[0], user.email, user.name);
 		}
 	}
@@ -96,7 +95,7 @@ $('#btn-wallet-connect').click(async function (event) {
 		$('#btn-wallet-connect').hide();
 
 		// NOTE Set user with wallet address, name and email
-		const accounts = (await rpc.getAccounts(web3auth.provider))[0];
+		const accounts = await rpc.getAccounts(web3auth.provider);
 
 		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
 			showForm(true);
