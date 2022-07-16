@@ -7,7 +7,7 @@ window.addEventListener('load', async () => {
 
 		// NOTE transaction_id is only used on free plans
 		if (!searchParams.has('session_id') && !searchParams.has('transaction_id'))
-			throw Error('Unable to update data');
+			throw new Error('Unable to update data');
 
 		const response = await fetch(
 			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions`,
@@ -23,7 +23,7 @@ window.addEventListener('load', async () => {
 			}
 		);
 
-		if (!response.ok) throw Error('Unable to update data');
+		if (!response.ok) throw new Error('Unable to update data');
 
 		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';

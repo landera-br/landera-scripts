@@ -312,7 +312,7 @@ $('#btn-submit').on('click', async (e) => {
 			responseData.ipfs_cid === '' ||
 			responseData.transaction_id === ''
 		)
-			throw Error(
+			throw new Error(
 				responseData.message
 					? responseData.message
 					: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
@@ -347,7 +347,10 @@ function getFormData() {
 			plan: $('#select-plan').val(),
 		},
 		listing: {
-			owner_email: $('#field-email').val(),
+			advertiser: {
+				email: $('#field-email').val(),
+				type: $('#select-advertiser').val(),
+			},
 			sales_price: Number($('#field-sales-price').val()),
 			rent_price: Number($('#field-rent-price').val()),
 			description: $('#field-description').val(),
