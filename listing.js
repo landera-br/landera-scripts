@@ -9,11 +9,8 @@ $('#btn-interest').on('click', async (e) => {
 
 	$('#btn-interest-close').on('click', async () => $('#form-modal').hide());
 
-	$('#btn-interest-submit').on('click', async (e) => {
+	$('#form-interest').submit(async (e) => {
 		e.preventDefault();
-
-		$('#form-modal').hide();
-		$('#form-modal').hide();
 
 		// NOTE Notify advertiser
 		const payload = {
