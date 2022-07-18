@@ -34,7 +34,9 @@ $('#btn-interest').on('click', async (e) => {
 
 			if (response.status !== 200) throw new Error('Unable to send notification');
 		} catch (error) {
-			alert('Não foi possível enviar seus dados de contato. Tente novamente mais tarde.');
+			error.display && error.message
+				? error.message
+				: alert('Não foi possível enviar seus dados de contato. Tente novamente mais tarde.');
 		}
 	});
 });

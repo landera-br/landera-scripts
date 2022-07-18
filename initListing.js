@@ -315,9 +315,7 @@ $('#btn-submit').on('click', async (e) => {
 			responseData.transaction_id === ''
 		)
 			throw new Error(
-				responseData.message
-					? responseData.message
-					: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
+				'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
 			);
 
 		// TODO When paid plans, redirect to  session_url (Stripe)
@@ -328,12 +326,9 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
-		console.log('Entrou no catch');
-
-		console.log(error);
 		if (
 			!alert(
-				error.message
+				error.display && error.message
 					? error.message
 					: 'Não foi possível enviar o formulário. Tente novamente mais tarde.'
 			)
@@ -354,7 +349,7 @@ function getFormData() {
 		listing: {
 			advertiser: {
 				email: $('#field-email').val(),
-				type: $('#select-advertiser').val(),
+				type: [$('#select-advertiser').val()],
 			},
 			sales_price: Number($('#field-sales-price').val()),
 			rent_price: Number($('#field-rent-price').val()),

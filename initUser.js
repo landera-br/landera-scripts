@@ -56,7 +56,9 @@ $('#btn-submit').on('click', async (e) => {
 	} catch (error) {
 		if (
 			!alert(
-				'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
+				error.display && error.message
+					? error.message
+					: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
 			)
 		) {
 			$('#btn-submit').val('Registrar');
