@@ -306,6 +306,8 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
+		console.log(response);
+
 		if (
 			!response.ok ||
 			!Object.keys(responseData).length ||
@@ -326,6 +328,9 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
+		console.log('Entrou no catch');
+
+		console.log(error);
 		if (
 			!alert(
 				error.message
