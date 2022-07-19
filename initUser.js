@@ -50,17 +50,14 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
-		if (!response.ok || !Object.keys(responseData).length) throw new Error('Unable to upload data');
+		if (!response.ok || !Object.keys(responseData).length)
+			throw responseData.display && responseData.message
+				? responseData
+				: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.';
 
 		window.location.replace(responseData.checkout_url);
 	} catch (error) {
-		if (
-			!alert(
-				error.display && error.message
-					? error.message
-					: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
-			)
-		) {
+		if (!alert(error.display && error.message ? error.message : error)) {
 			$('#btn-submit').val('Registrar');
 			$('#btn-submit').removeClass('sending-button');
 		}

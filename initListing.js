@@ -306,8 +306,6 @@ $('#btn-submit').on('click', async (e) => {
 
 		const responseData = await response.json();
 
-		console.log(response);
-
 		if (
 			!response.ok ||
 			!Object.keys(responseData).length ||
