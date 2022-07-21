@@ -61,7 +61,7 @@ $('form').submit(async (e) => {
 
 	const partnersIds = [];
 	const listingUrls = [];
-	const user = [];
+	// const user = [];
 
 	$('.select-partners :selected')
 		.map((i, el) => partnersIds.push($(el).val()))
@@ -83,7 +83,7 @@ $('form').submit(async (e) => {
 		// 	return false;
 		// }
 
-		console.log(userData);
+		console.log(localStorage.getItem('user_id'));
 
 		// partnersIds.forEach((id, index) => {
 		// 	listings.push({ user_id: '', partner_id: id, listing_url: listingUrls[index] });
