@@ -149,7 +149,7 @@ async function setUser(wallet_address, email, name) {
 
 		// NOTE Save stripe_customer_id in cache
 		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
-		localStorage.setItem('user_id', responseData._id);
+		localStorage.setItem('user_id', responseData.user_id);
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
