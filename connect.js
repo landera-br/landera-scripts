@@ -1,4 +1,5 @@
 let web3auth = null;
+let userData;
 
 (async function init() {
 	window.addEventListener('load', function () {
@@ -145,10 +146,10 @@ async function setUser(wallet_address, email, name) {
 			body: JSON.stringify(payload),
 		});
 
-		const responseData = await response.json();
+		userData = await response.json();
 
 		// NOTE Save stripe_customer_id in cache
-		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
+		localStorage.setItem('stripe_customer_id', userData.stripe_customer_id);
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
