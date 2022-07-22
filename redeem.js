@@ -52,16 +52,15 @@ $(document).ready(async function () {
 	});
 });
 
-$('form').submit(async (e) => {
+$('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
-
-	$('#header-redeem').text(
-		'Analisaremos sua solicitação e muito em breve enviaremos o contato do anunciante via e-mail.'
-	);
+	$('#btn-submit').val('Analisando...');
+	$('#btn-submit').addClass('sending-button');
 
 	const partnersIds = [];
 	const listingUrls = [];
-	// const user = [];
+	const listings = [];
+	let advertiser;
 
 	$('.select-partners :selected')
 		.map((i, el) => partnersIds.push($(el).val()))
@@ -71,42 +70,35 @@ $('form').submit(async (e) => {
 		.map((i, el) => listingUrls.push($(el).val()))
 		.get();
 
-	if (partnersIds.length !== listingUrls.length) {
+	if (partnersIds.length !== listingUrls.length || !localStorage.getItem('user_id')) {
 		alert('Não foi possível enviar os dados do anúncio. Tente novamente mais tarde!');
+		return false;
 	} else {
-		// const listings = [];
-
-		// try {
-		// 	user = await web3auth.getUserInfo();
-		// } catch (error) {
-		// 	alert('Não foi possível enviar os dados do anúncio. Tente novamente mais tarde!');
-		// 	return false;
-		// }
-
-		console.log(localStorage.getItem('user_id'));
-
-		// partnersIds.forEach((id, index) => {
-		// 	listings.push({ user_id: '', partner_id: id, listing_url: listingUrls[index] });
-		// });
-
-		// console.log(listings);
-
-		// console.log(web3auth.provider && web3auth.connectedAdapterName === 'openlogin');
+		partnersIds.forEach((id, index) => {
+			listings.push({
+				advertiser_id: localStorage.getItem('user_id'),
+				partner_id: id,
+				listing_url: listingUrls[index],
+			});
+		});
 	}
-
-	return false;
 
 	const payload = { listed_on: listings };
 
 	try {
-		await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
-			method: 'patch',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(payload),
-		});
+		advertiser = await fetch(
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings/${getUrlParameter(
+				'listing_id'
+			)}`,
+			{
+				method: 'patch',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(payload),
+			}
+		);
 	} catch (error) {
 		alert(
 			error.display && error.message
@@ -114,4 +106,32 @@ $('form').submit(async (e) => {
 				: 'Não foi possível enviar os dados do anúncio. Tente novamente mais tarde!'
 		);
 	}
+
+	console.log(advertiser);
+
+	$('#field-email').val(advertiser.email);
+	$('#field-phone').val(advertiser.phone);
+
+	$('#field-phone, #field-email').prop('disabled', true);
+	$('#field-phone, #field-email').css('background-color', '#2c2366');
+
+	$('#header-redeem').text('Seguem abaixo os dados de contato do(a) anunciante:');
+	$('#form-reedem').hide();
+	$('#form-contact').fadeIn();
 });
+
+function getUrlParameter(sParam) {
+	var sPageURL = window.location.search.substring(1),
+		sURLVariables = sPageURL.split('&'),
+		sParameterName,
+		i;
+
+	for (i = 0; i < sURLVariables.length; i++) {
+		sParameterName = sURLVariables[i].split('=');
+
+		if (sParameterName[0] === sParam) {
+			return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+		}
+	}
+	return false;
+}
