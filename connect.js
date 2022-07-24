@@ -30,10 +30,12 @@ let web3auth = null;
 		// NOTE Logged
 		$('#btn-account').show();
 		$('.btn-logged').css('display', 'block');
+		$('.btn-wallet-disconnect').css('display', 'block');
 	} else {
 		// NOTE Not Logged
 		$('.btn-wallet-connect').css('display', 'block');
 		$('.btn-logged').css('display', 'none');
+		$('.btn-wallet-disconnect').css('display', 'none');
 	}
 
 	// NOTE Form Pages
@@ -95,7 +97,8 @@ $('.btn-wallet-connect').click(async function (event) {
 
 		$('#btn-account').show();
 		$('.btn-logged').css('display', 'block');
-		$('.btn-wallet-connect').hide();
+		$('.btn-wallet-connect').css('display', 'none');
+		$('.btn-wallet-disconnect').css('display', 'block');
 
 		// NOTE Set user with wallet address, name and email
 		const accounts = await rpc.getAccounts(web3auth.provider);
@@ -111,10 +114,11 @@ $('.btn-wallet-connect').click(async function (event) {
 	}
 });
 
-$('#btn-wallet-disconnect').click(async function (event) {
+$('.btn-wallet-disconnect').click(async function (event) {
 	try {
 		await web3auth.logout();
-		$('.btn-wallet-connect').show();
+		$('.btn-wallet-connect').css('display', 'block');
+		$('.btn-wallet-disconnect').css('display', 'none');
 		$('.btn-logged').css('display', 'none');
 		$('#btn-account').hide();
 
