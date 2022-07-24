@@ -129,6 +129,32 @@ $('.btn-wallet-disconnect').click(async function (event) {
 	}
 });
 
+$('.btn-stripe-session').on('click', async function () {
+	// NOTE Get stripe_session_url
+	try {
+		const response = await fetch(
+			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users/sessions/portal',
+			{
+				method: 'post',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ stripe_customer_id: localStorage.getItem('stripe_customer_id') }),
+			}
+		);
+
+		const responseData = await response.json();
+
+		if (!response.ok || !responseData.stripe_session_url)
+			if (!alert('Não foi possível recuperar os dados do cliente.')) return;
+
+		window.location.replace(responseData.stripe_session_url);
+	} catch (error) {
+		alert('Não foi possível recuperar os dados do cliente.');
+	}
+});
+
 function showForm(show) {
 	const helpBlock = document.querySelector('#help-block');
 	const formBlock = document.querySelector('#form-block');
