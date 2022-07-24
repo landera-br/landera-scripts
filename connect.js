@@ -29,9 +29,11 @@ let web3auth = null;
 	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 		// NOTE Logged
 		$('#btn-account').show();
+		$('.btn-logged').show();
 	} else {
 		// NOTE Not Logged
 		$('.btn-wallet-connect').show();
+		$('.btn-logged').hide();
 	}
 
 	// NOTE Form Pages
@@ -92,6 +94,7 @@ $('.btn-wallet-connect').click(async function (event) {
 		const user = await web3auth.getUserInfo();
 
 		$('#btn-account').show();
+		$('.btn-logged').show();
 		$('.btn-wallet-connect').hide();
 
 		// NOTE Set user with wallet address, name and email
@@ -112,6 +115,7 @@ $('#btn-wallet-disconnect').click(async function (event) {
 	try {
 		await web3auth.logout();
 		$('.btn-wallet-connect').show();
+		$('.btn-logged').hide();
 		$('#btn-account').hide();
 
 		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
