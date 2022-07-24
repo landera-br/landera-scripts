@@ -76,7 +76,7 @@ $('#btn-submit').on('click', async (e) => {
 	} else {
 		partnersIds.forEach((id, index) => {
 			listings.push({
-				advertiser_id: localStorage.getItem('user_id'),
+				broker_id: localStorage.getItem('user_id'),
 				partner_id: id,
 				listing_url: listingUrls[index],
 			});

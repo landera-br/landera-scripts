@@ -5,7 +5,7 @@ let web3auth = null;
 		setCookie();
 	});
 
-	$('#btn-wallet-connect').hide();
+	$('.btn-wallet-connect').hide();
 
 	const clientId =
 		'BEIlC0DVBSTTKgxcU6a_GtWNxBVnPRlPmCRuoxObJIRqIGKjZgEgyxckkrMuj4rWLbEIDSbbOEWdqDGbwBMjG0A';
@@ -31,7 +31,7 @@ let web3auth = null;
 		$('#btn-account').show();
 	} else {
 		// NOTE Not Logged
-		$('#btn-wallet-connect').show();
+		$('.btn-wallet-connect').show();
 	}
 
 	// NOTE Form Pages
@@ -48,7 +48,7 @@ let web3auth = null;
 
 			await web3auth.connect();
 			$('#btn-account').show();
-			$('#btn-wallet-connect').hide();
+			$('.btn-wallet-connect').hide();
 
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
@@ -74,7 +74,7 @@ if ($('#btn-init-form')[0]) {
 			const user = await web3auth.getUserInfo();
 
 			$('#btn-account').show();
-			$('#btn-wallet-connect').hide();
+			$('.btn-wallet-connect').hide();
 			showForm(true);
 
 			// NOTE Wallet field
@@ -86,13 +86,13 @@ if ($('#btn-init-form')[0]) {
 	});
 }
 
-$('#btn-wallet-connect').click(async function (event) {
+$('.btn-wallet-connect').click(async function (event) {
 	try {
 		await web3auth.connect();
 		const user = await web3auth.getUserInfo();
 
 		$('#btn-account').show();
-		$('#btn-wallet-connect').hide();
+		$('.btn-wallet-connect').hide();
 
 		// NOTE Set user with wallet address, name and email
 		const accounts = await rpc.getAccounts(web3auth.provider);
@@ -111,7 +111,7 @@ $('#btn-wallet-connect').click(async function (event) {
 $('#btn-wallet-disconnect').click(async function (event) {
 	try {
 		await web3auth.logout();
-		$('#btn-wallet-connect').show();
+		$('.btn-wallet-connect').show();
 		$('#btn-account').hide();
 
 		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
@@ -126,7 +126,7 @@ function showForm(show) {
 	const formBlock = document.querySelector('#form-block');
 
 	helpBlock.style.display = show ? 'none' : 'flex';
-	formBlock.style.display = show ? 'flex' : 'none';
+	formBlock.style.display = show ? 'block' : 'none';
 }
 
 async function setUser(wallet_address, email, name) {
