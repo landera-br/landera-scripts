@@ -107,8 +107,6 @@ $('#btn-submit').on('click', async (e) => {
 		);
 	}
 
-	console.log(advertiser);
-
 	$('#field-email').val(advertiser.email);
 	$('#field-phone').val(advertiser.phone);
 
