@@ -14,13 +14,6 @@ $(document).ready(async function () {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
 
-	$('.select-partners').append(
-		$('<option>', {
-			value: 'option',
-			text: 'Escolha uma opção',
-		})
-	);
-
 	$.each(partners, function (i, partner) {
 		options = options + `<option value="${partner._id}">${partner.name}</option>`;
 
