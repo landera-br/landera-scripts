@@ -442,12 +442,10 @@ function getFormData() {
 		},
 	};
 
-	console.log(data);
-	console.log(cleanObj(data));
+	console.log(data.listing.address.cep);
+	console.log(cleanObj(data).listing.address.cep);
 
 	formData = objectToFormData(cleanObj(data), formData);
-
-	console.log(formData);
 }
 
 function objectToFormData(obj, form, namespace) {
