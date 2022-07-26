@@ -442,8 +442,9 @@ function getFormData() {
 		},
 	};
 
-	console.log(data.listing.address.cep);
-	console.log(cleanObj(data).listing.address.cep);
+	console.log($('#field-cep').val());
+	console.log(data.listing);
+	console.log(cleanObj(data).listing);
 
 	formData = objectToFormData(cleanObj(data), formData);
 }
