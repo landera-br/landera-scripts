@@ -39,12 +39,17 @@ let web3auth = null;
 	}
 
 	// NOTE Form Pages
-	if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
+	if (
+		window.location.pathname === '/form/listing' ||
+		window.location.pathname === '/form/user' ||
+		window.location.pathname === '/form/redeem-advertiser'
+	) {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
 
-			setForm(accounts[0], user, window.location.pathname === '/form/user');
+			if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+				setForm(accounts[0], user, window.location.pathname === '/form/user');
 
 			showForm(true);
 		} else {
@@ -57,7 +62,9 @@ let web3auth = null;
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
 
-			setForm(accounts[0], user, window.location.pathname === '/form/user');
+			if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+				setForm(accounts[0], user, window.location.pathname === '/form/user');
+
 			showForm(true);
 
 			await setUser(accounts[0], user.email, user.name);
