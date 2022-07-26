@@ -110,9 +110,14 @@ $('.btn-wallet-connect').click(async function (event) {
 		// NOTE Set user with wallet address, name and email
 		const accounts = await rpc.getAccounts(web3auth.provider);
 
-		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user') {
+		if (
+			window.location.pathname === '/form/listing' ||
+			window.location.pathname === '/form/user' ||
+			window.location.pathname === '/form/redeem-advertiser'
+		) {
 			showForm(true);
-			setForm(accounts[0], user, window.location.pathname === '/form/user');
+			if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+				setForm(accounts[0], user, window.location.pathname === '/form/user');
 		}
 
 		await setUser(accounts[0], user.email, user.name);
@@ -129,7 +134,11 @@ $('.btn-wallet-disconnect').click(async function (event) {
 		$('.btn-logged').css('display', 'none');
 		$('#btn-account').hide();
 
-		if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
+		if (
+			window.location.pathname === '/form/listing' ||
+			window.location.pathname === '/form/user' ||
+			window.location.pathname === '/form/redeem-advertiser'
+		)
 			showForm(false);
 	} catch (error) {
 		console.error(error.message);
