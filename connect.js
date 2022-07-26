@@ -167,7 +167,7 @@ function showForm(show) {
 	const formBlock = document.querySelector('#form-block');
 
 	helpBlock.style.display = show ? 'none' : 'flex';
-	formBlock.style.display = show ? 'block' : 'none';
+	formBlock.style.display = show ? 'flex' : 'none';
 }
 
 async function setUser(wallet_address, email, name) {
