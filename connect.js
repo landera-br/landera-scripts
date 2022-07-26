@@ -88,7 +88,10 @@ if ($('#btn-init-form')[0]) {
 			const user = await web3auth.getUserInfo();
 
 			$('#btn-account').show();
-			$('.btn-wallet-connect').hide();
+			$('.btn-logged').css('display', 'block');
+			$('.btn-wallet-disconnect').css('display', 'block');
+			$('.btn-wallet-connect').css('display', 'none');
+
 			showForm(true);
 
 			// NOTE Wallet field
