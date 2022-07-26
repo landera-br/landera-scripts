@@ -347,7 +347,8 @@ function getFormData() {
 		listing: {
 			advertiser: {
 				email: $('#field-email').val(),
-				class: [$('#select-advertiser').val()],
+				phone: $('#field-phone').val(),
+				class: $('#select-advertiser').val(),
 			},
 			sales_price: Number($('#field-sales-price').val()),
 			rent_price: Number($('#field-rent-price').val()),
