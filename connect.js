@@ -56,8 +56,11 @@ let web3auth = null;
 			showForm(false);
 
 			await web3auth.connect();
+
 			$('#btn-account').show();
-			$('.btn-wallet-connect').hide();
+			$('.btn-logged').css('display', 'block');
+			$('.btn-wallet-disconnect').css('display', 'block');
+			$('.btn-wallet-connect').css('display', 'none');
 
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
