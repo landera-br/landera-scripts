@@ -14,7 +14,7 @@ $(document).ready(async function () {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
 
-	partners = partners.shift();
+	console.log(partners);
 
 	$.each(partners, function (i, partner) {
 		options = options + `<option value="${partner._id}">${partner.name}</option>`;
