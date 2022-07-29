@@ -324,6 +324,7 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
+		console.log(error);
 		if (
 			!alert(
 				error.display && error.message
