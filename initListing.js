@@ -312,8 +312,6 @@ $('#btn-submit').on('click', async (e) => {
 			responseData.ipfs_cid === '' ||
 			responseData.transaction_id === ''
 		) {
-			console.log('Pegou erro');
-			console.log(responseData);
 			throw responseData;
 		}
 
@@ -325,9 +323,6 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
-		console.log('Entrou catch');
-		console.log(error);
-		console.log(error.display);
 		if (
 			!alert(
 				error.display && error.message
