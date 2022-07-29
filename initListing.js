@@ -311,10 +311,10 @@ $('#btn-submit').on('click', async (e) => {
 			!Object.keys(responseData).length ||
 			responseData.ipfs_cid === '' ||
 			responseData.transaction_id === ''
-		)
-			throw new Error(
-				'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.'
-			);
+		) {
+			console.log(responseData);
+			throw new Error(responseData);
+		}
 
 		// TODO When paid plans, redirect to  session_url (Stripe)
 		// const redirectUrl = responseData.session_url;
@@ -324,7 +324,6 @@ $('#btn-submit').on('click', async (e) => {
 
 		window.location.replace(redirectUrl);
 	} catch (error) {
-		console.log(error);
 		if (
 			!alert(
 				error.display && error.message
