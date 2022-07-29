@@ -314,7 +314,7 @@ $('#btn-submit').on('click', async (e) => {
 		) {
 			console.log('Pegou erro');
 			console.log(responseData);
-			throw new Error(responseData);
+			throw responseData;
 		}
 
 		// TODO When paid plans, redirect to  session_url (Stripe)
@@ -503,7 +503,7 @@ function resetFormData() {
 
 	formData = new FormData();
 
-	formData.append('primary_image', thumb);
+	if (thumb) formData.append('primary_image', thumb);
 	images.forEach((image) => formData.append('secondary_images', image));
 }
 
