@@ -339,7 +339,7 @@ $('#btn-submit').on('click', async (e) => {
 
 function getFormData() {
 	const data = {
-		mint_to_address: $('#field-wallet-address').val(),
+		wallet_address: $('#field-wallet-address').val(),
 		subscription: {
 			plan: $('#select-plan').val(),
 		},
