@@ -3,11 +3,13 @@ const searchParams = new URLSearchParams(window.location.search);
 if (searchParams.has('plan')) {
 	if (searchParams.get('plan') === 'basic') {
 		$('#select-plan').val('basic');
+		$('#cities-block').hide();
 	}
 	if (searchParams.get('plan') === 'standard') {
 		$('#select-plan').val('standard');
 		$('#label-name').text('Nome da imobiliária');
 		$('#label-creci').text('CRECI-J');
+		$('#cities-block').show();
 	}
 }
 
@@ -30,6 +32,8 @@ $('#btn-submit').on('click', async (e) => {
 			phone: $('#field-phone').val(),
 			stripe_customer_id: localStorage.getItem('stripe_customer_id'),
 			wallet_address: $('#field-wallet-address').val(),
+			states: ['São Paulo'],
+			cities: getCitiesNames(),
 		},
 		transaction: {
 			subscription: {
@@ -63,3 +67,15 @@ $('#btn-submit').on('click', async (e) => {
 		}
 	}
 });
+
+function getCitiesNames() {
+	const cities = [];
+
+	if ($('#checkbox-sao-paulo').is(':checked')) cities.push('São Paulo');
+	if ($('#checkbox-vgp').is(':checked')) cities.push('Vargem Grande Paulista');
+	if ($('#checkbox-cotia').is(':checked')) cities.push('Cotia');
+	if ($('#checkbox-sao-roque').is(':checked')) cities.push('São Roque');
+	if ($('#checkbox-ibiuna').is(':checked')) cities.push('Ibiúna');
+
+	return cities;
+}
