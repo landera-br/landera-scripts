@@ -28,6 +28,7 @@ window.addEventListener('load', async () => {
 		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';
 	} catch (error) {
+		console.log(error);
 		window.location.replace('/form/error');
 	}
 });
