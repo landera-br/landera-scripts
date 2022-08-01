@@ -32,7 +32,7 @@ $('#btn-submit').on('click', async (e) => {
 			phone: $('#field-phone').val(),
 			stripe_customer_id: localStorage.getItem('stripe_customer_id'),
 			wallet_address: $('#field-wallet-address').val(),
-			states: ['São Paulo'],
+			states: ['SP'],
 			cities: getCitiesNames(),
 		},
 		transaction: {
