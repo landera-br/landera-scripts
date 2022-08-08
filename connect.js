@@ -239,6 +239,13 @@ function setCookie() {
 		$('#cookie-tab').show();
 	});
 
+	$('.btn-interest-submit').click(() => {
+		$('#cookie-popup').hide();
+		$('#cookie-preference').hide();
+		document.cookie = 'consent=all';
+		$('#cookie-tab').show();
+	});
+
 	$('#btn-cookie-save').click(() => {
 		$('#cookie-preference').hide();
 		document.cookie = 'consent=all';
