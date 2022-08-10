@@ -81,7 +81,7 @@ $('#btn-submit').on('click', async (e) => {
 	const payload = { listed_on: listings };
 
 	try {
-		advertiser = await fetch(
+		const response = await fetch(
 			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings/${getUrlParameter(
 				'listing_id'
 			)}`,
@@ -94,6 +94,11 @@ $('#btn-submit').on('click', async (e) => {
 				body: JSON.stringify(payload),
 			}
 		);
+
+		console.log(response);
+		if (response.status !== 200)
+			throw new Error('Não foi possível enviar os dados do anúncio. Tente novamente mais tarde!');
+		advertiser = response.json();
 	} catch (error) {
 		alert(
 			error.display && error.message
