@@ -100,11 +100,13 @@ $('#btn-submit').on('click', async (e) => {
 			throw new Error('Não foi possível enviar os dados do anúncio. Tente novamente mais tarde!');
 		advertiser = response.json();
 	} catch (error) {
+		console.log('deu ruim');
 		alert(
 			error.display && error.message
 				? error.message
 				: 'Não foi possível enviar os dados do anúncio. Tente novamente mais tarde!'
 		);
+		return false;
 	}
 
 	$('#field-email').val(advertiser.email);
