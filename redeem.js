@@ -100,9 +100,7 @@ $('#btn-submit').on('click', async (e) => {
 		if (response.status !== 200) {
 			throw new Error('Não foi possível enviar os dados do anúncio. Tente novamente mais tarde!');
 		} else {
-			console.log(response);
-			advertiser = response.json();
-			console.log(advertiser);
+			advertiser = await response.json();
 		}
 	} catch (error) {
 		alert(
