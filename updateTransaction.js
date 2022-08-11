@@ -10,7 +10,7 @@ window.addEventListener('load', async () => {
 			throw new Error('Unable to update data');
 
 		const response = await fetch(
-			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions`,
+			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions',
 			{
 				method: 'PATCH',
 				headers: {
@@ -23,11 +23,15 @@ window.addEventListener('load', async () => {
 			}
 		);
 
+		console.log('Deu pau aqui');
+		console.log(response);
+
 		if (!response.ok) throw new Error('Unable to update data');
 
 		document.querySelector('#loading-page').style.display = 'none';
 		document.querySelector('#success-page').style.display = 'flex';
 	} catch (error) {
+		console.log(error);
 		window.location.replace('/form/error');
 	}
 });
