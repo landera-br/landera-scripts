@@ -157,7 +157,7 @@ $('.btn-stripe-session').on('click', async function () {
 		const response = await fetch(
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users/sessions/portal',
 			{
-				method: 'post',
+				method: 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ async function setUser(wallet_address, email, name) {
 
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
-			method: 'post',
+			method: 'POST',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',

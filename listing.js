@@ -23,7 +23,7 @@ $('#btn-interest').on('click', async (e) => {
 			const response = await fetch(
 				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/notifications/${listingId}`,
 				{
-					method: 'post',
+					method: 'POST',
 					headers: {
 						Accept: 'application/json',
 						'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ window.addEventListener('load', async () => {
 		const response = await fetch(
 			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/transactions`,
 			{
-				method: 'patch',
+				method: 'PATCH',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',

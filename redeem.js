@@ -6,7 +6,7 @@ $(document).ready(async function () {
 	try {
 		const response = await fetch(
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?redeem=true',
-			{ method: 'get' }
+			{ method: 'GET' }
 		);
 
 		partners = await response.json();
@@ -88,7 +88,7 @@ $('#btn-submit').on('click', async (e) => {
 				'listing_id'
 			)}`,
 			{
-				method: 'patch',
+				method: 'PATCH',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',

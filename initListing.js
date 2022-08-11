@@ -299,7 +299,7 @@ $('#btn-submit').on('click', async (e) => {
 		const response = await fetch(
 			'https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings',
 			{
-				method: 'post',
+				method: 'POST',
 				body: formData,
 			}
 		);
