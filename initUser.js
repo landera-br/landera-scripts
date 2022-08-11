@@ -43,9 +43,8 @@ $('#btn-submit').on('click', async (e) => {
 	};
 
 	try {
-		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
+		const response = await fetch('http://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'patch',
-			mode: 'no-cors',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
