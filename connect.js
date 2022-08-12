@@ -217,7 +217,6 @@ function setForm(wallet_address, user, hasColor) {
 	walletAddressElement.disabled = true;
 	if (hasColor) walletAddressElement.style.backgroundColor = '#2c2366';
 
-	if ($('#field-name').length && user.name) $('#field-name').val(user.name);
 	if ($('#field-email').length && user.email) $('#field-email').val(user.email);
 }
 
