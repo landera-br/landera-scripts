@@ -108,6 +108,7 @@ $('.btn-wallet-connect').click(async function (event) {
 		await web3auth.connect();
 		const user = await web3auth.getUserInfo();
 
+		console.log(user);
 		$('#btn-account').show();
 		$('.btn-logged').css('display', 'block');
 		$('.btn-wallet-connect').css('display', 'none');
@@ -115,7 +116,7 @@ $('.btn-wallet-connect').click(async function (event) {
 
 		// NOTE Set user with wallet address, name and email
 		const accounts = await rpc.getAccounts(web3auth.provider);
-
+		console.log(accounts);
 		if (
 			window.location.pathname === '/form/listing' ||
 			window.location.pathname === '/form/user' ||
