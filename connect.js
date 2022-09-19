@@ -176,7 +176,7 @@ $('.btn-stripe-session').on('click', async function () {
 		if (!response.ok || !responseData.stripe_session_url)
 			if (!alert('Não foi possível recuperar os dados do cliente.')) return;
 
-		window.location.replace(responseData.stripe_session_url);
+		window.location = responseData.stripe_session_url;
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
@@ -184,7 +184,7 @@ $('.btn-stripe-session').on('click', async function () {
 
 $('.btn-chat').on('click', () => {
 	if (localStorage.getItem('wf_inbox_id')) {
-		window.location.replace(`/inbox/${localStorage.getItem('wf_inbox_id')}`);
+		window.location = `/inbox/${localStorage.getItem('wf_inbox_id')}`;
 	} else {
 		alert(
 			'Não foi possível encontrar as suas conversas. Por favor, entre em contato com o suporte!'
