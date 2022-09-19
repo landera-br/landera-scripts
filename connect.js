@@ -31,6 +31,11 @@ let web3auth = null;
 		$('#btn-account').show();
 		$('.btn-logged').css('display', 'block');
 		$('.btn-wallet-disconnect').css('display', 'block');
+
+		const user = await web3auth.getUserInfo();
+		const accounts = await rpc.getAccounts(web3auth.provider);
+
+		await setUser(accounts[0], user.email, user.name);
 	} else {
 		// NOTE Not Logged
 		$('.btn-wallet-connect').css('display', 'block');
@@ -174,6 +179,16 @@ $('.btn-stripe-session').on('click', async function () {
 		window.location.replace(responseData.stripe_session_url);
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
+	}
+});
+
+$('.btn-chat').on('click', () => {
+	if (localStorage.getItem('wf_inbox_id')) {
+		window.location.replace(`/inbox/${localStorage.getItem('wf_inbox_id')}`);
+	} else {
+		alert(
+			'Não foi possível encontrar as suas conversas. Por favor, entre em contato com o suporte!'
+		);
 	}
 });
 
