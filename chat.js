@@ -93,6 +93,8 @@ $('.chat-form').submit(async (e) => {
 
 	// NOTE Clear input
 	$('#input-message').val('');
+
+	// TODO Update seller/buyer unread status
 });
 
 function displayChat(messages, inboxId) {

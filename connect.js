@@ -108,7 +108,6 @@ $('.btn-wallet-connect').click(async function (event) {
 		await web3auth.connect();
 		const user = await web3auth.getUserInfo();
 
-		console.log(user);
 		$('#btn-account').show();
 		$('.btn-logged').css('display', 'block');
 		$('.btn-wallet-connect').css('display', 'none');
@@ -116,7 +115,7 @@ $('.btn-wallet-connect').click(async function (event) {
 
 		// NOTE Set user with wallet address, name and email
 		const accounts = await rpc.getAccounts(web3auth.provider);
-		console.log(accounts);
+
 		if (
 			window.location.pathname === '/form/listing' ||
 			window.location.pathname === '/form/user' ||
@@ -207,6 +206,7 @@ async function setUser(wallet_address, email, name) {
 		// NOTE Save stripe_customer_id in cache
 		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
 		localStorage.setItem('user_id', responseData.user_id);
+		localStorage.setItem('wf_inbox_id', responseData.wf_inbox_id);
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
