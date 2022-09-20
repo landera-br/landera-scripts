@@ -12,7 +12,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = app.firestore();
-const privateURLs = ['/form/', '/inbox'];
+const privateURLs = ['form', 'inbox'];
 
 (async function init() {
 	window.addEventListener('load', function () {
@@ -57,6 +57,7 @@ const privateURLs = ['/form/', '/inbox'];
 		$('.btn-wallet-disconnect').css('display', 'none');
 	}
 
+	console.log('passou1');
 	console.log('passou1');
 	// NOTE Private pages handler
 	if (privateURLs.includes(window.location.pathname.split('/')[1])) {
