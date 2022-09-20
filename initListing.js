@@ -345,8 +345,7 @@ function getFormData() {
 		},
 		listing: {
 			advertiser: {
-				email: $('#field-email').val(),
-				phone: $('#field-phone').val(),
+				user_id: localStorage.getItem('user_id'),
 				class: $('#select-advertiser').val(),
 			},
 			sales_price: Number($('#field-sales-price').val()),
