@@ -57,14 +57,9 @@ const privateURLs = ['form', 'inbox'];
 		$('.btn-wallet-disconnect').css('display', 'none');
 	}
 
-	console.log('passou1');
-	console.log('passou1');
 	// NOTE Private pages handler
 	if (privateURLs.includes(window.location.pathname.split('/')[1])) {
-		console.log('passou2');
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
-			console.log('passou3');
-
 			// NOTE User is logged
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
@@ -75,14 +70,10 @@ const privateURLs = ['form', 'inbox'];
 				showForm(true);
 			}
 
-			console.log('Liberar acesso');
-			console.log(window.location.pathname.split('/')[1]);
-
 			if (window.location.pathname.split('/')[1] === 'inbox') {
 				showChat(true);
 			}
 		} else {
-			console.log('passou4');
 			// NOTE User is not logged
 			await web3auth.connect();
 
@@ -233,10 +224,7 @@ function showForm(show) {
 }
 
 function showChat(show) {
-	console.log('liberado');
-	const chatBlock = document.querySelector('#chat-block');
-
-	chatBlock.style.display = show ? 'block' : 'none';
+	show ? $('#chat-block').show() : $('#chat-block').hide();
 }
 
 async function setUser(wallet_address, email, name) {
