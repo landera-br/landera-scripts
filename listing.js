@@ -16,7 +16,7 @@ $('#btn-interest').on('click', async (e) => {
 		// NOTE Create inbox advertiser
 		try {
 			const response = await fetch(
-				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/notifications/${listingId}`,
+				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/channels/${listingId}`,
 				{
 					method: 'POST',
 					headers: {
