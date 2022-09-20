@@ -13,6 +13,9 @@ $('#btn-interest').on('click', async (e) => {
 		e.preventDefault();
 		let channel;
 
+		$('#btn-interest-submit').val('Enviando...');
+		$('#btn-interest-submit').addClass('sending-button');
+
 		// NOTE Create inbox advertiser
 		try {
 			const response = await fetch(
@@ -34,10 +37,12 @@ $('#btn-interest').on('click', async (e) => {
 
 			channel = await response.json();
 		} catch (error) {
-			console.log(error);
 			error.display && error.message
 				? error.message
 				: alert('Não foi possível enviar seus dados de contato. Tente novamente mais tarde.');
+
+			$('#btn-interest-submit').removeClass('sending-button');
+			$('#btn-interest-submit').val('Enviar mensagem');
 		}
 
 		// NOTE Store message in the DB
@@ -51,6 +56,12 @@ $('#btn-interest').on('click', async (e) => {
 			});
 		} catch (error) {
 			alert('Não foi possível enviar a mensagem. Por favor, tente novamente mais tarde.');
+			$('#btn-interest-submit').removeClass('sending-button');
+			$('#btn-interest-submit').val('Enviar mensagem');
 		}
+
+		$('#btn-interest-submit').removeClass('sending-button');
+		$('#interest-form').hide();
+		$('#success-message').show();
 	});
 });
