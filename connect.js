@@ -12,6 +12,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = app.firestore();
+const privateURLs = ['/form/listing', '/form/user'];
 
 (async function init() {
 	window.addEventListener('load', function () {
@@ -40,7 +41,7 @@ const db = app.firestore();
 	await web3auth.initModal();
 
 	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
-		// NOTE Logged
+		// NOTE User is logged
 		$('#btn-account').show();
 		$('.btn-logged').css('display', 'block');
 		$('.btn-wallet-disconnect').css('display', 'block');
@@ -50,29 +51,30 @@ const db = app.firestore();
 
 		await setUser(accounts[0], user.email, user.name);
 	} else {
-		// NOTE Not Logged
+		// NOTE User is not logged
 		$('.btn-wallet-connect').css('display', 'block');
 		$('.btn-logged').css('display', 'none');
 		$('.btn-wallet-disconnect').css('display', 'none');
 	}
 
-	// NOTE Form Pages
-	if (
-		window.location.pathname === '/form/listing' ||
-		window.location.pathname === '/form/user' ||
-		window.location.pathname === '/form/redeem-advertiser'
-	) {
+	// NOTE Private pages handler
+	if (privateURLs.includes(window.location.pathname)) {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+			// NOTE User is logged
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
 
-			if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
-				setForm(accounts[0], user, window.location.pathname === '/form/user');
+			// NOTE Fill in form fields
+			if (window.location.pathname.split('/')[1] === 'form') {
+				setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
+				showForm(true);
+			}
 
-			showForm(true);
+			if (window.location.pathname.split('/')[1] === 'inbox') {
+				showChat(true);
+			}
 		} else {
-			showForm(false);
-
+			// NOTE User is not logged
 			await web3auth.connect();
 
 			$('#btn-account').show();
@@ -83,10 +85,15 @@ const db = app.firestore();
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
 
-			if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
-				setForm(accounts[0], user, window.location.pathname === '/form/user');
+			// NOTE Fill in form fields
+			if (window.location.pathname.split('/')[1] === 'form') {
+				setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
+				showForm(true);
+			}
 
-			showForm(true);
+			if (window.location.pathname.split('/')[1] === 'inbox') {
+				showChat(true);
+			}
 
 			await setUser(accounts[0], user.email, user.name);
 		}
@@ -114,7 +121,7 @@ if ($('#btn-init-form')[0]) {
 
 			// NOTE Wallet field
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			setForm(accounts[0], user, window.location.pathname === '/form/user');
+			setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -134,14 +141,14 @@ $('.btn-wallet-connect').click(async function (event) {
 		// NOTE Set user with wallet address, name and email
 		const accounts = await rpc.getAccounts(web3auth.provider);
 
-		if (
-			window.location.pathname === '/form/listing' ||
-			window.location.pathname === '/form/user' ||
-			window.location.pathname === '/form/redeem-advertiser'
-		) {
+		// NOTE Fill in form fields
+		if (window.location.pathname.split('/')[1] === 'form') {
+			setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
 			showForm(true);
-			if (window.location.pathname === '/form/listing' || window.location.pathname === '/form/user')
-				setForm(accounts[0], user, window.location.pathname === '/form/user');
+		}
+
+		if (window.location.pathname.split('/')[1] === 'inbox') {
+			showChat(true);
 		}
 
 		await setUser(accounts[0], user.email, user.name);
@@ -158,12 +165,15 @@ $('.btn-wallet-disconnect').click(async function (event) {
 		$('.btn-logged').css('display', 'none');
 		$('#btn-account').hide();
 
-		if (
-			window.location.pathname === '/form/listing' ||
-			window.location.pathname === '/form/user' ||
-			window.location.pathname === '/form/redeem-advertiser'
-		)
-			showForm(false);
+		if (privateURLs.includes(window.location.pathname)) {
+			if (window.location.pathname.split('/')[1] === 'form') {
+				showForm(false);
+			}
+
+			if (window.location.pathname.split('/')[1] === 'inbox') {
+				showChat(false);
+			}
+		}
 	} catch (error) {
 		console.error(error.message);
 	}
@@ -211,6 +221,12 @@ function showForm(show) {
 
 	helpBlock.style.display = show ? 'none' : 'flex';
 	formBlock.style.display = show ? 'flex' : 'none';
+}
+
+function showChat(show) {
+	const chatBlock = document.querySelector('#chat-block');
+
+	chatBlock.style.display = show ? 'block' : 'none';
 }
 
 async function setUser(wallet_address, email, name) {

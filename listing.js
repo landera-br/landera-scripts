@@ -36,7 +36,7 @@ $('#btn-interest').on('click', async (e) => {
 		} catch (error) {
 			error.display && error.message
 				? error.message
-				: alert('Não foi possível enviar seus dados de contato. Tente novamente mais tarde.');
+				: alert('Não foi possível enviar a mensagem. Tente novamente mais tarde!');
 
 			$('#btn-interest-submit').removeClass('sending-button');
 			$('#btn-interest-submit').val('Enviar mensagem');
