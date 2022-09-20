@@ -40,6 +40,7 @@ $('#btn-interest').on('click', async (e) => {
 
 			$('#btn-interest-submit').removeClass('sending-button');
 			$('#btn-interest-submit').val('Enviar mensagem');
+			return;
 		}
 
 		// NOTE Store message in the DB
@@ -55,6 +56,7 @@ $('#btn-interest').on('click', async (e) => {
 			alert('Não foi possível enviar a mensagem. Por favor, tente novamente mais tarde.');
 			$('#btn-interest-submit').removeClass('sending-button');
 			$('#btn-interest-submit').val('Enviar mensagem');
+			return;
 		}
 
 		$('#btn-interest-submit').removeClass('sending-button');
