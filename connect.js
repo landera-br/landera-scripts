@@ -12,7 +12,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = app.firestore();
-const privateURLs = ['/form/listing', '/form/user'];
+const privateURLs = ['/form/', '/inbox'];
 
 (async function init() {
 	window.addEventListener('load', function () {
@@ -58,7 +58,7 @@ const privateURLs = ['/form/listing', '/form/user'];
 	}
 
 	// NOTE Private pages handler
-	if (privateURLs.includes(window.location.pathname)) {
+	if (privateURLs.includes(window.location.pathname.split('/')[1])) {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			// NOTE User is logged
 			const user = await web3auth.getUserInfo();
@@ -168,7 +168,7 @@ $('.btn-wallet-disconnect').click(async function (event) {
 		$('.btn-logged').css('display', 'none');
 		$('#btn-account').hide();
 
-		if (privateURLs.includes(window.location.pathname)) {
+		if (privateURLs.includes(privateURLs.includes(window.location.pathname.split('/')[1]))) {
 			if (window.location.pathname.split('/')[1] === 'form') {
 				showForm(false);
 			}
