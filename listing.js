@@ -30,10 +30,11 @@ $('#btn-interest').on('click', async (e) => {
 				}
 			);
 
-			if (response.status !== 200) throw new Error('Unable to send notification');
+			if (response.status !== 201) throw new Error('Unable to create channel');
 
 			channel = await response.json();
 		} catch (error) {
+			console.log(error);
 			error.display && error.message
 				? error.message
 				: alert('Não foi possível enviar seus dados de contato. Tente novamente mais tarde.');
