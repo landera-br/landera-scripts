@@ -224,7 +224,7 @@ function showForm(show) {
 }
 
 function showChat(show) {
-	show ? $('#chat-block').show() : $('#chat-block').hide();
+	show ? $('#chat-block').fadeTo(0, 1) : $('#chat-block').hide();
 }
 
 async function setUser(wallet_address, email, name) {
