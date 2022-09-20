@@ -60,7 +60,7 @@ $('#btn-interest').on('click', async (e) => {
 		}
 
 		$('#btn-interest-submit').removeClass('sending-button');
-		$('#interest-form').hide();
+		$('#form-interest').hide();
 		$('#success-message').show();
 	});
 });
