@@ -57,9 +57,13 @@ const privateURLs = ['/form/', '/inbox'];
 		$('.btn-wallet-disconnect').css('display', 'none');
 	}
 
+	console.log('passou1');
 	// NOTE Private pages handler
 	if (privateURLs.includes(window.location.pathname.split('/')[1])) {
+		console.log('passou2');
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
+			console.log('passou3');
+
 			// NOTE User is logged
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
@@ -77,6 +81,7 @@ const privateURLs = ['/form/', '/inbox'];
 				showChat(true);
 			}
 		} else {
+			console.log('passou4');
 			// NOTE User is not logged
 			await web3auth.connect();
 
