@@ -70,6 +70,9 @@ const privateURLs = ['/form/listing', '/form/user'];
 				showForm(true);
 			}
 
+			console.log('Liberar acesso');
+			console.log(window.location.pathname.split('/')[1]);
+
 			if (window.location.pathname.split('/')[1] === 'inbox') {
 				showChat(true);
 			}
@@ -224,6 +227,7 @@ function showForm(show) {
 }
 
 function showChat(show) {
+	console.log('liberado');
 	const chatBlock = document.querySelector('#chat-block');
 
 	chatBlock.style.display = show ? 'block' : 'none';
