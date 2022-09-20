@@ -81,7 +81,7 @@ $('.chat-form').submit(async (e) => {
 	// NOTE Clear input
 	$('#input-message').val('');
 
-	// TODO Update seller/buyer unread status
+	// TODO Update seller/buyer unread status and update channel "updated_at" field
 });
 
 function displayChat(messages, inboxId) {
