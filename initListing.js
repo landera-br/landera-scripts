@@ -285,9 +285,7 @@ imagesInput.addEventListener('dragenter', function () {
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
-
-	if ($('#btn-submit').hasClass('error-button') || $('#btn-submit').hasClass('sending-button'))
-		return false;
+	$('#btn-submit').css('pointer-events', 'none');
 
 	// NOTE Get form data
 	getFormData();
@@ -331,6 +329,7 @@ $('#btn-submit').on('click', async (e) => {
 			)
 		) {
 			$('#btn-submit').removeClass('sending-button');
+			$('#btn-submit').css('pointer-events', 'auto');
 			$('#btn-submit').val('Confirmar');
 			resetFormData();
 		}

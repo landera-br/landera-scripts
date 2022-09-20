@@ -17,9 +17,7 @@ if (searchParams.has('plan')) {
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
 
-	if ($('#btn-submit').hasClass('error-button') || $('#btn-submit').hasClass('sending-button'))
-		return false;
-
+	$('#btn-submit').css('pointer-events', 'none');
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').addClass('sending-button');
 
@@ -63,6 +61,7 @@ $('#btn-submit').on('click', async (e) => {
 	} catch (error) {
 		if (!alert(error.display && error.message ? error.message : error)) {
 			$('#btn-submit').val('Registrar');
+			$('#btn-submit').css('pointer-events', 'auto');
 			$('#btn-submit').removeClass('sending-button');
 		}
 	}

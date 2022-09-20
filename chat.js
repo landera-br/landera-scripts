@@ -64,6 +64,7 @@ $('.btn-channel').on('click', async function () {
 
 $('.chat-form').submit(async (e) => {
 	e.preventDefault();
+	$('.chat-form').css('pointer-events', 'none');
 
 	// NOTE Store message in the DB
 	try {
@@ -82,6 +83,8 @@ $('.chat-form').submit(async (e) => {
 	$('#input-message').val('');
 
 	// TODO Update seller/buyer unread status and update channel "updated_at" field
+
+	$('.chat-form').css('pointer-events', 'auto');
 });
 
 function displayChat(messages, inboxId) {
