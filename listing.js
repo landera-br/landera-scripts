@@ -26,10 +26,7 @@ $('#btn-interest').on('click', async (e) => {
 						Accept: 'application/json',
 						'Content-Type': 'application/json',
 					},
-					body: JSON.stringify({
-						listing_id: window.location.pathname.split('/')[2],
-						wf_inbox_id: localStorage.getItem('wf_inbox_id'),
-					}),
+					body: JSON.stringify({ wf_inbox_id: localStorage.getItem('wf_inbox_id') }),
 				}
 			);
 
