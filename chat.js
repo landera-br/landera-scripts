@@ -82,7 +82,28 @@ $('.chat-form').submit(async (e) => {
 	// NOTE Clear input
 	$('#input-message').val('');
 
-	// TODO Update seller/buyer unread status and update channel "updated_at" field
+	// NOTE Update seller/buyer unread status and update channel "updated_at" field
+	try {
+		const response = await fetch(
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/channels/${$(
+				'.header-channel'
+			).text()}`,
+			{
+				method: 'PATCH',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					wf_sender_inbox_id: window.location.pathname.split('/')[2],
+				}),
+			}
+		);
+
+		if (!response.ok) alert('Não enviar a mensagem. Por favor, tente novamente mais tarde!');
+	} catch (error) {
+		alert('Não enviar a mensagem. Por favor, tente novamente mais tarde!');
+	}
 
 	$('.chat-form').css('pointer-events', 'auto');
 });

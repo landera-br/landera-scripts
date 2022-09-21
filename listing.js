@@ -17,7 +17,7 @@ $('#btn-interest').on('click', async (e) => {
 		$('#btn-interest-submit').val('Enviando...');
 		$('#btn-interest-submit').addClass('sending-button');
 
-		// NOTE Create inbox advertiser
+		// NOTE Create channel
 		try {
 			const response = await fetch(
 				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/channels/${listingId}`,
@@ -43,7 +43,7 @@ $('#btn-interest').on('click', async (e) => {
 			return;
 		}
 
-		// NOTE Store message in the DB
+		// NOTE Store message in Firestore
 		try {
 			db.collection('messages').add({
 				channel: channel.id,
