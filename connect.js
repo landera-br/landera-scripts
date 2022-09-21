@@ -57,17 +57,12 @@ const privateURLs = ['form', 'inbox'];
 		$('.btn-wallet-disconnect').css('display', 'none');
 	}
 
-	console.log('passou1');
-
 	// NOTE Private pages handler
 	if (privateURLs.includes(window.location.pathname.split('/')[1])) {
-		console.log('passou2');
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			// NOTE User is logged
 			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
-
-			console.log(window.location.pathname.split('/')[1]);
 
 			// NOTE Fill in form fields
 			if (window.location.pathname.split('/')[1] === 'form') {
@@ -221,11 +216,9 @@ $('.btn-chat').on('click', () => {
 });
 
 function showForm(show) {
-	const helpBlock = document.querySelector('#help-block');
-	const formBlock = document.querySelector('#form-block');
-
-	helpBlock.style.display = show ? 'none' : 'flex';
-	formBlock.style.display = show ? 'flex' : 'none';
+	console.log(show);
+	show ? $('#help-block').hide() : $('#help-block').fadeIn();
+	show ? $('#form-block').fadeIn() : $('#form-block').hide();
 }
 
 function showChat(show) {
