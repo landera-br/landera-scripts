@@ -27,7 +27,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const auth = getAuth(app);
 
-export const db = getFirestore(app);
+const db = getFirestore(app);
+
+console.log(db);
+
+export { db };
 
 //identify auth action forms
 // let signUpForm = document.getElementById('wf-form-signup-form');

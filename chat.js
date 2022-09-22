@@ -1,5 +1,7 @@
 import { db } from './firebase.js';
 
+console.log(db);
+
 $('#buying-tab').on('click', async function () {
 	$('.chat').hide();
 	$('.chat-placeholder').fadeIn();
