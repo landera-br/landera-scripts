@@ -1,19 +1,5 @@
 let web3auth = null;
 
-const firebaseConfig = {
-	apiKey: 'AIzaSyDJHQcfM6vogqPfjTxzw-5KAt_qvOcsZl4',
-	authDomain: 'landera-ff197.firebaseapp.com',
-	databaseURL: 'https://landera-ff197.firebaseio.com',
-	projectId: 'landera-ff197',
-	storageBucket: 'landera-ff197.appspot.com',
-	messagingSenderId: '830494589320',
-	appId: '1:830494589320:web:efd2bdc7cff1b8afce7a3d',
-};
-
-const app = firebase.initializeApp(firebaseConfig);
-const db = app.firestore();
-const privateURLs = ['form', 'inbox'];
-
 (async function init() {
 	window.addEventListener('load', function () {
 		setCookie();
