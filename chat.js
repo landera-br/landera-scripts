@@ -1,6 +1,5 @@
 import {
 	collection,
-	getDocs,
 	limit,
 	onSnapshot,
 	orderBy,
@@ -66,16 +65,9 @@ $('.btn-channel').on('click', async function () {
 		limit(100)
 	);
 
-	console.log(q);
-
-	const querySnapshot = await getDocs(q);
-
-	console.log(querySnapshot);
-
-	onSnapshot(querySnapshot, (docs) => {
-		console.log('pasou');
+	onSnapshot(q, (querySnapshot) => {
 		let messages = [];
-		docs.forEach((doc) => {
+		querySnapshot.forEach((doc) => {
 			messages.push(doc.data());
 		});
 		displayChat(messages, window.location.pathname.split('/')[2]);
