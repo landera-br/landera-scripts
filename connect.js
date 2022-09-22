@@ -151,6 +151,7 @@ $('.btn-wallet-disconnect').click(async function (event) {
 		$('.btn-wallet-disconnect').css('display', 'none');
 		$('.btn-logged').css('display', 'none');
 		$('#btn-account').hide();
+		localStorage.clear();
 
 		if (privateURLs.includes(window.location.pathname.split('/')[1])) {
 			showForm(false);
