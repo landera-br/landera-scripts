@@ -72,18 +72,8 @@ const privateURLs = ['form', 'inbox'];
 			}
 		} else {
 			// NOTE User is not logged
-			try {
-				console.log('i');
-				const connection = await web3auth.connect();
-				console.log(connection);
-			} catch (error) {
-				console.log('passou1');
-				showForm(false);
-				showChat(false);
-				return;
-			}
+			await web3auth.connect();
 
-			console.log('ii');
 			$('#btn-account').show();
 			$('.btn-logged').css('display', 'block');
 			$('.btn-wallet-disconnect').css('display', 'block');
@@ -163,7 +153,6 @@ $('.btn-wallet-disconnect').click(async function (event) {
 		$('#btn-account').hide();
 
 		if (privateURLs.includes(window.location.pathname.split('/')[1])) {
-			console.log(1);
 			showForm(false);
 			showChat(false);
 		}
@@ -211,11 +200,9 @@ $('.btn-chat').on('click', () => {
 });
 
 function showForm(show) {
-	console.log(3);
-	console.log(show);
 	if (window.location.pathname.split('/')[1] === 'form') {
-		show ? $('#help-block').hide() : $('#help-block').fadeIn();
-		show ? $('#form-block').fadeIn() : $('#form-block').hide();
+		show ? $('#help-block').css('display', 'none') : $('#help-block').css('display', 'flex');
+		show ? $('#form-block').css('display', 'flex') : $('#form-block').css('display', 'none');
 	}
 }
 
