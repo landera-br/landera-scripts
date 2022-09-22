@@ -1,11 +1,9 @@
 import {
 	collection,
-	doc,
 	limit,
 	onSnapshot,
 	orderBy,
 	query,
-	setDoc,
 	where,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './firebase.js';
@@ -82,7 +80,7 @@ $('.chat-form').submit(async (e) => {
 
 	// NOTE Store message in the DB
 	try {
-		await setDoc(doc(db, 'messages'), {
+		await addDoc(collection(db, 'messages'), {
 			channel: $('.header-channel').text(),
 			sender: window.location.pathname.split('/')[2],
 			receiver: $('.header-chatter-id').text(),
