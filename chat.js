@@ -90,6 +90,7 @@ $('.chat-form').submit(async (e) => {
 			text: $('#input-message').val(),
 		});
 	} catch (error) {
+		console.log(error);
 		alert('Não foi possível enviar a mensagem. Por favor, tente novamente mais tarde.');
 	}
 
