@@ -25,7 +25,8 @@ const firebaseConfig = {
 // Initialize Firebase and declare "global" variables. all variables declared in this section are accessible to functions that follow.
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = app.firestore();
+
+export const db = app.firestore();
 
 //identify auth action forms
 let signUpForm = document.getElementById('wf-form-signup-form');
