@@ -1,4 +1,12 @@
-import { onSnapshot } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
+import {
+	collection,
+	getDocs,
+	limit,
+	onSnapshot,
+	orderBy,
+	query,
+	where,
+} from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './firebase.js';
 
 $('#buying-tab').on('click', async function () {
