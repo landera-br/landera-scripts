@@ -1,7 +1,7 @@
 let web3auth = null;
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyC5RGfMYnAaiAinPo47PurfFcjw23obinE',
+	apiKey: 'AIzaSyDJHQcfM6vogqPfjTxzw-5KAt_qvOcsZl4',
 	authDomain: 'landera-ff197.firebaseapp.com',
 	databaseURL: 'https://landera-ff197.firebaseio.com',
 	projectId: 'landera-ff197',
