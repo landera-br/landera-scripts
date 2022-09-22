@@ -208,7 +208,13 @@ function showForm(show) {
 
 function showChat(show) {
 	if (window.location.pathname.split('/')[1] === 'inbox') {
-		show ? $('#chat-block').show() : $('#chat-block').hide();
+		if (show) {
+			$('#chat-block').show();
+		} else {
+			$('#chat-block').hide();
+			$('.chat').hide();
+			$('.chat-placeholder').show();
+		}
 	}
 }
 
