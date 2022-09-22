@@ -66,9 +66,14 @@ $('.btn-channel').on('click', async function () {
 		limit(100)
 	);
 
+	console.log(q);
+
 	const querySnapshot = await getDocs(q);
 
+	console.log(querySnapshot);
+
 	onSnapshot(querySnapshot, (docs) => {
+		console.log('pasou');
 		let messages = [];
 		docs.forEach((doc) => {
 			messages.push(doc.data());
