@@ -40,8 +40,6 @@ const privateURLs = ['form', 'inbox'];
 
 	await web3auth.initModal();
 
-	console.log('x');
-
 	if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 		// NOTE User is logged
 		$('#btn-account').show();
@@ -53,7 +51,6 @@ const privateURLs = ['form', 'inbox'];
 
 		await setUser(accounts[0], user.email, user.name);
 	} else {
-		console.log('xx');
 		// NOTE User is not logged
 		$('.btn-wallet-connect').css('display', 'block');
 		$('.btn-logged').css('display', 'none');
@@ -62,7 +59,6 @@ const privateURLs = ['form', 'inbox'];
 
 	// NOTE Private pages handler
 	if (privateURLs.includes(window.location.pathname.split('/')[1])) {
-		console.log('xxx');
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			// NOTE User is logged
 			const accounts = await rpc.getAccounts(web3auth.provider);
@@ -77,8 +73,9 @@ const privateURLs = ['form', 'inbox'];
 		} else {
 			// NOTE User is not logged
 			try {
-				console.log('xxxx');
-				await web3auth.connect();
+				console.log('i');
+				const connection = await web3auth.connect();
+				console.log(connection);
 			} catch (error) {
 				console.log('passou1');
 				showForm(false);
@@ -86,7 +83,7 @@ const privateURLs = ['form', 'inbox'];
 				return;
 			}
 
-			console.log('v');
+			console.log('ii');
 			$('#btn-account').show();
 			$('.btn-logged').css('display', 'block');
 			$('.btn-wallet-disconnect').css('display', 'block');
@@ -165,7 +162,7 @@ $('.btn-wallet-disconnect').click(async function (event) {
 		$('.btn-logged').css('display', 'none');
 		$('#btn-account').hide();
 
-		if (privateURLs.includes(privateURLs.includes(window.location.pathname.split('/')[1]))) {
+		if (privateURLs.includes(window.location.pathname.split('/')[1])) {
 			console.log(1);
 			showForm(false);
 			showChat(false);
