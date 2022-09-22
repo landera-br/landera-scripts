@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-import 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 
 // import {
 // 	createUserWithEmailAndPassword,
@@ -27,7 +27,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const auth = getAuth(app);
 
-export const db = app.firestore();
+export const db = getFirestore(app);
 
 //identify auth action forms
 // let signUpForm = document.getElementById('wf-form-signup-form');
