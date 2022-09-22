@@ -1,5 +1,7 @@
 let web3auth = null;
 
+const privateURLs = ['form', 'inbox'];
+
 (async function init() {
 	window.addEventListener('load', function () {
 		setCookie();

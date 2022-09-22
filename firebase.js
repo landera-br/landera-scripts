@@ -9,6 +9,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+import 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
