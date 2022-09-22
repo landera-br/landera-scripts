@@ -1,3 +1,5 @@
+import { db } from './firebase';
+
 $('#buying-tab').on('click', async function () {
 	$('.chat').hide();
 	$('.chat-placeholder').fadeIn();
