@@ -1,6 +1,4 @@
-import { db } from './firebase.js';
-
-console.log(db);
+// import { db } from './firebase.js';
 
 $('#buying-tab').on('click', async function () {
 	$('.chat').hide();
