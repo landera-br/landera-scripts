@@ -1,7 +1,7 @@
-(async function init() {
+window.onload = () => {
 	if (localStorage.getItem('wf_inbox_id') !== window.location.pathname.split('/')[2])
 		window.location.replace('/');
-})();
+};
 
 $('#buying-tab').on('click', async function () {
 	$('.chat').hide();
