@@ -1,9 +1,11 @@
 import {
 	collection,
+	doc,
 	limit,
 	onSnapshot,
 	orderBy,
 	query,
+	setDoc,
 	where,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './firebase.js';
@@ -32,6 +34,22 @@ $('.btn-channel').on('click', async function () {
 
 	$(this).find('.unread-status').css('background-color', 'white');
 
+	// NOTE Listen to Firestore data
+	const q = query(
+		collection(db, 'messages'),
+		where('channel', '==', channelId),
+		orderBy('createdAt'),
+		limit(100)
+	);
+
+	onSnapshot(q, (querySnapshot) => {
+		let messages = [];
+		querySnapshot.forEach((doc) => {
+			messages.push(doc.data());
+		});
+		displayChat(messages, window.location.pathname.split('/')[2]);
+	});
+
 	// NOTE Update CMS unread status
 	const fields = $(this).hasClass('seller')
 		? { 'seller-unread-status': 'white' }
@@ -56,36 +74,6 @@ $('.btn-channel').on('click', async function () {
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
-
-	// NOTE Listen to Firestore data
-	const q = query(
-		collection(db, 'messages'),
-		where('channel', '==', channelId),
-		orderBy('createdAt'),
-		limit(100)
-	);
-
-	onSnapshot(q, (querySnapshot) => {
-		let messages = [];
-		querySnapshot.forEach((doc) => {
-			messages.push(doc.data());
-		});
-		displayChat(messages, window.location.pathname.split('/')[2]);
-	});
-
-	// db.collection('messages')
-	// 	.where('channel', '==', channelId)
-	// 	.orderBy('createdAt')
-	// 	.limit(100)
-	// 	.onSnapshot((querySnapshot) => {
-	// 		let messages = [];
-
-	// 		querySnapshot.forEach((doc) => {
-	// 			messages.push(doc.data());
-	// 		});
-
-	// 		displayChat(messages, window.location.pathname.split('/')[2]);
-	// 	});
 });
 
 $('.chat-form').submit(async (e) => {
@@ -94,7 +82,7 @@ $('.chat-form').submit(async (e) => {
 
 	// NOTE Store message in the DB
 	try {
-		db.collection('messages').add({
+		await setDoc(doc(db, 'messages'), {
 			channel: $('.header-channel').text(),
 			sender: window.location.pathname.split('/')[2],
 			receiver: $('.header-chatter-id').text(),
