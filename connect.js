@@ -61,21 +61,25 @@ const privateURLs = ['form', 'inbox'];
 	if (privateURLs.includes(window.location.pathname.split('/')[1])) {
 		if (web3auth.provider && web3auth.connectedAdapterName === 'openlogin') {
 			// NOTE User is logged
-			const user = await web3auth.getUserInfo();
 			const accounts = await rpc.getAccounts(web3auth.provider);
 
 			// NOTE Fill in form fields
-			if (window.location.pathname.split('/')[1] === 'form') {
-				setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
-				showForm(true);
-			}
+			setForm(accounts[0], window.location.pathname.split('/')[2] === 'user');
+			showForm(true);
+			showChat(true);
 
 			if (window.location.pathname.split('/')[1] === 'inbox') {
-				showChat(true);
 			}
 		} else {
 			// NOTE User is not logged
-			await web3auth.connect();
+			try {
+				await web3auth.connect();
+			} catch (error) {
+				console.log('passou1');
+				showForm(false);
+				showChat(false);
+				return;
+			}
 
 			$('#btn-account').show();
 			$('.btn-logged').css('display', 'block');
@@ -86,14 +90,9 @@ const privateURLs = ['form', 'inbox'];
 			const accounts = await rpc.getAccounts(web3auth.provider);
 
 			// NOTE Fill in form fields
-			if (window.location.pathname.split('/')[1] === 'form') {
-				setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
-				showForm(true);
-			}
-
-			if (window.location.pathname.split('/')[1] === 'inbox') {
-				showChat(true);
-			}
+			setForm(accounts[0], window.location.pathname.split('/')[2] === 'user');
+			showForm(true);
+			showChat(true);
 
 			await setUser(accounts[0], user.email, user.name);
 		}
@@ -121,7 +120,7 @@ if ($('#btn-init-form')[0]) {
 
 			// NOTE Wallet field
 			const accounts = await rpc.getAccounts(web3auth.provider);
-			setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
+			setForm(accounts[0], window.location.pathname.split('/')[2] === 'user');
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -142,14 +141,9 @@ $('.btn-wallet-connect').click(async function (event) {
 		const accounts = await rpc.getAccounts(web3auth.provider);
 
 		// NOTE Fill in form fields
-		if (window.location.pathname.split('/')[1] === 'form') {
-			setForm(accounts[0], user, window.location.pathname.split('/')[2] === 'user');
-			showForm(true);
-		}
-
-		if (window.location.pathname.split('/')[1] === 'inbox') {
-			showChat(true);
-		}
+		setForm(accounts[0], window.location.pathname.split('/')[2] === 'user');
+		showForm(true);
+		showChat(true);
 
 		await setUser(accounts[0], user.email, user.name);
 	} catch (error) {
@@ -166,16 +160,14 @@ $('.btn-wallet-disconnect').click(async function (event) {
 		$('#btn-account').hide();
 
 		if (privateURLs.includes(privateURLs.includes(window.location.pathname.split('/')[1]))) {
-			if (window.location.pathname.split('/')[1] === 'form') {
-				showForm(false);
-			}
-
-			if (window.location.pathname.split('/')[1] === 'inbox') {
-				showChat(false);
-			}
+			console.log(1);
+			showForm(false);
+			showChat(false);
 		}
 	} catch (error) {
 		console.error(error.message);
+		showForm(false);
+		showChat(false);
 	}
 });
 
@@ -216,13 +208,18 @@ $('.btn-chat').on('click', () => {
 });
 
 function showForm(show) {
+	console.log(3);
 	console.log(show);
-	show ? $('#help-block').hide() : $('#help-block').fadeIn();
-	show ? $('#form-block').fadeIn() : $('#form-block').hide();
+	if (window.location.pathname.split('/')[1] === 'form') {
+		show ? $('#help-block').hide() : $('#help-block').fadeIn();
+		show ? $('#form-block').fadeIn() : $('#form-block').hide();
+	}
 }
 
 function showChat(show) {
-	show ? $('#chat-block').show() : $('#chat-block').hide();
+	if (window.location.pathname.split('/')[1] === 'inbox') {
+		show ? $('#chat-block').show() : $('#chat-block').hide();
+	}
 }
 
 async function setUser(wallet_address, email, name) {
@@ -252,11 +249,13 @@ async function setUser(wallet_address, email, name) {
 	}
 }
 
-function setForm(wallet_address, user, hasColor) {
-	const walletAddressElement = document.querySelector('#field-wallet-address');
-	walletAddressElement.value = wallet_address;
-	walletAddressElement.disabled = true;
-	if (hasColor) walletAddressElement.style.backgroundColor = '#2c2366';
+function setForm(wallet_address, hasColor) {
+	if (window.location.pathname.split('/')[1] === 'form') {
+		const walletAddressElement = document.querySelector('#field-wallet-address');
+		walletAddressElement.value = wallet_address;
+		walletAddressElement.disabled = true;
+		if (hasColor) walletAddressElement.style.backgroundColor = '#2c2366';
+	}
 }
 
 function getCookie(cookie) {
