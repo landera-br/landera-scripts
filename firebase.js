@@ -87,6 +87,7 @@ function signUpHandler(e) {
 			console.log('User created successfully: ' + user.email);
 		})
 		.catch((error) => {
+			console.log(error.message);
 			$('#btn-sign-in').val('Entrar');
 			alert(
 				ERRORS.find((item) => item.code === error.code)?.message
@@ -110,6 +111,7 @@ function signInHandler(e) {
 			window.location.replace('/');
 		})
 		.catch((error) => {
+			console.log(error.message);
 			$('#btn-sign-in').val('Entrar');
 			alert(
 				ERRORS.find((item) => item.code === error.code)?.message
@@ -134,6 +136,7 @@ function googleSignInHandler(e) {
 			console.log('User logged in: ' + user.email);
 		})
 		.catch((error) => {
+			console.log(error.message);
 			$('#btn-sign-in').val('Entrar');
 			alert(
 				ERRORS.find((item) => item.code === error.code)?.message
@@ -158,6 +161,7 @@ function fbSignInHandler(e) {
 			console.log('User logged in: ' + user.email);
 		})
 		.catch((error) => {
+			console.log(error.message);
 			$('#btn-sign-in').val('Entrar');
 			alert(
 				ERRORS.find((item) => item.code === error.code)?.message
@@ -174,6 +178,7 @@ function signOutHandler() {
 			console.log('User signed out');
 		})
 		.catch((error) => {
+			console.log(error.message);
 			$('#btn-sign-in').val('Entrar');
 			alert(
 				ERRORS.find((item) => item.code === error.code)?.message
