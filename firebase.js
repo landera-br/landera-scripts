@@ -1,17 +1,15 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js';
 import {
+	createUserWithEmailAndPassword,
+	FacebookAuthProvider,
 	getAuth,
 	GoogleAuthProvider,
+	onAuthStateChanged,
 	signInWithEmailAndPassword,
 	signInWithPopup,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
-
-import {
-	createUserWithEmailAndPassword,
-	onAuthStateChanged,
-} from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -26,14 +24,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
+const googleProvider = new GoogleAuthProvider();
+const fbProvider = new FacebookAuthProvider();
 export const db = getFirestore(app);
 
-// NOTE Listener assigners
+// NOTE Listeners initializer
 let formSignUp = document.getElementById('form-sign-up');
 let formSignIn = document.getElementById('form-sign-in');
 let btnGoogleSignIn = document.getElementById('btn-google-sign-in');
+let btnFbSignIn = document.getElementById('btn-facebook-sign-in');
 let btnSignOut = document.getElementById('btn-sign-out');
 
 if (formSignUp !== null) formSignUp.addEventListener('submit', signUpHandler, true);
@@ -41,6 +40,8 @@ if (formSignUp !== null) formSignUp.addEventListener('submit', signUpHandler, tr
 if (formSignIn !== null) formSignIn.addEventListener('submit', signInHandler, true);
 
 if (btnGoogleSignIn !== null) btnGoogleSignIn.addEventListener('click', googleSignInHandler, true);
+
+if (btnFbSignIn !== null) btnFbSignIn.addEventListener('click', fbSignInHandler, true);
 
 if (btnSignOut !== null) btnSignOut.addEventListener('click', signOutHandler, true);
 
@@ -78,11 +79,12 @@ function signInHandler(e) {
 		});
 }
 
+// NOTE Sign in with Google
 function googleSignInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
-	signInWithPopup(auth, provider)
+	signInWithPopup(auth, googleProvider)
 		.then((result) => {
 			// This gives you a Google Access Token. You can use it to access the Google API.
 			const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -96,7 +98,26 @@ function googleSignInHandler(e) {
 		});
 }
 
-// NOTE Signout Handler
+// NOTE Sign in with Facebook
+function fbSignInHandler(e) {
+	e.preventDefault();
+	e.stopPropagation();
+
+	signInWithPopup(auth, fbProvider)
+		.then((result) => {
+			// This gives you a Google Access Token. You can use it to access the Google API.
+			const credential = FacebookAuthProvider.credentialFromResult(result);
+			const token = credential.accessToken;
+			// The signed-in user info.
+			const user = result.user;
+			console.log('User logged in: ' + user.email);
+		})
+		.catch((error) => {
+			console.log(error.message);
+		});
+}
+
+// NOTE Sign out Handler
 function signOutHandler() {
 	signOut(auth)
 		.then(() => {
