@@ -16,7 +16,7 @@ import {
 // Your web app's Firebase configuration
 const firebaseConfig = {
 	apiKey: 'AIzaSyC5RGfMYnAaiAinPo47PurfFcjw23obinE',
-	authDomain: 'landera-ff197.firebaseapp.com',
+	authDomain: 'landera.com.br',
 	databaseURL: 'https://landera-ff197.firebaseio.com',
 	projectId: 'landera-ff197',
 	storageBucket: 'landera-ff197.appspot.com',
@@ -55,7 +55,6 @@ function signUpHandler(e) {
 			console.log('User created successfully: ' + user.email);
 		})
 		.catch((error) => {
-			alert('Não foi possível criar uma conta. Por favor, tente novamente mais tarde!');
 			console.log(error.message);
 		});
 }
@@ -78,7 +77,6 @@ function signInHandler(e) {
 			installApp: true,
 			minimumVersion: '12',
 		},
-		dynamicLinkDomain: 'landera.com.br',
 	};
 
 	console.log('passou!');
@@ -92,7 +90,6 @@ function signInHandler(e) {
 			console.log('Armazenado');
 		})
 		.catch((error) => {
-			alert('Não foi possível autenticar conta. Por favor, tente novamente mais tarde!');
 			console.log(error.message);
 		});
 }
@@ -111,7 +108,6 @@ function googleSignInHandler(e) {
 			console.log('User logged in: ' + user.email);
 		})
 		.catch((error) => {
-			alert('Não foi possível autenticar conta. Por favor, tente novamente mais tarde!');
 			console.log(error.message);
 		});
 }
@@ -123,7 +119,6 @@ function signOutHandler() {
 			console.log('User signed out');
 		})
 		.catch((error) => {
-			alert('Não foi possível criar uma conta. Por favor, tente novamente mais tarde!');
 			console.log(error.message);
 		});
 }
