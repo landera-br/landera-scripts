@@ -1,10 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 
 import {
 	createUserWithEmailAndPassword,
-	getAuth,
 	onAuthStateChanged,
 	signInWithEmailAndPassword,
 } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
@@ -20,7 +20,6 @@ const firebaseConfig = {
 	appId: '1:830494589320:web:efd2bdc7cff1b8afce7a3d',
 };
 
-// Initialize Firebase and declare "global" variables. all variables declared in this section are accessible to functions that follow.
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
