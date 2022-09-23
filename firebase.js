@@ -42,7 +42,7 @@ if (btnGoogleSignIn !== null) btnGoogleSignIn.addEventListener('click', googleSi
 
 if (btnSignOut !== null) btnSignOut.addEventListener('click', signOutHandler, true);
 
-// NOTE Signup Handler
+// NOTE Sign Up Handler
 function signUpHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
@@ -58,12 +58,10 @@ function signUpHandler(e) {
 		});
 }
 
-// NOTE Signin Handler
+// NOTE Sign In Handler
 function signInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
-
-	const email = document.getElementById('signin-email').value;
 
 	const actionCodeSettings = {
 		// URL you want to redirect back to. The domain (www.example.com) for this
@@ -83,13 +81,13 @@ function signInHandler(e) {
 
 	console.log('passou!');
 
-	sendSignInLinkToEmail(auth, email, actionCodeSettings)
+	sendSignInLinkToEmail(auth, $('#field-email').val(), actionCodeSettings)
 		.then(() => {
 			// The link was successfully sent. Inform the user.
 			// Save the email locally so you don't need to ask the user for it again
 			// if they open the link on the same device.
-			window.localStorage.setItem('emailForSignIn', email);
-			// ...
+			window.localStorage.setItem('emailForSignIn', $('#field-email').val());
+			console.log('Armazenado');
 		})
 		.catch((error) => {
 			alert('Não foi possível autenticar conta. Por favor, tente novamente mais tarde!');
