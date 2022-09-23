@@ -64,25 +64,47 @@ const ERRORS = [
 	},
 ];
 
-// NOTE Listeners initializer
+// NOTE Login header listeners
+let btnLogin = document.getElementById('btn-login');
+let btnLogout = document.getElementById('btn-logout');
+if (btnLogin !== null) btnLogin.addEventListener('click', loginHandler, true);
+if (btnLogout !== null) btnLogout.addEventListener('click', logoutHandler, true);
+
+// NOTE Login page listeners
 let formSignUp = document.getElementById('form-sign-up');
 let formSignIn = document.getElementById('form-sign-in');
 let btnGoogleSignIn = document.getElementById('btn-google-sign-in');
 let btnFbSignIn = document.getElementById('btn-facebook-sign-in');
-let btnSignOut = document.getElementById('btn-sign-out');
 let btnPassReset = document.getElementById('btn-password-reset');
-
 if (formSignUp !== null) formSignUp.addEventListener('submit', signUpHandler, true);
-
 if (formSignIn !== null) formSignIn.addEventListener('submit', signInHandler, true);
-
 if (btnGoogleSignIn !== null) btnGoogleSignIn.addEventListener('click', googleSignInHandler, true);
-
 if (btnFbSignIn !== null) btnFbSignIn.addEventListener('click', fbSignInHandler, true);
-
-if (btnSignOut !== null) btnSignOut.addEventListener('click', signOutHandler, true);
-
 if (btnPassReset !== null) btnPassReset.addEventListener('click', passwordResetHandler, true);
+
+// NOTE Login button handler
+function loginHandler(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	window.location.replace('/login');
+}
+
+// NOTE Logout handler
+function logoutHandler() {
+	signOut(auth)
+		.then(() => {
+			window.location.replace('/');
+		})
+		.catch((error) => {
+			console.log(error.message);
+			$('#btn-sign-in').val('Entrar');
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
+		});
+}
 
 // NOTE Sign up handler
 function signUpHandler(e) {
@@ -173,23 +195,6 @@ function fbSignInHandler(e) {
 		});
 }
 
-// NOTE Sign out handler
-function signOutHandler() {
-	signOut(auth)
-		.then(() => {
-			console.log('User signed out');
-		})
-		.catch((error) => {
-			console.log(error.message);
-			$('#btn-sign-in').val('Entrar');
-			alert(
-				ERRORS.find((item) => item.code === error.code)?.message
-					? ERRORS.find((item) => item.code === error.code)?.message
-					: ERRORS.find((item) => item.code === 'other')?.message
-			);
-		});
-}
-
 // NOTE Password reset handler
 function passwordResetHandler() {
 	const email = window.prompt('Por favor, informe o endereço de e-mail cadastrado:');
@@ -211,8 +216,8 @@ function passwordResetHandler() {
 
 // NOTE Show/Hide elements
 onAuthStateChanged(auth, (user) => {
-	let publicElements = document.querySelectorAll("[data-onlogin='hide']");
-	let privateElements = document.querySelectorAll("[data-onlogin='show']");
+	let publicElements = document.querySelectorAll("[on-login='hide']");
+	let privateElements = document.querySelectorAll("[on-login='show']");
 
 	if (user) {
 		// NOTE User has signed in
