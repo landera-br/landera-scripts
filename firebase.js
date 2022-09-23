@@ -26,22 +26,20 @@ const auth = getAuth(app);
 
 export const db = getFirestore(app);
 
-// identify auth action forms
-let formSignup = document.getElementById('form-signup');
-let formSignin = document.getElementById('form-signin');
-// let btnSignout = document.getElementById('btn-signout');
-
 // NOTE Listener assigners
-if (typeof formSignup !== null) formSignup.addEventListener('submit', handleSignUp, true);
+if (typeof $('#form-signup') !== null) formSignup.addEventListener('submit', signupHandler, true);
 
-if (typeof formSignin !== null) formSignin.addEventListener('submit', handleSignIn, true);
+if (typeof $('#form-signin') !== null) formSignin.addEventListener('submit', signinHandler, true);
 
-// if (typeof btnSignout !== null) btnSignout.addEventListener('click', handleSignOut);
+if (typeof $('#btn-signout') !== null) btnSignout.addEventListener('click', signoutHandler);
 
 // NOTE Signup Handler
-function handleSignUp(e) {
+function signupHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
+
+	console.log($('#field-email').val());
+	console.log($('#field-password').val());
 
 	createUserWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
 		.then((userCredential) => {
@@ -55,7 +53,7 @@ function handleSignUp(e) {
 }
 
 // NOTE Signin Handler
-function handleSignIn(e) {
+function signinHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
@@ -79,7 +77,7 @@ function handleSignIn(e) {
 }
 
 // NOTE Signout Handler
-// function handleSignOut() {
+// function signoutHandler() {
 // 	signOut(auth)
 // 		.then(() => {
 // 			console.log('user signed out');
