@@ -1,12 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
+import {
+	getAuth,
+	GoogleAuthProvider,
+} from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 
 import {
 	createUserWithEmailAndPassword,
 	onAuthStateChanged,
-	signInWithEmailAndPassword,
 } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
 
 // Your web app's Firebase configuration
@@ -22,22 +24,26 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 export const db = getFirestore(app);
 
 // NOTE Listener assigners
-let formSignup = document.getElementById('form-signup');
-let formSignin = document.getElementById('form-signin');
-let btnSignout = document.getElementById('btn-signout');
+let formSignUp = document.getElementById('form-sign-up');
+let formSignIn = document.getElementById('form-sign-in');
+let btnGoogleSignIn = document.getElementById('btn-google-sign-in');
+let btnSignOut = document.getElementById('btn-sign-out');
 
-if (formSignup !== null) formSignup.addEventListener('submit', signupHandler, true);
+if (formSignUp !== null) formSignUp.addEventListener('submit', signUpHandler, true);
 
-if (formSignin !== null) formSignin.addEventListener('submit', signinHandler, true);
+if (formSignIn !== null) formSignIn.addEventListener('submit', signInHandler, true);
 
-if (btnSignout !== null) btnSignout.addEventListener('click', signoutHandler, true);
+if (btnGoogleSignIn !== null) btnGoogleSignIn.addEventListener('click', googleSignInHandler, true);
+
+if (btnSignOut !== null) btnSignOut.addEventListener('click', signOutHandler, true);
 
 // NOTE Signup Handler
-function signupHandler(e) {
+function signUpHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
@@ -53,28 +59,65 @@ function signupHandler(e) {
 }
 
 // NOTE Signin Handler
-function signinHandler(e) {
+function signInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
 	const email = document.getElementById('signin-email').value;
-	const password = document.getElementById('signin-password').value;
 
-	signInWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			// Signed in
-			const user = userCredential.user;
-			console.log('User logged in: ' + user.email);
+	const actionCodeSettings = {
+		// URL you want to redirect back to. The domain (www.example.com) for this
+		// URL must be in the authorized domains list in the Firebase Console.
+		url: 'https://www.landera.com.br/finishSignUp?cartId=1234',
+		handleCodeInApp: true,
+		iOS: {
+			bundleId: 'com.example.ios',
+		},
+		android: {
+			packageName: 'com.example.android',
+			installApp: true,
+			minimumVersion: '12',
+		},
+		dynamicLinkDomain: 'example.page.link',
+	};
+
+	console.log('passou!');
+
+	sendSignInLinkToEmail(auth, email, actionCodeSettings)
+		.then(() => {
+			// The link was successfully sent. Inform the user.
+			// Save the email locally so you don't need to ask the user for it again
+			// if they open the link on the same device.
+			window.localStorage.setItem('emailForSignIn', email);
 			// ...
 		})
 		.catch((error) => {
-			alert('Não foi possível criar uma conta. Por favor, tente novamente mais tarde!');
+			alert('Não foi possível autenticar conta. Por favor, tente novamente mais tarde!');
+			console.log(error.message);
+		});
+}
+
+function googleSignInHandler(e) {
+	e.preventDefault();
+	e.stopPropagation();
+
+	signInWithPopup(auth, provider)
+		.then((result) => {
+			// This gives you a Google Access Token. You can use it to access the Google API.
+			const credential = GoogleAuthProvider.credentialFromResult(result);
+			const token = credential.accessToken;
+			// The signed-in user info.
+			const user = result.user;
+			console.log('User logged in: ' + user.email);
+		})
+		.catch((error) => {
+			alert('Não foi possível autenticar conta. Por favor, tente novamente mais tarde!');
 			console.log(error.message);
 		});
 }
 
 // NOTE Signout Handler
-function signoutHandler() {
+function signOutHandler() {
 	signOut(auth)
 		.then(() => {
 			console.log('User signed out');
@@ -93,9 +136,6 @@ onAuthStateChanged(auth, (user) => {
 	if (user) {
 		// NOTE User has signed in
 		const uid = user.uid;
-
-		console.log('Alterou');
-		console.log(publicElements);
 
 		privateElements.forEach(function (element) {
 			element.style.display = 'initial';
