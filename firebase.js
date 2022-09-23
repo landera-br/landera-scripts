@@ -224,7 +224,7 @@ onAuthStateChanged(auth, (user) => {
 		const uid = user.uid;
 
 		privateElements.forEach(function (element) {
-			element.style.display = 'initial';
+			element.style.display = 'inherit';
 		});
 
 		publicElements.forEach(function (element) {
