@@ -6,6 +6,7 @@ import {
 	getAuth,
 	GoogleAuthProvider,
 	onAuthStateChanged,
+	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signInWithPopup,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
@@ -135,12 +136,9 @@ function googleSignInHandler(e) {
 
 	signInWithPopup(auth, googleProvider)
 		.then((result) => {
-			// This gives you a Google Access Token. You can use it to access the Google API.
-			const credential = GoogleAuthProvider.credentialFromResult(result);
-			const token = credential.accessToken;
-			// The signed-in user info.
 			const user = result.user;
 			console.log('User logged in: ' + user.email);
+			window.location.replace('/');
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -160,12 +158,9 @@ function fbSignInHandler(e) {
 
 	signInWithPopup(auth, fbProvider)
 		.then((result) => {
-			// This gives you a Google Access Token. You can use it to access the Google API.
-			const credential = FacebookAuthProvider.credentialFromResult(result);
-			const token = credential.accessToken;
-			// The signed-in user info.
 			const user = result.user;
 			console.log('User logged in: ' + user.email);
+			window.location.replace('/');
 		})
 		.catch((error) => {
 			console.log(error.message);
