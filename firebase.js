@@ -27,11 +27,17 @@ const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // NOTE Listener assigners
-if (typeof $('#form-signup') !== null) formSignup.addEventListener('submit', signupHandler, true);
+let formSignup = document.getElementById('form-signup');
+let formSignin = document.getElementById('form-signin');
+let btnSignout = document.getElementById('btn-signout');
 
-if (typeof $('#form-signin') !== null) formSignin.addEventListener('submit', signinHandler, true);
+console.log(typeof formSignup);
 
-if (typeof $('#btn-signout') !== null) btnSignout.addEventListener('click', signoutHandler);
+if (typeof formSignup !== null) formSignup.addEventListener('submit', signupHandler, true);
+
+if (typeof formSignin !== null) formSignin.addEventListener('submit', signinHandler, true);
+
+if (typeof btnSignout !== null) btnSignout.addEventListener('click', signoutHandler, true);
 
 // NOTE Signup Handler
 function signupHandler(e) {
@@ -77,18 +83,18 @@ function signinHandler(e) {
 }
 
 // NOTE Signout Handler
-// function signoutHandler() {
-// 	signOut(auth)
-// 		.then(() => {
-// 			console.log('user signed out');
-// 			// Sign-out successful.
-// 		})
-// 		.catch((error) => {
-// 			const errorMessage = error.message;
-// 			console.log(errorMessage);
-// 			// An error happened.
-// 		});
-// }
+function signoutHandler() {
+	signOut(auth)
+		.then(() => {
+			console.log('user signed out');
+			// Sign-out successful.
+		})
+		.catch((error) => {
+			const errorMessage = error.message;
+			console.log(errorMessage);
+			// An error happened.
+		});
+}
 
 onAuthStateChanged(auth, (user) => {
 	// NOTE Hide/Show elements
