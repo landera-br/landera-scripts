@@ -87,14 +87,14 @@ if (btnPassReset !== null) btnPassReset.addEventListener('click', passwordResetH
 function loginHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
-	window.location.replace('/login');
+	window.location = '/login';
 }
 
 // NOTE Logout handler
 function logoutHandler() {
 	signOut(auth)
 		.then(() => {
-			window.location.replace('/');
+			window.location = '/';
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -139,7 +139,7 @@ function signInHandler(e) {
 		.then((userCredential) => {
 			const user = userCredential.user;
 			console.log('User logged in: ' + user.email);
-			window.location.replace('/');
+			window.location = '/';
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -161,7 +161,7 @@ function googleSignInHandler(e) {
 		.then((result) => {
 			const user = result.user;
 			console.log('User logged in: ' + user.email);
-			window.location.replace('/');
+			window.location = '/';
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -183,7 +183,7 @@ function fbSignInHandler(e) {
 		.then((result) => {
 			const user = result.user;
 			console.log('User logged in: ' + user.email);
-			window.location.replace('/');
+			window.location = '/';
 		})
 		.catch((error) => {
 			console.log(error.message);
