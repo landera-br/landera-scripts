@@ -57,6 +57,10 @@ const ERRORS = [
 		code: 'auth/account-exists-with-different-credential',
 		message: 'Você já possui uma conta com outro provedor. Por favor, tente outra forma de login.',
 	},
+	{
+		code: 'auth/wrong-password',
+		message: 'Senha inválida.',
+	},
 ];
 
 // NOTE Listeners initializer
@@ -65,6 +69,7 @@ let formSignIn = document.getElementById('form-sign-in');
 let btnGoogleSignIn = document.getElementById('btn-google-sign-in');
 let btnFbSignIn = document.getElementById('btn-facebook-sign-in');
 let btnSignOut = document.getElementById('btn-sign-out');
+let btnPassReset = document.getElementById('btn-password-reset');
 
 if (formSignUp !== null) formSignUp.addEventListener('submit', signUpHandler, true);
 
@@ -76,7 +81,9 @@ if (btnFbSignIn !== null) btnFbSignIn.addEventListener('click', fbSignInHandler,
 
 if (btnSignOut !== null) btnSignOut.addEventListener('click', signOutHandler, true);
 
-// NOTE Sign Up Handler
+if (btnPassReset !== null) btnPassReset.addEventListener('click', passwordResetHandler, true);
+
+// NOTE Sign up handler
 function signUpHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
@@ -97,7 +104,7 @@ function signUpHandler(e) {
 		});
 }
 
-// NOTE Sign In Handler
+// NOTE Sign in handler
 function signInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
@@ -171,7 +178,7 @@ function fbSignInHandler(e) {
 		});
 }
 
-// NOTE Sign out Handler
+// NOTE Sign out handler
 function signOutHandler() {
 	signOut(auth)
 		.then(() => {
@@ -188,8 +195,27 @@ function signOutHandler() {
 		});
 }
 
+// NOTE Password reset handler
+function passwordResetHandler() {
+	const email = window.prompt('Por favor, informe o endereço de e-mail cadastrado:');
+
+	sendPasswordResetEmail(auth, email)
+		.then(() => {
+			alert('Uma notificação de reset de senha foi enviado ao seu e-mail!');
+		})
+		.catch((error) => {
+			console.log(error.message);
+			$('#btn-sign-in').val('Entrar');
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
+		});
+}
+
+// NOTE Show/Hide elements
 onAuthStateChanged(auth, (user) => {
-	// NOTE Hide/Show elements
 	let publicElements = document.querySelectorAll("[data-onlogin='hide']");
 	let privateElements = document.querySelectorAll("[data-onlogin='show']");
 
