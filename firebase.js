@@ -28,6 +28,37 @@ const googleProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
 export const db = getFirestore(app);
 
+const ERRORS = [
+	{
+		code: 'other',
+		message: 'Não foi possível acessar sua conta. Tente novamente mais tarde.',
+	},
+	{
+		code: 'auth/email-already-exists',
+		message: 'Usuário já existe. Faça o login ou crie uma outra conta.',
+	},
+	{
+		code: 'auth/internal-error	',
+		message: 'Não foi possível acessar sua conta. Tente novamente mais tarde.',
+	},
+	{
+		code: 'auth/invalid-email	',
+		message: 'E-mail inválido.',
+	},
+	{
+		code: 'auth/invalid-password	',
+		message: 'Senha inválida.',
+	},
+	{
+		code: 'auth/project-not-found	',
+		message: 'Não foi possível acessar sua conta. Tente novamente mais tarde.',
+	},
+	{
+		code: 'auth/account-exists-with-different-credential',
+		message: 'Você já possui uma conta com outro provedor. Por favor, tente outra forma de login.',
+	},
+];
+
 // NOTE Listeners initializer
 let formSignUp = document.getElementById('form-sign-up');
 let formSignIn = document.getElementById('form-sign-in');
@@ -56,7 +87,12 @@ function signUpHandler(e) {
 			console.log('User created successfully: ' + user.email);
 		})
 		.catch((error) => {
-			console.log(error.message);
+			$('#btn-sign-in').val('Entrar');
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
 		});
 }
 
@@ -74,8 +110,12 @@ function signInHandler(e) {
 			window.location.replace('/');
 		})
 		.catch((error) => {
-			console.log(error.message);
-			console.log(error.code);
+			$('#btn-sign-in').val('Entrar');
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
 		});
 }
 
@@ -94,8 +134,12 @@ function googleSignInHandler(e) {
 			console.log('User logged in: ' + user.email);
 		})
 		.catch((error) => {
-			alert('Conta existente! Por favor, tente outra opção de acesso.');
-			console.log(error.message);
+			$('#btn-sign-in').val('Entrar');
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
 		});
 }
 
@@ -114,8 +158,12 @@ function fbSignInHandler(e) {
 			console.log('User logged in: ' + user.email);
 		})
 		.catch((error) => {
-			alert('Conta existente! Por favor, tente outra opção de acesso.');
-			console.log(error.message);
+			$('#btn-sign-in').val('Entrar');
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
 		});
 }
 
@@ -126,7 +174,12 @@ function signOutHandler() {
 			console.log('User signed out');
 		})
 		.catch((error) => {
-			console.log(error.message);
+			$('#btn-sign-in').val('Entrar');
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
 		});
 }
 
