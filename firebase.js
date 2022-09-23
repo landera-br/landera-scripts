@@ -3,7 +3,6 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase
 import {
 	getAuth,
 	GoogleAuthProvider,
-	sendSignInLinkToEmail,
 	signInWithPopup,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
@@ -66,24 +65,15 @@ function signInHandler(e) {
 
 	$('#btn-sign-in').val('Aguarde...');
 
-	const actionCodeSettings = {
-		// URL you want to redirect back to. The domain (www.example.com) for this
-		// URL must be in the authorized domains list in the Firebase Console.
-		url: 'https://www.landera.com.br/finishSignUp?cartId=1234',
-		handleCodeInApp: true,
-	};
-
-	console.log($('#field-email').val());
-
-	sendSignInLinkToEmail(auth, $('#field-email').val(), actionCodeSettings)
-		.then(() => {
-			// The link was successfully sent. Inform the user.
-			// Save the email locally so you don't need to ask the user for it again
-			// if they open the link on the same device.
-			window.localStorage.setItem('emailForSignIn', $('#field-email').val());
+	signInWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
+		.then((userCredential) => {
+			const user = userCredential.user;
+			console.log('User logged in: ' + user.email);
+			window.location.replace('/');
 		})
 		.catch((error) => {
-			console.log(error.message);
+			const errorMessage = error.message;
+			console.log(errorMessage);
 		});
 }
 
