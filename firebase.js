@@ -64,6 +64,8 @@ function signInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
+	$('#btn-sign-in').val('Aguarde...');
+
 	const actionCodeSettings = {
 		// URL you want to redirect back to. The domain (www.example.com) for this
 		// URL must be in the authorized domains list in the Firebase Console.
@@ -71,13 +73,14 @@ function signInHandler(e) {
 		handleCodeInApp: true,
 	};
 
+	console.log($('#field-email').val());
+
 	sendSignInLinkToEmail(auth, $('#field-email').val(), actionCodeSettings)
 		.then(() => {
 			// The link was successfully sent. Inform the user.
 			// Save the email locally so you don't need to ask the user for it again
 			// if they open the link on the same device.
 			window.localStorage.setItem('emailForSignIn', $('#field-email').val());
-			console.log('Armazenado');
 		})
 		.catch((error) => {
 			console.log(error.message);
