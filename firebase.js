@@ -77,9 +77,8 @@ function signInHandler(e) {
 			installApp: true,
 			minimumVersion: '12',
 		},
+		dynamicLinkDomain: 'landera.com.br',
 	};
-
-	console.log('passou!');
 
 	sendSignInLinkToEmail(auth, $('#field-email').val(), actionCodeSettings)
 		.then(() => {
