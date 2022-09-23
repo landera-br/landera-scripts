@@ -216,8 +216,8 @@ function passwordResetHandler() {
 
 // NOTE Show/Hide elements
 onAuthStateChanged(auth, (user) => {
-	let publicElements = document.querySelectorAll("[on-login='hide']");
-	let privateElements = document.querySelectorAll("[on-login='show']");
+	let publicElements = document.querySelectorAll("[data-onlogin='hide']");
+	let privateElements = document.querySelectorAll("[data-onlogin='show']");
 
 	if (user) {
 		// NOTE User has signed in
