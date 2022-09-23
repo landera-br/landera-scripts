@@ -160,6 +160,7 @@ function googleSignInHandler(e) {
 	signInWithPopup(auth, googleProvider)
 		.then((result) => {
 			const user = result.user;
+			console.log(user);
 			console.log('User logged in: ' + user.email);
 			window.location = '/';
 		})
