@@ -16,7 +16,7 @@ import {
 // Your web app's Firebase configuration
 const firebaseConfig = {
 	apiKey: 'AIzaSyC5RGfMYnAaiAinPo47PurfFcjw23obinE',
-	authDomain: 'landera.com.br',
+	authDomain: 'landera-ff197.firebaseapp.com',
 	databaseURL: 'https://landera-ff197.firebaseio.com',
 	projectId: 'landera-ff197',
 	storageBucket: 'landera-ff197.appspot.com',
