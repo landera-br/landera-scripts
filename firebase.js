@@ -78,7 +78,7 @@ function signInHandler(e) {
 			installApp: true,
 			minimumVersion: '12',
 		},
-		dynamicLinkDomain: 'example.page.link',
+		dynamicLinkDomain: 'landera.com.br',
 	};
 
 	console.log('passou!');
