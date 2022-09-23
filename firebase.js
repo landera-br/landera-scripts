@@ -3,6 +3,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase
 import {
 	getAuth,
 	GoogleAuthProvider,
+	sendSignInLinkToEmail,
 	signInWithPopup,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
@@ -70,7 +71,7 @@ function signInHandler(e) {
 		handleCodeInApp: true,
 	};
 
-	k(auth, $('#field-email').val(), actionCodeSettings)
+	sendSignInLinkToEmail(auth, $('#field-email').val(), actionCodeSettings)
 		.then(() => {
 			// The link was successfully sent. Inform the user.
 			// Save the email locally so you don't need to ask the user for it again
