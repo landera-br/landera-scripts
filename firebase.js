@@ -30,21 +30,16 @@ let formSignup = document.getElementById('form-signup');
 let formSignin = document.getElementById('form-signin');
 let btnSignout = document.getElementById('btn-signout');
 
-console.log(typeof formSignup);
+if (formSignup !== null) formSignup.addEventListener('submit', signupHandler, true);
 
-if (typeof formSignup !== null) formSignup.addEventListener('submit', signupHandler, true);
+if (formSignin !== null) formSignin.addEventListener('submit', signinHandler, true);
 
-if (typeof formSignin !== null) formSignin.addEventListener('submit', signinHandler, true);
-
-if (typeof btnSignout !== null) btnSignout.addEventListener('click', signoutHandler, true);
+if (btnSignout !== null) btnSignout.addEventListener('click', signoutHandler, true);
 
 // NOTE Signup Handler
 function signupHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
-
-	console.log($('#field-email').val());
-	console.log($('#field-password').val());
 
 	createUserWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
 		.then((userCredential) => {
@@ -69,15 +64,12 @@ function signinHandler(e) {
 		.then((userCredential) => {
 			// Signed in
 			const user = userCredential.user;
-			console.log('user logged in: ' + user.email);
+			console.log('User logged in: ' + user.email);
 			// ...
 		})
 		.catch((error) => {
-			const errorCode = error.code;
-			const errorMessage = error.message;
-			var errorText = document.getElementById('signin-error-message');
-			console.log(errorMessage);
-			errorText.innerHTML = errorMessage;
+			alert('Não foi possível criar uma conta. Por favor, tente novamente mais tarde!');
+			console.log(error.message);
 		});
 }
 
@@ -85,13 +77,11 @@ function signinHandler(e) {
 function signoutHandler() {
 	signOut(auth)
 		.then(() => {
-			console.log('user signed out');
-			// Sign-out successful.
+			console.log('User signed out');
 		})
 		.catch((error) => {
-			const errorMessage = error.message;
-			console.log(errorMessage);
-			// An error happened.
+			alert('Não foi possível criar uma conta. Por favor, tente novamente mais tarde!');
+			console.log(error.message);
 		});
 }
 
@@ -103,6 +93,9 @@ onAuthStateChanged(auth, (user) => {
 	if (user) {
 		// NOTE User has signed in
 		const uid = user.uid;
+
+		console.log('Alterou');
+		console.log(publicElements);
 
 		privateElements.forEach(function (element) {
 			element.style.display = 'initial';
