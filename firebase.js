@@ -74,8 +74,8 @@ function signInHandler(e) {
 			window.location.replace('/');
 		})
 		.catch((error) => {
-			const errorMessage = error.message;
-			console.log(errorMessage);
+			console.log(error.message);
+			console.log(error.code);
 		});
 }
 
@@ -94,6 +94,7 @@ function googleSignInHandler(e) {
 			console.log('User logged in: ' + user.email);
 		})
 		.catch((error) => {
+			alert('Conta existente! Por favor, tente outra opção de acesso.');
 			console.log(error.message);
 		});
 }
@@ -113,6 +114,7 @@ function fbSignInHandler(e) {
 			console.log('User logged in: ' + user.email);
 		})
 		.catch((error) => {
+			alert('Conta existente! Por favor, tente outra opção de acesso.');
 			console.log(error.message);
 		});
 }
