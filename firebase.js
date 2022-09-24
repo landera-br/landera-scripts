@@ -69,7 +69,6 @@ const ERRORS = [
 let btnsLogin = document.getElementsByClassName('btn-login');
 let btnsLogout = document.getElementsByClassName('btn-logout');
 if (btnsLogin !== null) {
-	console.log('entrou');
 	Array.from(btnsLogin).forEach(function (btnLogin) {
 		btnLogin.addEventListener('click', loginHandler, true);
 	});
@@ -96,7 +95,7 @@ if (btnPassReset !== null) btnPassReset.addEventListener('click', passwordResetH
 function loginHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
-	window.location = document.referrer;
+	window.location = '/login';
 }
 
 // NOTE Logout handler
@@ -153,8 +152,6 @@ function signInHandler(e) {
 
 	signInWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
 		.then((userCredential) => {
-			const user = userCredential.user;
-			console.log('User logged in: ' + user.email);
 			window.location = document.referrer;
 		})
 		.catch((error) => {
