@@ -123,6 +123,7 @@ function logoutHandler() {
 async function signUpHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
+	$('#btn-sign-in').val('Aguarde...');
 	let user;
 
 	try {
@@ -143,8 +144,7 @@ async function signUpHandler(e) {
 		);
 	}
 
-	console.log(`${$('#field-firstname').val()} ${$('#field-lastname').val()}`);
-
+	// NOTE Set MongoDB user
 	try {
 		await setUser(
 			user.uid,
@@ -153,17 +153,17 @@ async function signUpHandler(e) {
 		);
 	} catch (error) {
 		console.log(error);
+		$('#btn-sign-in').val('Entrar');
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
 	}
 
-	// window.location = '/';
+	window.location = '/';
 }
 
 // NOTE Sign in handler
 function signInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
-
 	$('#btn-sign-in').val('Aguarde...');
 
 	signInWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
@@ -182,29 +182,43 @@ function signInHandler(e) {
 }
 
 // NOTE Sign in with Google
-function googleSignInHandler(e) {
+async function googleSignInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
+	$('#btn-sign-in').val('Aguarde...');
+	let user;
 
-	signInWithPopup(auth, googleProvider)
-		.then((result) => {
-			window.location = document.referrer;
-		})
-		.catch((error) => {
-			console.log(error.message);
-			$('#btn-sign-in').val('Entrar');
-			alert(
-				ERRORS.find((item) => item.code === error.code)?.message
-					? ERRORS.find((item) => item.code === error.code)?.message
-					: ERRORS.find((item) => item.code === 'other')?.message
-			);
-		});
+	try {
+		user = (await signInWithPopup(auth, googleProvider)).user;
+	} catch (error) {
+		console.log(error.message);
+		$('#btn-sign-in').val('Entrar');
+		alert(
+			ERRORS.find((item) => item.code === error.code)?.message
+				? ERRORS.find((item) => item.code === error.code)?.message
+				: ERRORS.find((item) => item.code === 'other')?.message
+		);
+	}
+
+	console.log(user);
+
+	// NOTE Set MongoDB user
+	try {
+		await setUser(user.uid, user.email, user.displayName);
+	} catch (error) {
+		console.log(error);
+		$('#btn-sign-in').val('Entrar');
+		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+	}
+
+	// window.location = document.referrer;
 }
 
 // NOTE Sign in with Facebook
-function fbSignInHandler(e) {
+async function fbSignInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
+	$('#btn-sign-in').val('Aguarde...');
 
 	signInWithPopup(auth, fbProvider)
 		.then((result) => {
