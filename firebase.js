@@ -67,7 +67,7 @@ const ERRORS = [
 
 // NOTE Login header listeners
 let btnLogin = document.getElementById('btn-login');
-let btnLogout = document.getElementById('btn-logout');
+let btnLogout = document.getElementsByClassName('btn-logout');
 if (btnLogin !== null) btnLogin.addEventListener('click', loginHandler, true);
 if (btnLogout !== null) btnLogout.addEventListener('click', logoutHandler, true);
 
@@ -87,7 +87,7 @@ if (btnPassReset !== null) btnPassReset.addEventListener('click', passwordResetH
 function loginHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
-	window.location = '/login';
+	window.location = document.referrer;
 }
 
 // NOTE Logout handler
@@ -116,7 +116,6 @@ async function signUpHandler(e) {
 	createUserWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
 		.then((userCredential) => {
 			user = userCredential.user;
-			console.log('User created successfully: ' + user.email);
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -128,12 +127,12 @@ async function signUpHandler(e) {
 			);
 		});
 
-	console.log(user.uid);
 	try {
-		await setUser(user.uid, email, firstname, lastname);
+		await setUser(user.uid, user.email, user.displayName);
 	} catch (error) {
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
 	}
+	window.location = '/';
 }
 
 // NOTE Sign in handler
@@ -147,7 +146,7 @@ function signInHandler(e) {
 		.then((userCredential) => {
 			const user = userCredential.user;
 			console.log('User logged in: ' + user.email);
-			window.location = '/';
+			window.location = document.referrer;
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -167,11 +166,7 @@ function googleSignInHandler(e) {
 
 	signInWithPopup(auth, googleProvider)
 		.then((result) => {
-			const user = result.user;
-			console.log(typeof user);
-			console.log(JSON.stringify(user));
-			console.log('User logged in: ' + user.email);
-			window.location = '/';
+			window.location = document.referrer;
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -191,9 +186,7 @@ function fbSignInHandler(e) {
 
 	signInWithPopup(auth, fbProvider)
 		.then((result) => {
-			const user = result.user;
-			console.log('User logged in: ' + user.email);
-			window.location = '/';
+			window.location = document.referrer;
 		})
 		.catch((error) => {
 			console.log(error.message);
@@ -254,9 +247,10 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // NOTE Set user in DB
-async function setUser(uid, email, firstname, lastname) {
-	const payload = { fb_uid: uid, email, firstname, lastname };
+async function setUser(uid, email, name) {
+	const payload = { fb_uid: uid, email, name };
 
+	console.log(payload);
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'POST',
