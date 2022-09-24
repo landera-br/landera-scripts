@@ -66,9 +66,13 @@ const ERRORS = [
 ];
 
 // NOTE Login header listeners
-let btnLogin = document.getElementById('btn-login');
+let btnsLogin = document.getElementsByClassName('btn-login');
 let btnsLogout = document.getElementsByClassName('btn-logout');
-if (btnLogin && btnLogin !== null) btnLogin.addEventListener('click', loginHandler, true);
+if (btnsLogin && btnsLogin !== null) {
+	Array.from(btnsLogin).forEach(function (btnLogin) {
+		btnLogin.addEventListener('click', loginHandler, true);
+	});
+}
 if (btnsLogout && btnsLogout !== null) {
 	Array.from(btnsLogout).forEach(function (btnLogout) {
 		btnLogout.addEventListener('click', logoutHandler, true);
