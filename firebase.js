@@ -142,6 +142,7 @@ async function signUpHandler(e) {
 				? ERRORS.find((item) => item.code === error.code)?.message
 				: ERRORS.find((item) => item.code === 'other')?.message
 		);
+		return;
 	}
 
 	// NOTE Set MongoDB user
@@ -155,6 +156,7 @@ async function signUpHandler(e) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+		return;
 	}
 
 	window.location = '/';
@@ -193,11 +195,14 @@ async function googleSignInHandler(e) {
 	} catch (error) {
 		console.log(error.message);
 		$('#btn-sign-in').val('Entrar');
-		alert(
-			ERRORS.find((item) => item.code === error.code)?.message
-				? ERRORS.find((item) => item.code === error.code)?.message
-				: ERRORS.find((item) => item.code === 'other')?.message
-		);
+		if (error.code !== 'popup-closed-by-user') {
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
+		}
+		return;
 	}
 
 	// NOTE Set MongoDB user
@@ -207,6 +212,7 @@ async function googleSignInHandler(e) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+		return;
 	}
 
 	window.location = document.referrer;
@@ -222,13 +228,14 @@ async function fbSignInHandler(e) {
 	try {
 		user = (await signInWithPopup(auth, fbProvider)).user;
 	} catch (error) {
-		console.log(error.message);
-		$('#btn-sign-in').val('Entrar');
-		alert(
-			ERRORS.find((item) => item.code === error.code)?.message
-				? ERRORS.find((item) => item.code === error.code)?.message
-				: ERRORS.find((item) => item.code === 'other')?.message
-		);
+		if (error.code !== 'popup-closed-by-user') {
+			alert(
+				ERRORS.find((item) => item.code === error.code)?.message
+					? ERRORS.find((item) => item.code === error.code)?.message
+					: ERRORS.find((item) => item.code === 'other')?.message
+			);
+		}
+		return;
 	}
 
 	// NOTE Set MongoDB user
@@ -238,6 +245,7 @@ async function fbSignInHandler(e) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+		return;
 	}
 
 	window.location = document.referrer;
