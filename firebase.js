@@ -135,12 +135,14 @@ async function signUpHandler(e) {
 			);
 		});
 
+	console.log('passou');
 	try {
 		await setUser(user.uid, user.email, user.displayName);
 	} catch (error) {
+		console.log(error);
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
 	}
-	window.location = '/';
+	// window.location = '/';
 }
 
 // NOTE Sign in handler
