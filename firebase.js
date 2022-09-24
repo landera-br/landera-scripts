@@ -63,6 +63,10 @@ const ERRORS = [
 		code: 'auth/wrong-password',
 		message: 'Senha inválida.',
 	},
+	{
+		code: 'auth/email-already-in-use',
+		message: 'E-mail já cadastrado.',
+	},
 ];
 
 // NOTE Login header listeners
@@ -139,28 +143,19 @@ async function signUpHandler(e) {
 		);
 	}
 
-	// createUserWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
-	// 	.then((userCredential) => {
-	// 		user = userCredential.user;
-	// 	})
-	// 	.catch((error) => {
-	// 		console.log(error.message);
-	// 		$('#btn-sign-in').val('Entrar');
-	// 		alert(
-	// 			ERRORS.find((item) => item.code === error.code)?.message
-	// 				? ERRORS.find((item) => item.code === error.code)?.message
-	// 				: ERRORS.find((item) => item.code === 'other')?.message
-	// 		);
-	// 	});
-
-	console.log(JSON.stringify(user));
+	console.log(`${$('#field-firstname').val()} ${$('#field-lastname').val()}`);
 
 	try {
-		await setUser(user.uid, user.email, user.displayName);
+		await setUser(
+			user.uid,
+			user.email,
+			`${$('#field-firstname').val()} ${$('#field-lastname').val()}`
+		);
 	} catch (error) {
 		console.log(error);
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
 	}
+
 	// window.location = '/';
 }
 
