@@ -200,7 +200,36 @@ async function googleSignInHandler(e) {
 		);
 	}
 
-	console.log(user);
+	// NOTE Set MongoDB user
+	try {
+		await setUser(user.uid, user.email, user.displayName);
+	} catch (error) {
+		console.log(error);
+		$('#btn-sign-in').val('Entrar');
+		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+	}
+
+	window.location = document.referrer;
+}
+
+// NOTE Sign in with Facebook
+async function fbSignInHandler(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	$('#btn-sign-in').val('Aguarde...');
+	let user;
+
+	try {
+		user = (await signInWithPopup(auth, fbProvider)).user;
+	} catch (error) {
+		console.log(error.message);
+		$('#btn-sign-in').val('Entrar');
+		alert(
+			ERRORS.find((item) => item.code === error.code)?.message
+				? ERRORS.find((item) => item.code === error.code)?.message
+				: ERRORS.find((item) => item.code === 'other')?.message
+		);
+	}
 
 	// NOTE Set MongoDB user
 	try {
@@ -211,28 +240,7 @@ async function googleSignInHandler(e) {
 		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
 	}
 
-	// window.location = document.referrer;
-}
-
-// NOTE Sign in with Facebook
-async function fbSignInHandler(e) {
-	e.preventDefault();
-	e.stopPropagation();
-	$('#btn-sign-in').val('Aguarde...');
-
-	signInWithPopup(auth, fbProvider)
-		.then((result) => {
-			window.location = document.referrer;
-		})
-		.catch((error) => {
-			console.log(error.message);
-			$('#btn-sign-in').val('Entrar');
-			alert(
-				ERRORS.find((item) => item.code === error.code)?.message
-					? ERRORS.find((item) => item.code === error.code)?.message
-					: ERRORS.find((item) => item.code === 'other')?.message
-			);
-		});
+	window.location = document.referrer;
 }
 
 // NOTE Password reset handler
@@ -286,7 +294,6 @@ onAuthStateChanged(auth, (user) => {
 async function setUser(uid, email, name) {
 	const payload = { fb_uid: uid, email, name };
 
-	console.log(payload);
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'POST',
