@@ -108,13 +108,14 @@ function logoutHandler() {
 }
 
 // NOTE Sign up handler
-function signUpHandler(e) {
+async function signUpHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
+	let user;
 
 	createUserWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
 		.then((userCredential) => {
-			const user = userCredential.user;
+			user = userCredential.user;
 			console.log('User created successfully: ' + user.email);
 		})
 		.catch((error) => {
@@ -126,6 +127,13 @@ function signUpHandler(e) {
 					: ERRORS.find((item) => item.code === 'other')?.message
 			);
 		});
+
+	console.log(user.uid);
+	try {
+		await setUser(user.uid, email, firstname, lastname);
+	} catch (error) {
+		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+	}
 }
 
 // NOTE Sign in handler
@@ -160,7 +168,8 @@ function googleSignInHandler(e) {
 	signInWithPopup(auth, googleProvider)
 		.then((result) => {
 			const user = result.user;
-			console.log(user);
+			console.log(typeof user);
+			console.log(JSON.stringify(user));
 			console.log('User logged in: ' + user.email);
 			window.location = '/';
 		})
@@ -243,3 +252,28 @@ onAuthStateChanged(auth, (user) => {
 		});
 	}
 });
+
+// NOTE Set user in DB
+async function setUser(uid, email, firstname, lastname) {
+	const payload = { fb_uid: uid, email, firstname, lastname };
+
+	try {
+		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(payload),
+		});
+
+		const responseData = await response.json();
+
+		// NOTE Save stripe_customer_id in cache
+		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
+		localStorage.setItem('wf_inbox_id', responseData.wf_inbox_id);
+		localStorage.setItem('user_id', responseData.user_id);
+	} catch (error) {
+		alert('Não foi possível recuperar os dados do cliente.');
+	}
+}
