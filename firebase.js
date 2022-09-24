@@ -121,21 +121,40 @@ async function signUpHandler(e) {
 	e.stopPropagation();
 	let user;
 
-	createUserWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
-		.then((userCredential) => {
-			user = userCredential.user;
-		})
-		.catch((error) => {
-			console.log(error.message);
-			$('#btn-sign-in').val('Entrar');
-			alert(
-				ERRORS.find((item) => item.code === error.code)?.message
-					? ERRORS.find((item) => item.code === error.code)?.message
-					: ERRORS.find((item) => item.code === 'other')?.message
-			);
-		});
+	try {
+		user = (
+			await createUserWithEmailAndPassword(
+				auth,
+				$('#field-email').val(),
+				$('#field-password').val()
+			)
+		).user;
+	} catch (error) {
+		console.log(error.message);
+		$('#btn-sign-in').val('Entrar');
+		alert(
+			ERRORS.find((item) => item.code === error.code)?.message
+				? ERRORS.find((item) => item.code === error.code)?.message
+				: ERRORS.find((item) => item.code === 'other')?.message
+		);
+	}
 
-	console.log('passou');
+	// createUserWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
+	// 	.then((userCredential) => {
+	// 		user = userCredential.user;
+	// 	})
+	// 	.catch((error) => {
+	// 		console.log(error.message);
+	// 		$('#btn-sign-in').val('Entrar');
+	// 		alert(
+	// 			ERRORS.find((item) => item.code === error.code)?.message
+	// 				? ERRORS.find((item) => item.code === error.code)?.message
+	// 				: ERRORS.find((item) => item.code === 'other')?.message
+	// 		);
+	// 	});
+
+	console.log(JSON.stringify(user));
+
 	try {
 		await setUser(user.uid, user.email, user.displayName);
 	} catch (error) {
