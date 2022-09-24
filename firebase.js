@@ -68,12 +68,13 @@ const ERRORS = [
 // NOTE Login header listeners
 let btnsLogin = document.getElementsByClassName('btn-login');
 let btnsLogout = document.getElementsByClassName('btn-logout');
-if (btnsLogin && btnsLogin !== null) {
+if (btnsLogin !== null) {
+	console.log('entrou');
 	Array.from(btnsLogin).forEach(function (btnLogin) {
 		btnLogin.addEventListener('click', loginHandler, true);
 	});
 }
-if (btnsLogout && btnsLogout !== null) {
+if (btnsLogout !== null) {
 	Array.from(btnsLogout).forEach(function (btnLogout) {
 		btnLogout.addEventListener('click', logoutHandler, true);
 	});
@@ -90,8 +91,6 @@ if (formSignIn !== null) formSignIn.addEventListener('submit', signInHandler, tr
 if (btnGoogleSignIn !== null) btnGoogleSignIn.addEventListener('click', googleSignInHandler, true);
 if (btnFbSignIn !== null) btnFbSignIn.addEventListener('click', fbSignInHandler, true);
 if (btnPassReset !== null) btnPassReset.addEventListener('click', passwordResetHandler, true);
-
-console.log(btnPassReset);
 
 // NOTE Login button handler
 function loginHandler(e) {
