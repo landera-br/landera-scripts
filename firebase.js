@@ -195,6 +195,7 @@ async function googleSignInHandler(e) {
 	} catch (error) {
 		console.log(error.message);
 		$('#btn-sign-in').val('Entrar');
+		console.log(error.code);
 		if (error.code !== 'popup-closed-by-user') {
 			alert(
 				ERRORS.find((item) => item.code === error.code)?.message
@@ -205,6 +206,8 @@ async function googleSignInHandler(e) {
 		return;
 	}
 
+	console.log(user);
+	console.log('Não era para passar');
 	// NOTE Set MongoDB user
 	try {
 		await setUser(user.uid, user.email, user.displayName);
