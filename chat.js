@@ -9,10 +9,24 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './firebase.js';
 
-window.addEventListener('load', function () {
-	console.log(localStorage.getItem('wf_inbox_id'));
-	if (localStorage.getItem('wf_inbox_id') !== window.location.pathname.split('/')[2]) {
-		console.log('Barra');
+window.addEventListener('load', async function () {
+	console.log(await getIdToken(auth.currentUser, true));
+	// NOTE Check if has authorization to read
+	try {
+		const response = await fetch(
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?inbox_id=${
+				window.location.pathname.split('/')[2]
+			}`,
+			{
+				method: 'GET',
+			}
+		);
+
+		console.log(response.status);
+
+		if (response.status !== 200) window.location = '/';
+	} catch (error) {
+		window.location = '/';
 	}
 });
 

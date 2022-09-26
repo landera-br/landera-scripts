@@ -26,7 +26,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
 export const db = getFirestore(app);
@@ -327,7 +327,6 @@ async function setUser(uid, email, name) {
 		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
 		localStorage.setItem('wf_inbox_id', responseData.wf_inbox_id);
 		localStorage.setItem('user_id', responseData.user_id);
-		localStorage.setItem('fb_id_token', await getIdToken(auth.currentUser, true));
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
