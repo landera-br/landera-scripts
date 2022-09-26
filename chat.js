@@ -9,6 +9,13 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './firebase.js';
 
+window.addEventListener('load', function () {
+	console.log(localStorage.getItem('wf_inbox_id'));
+	if (localStorage.getItem('wf_inbox_id') !== window.location.pathname.split('/')[2]) {
+		console.log('Barra');
+	}
+});
+
 $('#buying-tab').on('click', async function () {
 	$('.chat').hide();
 	$('.chat-placeholder').fadeIn();
