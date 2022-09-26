@@ -26,7 +26,9 @@ $('#btn-submit').on('click', async (e) => {
 		user: {
 			name: $('#field-name').val(),
 			email: $('#field-email').val(),
-			creci: $('#field-creci').val(),
+			business: {
+				creci: $('#field-creci').val(),
+			},
 			phone: $('#field-phone').val(),
 			stripe_customer_id: localStorage.getItem('stripe_customer_id'),
 			wallet_address: $('#field-wallet-address').val(),
