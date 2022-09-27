@@ -113,6 +113,7 @@ function loginHandler(e) {
 function logoutHandler() {
 	signOut(auth)
 		.then(() => {
+			localStorage.clear();
 			window.location = '/';
 		})
 		.catch((error) => {
@@ -154,11 +155,7 @@ async function signUpHandler(e) {
 
 	// NOTE Set MongoDB user
 	try {
-		await setUser(
-			user.uid,
-			user.email,
-			`${$('#field-firstname').val()} ${$('#field-lastname').val()}`
-		);
+		await setUser(user, `${$('#field-firstname').val()} ${$('#field-lastname').val()}`);
 	} catch (error) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
@@ -214,7 +211,7 @@ async function googleSignInHandler(e) {
 
 	// NOTE Set MongoDB user
 	try {
-		await setUser(user.uid, user.email, user.displayName);
+		await setUser(user, user.displayName);
 	} catch (error) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
@@ -247,7 +244,7 @@ async function fbSignInHandler(e) {
 
 	// NOTE Set MongoDB user
 	try {
-		await setUser(user.uid, user.email, user.displayName);
+		await setUser(user, user.displayName);
 	} catch (error) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
@@ -285,8 +282,6 @@ onAuthStateChanged(auth, async (user) => {
 	if (user) {
 		// NOTE User has signed in
 		const uid = user.uid;
-		const idToken = await user.getIdToken(true);
-		localStorage.setItem('fb_token', idToken);
 
 		privateElements.forEach(function (element) {
 			element.style.display = 'inherit';
@@ -310,8 +305,19 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // NOTE Set user in DB
-async function setUser(uid, email, name) {
-	const payload = { fb_uid: uid, email, name };
+async function setUser(user, name) {
+	const idToken = await user.getIdToken(true);
+
+	console.log(idToken);
+	console.log(await getIdToken(auth.currentUser, true));
+	if (idToken && idToken !== 'undefined') {
+		localStorage.setItem('fb_token', idToken);
+	} else {
+		alert('Não foi possível recuperar os dados do cliente.');
+		return;
+	}
+
+	const payload = { fb_uid: user.uid, email: user.email, name };
 
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
@@ -325,8 +331,6 @@ async function setUser(uid, email, name) {
 		});
 
 		const responseData = await response.json();
-
-		console.log(await getIdToken(auth.currentUser, true));
 
 		// NOTE Save stripe_customer_id in cache
 		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
@@ -367,7 +371,7 @@ $('.btn-stripe-session').on('click', async function () {
 
 // NOTE Chat Redirect
 $('.btn-chat').on('click', () => {
-	if (localStorage.getItem('wf_inbox_id')) {
+	if (localStorage.getItem('wf_inbox_id') && localStorage.getItem('wf_inbox_id') !== 'undefined') {
 		window.location = `/inbox/${localStorage.getItem('wf_inbox_id')}`;
 	} else {
 		alert(
