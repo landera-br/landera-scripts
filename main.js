@@ -9,7 +9,7 @@ import {
 	onAuthStateChanged,
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
-	signInWithPopup,
+	signInWithRedirect,
 	signOut,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
@@ -195,7 +195,7 @@ async function googleSignInHandler(e) {
 	let user;
 
 	try {
-		user = (await signInWithPopup(auth, googleProvider)).user;
+		user = (await signInWithRedirect(auth, googleProvider)).user;
 	} catch (error) {
 		console.log(error.message);
 		$('#btn-sign-in').val('Entrar');
@@ -230,7 +230,7 @@ async function fbSignInHandler(e) {
 	let user;
 
 	try {
-		user = (await signInWithPopup(auth, fbProvider)).user;
+		user = (await signInWithRedirect(auth, fbProvider)).user;
 	} catch (error) {
 		if (error.code !== 'auth/popup-closed-by-user') {
 			alert(
@@ -292,10 +292,8 @@ onAuthStateChanged(auth, async (user) => {
 		});
 	} else {
 		// NOTE User has signed out
-		localStorage.removeItem('fb_token');
-
 		publicElements.forEach(function (element) {
-			element.style.display = 'initial';
+			element.style.display = 'inherit';
 		});
 
 		privateElements.forEach(function (element) {

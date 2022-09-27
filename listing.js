@@ -1,5 +1,5 @@
 import { addDoc, collection } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
-import { db } from './firebase.js';
+import { db } from './main.js';
 
 // NOTE When form is submitted
 $('#btn-interest').on('click', async (e) => {
