@@ -1,4 +1,3 @@
-import { getIdToken } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import {
 	addDoc,
 	collection,
@@ -11,9 +10,7 @@ import {
 import { db } from './main.js';
 
 window.addEventListener('load', async function () {
-	console.log(localStorage.getItem('fb_uid'));
-	const userToken = await getIdToken(localStorage.getItem('fb_uid'), true);
-	console.log(userToken);
+	console.log(localStorage.getItem('fb_token'));
 
 	// NOTE Check if has authorization to read
 	try {
@@ -23,7 +20,7 @@ window.addEventListener('load', async function () {
 			}`,
 			{
 				headers: {
-					Authorization: `Bearer ${userToken}`, // notice the Bearer before your token
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`, // notice the Bearer before your token
 				},
 				method: 'GET',
 			}
