@@ -10,8 +10,12 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { auth, db } from './main.js';
 
+(async function init() {
+	console.log('init');
+	console.log(auth.currentUser);
+})();
+
 window.addEventListener('load', async function () {
-	console.log(auth);
 	console.log(auth.currentUser);
 	const userToken = await getIdToken(auth.currentUser, true);
 	console.log(userToken);
