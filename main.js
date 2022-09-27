@@ -278,14 +278,15 @@ function passwordResetHandler() {
 }
 
 // NOTE Show/Hide elements
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 	let publicElements = document.querySelectorAll("[data-onlogin='hide']");
 	let privateElements = document.querySelectorAll("[data-onlogin='show']");
 
 	if (user) {
 		// NOTE User has signed in
 		const uid = user.uid;
-		localStorage.setItem('fb_uid', uid);
+		const idToken = await user.getIdToken(true);
+		localStorage.setItem('fb_token', idToken);
 
 		privateElements.forEach(function (element) {
 			element.style.display = 'inherit';
@@ -296,7 +297,7 @@ onAuthStateChanged(auth, (user) => {
 		});
 	} else {
 		// NOTE User has signed out
-		localStorage.removeItem('fb_uid');
+		localStorage.removeItem('fb_token');
 
 		publicElements.forEach(function (element) {
 			element.style.display = 'initial';
