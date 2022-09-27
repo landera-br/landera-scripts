@@ -1,4 +1,4 @@
-import { getIdToken } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
+// import { getIdToken } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import {
 	addDoc,
 	collection,
@@ -10,37 +10,35 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { auth, db } from './main.js';
 
-(async function init() {
-	console.log('init');
-	console.log(auth.currentUser);
-})();
-
-window.addEventListener('load', async function () {
-	console.log(auth.currentUser);
-	const userToken = await getIdToken(auth.currentUser, true);
-	console.log(userToken);
-
-	// NOTE Check if has authorization to read
-	try {
-		const response = await fetch(
-			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?inbox_id=${
-				window.location.pathname.split('/')[2]
-			}`,
-			{
-				headers: {
-					Authorization: `Bearer ${userToken}`, // notice the Bearer before your token
-				},
-				method: 'GET',
-			}
-		);
-
-		console.log(response.status);
-
-		if (response.status !== 200) window.location = '/';
-	} catch (error) {
-		window.location = '/';
-	}
+onAuthStateChanged(auth, (user) => {
+	console.log('passou');
+	if (user) console.log(user.uid);
 });
+// window.addEventListener('load', async function () {
+
+// const userToken = await getIdToken(auth.currentUser, true);
+
+// // NOTE Check if has authorization to read
+// try {
+// 	const response = await fetch(
+// 		`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?inbox_id=${
+// 			window.location.pathname.split('/')[2]
+// 		}`,
+// 		{
+// 			headers: {
+// 				Authorization: `Bearer ${userToken}`, // notice the Bearer before your token
+// 			},
+// 			method: 'GET',
+// 		}
+// 	);
+
+// 	console.log(response.status);
+
+// 	if (response.status !== 200) window.location = '/';
+// } catch (error) {
+// 	window.location = '/';
+// }
+// });
 
 $('#buying-tab').on('click', async function () {
 	$('.chat').hide();
