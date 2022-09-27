@@ -9,7 +9,7 @@ import {
 	onAuthStateChanged,
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
-	signInWithRedirect,
+	signInWithPopup,
 	signOut,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
@@ -195,7 +195,7 @@ async function googleSignInHandler(e) {
 	let user;
 
 	try {
-		user = (await signInWithRedirect(auth, googleProvider)).user;
+		user = (await signInWithPopup(auth, googleProvider)).user;
 	} catch (error) {
 		console.log(error.message);
 		$('#btn-sign-in').val('Entrar');
@@ -230,7 +230,7 @@ async function fbSignInHandler(e) {
 	let user;
 
 	try {
-		user = (await signInWithRedirect(auth, fbProvider)).user;
+		user = (await signInWithPopup(auth, fbProvider)).user;
 	} catch (error) {
 		if (error.code !== 'auth/popup-closed-by-user') {
 			alert(
