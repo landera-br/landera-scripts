@@ -11,6 +11,8 @@ import {
 import { auth, db } from './main.js';
 
 window.addEventListener('load', async function () {
+	console.log(auth);
+	console.log(auth.currentUser);
 	const userToken = await getIdToken(auth.currentUser, true);
 	console.log(userToken);
 
