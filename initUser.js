@@ -48,6 +48,7 @@ $('#btn-submit').on('click', async (e) => {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 			},
 			body: JSON.stringify(payload),
 		});

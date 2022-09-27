@@ -319,6 +319,7 @@ async function setUser(uid, email, name) {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 			},
 			body: JSON.stringify(payload),
 		});
@@ -347,6 +348,7 @@ $('.btn-stripe-session').on('click', async function () {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 				},
 				body: JSON.stringify({ stripe_customer_id: localStorage.getItem('stripe_customer_id') }),
 			}

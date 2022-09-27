@@ -299,6 +299,9 @@ $('#btn-submit').on('click', async (e) => {
 			{
 				method: 'POST',
 				body: formData,
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+				},
 			}
 		);
 

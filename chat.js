@@ -20,13 +20,11 @@ window.addEventListener('load', async function () {
 			}`,
 			{
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('fb_token')}`, // notice the Bearer before your token
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 				},
 				method: 'GET',
 			}
 		);
-
-		console.log(response.status);
 
 		if (response.status !== 200) window.location = '/';
 	} catch (error) {
@@ -87,6 +85,7 @@ $('.btn-channel').on('click', async function () {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 				},
 				body: JSON.stringify({
 					fields: fields,
@@ -131,6 +130,7 @@ $('.chat-form').submit(async (e) => {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 				},
 				body: JSON.stringify({
 					wf_sender_inbox_id: window.location.pathname.split('/')[2],

@@ -16,6 +16,7 @@ window.addEventListener('load', async () => {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 				},
 				body: searchParams.has('session_id')
 					? JSON.stringify({ checkout_session_id: searchParams.get('session_id') })

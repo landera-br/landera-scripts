@@ -29,6 +29,7 @@ $('#btn-interest').on('click', async (e) => {
 					headers: {
 						Accept: 'application/json',
 						'Content-Type': 'application/json',
+						Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 					},
 					body: JSON.stringify({ wf_inbox_id: localStorage.getItem('wf_inbox_id') }),
 				}
