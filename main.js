@@ -26,7 +26,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
 export const db = getFirestore(app);
@@ -285,6 +285,7 @@ onAuthStateChanged(auth, (user) => {
 	if (user) {
 		// NOTE User has signed in
 		const uid = user.uid;
+		localStorage.setItem('fb_uid', uid);
 
 		privateElements.forEach(function (element) {
 			element.style.display = 'inherit';
@@ -294,7 +295,9 @@ onAuthStateChanged(auth, (user) => {
 			element.style.display = 'none';
 		});
 	} else {
-		// User has signed out
+		// NOTE User has signed out
+		localStorage.removeItem('fb_uid');
+
 		publicElements.forEach(function (element) {
 			element.style.display = 'initial';
 		});
