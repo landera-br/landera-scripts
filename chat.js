@@ -7,10 +7,12 @@ import {
 	query,
 	where,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
-import { db } from './firebase.js';
+import { auth, db } from './main.js';
 
 window.addEventListener('load', async function () {
-	console.log(await getIdToken(auth.currentUser, true));
+	const userToken = await getIdToken(auth.currentUser, true);
+	console.log(userToken);
+
 	// NOTE Check if has authorization to read
 	try {
 		const response = await fetch(
@@ -18,6 +20,9 @@ window.addEventListener('load', async function () {
 				window.location.pathname.split('/')[2]
 			}`,
 			{
+				headers: {
+					Authorization: `Bearer ${userToken}`, // notice the Bearer before your token
+				},
 				method: 'GET',
 			}
 		);
