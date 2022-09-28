@@ -314,8 +314,6 @@ async function setUser(user, name) {
 
 	const payload = { fb_uid: user.uid, email: user.email, name };
 
-	console.log(payload);
-
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'POST',
@@ -327,11 +325,7 @@ async function setUser(user, name) {
 			body: JSON.stringify(payload),
 		});
 
-		console.log(response);
-
 		const responseData = await response.json();
-
-		console.log(responseData);
 
 		// NOTE Save stripe_customer_id in cache
 		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);

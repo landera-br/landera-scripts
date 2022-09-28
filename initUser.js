@@ -24,14 +24,11 @@ $('#btn-submit').on('click', async (e) => {
 	// NOTE Update user
 	const payload = {
 		user: {
-			name: $('#field-name').val(),
-			email: $('#field-email').val(),
 			business: {
 				creci: $('#field-creci').val(),
 			},
 			phone: $('#field-phone').val(),
 			stripe_customer_id: localStorage.getItem('stripe_customer_id'),
-			wallet_address: $('#field-wallet-address').val(),
 			states: ['SP'],
 			cities: getCitiesNames(),
 		},

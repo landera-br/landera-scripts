@@ -10,8 +10,6 @@ import {
 import { db } from './main.js';
 
 window.addEventListener('load', async function () {
-	console.log(localStorage.getItem('fb_token'));
-
 	// NOTE Check if has authorization to read
 	try {
 		const response = await fetch(
