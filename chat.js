@@ -17,10 +17,10 @@ window.addEventListener('load', async function () {
 				window.location.pathname.split('/')[2]
 			}`,
 			{
+				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 				},
-				method: 'GET',
 			}
 		);
 
