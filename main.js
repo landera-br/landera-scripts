@@ -280,8 +280,9 @@ onAuthStateChanged(auth, async (user) => {
 
 	if (user) {
 		// NOTE User has signed in
-		const uid = user.uid;
-		console.log(`User is logged`);
+		const idToken = await user.getIdToken(true);
+
+		localStorage.setItem('fb_token', idToken);
 
 		privateElements.forEach(function (element) {
 			element.style.display = 'inherit';
