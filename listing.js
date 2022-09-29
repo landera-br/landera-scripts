@@ -52,8 +52,14 @@ $('#btn-interest').on('click', async (e) => {
 			try {
 				await addDoc(collection(db, 'messages'), {
 					channel: channel.id,
-					sender: channel.buyer,
-					receiver: channel.seller,
+					sender: {
+						inbox_id: channel.buyer_inbox_id,
+						fb_uid: localStorage.getItem('fb_uid'),
+					},
+					receiver: {
+						inbox_id: channel.seller_inbox_id,
+						fb_uid: channel.seller_fb_uid,
+					},
 					createdAt: new Date(Date.now()),
 					text: $('#field-message').val(),
 				});
