@@ -53,12 +53,12 @@ $('#btn-interest').on('click', async (e) => {
 				await addDoc(collection(db, 'messages'), {
 					channel: channel.id,
 					sender: {
+						fb_uzid: localStorage.getItem('fb_uid'),
 						inbox_id: channel.buyer_inbox_id,
-						fb_uid: localStorage.getItem('fb_uid'),
 					},
 					receiver: {
-						inbox_id: channel.seller_inbox_id,
 						fb_uid: channel.seller_fb_uid,
+						inbox_id: channel.seller_inbox_id,
 					},
 					createdAt: new Date(Date.now()),
 					text: $('#field-message').val(),

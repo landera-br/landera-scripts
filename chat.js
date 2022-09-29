@@ -107,12 +107,12 @@ $('.chat-form').submit(async (e) => {
 		await addDoc(collection(db, 'messages'), {
 			channel: $('#header-channel').text(),
 			sender: {
+				fb_uid: localStorage.getItem('fb_uid'),
 				inbox_id: window.location.pathname.split('/')[2],
-				uid: localStorage.getItem('fb_uid'),
 			},
 			receiver: {
+				fb_uid: $('#header-chatter-uid').text(),
 				inbox_id: $('#header-chatter-inbox-id').text(),
-				uid: $('#header-chatter-uid').text(),
 			},
 			createdAt: new Date(Date.now()),
 			text: $('#input-message').val(),
@@ -152,16 +152,16 @@ $('.chat-form').submit(async (e) => {
 });
 
 function displayChat(messages, inboxId) {
-	$('.messages').empty();
+	$('#messages').empty();
 
 	// NOTE Create chat element and style according to inboxId
 	messages.forEach((message) => {
 		if (message.sender && message.receiver && message.text) {
 			$(
-				`<div class=${inboxId === message.sender ? 'sent-message' : 'received-message'}>${
+				`<div class=${inboxId === message.sender.inbox_id ? 'sent-message' : 'received-message'}>${
 					message.text
 				}</div>`
-			).appendTo('.messages');
+			).appendTo('#messages');
 		}
 	});
 
