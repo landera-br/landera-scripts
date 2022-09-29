@@ -58,10 +58,9 @@ $('.btn-channel').on('click', async function () {
 	// NOTE Listen to Firestore data
 	const q = query(
 		collection(db, 'messages'),
-		where('channel', '==', channelId),
+		// where('channel', '==', channelId),
 		where('sender.fb_uid', '!=', null),
 		orderBy('createdAt'),
-		orderBy('sender.fb_uid'),
 		limit(100)
 	);
 
