@@ -53,7 +53,7 @@ $('#btn-interest').on('click', async (e) => {
 				await addDoc(collection(db, 'messages'), {
 					channel: channel.id,
 					sender: {
-						fb_uzid: localStorage.getItem('fb_uid'),
+						fb_uid: localStorage.getItem('fb_uid'),
 						inbox_id: channel.buyer_inbox_id,
 					},
 					receiver: {
