@@ -59,6 +59,7 @@ $('.btn-channel').on('click', async function () {
 	const q = query(
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
+		where('text', '==', 'Aqui'),
 		orderBy('createdAt'),
 		limit(100)
 	);
