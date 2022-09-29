@@ -1,7 +1,9 @@
 import {
 	addDoc,
 	collection,
+	// limit,
 	onSnapshot,
+	// orderBy,
 	query,
 	where,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
@@ -57,9 +59,9 @@ $('.btn-channel').on('click', async function () {
 	const q = query(
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
-		where('allowed-uids', 'array-contains', ['6hgxdGn6mnWp0ASdGZLUX5zraw33']),
-		orderBy('createdAt'),
-		limit(100)
+		where('allowed-uids', 'array-contains', ['6hgxdGn6mnWp0ASdGZLUX5zraw33'])
+		// orderBy('createdAt'),
+		// limit(100)
 	);
 
 	onSnapshot(q, (querySnapshot) => {
