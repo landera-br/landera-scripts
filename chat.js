@@ -60,7 +60,6 @@ $('.btn-channel').on('click', async function () {
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
 		where('sender.fb_uid', '!=', null),
-		where('receiver.fb_uid', '!=', null),
 		orderBy('createdAt'),
 		limit(100)
 	);
