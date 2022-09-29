@@ -333,6 +333,7 @@ async function setUser(user, name) {
 		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
 		localStorage.setItem('wf_inbox_id', responseData.wf_inbox_id);
 		localStorage.setItem('user_id', responseData.user_id);
+		localStorage.setItem('fb_uid', user.uid);
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}

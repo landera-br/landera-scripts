@@ -43,14 +43,15 @@ $('#selling-tab').on('click', async function () {
 $('.btn-channel').on('click', async function () {
 	$('.chat-placeholder').hide();
 
-	const channelId = $(this).attr('id');
+	const channelId = $(this).attr('data-channelId');
 
-	$('.header-channel').text(channelId);
-	$('.header-chatter').text($(this).find('.chatter').text());
-	$('.header-chatter-id').text($(this).find('.chatter').attr('id'));
-	$('.header-date').text(`Atualizado em ${$(this).parent().parent().find('.updated-at').text()}`);
-	$('.header-initials').text($(this).find('.initials').text());
-	$('.header-initials').css('background-color', $(this).find('.initials').css('background-color'));
+	$('#header-channel').text(channelId);
+	$('#header-chatter-name').text($(this).find('.chatter-name').text());
+	$('#header-chatter-uid').text($(this).find('.chatter-name').attr('data-fbUid'));
+	$('#header-chatter-inbox-id').text($(this).find('.chatter-name').attr('data-inboxId'));
+	$('#header-date').text(`Atualizado em ${$(this).parent().parent().find('.updated-at').text()}`);
+	$('#header-initials').text($(this).find('.initials').text());
+	$('#header-initials').css('background-color', $(this).find('.initials').css('background-color'));
 
 	$(this).find('.unread-status').css('background-color', 'white');
 
@@ -104,9 +105,15 @@ $('.chat-form').submit(async (e) => {
 	// NOTE Store message in the DB
 	try {
 		await addDoc(collection(db, 'messages'), {
-			channel: $('.header-channel').text(),
-			sender: window.location.pathname.split('/')[2],
-			receiver: $('.header-chatter-id').text(),
+			channel: $('#header-channel').text(),
+			sender: {
+				inbox_id: window.location.pathname.split('/')[2],
+				uid: localStorage.getItem('fb_uid'),
+			},
+			receiver: {
+				inbox_id: $('#header-chatter-inbox-id').text(),
+				uid: $('#header-chatter-uid').text(),
+			},
 			createdAt: new Date(Date.now()),
 			text: $('#input-message').val(),
 		});
@@ -121,7 +128,7 @@ $('.chat-form').submit(async (e) => {
 	try {
 		const response = await fetch(
 			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/channels/${$(
-				'.header-channel'
+				'#header-channel'
 			).text()}`,
 			{
 				method: 'PATCH',
