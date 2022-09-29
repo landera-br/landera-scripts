@@ -1,7 +1,7 @@
 import {
 	addDoc,
 	collection,
-	// limit,
+	limit,
 	onSnapshot,
 	orderBy,
 	query,
