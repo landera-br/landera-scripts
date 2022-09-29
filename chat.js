@@ -61,6 +61,7 @@ $('.btn-channel').on('click', async function () {
 		where('channel', '==', channelId),
 		where('sender.fb_uid', '!=', null),
 		orderBy('createdAt'),
+		orderBy('sender.fb_uid'),
 		limit(100)
 	);
 
