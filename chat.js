@@ -59,9 +59,9 @@ $('.btn-channel').on('click', async function () {
 	const q = query(
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
-		where('allowed-uids', 'array-contains', '6hgxdGn6mnWp0ASdGZLUX5zraw33'),
-		orderBy('createdAt')
-		// limit(100)
+		where('allowed_uids', 'array-contains', '6hgxdGn6mnWp0ASdGZLUX5zraw33'),
+		orderBy('created_at'),
+		limit(100)
 	);
 
 	onSnapshot(q, (querySnapshot) => {
@@ -115,7 +115,7 @@ $('.chat-form').submit(async (e) => {
 				fb_uid: $('#header-chatter-uid').text(),
 				inbox_id: $('#header-chatter-inbox-id').text(),
 			},
-			createdAt: new Date(Date.now()),
+			created_at: new Date(Date.now()),
 			text: $('#input-message').val(),
 		});
 	} catch (error) {
