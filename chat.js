@@ -1,9 +1,7 @@
 import {
 	addDoc,
 	collection,
-	limit,
 	onSnapshot,
-	orderBy,
 	query,
 	where,
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
