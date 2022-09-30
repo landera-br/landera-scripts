@@ -55,11 +55,12 @@ $('.btn-channel').on('click', async function () {
 
 	$(this).find('.unread-status').css('background-color', 'white');
 
+	// where('allowed_uids', 'array-contains', '6hgxdGn6mnWp0ASdGZLUX5zraw33'),
+
 	// NOTE Listen to Firestore data
 	const q = query(
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
-		// where('allowed_uids', 'array-contains', '6hgxdGn6mnWp0ASdGZLUX5zraw33'),
 		orderBy('createdAt'),
 		limit(100)
 	);
