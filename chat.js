@@ -60,7 +60,7 @@ $('.btn-channel').on('click', async function () {
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
 		where('allowed_uids', 'array-contains', localStorage.getItem('fb_uid')),
-		orderBy('created_at', 'desc'),
+		orderBy('created_at', 'asc'),
 		limit(100)
 	);
 
