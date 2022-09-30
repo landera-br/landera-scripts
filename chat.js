@@ -55,14 +55,12 @@ $('.btn-channel').on('click', async function () {
 
 	$(this).find('.unread-status').css('background-color', 'white');
 
-	console.log(channelId);
-
 	// NOTE Listen to Firestore data
 	const q = query(
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
 		// where('allowed_uids', 'array-contains', '6hgxdGn6mnWp0ASdGZLUX5zraw33'),
-		orderBy('created_at', 'desc'),
+		orderBy('createdAt'),
 		limit(100)
 	);
 
@@ -117,7 +115,7 @@ $('.chat-form').submit(async (e) => {
 				fb_uid: $('#header-chatter-uid').text(),
 				inbox_id: $('#header-chatter-inbox-id').text(),
 			},
-			created_at: new Date(Date.now()),
+			createdAt: new Date(Date.now()),
 			text: $('#input-message').val(),
 		});
 	} catch (error) {

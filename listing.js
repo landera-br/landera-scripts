@@ -60,7 +60,7 @@ $('#btn-interest').on('click', async (e) => {
 						fb_uid: channel.seller_fb_uid,
 						inbox_id: channel.seller_inbox_id,
 					},
-					created_at: new Date(Date.now()),
+					createdAt: new Date(Date.now()),
 					text: $('#field-message').val(),
 				});
 			} catch (error) {
