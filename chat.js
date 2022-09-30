@@ -55,12 +55,14 @@ $('.btn-channel').on('click', async function () {
 
 	$(this).find('.unread-status').css('background-color', 'white');
 
+	console.log(channelId);
+
 	// NOTE Listen to Firestore data
 	const q = query(
 		collection(db, 'messages'),
 		where('channel', '==', channelId),
 		// where('allowed_uids', 'array-contains', '6hgxdGn6mnWp0ASdGZLUX5zraw33'),
-		orderBy('created_at'),
+		orderBy('created_at', 'desc'),
 		limit(100)
 	);
 
