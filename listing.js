@@ -60,6 +60,7 @@ $('#btn-interest').on('click', async (e) => {
 						fb_uid: channel.seller_fb_uid,
 						inbox_id: channel.seller_inbox_id,
 					},
+					allowed_uids: [localStorage.getItem('fb_uid'), channel.seller_fb_uid],
 					created_at: new Date(Date.now()),
 					text: $('#field-message').val(),
 				});

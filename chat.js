@@ -115,6 +115,7 @@ $('.chat-form').submit(async (e) => {
 				fb_uid: $('#header-chatter-uid').text(),
 				inbox_id: $('#header-chatter-inbox-id').text(),
 			},
+			allowed_uids: [localStorage.getItem('fb_uid'), $('#header-chatter-uid').text()],
 			created_at: new Date(Date.now()),
 			text: $('#input-message').val(),
 		});
