@@ -88,6 +88,12 @@ $('.btn-subscribe').on('click', async (e) => {
 	$('#subscription-modal').css('display', 'flex').show();
 
 	$('#btn-subscription-close').on('click', async () => $('#subscription-modal').hide());
+	$('#btn-add-link').on('click', async () => {
+		console.log('Adicionou!');
+		$(
+			'<input type="text" class="text-field-8 w-input subscription-links" maxlength="256" name="field-2" data-name="Field 2" placeholder="Link do anúncio" required="">'
+		).appendTo('#subscription-links-wrapper');
+	});
 
 	$('#form-subscription').submit(async (e) => {
 		e.preventDefault();
