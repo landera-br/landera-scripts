@@ -111,26 +111,29 @@ $('.btn-subscribe').on('click', async (e) => {
 $('#btn-download').on('click', async (e) => {
 	var zip = new JSZip();
 	var zipFilename = 'imagens.zip';
-	var urls = [
+	const urls = [
 		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220b495253dac3_bed71ba2-423a-4b8c-a4ae-ef47dad7bd51.png',
 		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220befac53db35_0e5f64ad-9a68-45f9-8951-81a4ed18f80d.png',
 	];
 
-	urls.forEach((url, index) => {
+	console.log(urls.length);
+	for (let i = 0; i < urls.length; i++) {
 		console.log('x');
-		var filename = `IMG_${index}.png`;
+		var filename = `IMG_${i}.png`;
 
 		// Loads file and compress it
-		JSZipUtils.getBinaryContent(url, function (err, data) {
-			if (err) throw err;
+		await JSZipUtils.getBinaryContent(url, async (err, data) => {
+			if (err) {
+				console.log('deu ruim');
+				throw err;
+			}
 
 			console.log(filename);
-			console.log(data);
-			zip.file(filename, data, { binary: true });
+			await zip.file(filename, data, { binary: true });
 		});
-	});
+	}
 
-	zip.generateAsync({ type: 'blob' }).then(function (content) {
+	await zip.generateAsync({ type: 'blob' }).then(function (content) {
 		saveAs(content, zipFilename);
 	});
 });
