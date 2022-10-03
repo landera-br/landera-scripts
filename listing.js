@@ -122,12 +122,12 @@ $('#btn-download').on('click', async (e) => {
 
 		// Loads file and compress it
 		JSZipUtils.getBinaryContent(url, function (err, data) {
-			if (err) {
-				return;
-			}
+			if (err) return;
+
+			console.log(filename);
+			console.log(data);
 			zip.file(filename, data);
 			count++;
-			console.log(count);
 			if (count < urls.length) {
 				zip.generateAsync({ type: 'blob' }).then(function (content) {
 					saveAs(content, zipFilename);
