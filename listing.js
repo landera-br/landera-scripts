@@ -1,4 +1,3 @@
-import { saveAs } from 'file-saver';
 import { addDoc, collection } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './main.js';
 
