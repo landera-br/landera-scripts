@@ -123,10 +123,9 @@ $('#btn-download').on('click', async (e) => {
 		// Loads file and compress it
 		JSZipUtils.getBinaryContent(url, function (err, data) {
 			if (err) {
-				console.log(err);
 				return;
 			}
-			zip.file(filename, data, { binary: true });
+			zip.file(filename, data);
 			count++;
 			console.log(count);
 			if (count < urls.length) {
