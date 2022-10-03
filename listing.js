@@ -114,7 +114,7 @@ $('#btn-download').on('click', async (e) => {
 	var zipFilename = 'imagens.zip';
 	var urls = [
 		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220b495253dac3_bed71ba2-423a-4b8c-a4ae-ef47dad7bd51.png',
-		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220b495253dac3_bed71ba2-423a-4b8c-a4ae-ef47dad7bd51.png',
+		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220befac53db35_0e5f64ad-9a68-45f9-8951-81a4ed18f80d.png',
 	];
 
 	urls.forEach(function (url) {
@@ -123,11 +123,13 @@ $('#btn-download').on('click', async (e) => {
 		// Loads file and compress it
 		JSZipUtils.getBinaryContent(url, function (err, data) {
 			if (err) {
+				console.log(err);
 				return;
 			}
 			zip.file(filename, data, { binary: true });
 			count++;
-			if (count == urls.length) {
+			console.log(count);
+			if (count < urls.length) {
 				zip.generateAsync({ type: 'blob' }).then(function (content) {
 					saveAs(content, zipFilename);
 				});
