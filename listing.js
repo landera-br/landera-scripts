@@ -19,7 +19,6 @@ $('#btn-interest').on('click', async (e) => {
 
 			$('#form-interest').css('pointer-events', 'none');
 			$('#btn-interest-submit').val('Enviando...');
-			$('#btn-interest-submit').addClass('sending-button');
 
 			// NOTE Create channel
 			try {
@@ -43,7 +42,6 @@ $('#btn-interest').on('click', async (e) => {
 				alert('Não foi possível enviar a mensagem. Por favor, tente novamente mais tarde.');
 
 				$('#form-interest').css('pointer-events', 'auto');
-				$('#btn-interest-submit').removeClass('sending-button');
 				$('#btn-interest-submit').val('Enviar mensagem');
 				return;
 			}
@@ -68,12 +66,10 @@ $('#btn-interest').on('click', async (e) => {
 				alert('Não foi possível enviar a mensagem. Por favor, tente novamente mais tarde.');
 
 				$('#form-interest').css('pointer-events', 'auto');
-				$('#btn-interest-submit').removeClass('sending-button');
 				$('#btn-interest-submit').val('Enviar mensagem');
 				return;
 			}
 
-			$('#btn-interest-submit').removeClass('sending-button');
 			$('#form-interest').css('pointer-events', 'auto');
 			$('#form-interest').hide();
 			$('#success-message').show();

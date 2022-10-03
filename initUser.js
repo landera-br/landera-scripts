@@ -19,7 +19,6 @@ $('#btn-submit').on('click', async (e) => {
 
 	$('#btn-submit').css('pointer-events', 'none');
 	$('#btn-submit').val('Enviando...');
-	$('#btn-submit').addClass('sending-button');
 
 	// NOTE Update user
 	const payload = {
@@ -62,7 +61,6 @@ $('#btn-submit').on('click', async (e) => {
 		if (!alert(error.display && error.message ? error.message : error)) {
 			$('#btn-submit').val('Registrar');
 			$('#btn-submit').css('pointer-events', 'auto');
-			$('#btn-submit').removeClass('sending-button');
 		}
 	}
 });

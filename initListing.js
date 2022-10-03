@@ -285,13 +285,11 @@ imagesInput.addEventListener('dragenter', function () {
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
+	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').css('pointer-events', 'none');
 
 	// NOTE Get form data
 	getFormData();
-
-	$('#btn-submit').val('Enviando...');
-	$('#btn-submit').addClass('sending-button');
 
 	try {
 		const response = await fetch(
@@ -331,7 +329,6 @@ $('#btn-submit').on('click', async (e) => {
 					: 'Não foi possível enviar o formulário. Tente novamente mais tarde.'
 			)
 		) {
-			$('#btn-submit').removeClass('sending-button');
 			$('#btn-submit').css('pointer-events', 'auto');
 			$('#btn-submit').val('Confirmar');
 			resetFormData();
