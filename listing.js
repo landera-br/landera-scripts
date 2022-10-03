@@ -1,7 +1,7 @@
 import { addDoc, collection } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './main.js';
 
-// NOTE When form is submitted
+// NOTE When interest button is pressed
 $('#btn-interest').on('click', async (e) => {
 	if (localStorage.getItem('fb_token') && localStorage.getItem('fb_token') !== 'undefined') {
 		const pathArray = window.location.pathname.split('/');
@@ -81,4 +81,25 @@ $('#btn-interest').on('click', async (e) => {
 	} else {
 		window.location = '/login';
 	}
+});
+
+// NOTE When subscribe button is pressed
+$('.btn-subscribe').on('click', async (e) => {
+	$('#subscription-modal').css('display', 'flex').show();
+
+	$('#btn-subscription-close').on('click', async () => $('#subscription-modal').hide());
+
+	$('#form-subscription').submit(async (e) => {
+		e.preventDefault();
+		$('#form-subscription').css('pointer-events', 'none');
+		$('#btn-subscription-submit').val('Enviando...');
+		$('#btn-subscription-submit').addClass('sending-button');
+
+		console.log('Enviou');
+
+		$('#btn-interest-submit').removeClass('sending-button');
+		$('#form-interest').css('pointer-events', 'auto');
+		$('#form-interest').hide();
+		$('#subscription-success-message').show();
+	});
 });
