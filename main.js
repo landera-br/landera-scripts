@@ -275,10 +275,17 @@ function passwordResetHandler() {
 
 // NOTE Show/Hide elements
 onAuthStateChanged(auth, async (user) => {
+	// NOTE Public/Private login
 	let publicElements = document.querySelectorAll("[data-onlogin='hide']");
 	let privateElements = document.querySelectorAll("[data-onlogin='show']");
 
+	// NOTE Personal/Professional login
+	let personalElements = document.querySelectorAll("[data-pro='hide']");
+	let professionalElements = document.querySelectorAll("[data-pro='show']");
+
 	if (user) {
+		console.log(user);
+
 		// NOTE User has signed in
 		const idToken = await user.getIdToken(true);
 
@@ -291,6 +298,14 @@ onAuthStateChanged(auth, async (user) => {
 		publicElements.forEach(function (element) {
 			element.style.display = 'none';
 		});
+
+		personalElements.forEach(function (element) {
+			element.style.display = 'inherit';
+		});
+
+		professionalElements.forEach(function (element) {
+			element.style.display = 'inherit';
+		});
 	} else {
 		// NOTE User has signed out
 		publicElements.forEach(function (element) {
@@ -298,6 +313,14 @@ onAuthStateChanged(auth, async (user) => {
 		});
 
 		privateElements.forEach(function (element) {
+			element.style.display = 'none';
+		});
+
+		personalElements.forEach(function (element) {
+			element.style.display = 'none';
+		});
+
+		professionalElements.forEach(function (element) {
 			element.style.display = 'none';
 		});
 	}
