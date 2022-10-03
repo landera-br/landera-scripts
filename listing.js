@@ -109,7 +109,6 @@ $('.btn-subscribe').on('click', async (e) => {
 
 // NOTE When download images button is pressed
 $('#btn-download').on('click', async (e) => {
-	console.log('entrou');
 	var zip = new JSZip();
 	var count = 0;
 	var zipFilename = 'imagens.zip';
@@ -119,11 +118,12 @@ $('#btn-download').on('click', async (e) => {
 	];
 
 	urls.forEach(function (url) {
-		var filename = 'filename';
-		// loading a file and add it in a zip file
+		var filename = `IMG_${count}.png`;
+
+		// Loads file and compress it
 		JSZipUtils.getBinaryContent(url, function (err, data) {
 			if (err) {
-				throw err; // or handle the error
+				return;
 			}
 			zip.file(filename, data, { binary: true });
 			count++;
