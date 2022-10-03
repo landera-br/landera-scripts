@@ -86,26 +86,27 @@ $('#btn-interest').on('click', async (e) => {
 // NOTE When subscribe button is pressed
 $('.btn-subscribe').on('click', async (e) => {
 	$('#subscription-modal').css('display', 'flex').show();
+	const inputElement =
+		'<input type="text" class="text-field-8 w-input subscription-links" maxlength="256" name="field-2" data-name="Field 2" placeholder="Link do anúncio" required="">';
 
-	$('#btn-subscription-close').on('click', async () => $('#subscription-modal').hide());
+	$('#btn-subscription-close').on('click', async () => {
+		$('#subscription-modal').hide();
+		$('#subscription-links-wrapper').html(inputElement);
+	});
+
 	$('#btn-add-link').on('click', async () => {
-		console.log('Adicionou!');
-		$(
-			'<input type="text" class="text-field-8 w-input subscription-links" maxlength="256" name="field-2" data-name="Field 2" placeholder="Link do anúncio" required="">'
-		).appendTo('#subscription-links-wrapper');
+		$(inputElement).appendTo('#subscription-links-wrapper');
 	});
 
 	$('#form-subscription').submit(async (e) => {
 		e.preventDefault();
 		$('#form-subscription').css('pointer-events', 'none');
 		$('#btn-subscription-submit').val('Enviando...');
-		$('#btn-subscription-submit').addClass('sending-button');
 
-		console.log('Enviou');
+		console.log('as');
 
-		$('#btn-interest-submit').removeClass('sending-button');
-		$('#form-interest').css('pointer-events', 'auto');
-		$('#form-interest').hide();
+		$('#form-subscription').css('pointer-events', 'auto');
+		$('#form-subscription').hide();
 		$('#subscription-success-message').show();
 	});
 });
