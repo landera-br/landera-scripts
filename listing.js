@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver';
 import { addDoc, collection } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './main.js';
 
@@ -104,5 +105,34 @@ $('.btn-subscribe').on('click', async (e) => {
 		$('#form-subscription').css('pointer-events', 'auto');
 		$('#form-subscription').hide();
 		$('#subscription-success-message').show();
+	});
+});
+
+// NOTE When download images button is pressed
+$('#btn-download').on('click', async (e) => {
+	console.log('entrou');
+	var zip = new JSZip();
+	var count = 0;
+	var zipFilename = 'imagens.zip';
+	var urls = [
+		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220b495253dac3_bed71ba2-423a-4b8c-a4ae-ef47dad7bd51.png',
+		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220b495253dac3_bed71ba2-423a-4b8c-a4ae-ef47dad7bd51.png',
+	];
+
+	urls.forEach(function (url) {
+		var filename = 'filename';
+		// loading a file and add it in a zip file
+		JSZipUtils.getBinaryContent(url, function (err, data) {
+			if (err) {
+				throw err; // or handle the error
+			}
+			zip.file(filename, data, { binary: true });
+			count++;
+			if (count == urls.length) {
+				zip.generateAsync({ type: 'blob' }).then(function (content) {
+					saveAs(content, zipFilename);
+				});
+			}
+		});
 	});
 });
