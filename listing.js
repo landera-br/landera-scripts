@@ -122,7 +122,7 @@ $('#btn-download').on('click', async (e) => {
 		var filename = `IMG_${i}.png`;
 
 		// Loads file and compress it
-		await JSZipUtils.getBinaryContent(url, async (err, data) => {
+		await JSZipUtils.getBinaryContent(urls[i], async (err, data) => {
 			if (err) {
 				console.log('deu ruim');
 				throw err;
