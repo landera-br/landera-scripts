@@ -118,6 +118,7 @@ $('#btn-download').on('click', async (e) => {
 	];
 
 	urls.forEach(function (url) {
+		console.log('x');
 		var filename = `IMG_${count}.png`;
 
 		// Loads file and compress it
@@ -126,8 +127,9 @@ $('#btn-download').on('click', async (e) => {
 
 			console.log(filename);
 			console.log(data);
-			zip.file(filename, data);
-			count++;
+			zip.file(filename, data, { binary: true });
+			console.log('acrescentou');
+			count = count + 1;
 			if (count < urls.length) {
 				zip.generateAsync({ type: 'blob' }).then(function (content) {
 					saveAs(content, zipFilename);
