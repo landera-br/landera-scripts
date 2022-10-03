@@ -284,8 +284,6 @@ onAuthStateChanged(auth, async (user) => {
 	let professionalElements = document.querySelectorAll("[data-pro='show']");
 
 	if (user) {
-		console.log(user);
-
 		// NOTE User has signed in
 		const idToken = await user.getIdToken(true);
 
@@ -300,11 +298,11 @@ onAuthStateChanged(auth, async (user) => {
 		});
 
 		personalElements.forEach(function (element) {
-			element.style.display = 'inherit';
+			element.style.display = localStorage.getItem('pro_user') === 'true' ? 'none' : 'inherit';
 		});
 
 		professionalElements.forEach(function (element) {
-			element.style.display = 'inherit';
+			element.style.display = localStorage.getItem('pro_user') === 'true' ? 'inherit' : 'none';
 		});
 	} else {
 		// NOTE User has signed out
@@ -357,6 +355,7 @@ async function setUser(user, name) {
 		localStorage.setItem('wf_inbox_id', responseData.wf_inbox_id);
 		localStorage.setItem('user_id', responseData.user_id);
 		localStorage.setItem('fb_uid', user.uid);
+		localStorage.setItem('pro_user', responseData?.business?.creci ? true : false);
 	} catch (error) {
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
