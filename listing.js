@@ -125,11 +125,11 @@ function downloadImages(urls) {
 		JSZipUtils.getBinaryContent(url, function (err, data) {
 			if (err) return;
 			zip.file(filename, data, { binary: true });
-			if (index < urls.length) {
-				zip.generateAsync({ type: 'blob' }).then(function (content) {
-					saveAs(content, zipFilename);
-				});
-			}
 		});
+		if (index < urls.length) {
+			zip.generateAsync({ type: 'blob' }).then(function (content) {
+				saveAs(content, zipFilename);
+			});
+		}
 	});
 }
