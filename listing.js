@@ -88,6 +88,7 @@ $('.btn-subscribe').on('click', async (e) => {
 	$('#btn-subscription-close').on('click', async () => {
 		$('#subscription-modal').hide();
 		$('#subscription-links-wrapper').html(inputElement);
+		$('#btn-add-link').unbind();
 	});
 
 	$('#btn-add-link').on('click', async () => {
