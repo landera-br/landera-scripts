@@ -109,6 +109,34 @@ $('.btn-subscribe').on('click', async (e) => {
 
 // NOTE When download images button is pressed
 $('#btn-download').on('click', async (e) => {
+	const urls = [];
+
+	try {
+		const response = await fetch(
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings/${
+				window.location.pathname.split('/')[2]
+			}`,
+			{
+				method: 'GET',
+			}
+		);
+
+		if (response.status !== 200) {
+			throw new Error('Não foi fazer o download das imagens. Tente novamente mais tarde!');
+		} else {
+			const responseJson = await response.json();
+			console.log(responseJson);
+			return;
+		}
+	} catch (error) {
+		alert(
+			error.display && error.message
+				? error.message
+				: 'Não foi fazer o download das imagens. Tente novamente mais tarde!'
+		);
+		return;
+	}
+
 	downloadImages([
 		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220b495253dac3_bed71ba2-423a-4b8c-a4ae-ef47dad7bd51.png',
 		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220befac53db35_0e5f64ad-9a68-45f9-8951-81a4ed18f80d.png',
