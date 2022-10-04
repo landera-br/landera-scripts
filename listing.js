@@ -131,8 +131,6 @@ $('#btn-download').on('click', async (e) => {
 			if (responseJson?.images?.secondary && responseJson?.images?.secondary !== []) {
 				responseJson.images.secondary.forEach((url) => urls.push(url));
 			}
-			console.log(urls);
-			return;
 		}
 	} catch (error) {
 		alert(
@@ -143,10 +141,7 @@ $('#btn-download').on('click', async (e) => {
 		return;
 	}
 
-	downloadImages([
-		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220b495253dac3_bed71ba2-423a-4b8c-a4ae-ef47dad7bd51.png',
-		'https://uploads-ssl.webflow.com/62752e31ab07d313f383c0b8/62e883cbfb220befac53db35_0e5f64ad-9a68-45f9-8951-81a4ed18f80d.png',
-	]);
+	downloadImages(urls);
 });
 
 function downloadImages(urls) {
