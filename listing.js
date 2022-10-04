@@ -125,7 +125,13 @@ $('#btn-download').on('click', async (e) => {
 			throw new Error('Não foi fazer o download das imagens. Tente novamente mais tarde!');
 		} else {
 			const responseJson = await response.json();
-			console.log(responseJson);
+
+			if (responseJson?.images?.primary) urls.push(responseJson?.images?.primary);
+
+			if (responseJson?.images?.secondary && responseJson?.images?.secondary !== []) {
+				responseJson.images.secondary.forEach((url) => urls.push(url));
+			}
+			console.log(urls);
 			return;
 		}
 	} catch (error) {
