@@ -126,11 +126,13 @@ $('#btn-download').on('click', async (e) => {
 		} else {
 			const responseJson = await response.json();
 
-			if (responseJson?.images?.primary) urls.push(responseJson?.images?.primary);
+			if (responseJson?.['primary-image']?.url) urls.push(responseJson?.['primary-image']?.url);
 
-			if (responseJson?.images?.secondary && responseJson?.images?.secondary !== []) {
-				responseJson.images.secondary.forEach((url) => urls.push(url));
+			if (responseJson?.['secondary-images'] && responseJson?.['secondary-images'] !== []) {
+				responseJson['secondary-images'].forEach((file) => urls.push(file.url));
 			}
+
+			console.log(urls);
 		}
 	} catch (error) {
 		alert(
