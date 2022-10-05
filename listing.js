@@ -125,6 +125,9 @@ $('#form-subscription').submit(async (e) => {
 	try {
 		payload = await fetch(`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?${query}`, {
 			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+			},
 		});
 
 		if (response.status !== 200)
