@@ -111,13 +111,15 @@ $('#form-subscription').submit(async (e) => {
 	$('#btn-subscription-submit').css('pointer-events', 'none');
 
 	// NOTE Get URLs
-	$('.field-link')
+	$('.subscription-links')
 		.map((i, el) => listingUrls.push($(el).val()))
 		.get();
 
 	listingUrls.forEach((url) => {
 		query += `listings_urls[]=${url}&`;
 	});
+
+	console.log(query);
 
 	// NOTE Check if URLs are valid and get partner id
 	try {
@@ -133,6 +135,9 @@ $('#form-subscription').submit(async (e) => {
 				? error.message
 				: 'Não foi possível realizar inscrição. Tente novamente mais tarde!'
 		);
+		$('#btn-subscription-submit').val('Inscrever-se');
+		$('#btn-subscription-submit').css('pointer-events', 'auto');
+		return false;
 	}
 
 	// NOTE Add broker_id to payload
