@@ -131,6 +131,7 @@ async function signUpHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	$('#btn-sign-in').val('Aguarde...');
+
 	let user;
 
 	try {
