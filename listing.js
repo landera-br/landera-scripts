@@ -119,8 +119,6 @@ $('#form-subscription').submit(async (e) => {
 		query += `listings_urls[]=${url}&`;
 	});
 
-	console.log(query);
-
 	// NOTE Check if URLs are valid and get partner id
 	try {
 		payload = await fetch(`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?${query}`, {
@@ -130,8 +128,9 @@ $('#form-subscription').submit(async (e) => {
 			},
 		});
 
-		if (response.status !== 200)
-			throw new Error('Não foi fazer o download das imagens. Tente novamente mais tarde!');
+		console.log(response.status);
+
+		if (response.status !== 200) throw new Error();
 	} catch (error) {
 		alert(
 			error.display && error.message
