@@ -105,7 +105,7 @@ $('#form-subscription').submit(async (e) => {
 
 	const listingUrls = [];
 	let query = '';
-	let payload;
+	let listedOn;
 
 	$('#btn-subscription-submit').val('Aguarde...');
 	$('#btn-subscription-submit').css('pointer-events', 'none');
@@ -133,7 +133,7 @@ $('#form-subscription').submit(async (e) => {
 
 		if (response.status !== 200) throw new Error();
 
-		payload = await response.json();
+		listedOn = await response.json();
 	} catch (error) {
 		alert(
 			error.display && error.message
@@ -145,10 +145,10 @@ $('#form-subscription').submit(async (e) => {
 		return false;
 	}
 
-	// NOTE Add broker_id to payload
-	payload.forEach((item) => (item.broker_id = localStorage.getItem('user_id')));
+	// NOTE Add broker_id to listedOn
+	listedOn.forEach((item) => (item.broker_id = localStorage.getItem('user_id')));
 
-	console.log(payload);
+	console.log(listedOn);
 
 	// NOTE Update listing with listed_on
 	try {
@@ -163,7 +163,7 @@ $('#form-subscription').submit(async (e) => {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 				},
-				body: JSON.stringify(payload),
+				body: JSON.stringify({ listed_on: listedOn }),
 			}
 		);
 
