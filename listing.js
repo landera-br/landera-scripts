@@ -121,16 +121,19 @@ $('#form-subscription').submit(async (e) => {
 
 	// NOTE Check if URLs are valid and get partner id
 	try {
-		payload = await fetch(`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?${query}`, {
-			method: 'GET',
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
-			},
-		});
-
-		console.log(response.status);
+		const response = await fetch(
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?${query}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+				},
+			}
+		);
 
 		if (response.status !== 200) throw new Error();
+
+		payload = await response.json();
 	} catch (error) {
 		alert(
 			error.display && error.message
