@@ -148,8 +148,6 @@ $('#form-subscription').submit(async (e) => {
 	// NOTE Add broker_id to listedOn
 	listedOn.forEach((item) => (item.broker_id = localStorage.getItem('user_id')));
 
-	console.log(listedOn);
-
 	// NOTE Update listing with listed_on
 	try {
 		const response = await fetch(
@@ -167,15 +165,14 @@ $('#form-subscription').submit(async (e) => {
 			}
 		);
 
-		if (response.status !== 200) {
-			throw new Error('Não foi possível realizar inscrição. Tente novamente mais tarde!');
-		}
+		if (response.status !== 200) throw new Error();
 	} catch (error) {
 		alert(
 			error.display && error.message
 				? error.message
 				: 'Não foi possível realizar inscrição. Tente novamente mais tarde!'
 		);
+
 		$('#btn-subscription-submit').val('Inscrever-se');
 		$('#btn-subscription-submit').css('pointer-events', 'auto');
 		return false;
@@ -210,8 +207,6 @@ $('#btn-download').on('click', async (e) => {
 			if (responseJson?.['secondary-images'] && responseJson?.['secondary-images'] !== []) {
 				responseJson['secondary-images'].forEach((file) => urls.push(file.url));
 			}
-
-			console.log(urls);
 		}
 	} catch (error) {
 		alert(
