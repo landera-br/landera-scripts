@@ -350,7 +350,7 @@ async function cepIsReady(cep) {
 
 		// NOTE Validate CEP and get city
 		try {
-			const response = await fetch(`viacep.com.br/ws/${plainCep}/json/`, {
+			const response = await fetch(`https://viacep.com.br/ws/${plainCep}/json/`, {
 				method: 'GET',
 			});
 
