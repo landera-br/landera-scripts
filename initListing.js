@@ -282,6 +282,11 @@ imagesInput.addEventListener('dragenter', function () {
 	imagesDropzone.classList.add('dragover');
 });
 
+// NOTE When CEP field changes
+$('#field-cep').on('input', async function () {
+	await cepIsReady($(this).val());
+});
+
 // NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
 	e.preventDefault();
@@ -335,6 +340,14 @@ $('#btn-submit').on('click', async (e) => {
 		}
 	}
 });
+
+async function cepIsReady(cep) {
+	if (cep.replace(/[^\w\s]/gi, '').replace(/\D/g, '').length === 8) {
+		$('#cep-loading').show();
+	} else {
+		$('#cep-loading').hide();
+	}
+}
 
 function getFormData() {
 	const data = {
