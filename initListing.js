@@ -344,29 +344,42 @@ $('#btn-submit').on('click', async (e) => {
 async function cepIsReady(cep) {
 	let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
 	let city;
+	let brokers;
 
 	if (plainCep.length === 8) {
-		$('#cep-loading').show();
-
 		// NOTE Validate CEP and get city
 		try {
 			const response = await fetch(`https://viacep.com.br/ws/${plainCep}/json/`, {
 				method: 'GET',
 			});
 
-			console.log(response);
 			city = (await response.json()).localidade;
 		} catch (error) {
-			alert('Não foi possível encontrar o CEP. Por favor, tente novamente!');
+			console.log(error);
 		}
 
+		console.log(city);
+
 		// NOTE Filter brokers by city
+		try {
+			const response = await fetch(
+				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?city=${city}`,
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+					},
+				}
+			);
+
+			brokers = await response.json();
+		} catch (error) {
+			console.log(error);
+		}
+
+		console.log(brokers);
 
 		// NOTE Update favorite broker select
-
-		$('#cep-loading').hide();
-	} else {
-		$('#cep-loading').hide();
 	}
 }
 
