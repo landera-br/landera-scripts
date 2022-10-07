@@ -342,8 +342,29 @@ $('#btn-submit').on('click', async (e) => {
 });
 
 async function cepIsReady(cep) {
-	if (cep.replace(/[^\w\s]/gi, '').replace(/\D/g, '').length === 8) {
+	let cep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
+	let city;
+
+	if (cep.length === 8) {
 		$('#cep-loading').show();
+
+		// NOTE Validate CEP and get city
+		try {
+			const response = await fetch(`viacep.com.br/ws/${cep}/json/`, {
+				method: 'GET',
+			});
+
+			console.log(response);
+			city = (await response.json()).localidade;
+		} catch (error) {
+			alert('Não foi possível encontrar o CEP. Por favor, tente novamente!');
+		}
+
+		// NOTE Filter brokers by city
+
+		// NOTE Update favorite broker select
+
+		$('#cep-loading').hide();
 	} else {
 		$('#cep-loading').hide();
 	}
