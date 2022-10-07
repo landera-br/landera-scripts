@@ -342,15 +342,15 @@ $('#btn-submit').on('click', async (e) => {
 });
 
 async function cepIsReady(cep) {
-	let cep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
+	let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
 	let city;
 
-	if (cep.length === 8) {
+	if (plainCep.length === 8) {
 		$('#cep-loading').show();
 
 		// NOTE Validate CEP and get city
 		try {
-			const response = await fetch(`viacep.com.br/ws/${cep}/json/`, {
+			const response = await fetch(`viacep.com.br/ws/${plainCep}/json/`, {
 				method: 'GET',
 			});
 
