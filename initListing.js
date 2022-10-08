@@ -344,6 +344,8 @@ $('#btn-submit').on('click', async (e) => {
 // NOTE Custom favorite broker listener
 $('#select-favorite-broker').on('change', () => {
 	console.log($(this).find(':selected').val());
+	console.log($(this));
+	console.log($(this).val());
 
 	if ($(this).find(':selected').val() === 'other') {
 		$('#custom-broker-wrapper').show();
