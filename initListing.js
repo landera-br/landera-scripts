@@ -341,6 +341,15 @@ $('#btn-submit').on('click', async (e) => {
 	}
 });
 
+// NOTE Custom favorite broker listener
+$('#select-favorite-broker').change(() => {
+	if ($(this).val() == 'other') {
+		$('#custom-broker-wrapper').show();
+	} else {
+		$('#custom-broker-wrapper').hide();
+	}
+});
+
 async function cepIsReady(cep) {
 	let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
 	let city;
@@ -377,9 +386,19 @@ async function cepIsReady(cep) {
 			console.log(error);
 		}
 
+		brokers.sort((a, b) => a.name - b.name); // sort objects by name
+
 		console.log(brokers);
 
 		// NOTE Update favorite broker select
+		$.each(brokers, function (i, item) {
+			$('#select-favorite-broker').append(
+				$('<option>', {
+					value: item._id,
+					text: item.name,
+				})
+			);
+		});
 	}
 }
 
