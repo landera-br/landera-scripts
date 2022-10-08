@@ -408,7 +408,7 @@ async function cepIsReady(cep) {
 		$.each(brokers, function (i, item) {
 			$('#select-favorite-broker').append(
 				$('<option>', {
-					value: item._id,
+					value: item.name,
 					text: item.name,
 				})
 			);
@@ -422,6 +422,7 @@ async function cepIsReady(cep) {
 		);
 
 		$('#custom-broker-wrapper').hide();
+		$('#field-favorite-broker').val('');
 	}
 }
 
