@@ -1,294 +1,301 @@
-// NOTE Checkboxes
-$('#checkbox-house').click(function () {
-	$('#checkbox-house-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-house').is(':checked')) {
-		$('.apt-props').css('display', 'none');
-		$('#checkbox-apartment').prop('checked', false);
-		$('#checkbox-apartment-field').removeClass('checkbox-selected');
+// NOTE Input loader
 
-		$('#field-total-floors').val('');
-		$('#radio-penthouse').prop('checked', false);
-		$('#radio-no-penthouse').prop('checked', false);
-	} else {
-		$('#checkbox-house').prop('checked', false);
-	}
-});
+(function initInputs() {
+	// NOTE File upload
+	const thumbInput = document.querySelector('#thumb-input');
+	const thumbFilename = document.querySelector('#thumb-filename');
+	const thumbDropzone = document.querySelector('#thumb-dropzone');
 
-$('#checkbox-apartment').click(function () {
-	$('#checkbox-apartment-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-apartment').is(':checked')) {
-		$('.apt-props').css('display', 'block');
-		$('#checkbox-house').prop('checked', false);
-		$('#checkbox-house-field').removeClass('checkbox-selected');
-	} else {
-		$('.apt-props').css('display', 'none');
-		$('#checkbox-apartment').prop('checked', false);
-		$('#field-total-floors').val('');
-		$('#radio-penthouse').prop('checked', false);
-		$('#radio-no-penthouse').prop('checked', false);
-	}
-});
+	const imagesInput = document.querySelector('#images-input');
+	const imagesFilename = document.querySelector('#images-filename');
+	const imagesDropzone = document.querySelector('#images-dropzone');
 
-$('#checkbox-furnished').click(function () {
-	$('#checkbox-furnished-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-furnished').is(':checked')) {
-		$('.furniture-props').css('display', 'grid');
-		$('#checkbox-unfurnished').prop('checked', false);
-		$('#checkbox-unfurnished-field').removeClass('checkbox-selected');
-	} else {
-		$('.furniture-props').css('display', 'none');
-		$('#checkbox-furnished').prop('checked', false);
-		cleanFurniture();
-	}
-});
+	let formData = new FormData();
 
-$('#checkbox-unfurnished').click(function () {
-	$('#checkbox-unfurnished-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-unfurnished').is(':checked')) {
-		$('.furniture-props').css('display', 'none');
-		$('#checkbox-furnished').prop('checked', false);
-		$('#checkbox-furnished-field').removeClass('checkbox-selected');
-		cleanFurniture();
-	} else {
-		$('#checkbox-unfurnished').prop('checked', false);
-	}
-});
+	// NOTE File Input
+	thumbInput.addEventListener('change', function (e) {
+		formData.delete('primary_image');
+		formData.append('primary_image', e.target.files[0]);
+		thumbFilename.innerText = thumbInput.value.split('\\').pop();
+	});
 
-$('#checkbox-condo').click(function () {
-	$('#checkbox-condo-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-condo').is(':checked')) {
-		$('.condo-props').css('display', 'block');
-		$('#checkbox-no-condo').prop('checked', false);
-		$('#checkbox-no-condo-field').removeClass('checkbox-selected');
-	} else {
-		$('.condo-props').css('display', 'none');
-		$('#checkbox-condo').prop('checked', false);
-		cleanCondo();
-	}
-});
+	thumbInput.addEventListener('dragenter', function () {
+		thumbDropzone.classList.add('dragover');
+	});
 
-$('#checkbox-no-condo').click(function () {
-	$('#checkbox-no-condo-field').toggleClass('checkbox-selected');
-	if ($('#checkbox-no-condo').is(':checked')) {
-		$('.condo-props').css('display', 'none');
-		$('#checkbox-condo').prop('checked', false);
-		$('#checkbox-condo-field').removeClass('checkbox-selected');
-		cleanCondo();
-	} else {
-		$('#checkbox-no-condo').prop('checked', false);
-	}
-});
+	imagesInput.addEventListener('change', function (e) {
+		let filenames = '';
+		formData.delete('secondary_images');
+		for (var i = 0; i < imagesInput.files.length; ++i) {
+			formData.append('secondary_images', e.target.files[i]);
+			filenames = filenames.concat(imagesInput.files.item(i).name + '\n');
+		}
+		imagesFilename.innerText = filenames;
+	});
 
-$('#checkbox-sales').change(function () {
-	if (this.checked) {
-		$('.sales-field').show();
-	} else {
-		$('.sales-field').hide();
-	}
-});
+	imagesInput.addEventListener('dragenter', function () {
+		imagesDropzone.classList.add('dragover');
+	});
 
-$('#checkbox-rent').change(function () {
-	if (this.checked) {
-		$('.rent-field').show();
-	} else {
-		$('.rent-field').hide();
-	}
-});
+	// NOTE Checkboxes
+	$('#checkbox-house').click(function () {
+		$('#checkbox-house-field').toggleClass('checkbox-selected');
+		if ($('#checkbox-house').is(':checked')) {
+			$('.apt-props').css('display', 'none');
+			$('#checkbox-apartment').prop('checked', false);
+			$('#checkbox-apartment-field').removeClass('checkbox-selected');
 
-// NOTE Counters
+			$('#field-total-floors').val('');
+			$('#radio-penthouse').prop('checked', false);
+			$('#radio-no-penthouse').prop('checked', false);
+		} else {
+			$('#checkbox-house').prop('checked', false);
+		}
+	});
 
-$('#field-bedrooms').val(0);
-$('#field-suites').val(0);
-$('#field-bathrooms').val(0);
-$('#field-toilets').val(0);
-$('#field-kitchens').val(0);
-$('#field-offices').val(0);
-$('#field-dining-rooms').val(0);
-$('#field-living-rooms').val(0);
-$('#field-toy-rooms').val(0);
-$('#field-eating-areas').val(0);
-$('#field-service-areas').val(0);
-$('#field-home-theaters').val(0);
+	$('#checkbox-apartment').click(function () {
+		$('#checkbox-apartment-field').toggleClass('checkbox-selected');
+		if ($('#checkbox-apartment').is(':checked')) {
+			$('.apt-props').css('display', 'block');
+			$('#checkbox-house').prop('checked', false);
+			$('#checkbox-house-field').removeClass('checkbox-selected');
+		} else {
+			$('.apt-props').css('display', 'none');
+			$('#checkbox-apartment').prop('checked', false);
+			$('#field-total-floors').val('');
+			$('#radio-penthouse').prop('checked', false);
+			$('#radio-no-penthouse').prop('checked', false);
+		}
+	});
 
-$('#plus-bedrooms').on('click', () =>
-	$('#field-bedrooms').val() !== ''
-		? $('#field-bedrooms').val(parseInt($('#field-bedrooms').val()) + 1)
-		: $('#field-bedrooms').val(1)
-);
+	$('#checkbox-furnished').click(function () {
+		$('#checkbox-furnished-field').toggleClass('checkbox-selected');
+		if ($('#checkbox-furnished').is(':checked')) {
+			$('.furniture-props').css('display', 'grid');
+			$('#checkbox-unfurnished').prop('checked', false);
+			$('#checkbox-unfurnished-field').removeClass('checkbox-selected');
+		} else {
+			$('.furniture-props').css('display', 'none');
+			$('#checkbox-furnished').prop('checked', false);
+			cleanFurniture();
+		}
+	});
 
-$('#minus-bedrooms').on('click', () => {
-	if ($('#field-bedrooms').val() > 0)
-		$('#field-bedrooms').val(parseInt($('#field-bedrooms').val()) - 1);
-});
+	$('#checkbox-unfurnished').click(function () {
+		$('#checkbox-unfurnished-field').toggleClass('checkbox-selected');
+		if ($('#checkbox-unfurnished').is(':checked')) {
+			$('.furniture-props').css('display', 'none');
+			$('#checkbox-furnished').prop('checked', false);
+			$('#checkbox-furnished-field').removeClass('checkbox-selected');
+			cleanFurniture();
+		} else {
+			$('#checkbox-unfurnished').prop('checked', false);
+		}
+	});
 
-$('#plus-suites').on('click', () =>
-	$('#field-suites').val() !== ''
-		? $('#field-suites').val(parseInt($('#field-suites').val()) + 1)
-		: $('#field-suites').val(1)
-);
+	$('#checkbox-condo').click(function () {
+		$('#checkbox-condo-field').toggleClass('checkbox-selected');
+		if ($('#checkbox-condo').is(':checked')) {
+			$('.condo-props').css('display', 'block');
+			$('#checkbox-no-condo').prop('checked', false);
+			$('#checkbox-no-condo-field').removeClass('checkbox-selected');
+		} else {
+			$('.condo-props').css('display', 'none');
+			$('#checkbox-condo').prop('checked', false);
+			cleanCondo();
+		}
+	});
 
-$('#minus-suites').on('click', () => {
-	if ($('#field-suites').val() > 0) $('#field-suites').val(parseInt($('#field-suites').val()) - 1);
-});
+	$('#checkbox-no-condo').click(function () {
+		$('#checkbox-no-condo-field').toggleClass('checkbox-selected');
+		if ($('#checkbox-no-condo').is(':checked')) {
+			$('.condo-props').css('display', 'none');
+			$('#checkbox-condo').prop('checked', false);
+			$('#checkbox-condo-field').removeClass('checkbox-selected');
+			cleanCondo();
+		} else {
+			$('#checkbox-no-condo').prop('checked', false);
+		}
+	});
 
-$('#plus-bathrooms').on('click', () =>
-	$('#field-bathrooms').val() !== ''
-		? $('#field-bathrooms').val(parseInt($('#field-bathrooms').val()) + 1)
-		: $('#field-bathrooms').val(1)
-);
+	$('#checkbox-sales').change(function () {
+		if (this.checked) {
+			$('.sales-field').show();
+		} else {
+			$('.sales-field').hide();
+		}
+	});
 
-$('#minus-bathrooms').on('click', () => {
-	if ($('#field-bathrooms').val() > 0)
-		$('#field-bathrooms').val(parseInt($('#field-bathrooms').val()) - 1);
-});
+	$('#checkbox-rent').change(function () {
+		if (this.checked) {
+			$('.rent-field').show();
+		} else {
+			$('.rent-field').hide();
+		}
+	});
 
-$('#plus-toilets').on('click', () =>
-	$('#field-toilets').val() !== ''
-		? $('#field-toilets').val(parseInt($('#field-toilets').val()) + 1)
-		: $('#field-toilets').val(1)
-);
+	// NOTE Counters
+	$('#field-bedrooms').val(0);
+	$('#field-suites').val(0);
+	$('#field-bathrooms').val(0);
+	$('#field-toilets').val(0);
+	$('#field-kitchens').val(0);
+	$('#field-offices').val(0);
+	$('#field-dining-rooms').val(0);
+	$('#field-living-rooms').val(0);
+	$('#field-toy-rooms').val(0);
+	$('#field-eating-areas').val(0);
+	$('#field-service-areas').val(0);
+	$('#field-home-theaters').val(0);
 
-$('#minus-toilets').on('click', () => {
-	if ($('#field-toilets').val() > 0)
-		$('#field-toilets').val(parseInt($('#field-toilets').val()) - 1);
-});
+	$('#plus-bedrooms').on('click', () =>
+		$('#field-bedrooms').val() !== ''
+			? $('#field-bedrooms').val(parseInt($('#field-bedrooms').val()) + 1)
+			: $('#field-bedrooms').val(1)
+	);
 
-$('#plus-kitchens').on('click', () =>
-	$('#field-kitchens').val() !== ''
-		? $('#field-kitchens').val(parseInt($('#field-kitchens').val()) + 1)
-		: $('#field-kitchens').val(1)
-);
+	$('#minus-bedrooms').on('click', () => {
+		if ($('#field-bedrooms').val() > 0)
+			$('#field-bedrooms').val(parseInt($('#field-bedrooms').val()) - 1);
+	});
 
-$('#minus-kitchens').on('click', () => {
-	if ($('#field-kitchens').val() > 0)
-		$('#field-kitchens').val(parseInt($('#field-kitchens').val()) - 1);
-});
+	$('#plus-suites').on('click', () =>
+		$('#field-suites').val() !== ''
+			? $('#field-suites').val(parseInt($('#field-suites').val()) + 1)
+			: $('#field-suites').val(1)
+	);
 
-$('#plus-offices').on('click', () =>
-	$('#field-offices').val() !== ''
-		? $('#field-offices').val(parseInt($('#field-offices').val()) + 1)
-		: $('#field-offices').val(1)
-);
+	$('#minus-suites').on('click', () => {
+		if ($('#field-suites').val() > 0)
+			$('#field-suites').val(parseInt($('#field-suites').val()) - 1);
+	});
 
-$('#minus-offices').on('click', () => {
-	if ($('#field-offices').val() > 0)
-		$('#field-offices').val(parseInt($('#field-offices').val()) - 1);
-});
+	$('#plus-bathrooms').on('click', () =>
+		$('#field-bathrooms').val() !== ''
+			? $('#field-bathrooms').val(parseInt($('#field-bathrooms').val()) + 1)
+			: $('#field-bathrooms').val(1)
+	);
 
-$('#plus-dining-rooms').on('click', () =>
-	$('#field-dining-rooms').val() !== ''
-		? $('#field-dining-rooms').val(parseInt($('#field-dining-rooms').val()) + 1)
-		: $('#field-dining-rooms').val(1)
-);
+	$('#minus-bathrooms').on('click', () => {
+		if ($('#field-bathrooms').val() > 0)
+			$('#field-bathrooms').val(parseInt($('#field-bathrooms').val()) - 1);
+	});
 
-$('#minus-dining-rooms').on('click', () => {
-	if ($('#field-dining-rooms').val() > 0)
-		$('#field-dining-rooms').val(parseInt($('#field-dining-rooms').val()) - 1);
-});
+	$('#plus-toilets').on('click', () =>
+		$('#field-toilets').val() !== ''
+			? $('#field-toilets').val(parseInt($('#field-toilets').val()) + 1)
+			: $('#field-toilets').val(1)
+	);
 
-$('#plus-living-rooms').on('click', () =>
-	$('#field-living-rooms').val() !== ''
-		? $('#field-living-rooms').val(parseInt($('#field-living-rooms').val()) + 1)
-		: $('#field-living-rooms').val(1)
-);
+	$('#minus-toilets').on('click', () => {
+		if ($('#field-toilets').val() > 0)
+			$('#field-toilets').val(parseInt($('#field-toilets').val()) - 1);
+	});
 
-$('#minus-living-rooms').on('click', () => {
-	if ($('#field-living-rooms').val() > 0)
-		$('#field-living-rooms').val(parseInt($('#field-living-rooms').val()) - 1);
-});
+	$('#plus-kitchens').on('click', () =>
+		$('#field-kitchens').val() !== ''
+			? $('#field-kitchens').val(parseInt($('#field-kitchens').val()) + 1)
+			: $('#field-kitchens').val(1)
+	);
 
-$('#plus-toy-rooms').on('click', () =>
-	$('#field-toy-rooms').val() !== ''
-		? $('#field-toy-rooms').val(parseInt($('#field-toy-rooms').val()) + 1)
-		: $('#field-toy-rooms').val(1)
-);
+	$('#minus-kitchens').on('click', () => {
+		if ($('#field-kitchens').val() > 0)
+			$('#field-kitchens').val(parseInt($('#field-kitchens').val()) - 1);
+	});
 
-$('#minus-toy-rooms').on('click', () => {
-	if ($('#field-toy-rooms').val() > 0)
-		$('#field-toy-rooms').val(parseInt($('#field-toy-rooms').val()) - 1);
-});
+	$('#plus-offices').on('click', () =>
+		$('#field-offices').val() !== ''
+			? $('#field-offices').val(parseInt($('#field-offices').val()) + 1)
+			: $('#field-offices').val(1)
+	);
 
-$('#plus-eating-areas').on('click', () =>
-	$('#field-eating-areas').val() !== ''
-		? $('#field-eating-areas').val(parseInt($('#field-eating-areas').val()) + 1)
-		: $('#field-eating-areas').val(1)
-);
+	$('#minus-offices').on('click', () => {
+		if ($('#field-offices').val() > 0)
+			$('#field-offices').val(parseInt($('#field-offices').val()) - 1);
+	});
 
-$('#minus-eating-areas').on('click', () => {
-	if ($('#field-eating-areas').val() > 0)
-		$('#field-eating-areas').val(parseInt($('#field-eating-areas').val()) - 1);
-});
+	$('#plus-dining-rooms').on('click', () =>
+		$('#field-dining-rooms').val() !== ''
+			? $('#field-dining-rooms').val(parseInt($('#field-dining-rooms').val()) + 1)
+			: $('#field-dining-rooms').val(1)
+	);
 
-$('#plus-service-areas').on('click', () =>
-	$('#field-service-areas').val() !== ''
-		? $('#field-service-areas').val(parseInt($('#field-service-areas').val()) + 1)
-		: $('#field-service-areas').val(1)
-);
+	$('#minus-dining-rooms').on('click', () => {
+		if ($('#field-dining-rooms').val() > 0)
+			$('#field-dining-rooms').val(parseInt($('#field-dining-rooms').val()) - 1);
+	});
 
-$('#minus-service-areas').on('click', () => {
-	if ($('#field-service-areas').val() > 0)
-		$('#field-service-areas').val(parseInt($('#field-service-areas').val()) - 1);
-});
+	$('#plus-living-rooms').on('click', () =>
+		$('#field-living-rooms').val() !== ''
+			? $('#field-living-rooms').val(parseInt($('#field-living-rooms').val()) + 1)
+			: $('#field-living-rooms').val(1)
+	);
 
-$('#plus-home-theaters').on('click', () =>
-	$('#field-home-theaters').val() !== ''
-		? $('#field-home-theaters').val(parseInt($('#field-home-theaters').val()) + 1)
-		: $('#field-home-theaters').val(1)
-);
+	$('#minus-living-rooms').on('click', () => {
+		if ($('#field-living-rooms').val() > 0)
+			$('#field-living-rooms').val(parseInt($('#field-living-rooms').val()) - 1);
+	});
 
-$('#minus-home-theaters').on('click', () => {
-	if ($('#field-home-theaters').val() > 0)
-		$('#field-home-theaters').val(parseInt($('#field-home-theaters').val()) - 1);
-});
+	$('#plus-toy-rooms').on('click', () =>
+		$('#field-toy-rooms').val() !== ''
+			? $('#field-toy-rooms').val(parseInt($('#field-toy-rooms').val()) + 1)
+			: $('#field-toy-rooms').val(1)
+	);
 
-// NOTE File upload
-const thumbInput = document.querySelector('#thumb-input');
-const thumbFilename = document.querySelector('#thumb-filename');
-const thumbDropzone = document.querySelector('#thumb-dropzone');
+	$('#minus-toy-rooms').on('click', () => {
+		if ($('#field-toy-rooms').val() > 0)
+			$('#field-toy-rooms').val(parseInt($('#field-toy-rooms').val()) - 1);
+	});
 
-const imagesInput = document.querySelector('#images-input');
-const imagesFilename = document.querySelector('#images-filename');
-const imagesDropzone = document.querySelector('#images-dropzone');
+	$('#plus-eating-areas').on('click', () =>
+		$('#field-eating-areas').val() !== ''
+			? $('#field-eating-areas').val(parseInt($('#field-eating-areas').val()) + 1)
+			: $('#field-eating-areas').val(1)
+	);
 
-let formData = new FormData();
+	$('#minus-eating-areas').on('click', () => {
+		if ($('#field-eating-areas').val() > 0)
+			$('#field-eating-areas').val(parseInt($('#field-eating-areas').val()) - 1);
+	});
 
-const searchParams = new URLSearchParams(window.location.search);
+	$('#plus-service-areas').on('click', () =>
+		$('#field-service-areas').val() !== ''
+			? $('#field-service-areas').val(parseInt($('#field-service-areas').val()) + 1)
+			: $('#field-service-areas').val(1)
+	);
 
-// TODO When switch to paid plans
+	$('#minus-service-areas').on('click', () => {
+		if ($('#field-service-areas').val() > 0)
+			$('#field-service-areas').val(parseInt($('#field-service-areas').val()) - 1);
+	});
+
+	$('#plus-home-theaters').on('click', () =>
+		$('#field-home-theaters').val() !== ''
+			? $('#field-home-theaters').val(parseInt($('#field-home-theaters').val()) + 1)
+			: $('#field-home-theaters').val(1)
+	);
+
+	$('#minus-home-theaters').on('click', () => {
+		if ($('#field-home-theaters').val() > 0)
+			$('#field-home-theaters').val(parseInt($('#field-home-theaters').val()) - 1);
+	});
+})();
+
+/* TODO When switch to paid plans
+// const searchParams = new URLSearchParams(window.location.search);
 // if (searchParams.has('plan'))
 // 	if (searchParams.get('plan') === 'premium') $('#select-plan').val('premium');
+*/
 
-thumbInput.addEventListener('change', function (e) {
-	formData.delete('primary_image');
-	formData.append('primary_image', e.target.files[0]);
-	thumbFilename.innerText = thumbInput.value.split('\\').pop();
-});
+// NOTE Listeners
 
-thumbInput.addEventListener('dragenter', function () {
-	thumbDropzone.classList.add('dragover');
-});
-
-imagesInput.addEventListener('change', function (e) {
-	let filenames = '';
-	formData.delete('secondary_images');
-	for (var i = 0; i < imagesInput.files.length; ++i) {
-		formData.append('secondary_images', e.target.files[i]);
-		filenames = filenames.concat(imagesInput.files.item(i).name + '\n');
-	}
-	imagesFilename.innerText = filenames;
-});
-
-imagesInput.addEventListener('dragenter', function () {
-	imagesDropzone.classList.add('dragover');
-});
-
-// NOTE When CEP field changes
 $('#field-cep').on('input', async function () {
+	// NOTE When CEP field changes
 	await cepIsReady($(this).val());
 });
 
-// NOTE When form is submitted
 $('#btn-submit').on('click', async (e) => {
+	// NOTE When form is submitted
 	e.preventDefault();
 	$('#btn-submit').val('Enviando...');
 	$('#btn-submit').css('pointer-events', 'none');
@@ -341,8 +348,8 @@ $('#btn-submit').on('click', async (e) => {
 	}
 });
 
-// NOTE Custom favorite broker listener
 $('#select-favorite-broker').on('change', () => {
+	// NOTE Custom favorite broker listener
 	if ($('#select-favorite-broker option:selected').val() === 'other') {
 		$('#custom-broker-wrapper').show();
 	} else {
@@ -350,6 +357,8 @@ $('#select-favorite-broker').on('change', () => {
 		$('#field-favorite-broker').val('');
 	}
 });
+
+// NOTE Side functions
 
 async function cepIsReady(cep) {
 	let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
@@ -412,12 +421,13 @@ async function cepIsReady(cep) {
 				text: 'Outra plataforma',
 			})
 		);
+
+		$('#custom-broker-wrapper').hide();
 	}
 }
 
 function getFormData() {
 	const data = {
-		wallet_address: $('#field-wallet-address').val(),
 		subscription: {
 			plan: $('#select-plan').val(),
 		},
@@ -425,6 +435,7 @@ function getFormData() {
 			advertiser: {
 				user_id: localStorage.getItem('user_id'),
 				class: $('#select-advertiser').val(),
+				favorite_broker: $('#select-favorite-broker').val(),
 			},
 			sales_price: Number($('#field-sales-price').val()),
 			rent_price: Number($('#field-rent-price').val()),
@@ -547,7 +558,6 @@ function objectToFormData(obj, form, namespace) {
 	return fd;
 }
 
-// NOTE Remove undefined, null and '' values
 function cleanObj(object) {
 	Object.entries(object).forEach(([k, v]) => {
 		if (v && typeof v === 'object') {
@@ -579,7 +589,6 @@ function resetFormData() {
 	images.forEach((image) => formData.append('secondary_images', image));
 }
 
-// NOTE Clean furniture data
 function cleanFurniture() {
 	$('#checkbox-sofa').prop('checked', false);
 	$('#checkbox-table').prop('checked', false);
@@ -595,7 +604,6 @@ function cleanFurniture() {
 	$('#checkbox-pool').prop('checked', false);
 }
 
-// NOTE Clean condo data
 function cleanCondo() {
 	$('#checkbox-condo-fitness-studio').prop('checked', false);
 	$('#checkbox-condo-pool').prop('checked', false);
