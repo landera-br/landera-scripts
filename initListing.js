@@ -343,12 +343,11 @@ $('#btn-submit').on('click', async (e) => {
 
 // NOTE Custom favorite broker listener
 $('#select-favorite-broker').on('change', () => {
-	console.log($('#select-favorite-broker option:selected').val());
-
 	if ($('#select-favorite-broker option:selected').val() === 'other') {
 		$('#custom-broker-wrapper').show();
 	} else {
 		$('#custom-broker-wrapper').hide();
+		$('#field-favorite-broker').val('');
 	}
 });
 
@@ -389,6 +388,8 @@ async function cepIsReady(cep) {
 		brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
 
 		// NOTE Update favorite broker select
+		$('#select-favorite-broker').empty();
+
 		$('#select-favorite-broker').append(
 			$('<option>', {
 				value: 'none',
