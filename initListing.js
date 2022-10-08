@@ -343,6 +343,9 @@ $('#btn-submit').on('click', async (e) => {
 
 // NOTE Custom favorite broker listener
 $('#select-favorite-broker').change(() => {
+	console.log('Mudou');
+	console.log($(this).val());
+
 	if ($(this).val() == 'other') {
 		$('#custom-broker-wrapper').show();
 	} else {
@@ -367,8 +370,6 @@ async function cepIsReady(cep) {
 			console.log(error);
 		}
 
-		console.log(city);
-
 		// NOTE Filter brokers by city
 		try {
 			const response = await fetch(
@@ -386,9 +387,7 @@ async function cepIsReady(cep) {
 			console.log(error);
 		}
 
-		brokers.sort((a, b) => a.name - b.name); // sort objects by name
-
-		console.log(brokers);
+		brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
 
 		// NOTE Update favorite broker select
 		$.each(brokers, function (i, item) {
