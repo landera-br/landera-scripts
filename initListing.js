@@ -1,4 +1,5 @@
 // NOTE Input loader
+let formData = new FormData();
 
 (function initInputs() {
 	// NOTE File upload
@@ -9,8 +10,6 @@
 	const imagesInput = document.querySelector('#images-input');
 	const imagesFilename = document.querySelector('#images-filename');
 	const imagesDropzone = document.querySelector('#images-dropzone');
-
-	let formData = new FormData();
 
 	// NOTE File Input
 	thumbInput.addEventListener('change', function (e) {
@@ -401,7 +400,7 @@ async function cepIsReady(cep) {
 
 		$('#select-favorite-broker').append(
 			$('<option>', {
-				value: 'none',
+				value: '',
 				text: 'Sem preferência',
 			})
 		);
@@ -435,7 +434,10 @@ function getFormData() {
 			advertiser: {
 				user_id: localStorage.getItem('user_id'),
 				class: $('#select-advertiser').val(),
-				favorite_broker: $('#select-favorite-broker').val(),
+				favorite_broker:
+					$('#select-favorite-broker').val() === 'other'
+						? $('#field-favorite-broker').val()
+						: $('#select-favorite-broker').val(),
 			},
 			sales_price: Number($('#field-sales-price').val()),
 			rent_price: Number($('#field-rent-price').val()),
