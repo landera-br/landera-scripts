@@ -342,11 +342,10 @@ $('#btn-submit').on('click', async (e) => {
 });
 
 // NOTE Custom favorite broker listener
-$('#select-favorite-broker').change(() => {
-	console.log('Mudou');
-	console.log($(this).val());
+$('#select-favorite-broker').on('change', () => {
+	console.log(this.value);
 
-	if ($(this).val() == 'other') {
+	if (this.value == 'other') {
 		$('#custom-broker-wrapper').show();
 	} else {
 		$('#custom-broker-wrapper').hide();
@@ -390,6 +389,13 @@ async function cepIsReady(cep) {
 		brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
 
 		// NOTE Update favorite broker select
+		$('#select-favorite-broker').append(
+			$('<option>', {
+				value: 'none',
+				text: 'Sem preferência',
+			})
+		);
+
 		$.each(brokers, function (i, item) {
 			$('#select-favorite-broker').append(
 				$('<option>', {
@@ -398,6 +404,13 @@ async function cepIsReady(cep) {
 				})
 			);
 		});
+
+		$('#select-favorite-broker').append(
+			$('<option>', {
+				value: 'other',
+				text: 'Outra plataforma',
+			})
+		);
 	}
 }
 
