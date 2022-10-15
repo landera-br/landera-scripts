@@ -68,11 +68,14 @@ $('#btn-submit').on('click', async (e) => {
 function getCitiesNames() {
 	const cities = [];
 
-	if ($('#checkbox-sao-paulo').is(':checked')) cities.push('São Paulo');
-	if ($('#checkbox-vgp').is(':checked')) cities.push('Vargem Grande Paulista');
-	if ($('#checkbox-cotia').is(':checked')) cities.push('Cotia');
-	if ($('#checkbox-sao-roque').is(':checked')) cities.push('São Roque');
-	if ($('#checkbox-ibiuna').is(':checked')) cities.push('Ibiúna');
+	if ($('#checkbox-sao-paulo').is(':checked'))
+		cities.push({ name: 'São Paulo', parsed_name: 'SAO_PAULO' });
+	if ($('#checkbox-vgp').is(':checked'))
+		cities.push({ name: 'Vargem Grande Paulista', parsed_name: 'VARGEM_GRANDE_PAULISTA' });
+	if ($('#checkbox-cotia').is(':checked')) cities.push({ name: 'Cotia', parsed_name: 'COTIA' });
+	if ($('#checkbox-sao-roque').is(':checked'))
+		cities.push({ name: 'São Roque', parsed_name: 'SAO_ROQUE' });
+	if ($('#checkbox-ibiuna').is(':checked')) cities.push({ name: 'Ibiúna', parsed_name: 'IBIUNA' });
 
 	return cities;
 }
