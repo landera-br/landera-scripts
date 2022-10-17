@@ -192,9 +192,7 @@ $('#btn-download').on('click', async (e) => {
 			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings/${
 				window.location.pathname.split('/')[2]
 			}`,
-			{
-				method: 'GET',
-			}
+			{ method: 'GET' }
 		);
 
 		if (response.status !== 200) {

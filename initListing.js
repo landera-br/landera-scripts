@@ -367,9 +367,7 @@ async function cepIsReady(cep) {
 	if (plainCep.length === 8) {
 		// NOTE Validate CEP and get city
 		try {
-			const response = await fetch(`https://viacep.com.br/ws/${plainCep}/json/`, {
-				method: 'GET',
-			});
+			const response = await fetch(`https://viacep.com.br/ws/${plainCep}/json/`, { method: 'GET' });
 
 			city = (await response.json()).localidade;
 		} catch (error) {
