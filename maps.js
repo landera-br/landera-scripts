@@ -1,14 +1,25 @@
 let zIndex = 99;
 const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569];
+const searchParams = new URLSearchParams(window.location.search);
+const offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
+
+if (offerType === 'rent') {
+	$('#radio-offer-type-sale').prop('checked', false);
+	$('#radio-offer-type-rent').prop('checked', true);
+} else {
+	$('#radio-offer-type-sale').prop('checked', true);
+	$('#radio-offer-type-rent').prop('checked', false);
+}
 
 $('#search-form-block').show();
 
 window.initMap = initMap;
 
+// NOTE When page is loaded
 async function initMap() {
+	// NOTE Init variables
 	var searchInput = document.getElementById('search-input');
 	var autocomplete = new google.maps.places.Autocomplete(searchInput);
-
 	const map = new google.maps.Map(document.getElementById('map'), {
 		mapId: 'c905ad459d6961a8',
 		zoom: 12,
@@ -22,10 +33,9 @@ async function initMap() {
 	});
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 	let listings = [];
-	const searchParams = new URLSearchParams(window.location.search);
+	let i = 0;
 
-	const offerType = searchParams.has('offer') ? searchParams.has('offer') : 'sale';
-
+	// NOTE Get listings data
 	try {
 		const response = await fetch(
 			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerType}`,
@@ -92,45 +102,15 @@ async function initMap() {
 		return marker;
 	});
 
-	// NOTE Get cluster data
+	// NOTE Get clusters data
 	const index = new Supercluster({ radius: 60, maxZoom: 16 });
 	index.load(listings);
 
-	let i = 0;
 	let clusters = index
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((cluster) => cluster.type === 'Feature');
 
-	autocomplete.addListener('place_changed', () => {
-		infoWindow.close();
-		const place = autocomplete.getPlace();
-
-		if (!place.geometry || !place.geometry.location) {
-			window.alert('Não foi possível encontrar o endereço digitado.');
-			return;
-		}
-
-		if (place.geometry.viewport) {
-			map.fitBounds(place.geometry.viewport);
-		} else {
-			map.setCenter(place.geometry.location);
-			map.setZoom(17);
-		}
-	});
-
-	// NOTE When map is clicked
-	google.maps.event.addListener(map, 'click', function () {
-		if (infoWindow) infoWindow.close();
-	});
-
-	google.maps.event.addListener(map, 'zoom_changed', function () {
-		i = 0;
-		clusters = index
-			.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
-			.filter((cluster) => cluster.type === 'Feature');
-	});
-
-	// NOTE Cluster marker
+	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
 			// NOTE Get cluster leaves
@@ -167,8 +147,39 @@ async function initMap() {
 		},
 	};
 
-	// NOTE Add a marker clusterer to manage the markers
+	// NOTE Add clusters to the map
 	new markerClusterer.MarkerClusterer({ map, markers, renderer });
+
+	// NOTE When users search a place
+	autocomplete.addListener('place_changed', () => {
+		infoWindow.close();
+		const place = autocomplete.getPlace();
+
+		if (!place.geometry || !place.geometry.location) {
+			window.alert('Não foi possível encontrar o endereço digitado.');
+			return;
+		}
+
+		if (place.geometry.viewport) {
+			map.fitBounds(place.geometry.viewport);
+		} else {
+			map.setCenter(place.geometry.location);
+			map.setZoom(17);
+		}
+	});
+
+	// NOTE When map is clicked
+	google.maps.event.addListener(map, 'click', function () {
+		if (infoWindow) infoWindow.close();
+	});
+
+	// NOTE When zoom is changed
+	google.maps.event.addListener(map, 'zoom_changed', function () {
+		i = 0;
+		clusters = index
+			.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
+			.filter((cluster) => cluster.type === 'Feature');
+	});
 }
 
 // NOTE Support functions
@@ -262,3 +273,24 @@ function formatPrice(price) {
 $('#btn-maps').click(() => toggleMap());
 
 $('#search-form-block').submit(() => false);
+
+$('#btn-filter').on('click', () => $('#filter-modal').show());
+
+$('#btn-filter-reset').on('click', (e) => {
+	e.preventDefault();
+	$('#filter-modal').hide();
+});
+
+$('#btn-filter-confirm, btn-interest-close').on('click', (e) => {
+	e.preventDefault();
+
+	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
+
+	console.log(offerTypeOption);
+
+	if (offerType !== offerTypeOption) {
+		console.log('Redirect');
+	}
+
+	$('#filter-modal').hide();
+});

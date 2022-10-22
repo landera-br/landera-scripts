@@ -18,7 +18,7 @@ $('#btn-interest').on('click', async (e) => {
 });
 
 // NOTE Interest close
-$('#btn-interest-close').on('click', async () => $('#form-modal').hide());
+$('#btn-interest-close').on('click', () => $('#form-modal').hide());
 
 // NOTE Interest send
 $('#form-interest').submit(async (e) => {
