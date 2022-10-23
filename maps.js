@@ -228,8 +228,6 @@ function plotMap(map, infoWindow, listings) {
 	const renderer = {
 		render: function ({ count, position }) {
 			if (Array.isArray(clusters) && clusters.length) {
-				console.log('entrou1');
-
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clusters[i].id, Infinity);
 
@@ -262,16 +260,18 @@ function plotMap(map, infoWindow, listings) {
 				// NOTE Create cluster marker
 				return marker;
 			} else {
-				console.log('entrou2');
 				return undefined;
 			}
 		},
 	};
 
 	// NOTE Add clusters to the map
+	console.log(renderer.render);
 	if (renderer.render) {
+		console.log('É definido');
 		new markerClusterer.MarkerClusterer({ map, markers, renderer });
 	} else {
+		console.log('Não é definido');
 		new markerClusterer.MarkerClusterer({ map, markers });
 	}
 
