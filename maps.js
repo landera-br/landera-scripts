@@ -294,7 +294,7 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 		$('#filter-modal').hide();
 
 		// NOTE Recalculate markers
-		let listings;
+		const listings = [];
 
 		// NOTE Get listings data
 		try {
@@ -330,7 +330,6 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 				});
 			}
 		} catch (error) {
-			console.log(error);
 			console.log(error.message);
 			return alert(
 				error.display && error.message
