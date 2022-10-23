@@ -73,7 +73,38 @@ async function initMap() {
 		);
 	}
 
-	plotMap(map, infoWindow, listings);
+	listings = listings.filter(
+		(listing) => listing.location.lat && listing.location.lng && listing.price
+	);
+
+	// NOTE Add markers to the map
+	let markers = listings.map((listing) => {
+		const marker = new google.maps.Marker({
+			position: listing.location,
+			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+			label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
+		});
+
+		// NOTE Open info window when marker is clicked
+		if (isTouchDevice()) {
+			marker.addListener('click', () => displayCard(listing, marker, infoWindow));
+		} else {
+			marker.addListener('click', () => window.open(listing.url, '_blank'));
+			marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
+		}
+
+		// NOTE Close
+		marker.addListener('mouseout', () => {
+			const label = marker.getLabel();
+			label.color = 'black';
+			marker.setLabel(label);
+			if (infoWindow) infoWindow.close();
+		});
+
+		return marker;
+	});
+
+	plotMap(markers, map, listings, infoWindow);
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
@@ -94,6 +125,7 @@ async function initMap() {
 		}
 	});
 
+	// NOTE When filters are confirmed
 	$('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 		e.preventDefault();
 		const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
@@ -101,9 +133,10 @@ async function initMap() {
 		$('#filter-modal').hide();
 
 		if (offerType !== offerTypeOption) {
-			let listings = [];
-			// const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
-			// const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
+			listings = [];
+			markers = [];
+
+			// NOTE Delete marker from the map
 
 			// NOTE Get listings data
 			try {
@@ -140,7 +173,7 @@ async function initMap() {
 						});
 					});
 
-					plotMap(map, infoWindow, listings);
+					plotMap(markers, map, listings, infoWindow);
 					offerType = offerTypeOption;
 				}
 			} catch (error) {
@@ -226,6 +259,12 @@ function toggleMap() {
 	}
 }
 
+function clearMarkers(markers) {
+	markers.forEach((marker) => {
+		marker.setMap(null);
+	});
+}
+
 function abbreviatePrice(price) {
 	return `R$${Intl.NumberFormat('en-US', {
 		notation: 'compact',
@@ -241,39 +280,8 @@ function formatPrice(price) {
 	}).format(price);
 }
 
-function plotMap(map, infoWindow, listings) {
+function plotMap(markers, map, listings, infoWindow) {
 	i = 0;
-
-	listings = listings.filter(
-		(listing) => listing.location.lat && listing.location.lng && listing.price
-	);
-
-	// NOTE Add markers to the map
-	const markers = listings.map((listing) => {
-		const marker = new google.maps.Marker({
-			position: listing.location,
-			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
-			label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
-		});
-
-		// NOTE Open info window when marker is clicked
-		if (isTouchDevice()) {
-			marker.addListener('click', () => displayCard(listing, marker, infoWindow));
-		} else {
-			marker.addListener('click', () => window.open(listing.url, '_blank'));
-			marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
-		}
-
-		// NOTE Close
-		marker.addListener('mouseout', () => {
-			const label = marker.getLabel();
-			label.color = 'black';
-			marker.setLabel(label);
-			if (infoWindow) infoWindow.close();
-		});
-
-		return marker;
-	});
 
 	// NOTE Get clusters data
 	index.load(listings);
@@ -353,9 +361,11 @@ $('#btn-maps').click(() => toggleMap());
 
 $('#search-form-block').submit(() => false);
 
-$('#btn-filter').on('click', () => $('#filter-modal').show());
+$('#btn-filter').on('click', () => {
+	$('#filter-modal').show();
 
-$('#btn-filter-reset').on('click', (e) => {
-	e.preventDefault();
-	$('#filter-modal').hide();
+	$('#btn-filter-reset').on('click', (e) => {
+		e.preventDefault();
+		$('#filter-modal').hide();
+	});
 });
