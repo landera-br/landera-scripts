@@ -294,14 +294,15 @@ $('#btn-filter-reset').on('click', (e) => {
 
 $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	e.preventDefault();
-	let listings = [];
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
-	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
-	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 
 	$('#filter-modal').hide();
 
 	if (offerType !== offerTypeOption) {
+		let listings = [];
+		const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
+		const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
+
 		// NOTE Get listings data
 		try {
 			const response = await fetch(
@@ -310,6 +311,8 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 			);
 
 			if (response.status !== 200) {
+				$(`#radio-offer-type-${offerType}`).prop('checked', true);
+
 				throw new Error('Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.');
 			} else {
 				const responseJson = await response.json();
@@ -332,6 +335,9 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 						url: `listings/${element._id}`,
 					});
 				});
+
+				plotMap(map, infoWindow, listings);
+				offerType = offerTypeOption;
 			}
 		} catch (error) {
 			return alert(
@@ -340,9 +346,5 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 					: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 			);
 		}
-
-		plotMap(map, infoWindow, listings);
 	}
-
-	offerType = offerTypeOption;
 });
