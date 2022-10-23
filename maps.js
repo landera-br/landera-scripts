@@ -31,7 +31,6 @@ async function initMap() {
 		rotateControl: false,
 		fullscreenControl: true,
 	});
-	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 	let listings = [];
 	let i = 0;
 
@@ -71,84 +70,7 @@ async function initMap() {
 		);
 	}
 
-	listings = listings.filter(
-		(listing) => listing.location.lat && listing.location.lng && listing.price
-	);
-
-	// NOTE Add markers to the map
-	const markers = listings.map((listing) => {
-		const marker = new google.maps.Marker({
-			position: listing.location,
-			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
-			label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
-		});
-
-		// NOTE Open info window when marker is clicked
-		if (isTouchDevice()) {
-			marker.addListener('click', () => displayCard(listing, marker, infoWindow));
-		} else {
-			marker.addListener('click', () => window.open(listing.url, '_blank'));
-			marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
-		}
-
-		// NOTE Close
-		marker.addListener('mouseout', () => {
-			const label = marker.getLabel();
-			label.color = 'black';
-			marker.setLabel(label);
-			if (infoWindow) infoWindow.close();
-		});
-
-		return marker;
-	});
-
-	// NOTE Get clusters data
-	const index = new Supercluster({ radius: 60, maxZoom: 16 });
-	index.load(listings);
-
-	let clusters = index
-		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
-		.filter((cluster) => cluster.type === 'Feature');
-
-	// NOTE Calculate clusters
-	const renderer = {
-		render: function ({ count, position }) {
-			// NOTE Get cluster leaves
-			const leaves = index.getLeaves(clusters[i].id, Infinity);
-
-			// NOTE Calculate average
-			const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
-			const marker = new google.maps.Marker({
-				position,
-				icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
-				label: {
-					text: `~${abbreviatePrice(average)}`,
-					color: '#2AB24D',
-					fontSize: '14px',
-					fontWeight: 'bold',
-				},
-				zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
-			});
-
-			zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
-			i++;
-
-			if (!isTouchDevice()) {
-				marker.addListener('mouseover', () => updateZIndex(marker));
-				marker.addListener('mouseout', () => {
-					const label = marker.getLabel();
-					label.color = '#2AB24D';
-					marker.setLabel(label);
-				});
-			}
-
-			// NOTE Create cluster marker
-			return marker;
-		},
-	};
-
-	// NOTE Add clusters to the map
-	new markerClusterer.MarkerClusterer({ map, markers, renderer });
+	plotMap(listings);
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
@@ -269,18 +191,97 @@ function formatPrice(price) {
 	}).format(price);
 }
 
+function plotMap(listings) {
+	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
+
+	listings = listings.filter(
+		(listing) => listing.location.lat && listing.location.lng && listing.price
+	);
+
+	// NOTE Add markers to the map
+	const markers = listings.map((listing) => {
+		const marker = new google.maps.Marker({
+			position: listing.location,
+			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+			label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
+		});
+
+		// NOTE Open info window when marker is clicked
+		if (isTouchDevice()) {
+			marker.addListener('click', () => displayCard(listing, marker, infoWindow));
+		} else {
+			marker.addListener('click', () => window.open(listing.url, '_blank'));
+			marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
+		}
+
+		// NOTE Close
+		marker.addListener('mouseout', () => {
+			const label = marker.getLabel();
+			label.color = 'black';
+			marker.setLabel(label);
+			if (infoWindow) infoWindow.close();
+		});
+
+		return marker;
+	});
+
+	// NOTE Get clusters data
+	const index = new Supercluster({ radius: 60, maxZoom: 16 });
+	index.load(listings);
+
+	let clusters = index
+		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
+		.filter((cluster) => cluster.type === 'Feature');
+
+	// NOTE Calculate clusters
+	const renderer = {
+		render: function ({ count, position }) {
+			// NOTE Get cluster leaves
+			const leaves = index.getLeaves(clusters[i].id, Infinity);
+
+			// NOTE Calculate average
+			const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
+			const marker = new google.maps.Marker({
+				position,
+				icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+				label: {
+					text: `~${abbreviatePrice(average)}`,
+					color: '#2AB24D',
+					fontSize: '14px',
+					fontWeight: 'bold',
+				},
+				zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
+			});
+
+			zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
+			i++;
+
+			if (!isTouchDevice()) {
+				marker.addListener('mouseover', () => updateZIndex(marker));
+				marker.addListener('mouseout', () => {
+					const label = marker.getLabel();
+					label.color = '#2AB24D';
+					marker.setLabel(label);
+				});
+			}
+
+			// NOTE Create cluster marker
+			return marker;
+		},
+	};
+
+	// NOTE Add clusters to the map
+	new markerClusterer.MarkerClusterer({ map, markers, renderer });
+}
+
 // NOTE Listeners
 $('#btn-maps').click(() => toggleMap());
 
 $('#search-form-block').submit(() => false);
 
-$('#radio-offer-type-sale').change(() => {
-	if (this.checked) searchParams.set('offer', 'sale');
-});
+$('#radio-offer-type-sale').change(() => (offerType = 'sale'));
 
-$('#radio-offer-type-rent').change(() => {
-	if (this.checked) searchParams.set('offer', 'rent');
-});
+$('#radio-offer-type-rent').change(() => (offerType = 'rent'));
 
 $('#btn-filter').on('click', () => $('#filter-modal').show());
 
@@ -289,7 +290,7 @@ $('#btn-filter-reset').on('click', (e) => {
 	$('#filter-modal').hide();
 });
 
-$('#btn-filter-confirm, #btn-interest-close').on('click', (e) => {
+$('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	e.preventDefault();
 
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
@@ -298,7 +299,50 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', (e) => {
 	console.log(offerType);
 
 	if (offerType !== offerTypeOption) {
+		// NOTE Recalculate markers
+		let listings;
 		console.log('Recalculate markers');
+
+		// NOTE Get listings data
+		try {
+			const response = await fetch(
+				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerType}`,
+				{ method: 'GET' }
+			);
+
+			if (response.status !== 200) {
+				throw new Error('Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.');
+			} else {
+				const responseJson = await response.json();
+
+				responseJson.forEach((element) => {
+					listings.push({
+						price: element.offer_type.sale ? element.sales_price : element.rent_price,
+						thumb_url: element.thumb_url,
+						location: {
+							lat: element.location.coordinates[1],
+							lng: element.location.coordinates[0],
+						},
+						geometry: element.location,
+						prop_type: element.prop_type,
+						address: element.address,
+						area: element.area,
+						bedrooms: element.bedrooms,
+						bathrooms: element.bathrooms,
+						parking_lots: element.parking_lots,
+						url: `listings/${element._id}`,
+					});
+				});
+			}
+		} catch (error) {
+			return alert(
+				error.display && error.message
+					? error.message
+					: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
+			);
+		}
+
+		plotMap(listings);
 	}
 
 	$('#filter-modal').hide();
