@@ -229,10 +229,12 @@ function plotMap(map, infoWindow, listings) {
 		// NOTE Calculate clusters
 		const renderer = {
 			render: function ({ count, position }) {
+				console.log(i);
+				console.log(clusters[i]);
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clusters[i].id, Infinity);
 
-				// NOTE Calculate average
+				// NOTE Calculate average and add cluster marker
 				const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
 				const marker = new google.maps.Marker({
 					position,
@@ -265,8 +267,6 @@ function plotMap(map, infoWindow, listings) {
 
 		// NOTE Add clusters to the map
 		new markerClusterer.MarkerClusterer({ map, markers, renderer });
-	} else {
-		new markerClusterer.MarkerClusterer({ map, markers });
 	}
 
 	// NOTE When map is clicked
