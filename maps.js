@@ -294,6 +294,9 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
 
+	console.log(offerType);
+	console.log(offerTypeOption);
+
 	if (offerType !== offerTypeOption) {
 		// NOTE Recalculate markers
 		let listings;
