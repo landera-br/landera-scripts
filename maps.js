@@ -2,6 +2,17 @@ let zIndex = 99;
 const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569];
 const searchParams = new URLSearchParams(window.location.search);
 const offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
+const map = new google.maps.Map(document.getElementById('map'), {
+	mapId: 'c905ad459d6961a8',
+	zoom: 12,
+	center: { lat: -23.5874, lng: -46.6576 },
+	zoomControl: true,
+	mapTypeControl: false,
+	scaleControl: true,
+	streetViewControl: true,
+	rotateControl: false,
+	fullscreenControl: true,
+});
 
 if (offerType === 'rent') {
 	$('#radio-offer-type-sale').prop('checked', false);
@@ -17,22 +28,10 @@ window.initMap = initMap;
 
 // NOTE When page is loaded
 async function initMap() {
-	// NOTE Init variables
-	var searchInput = document.getElementById('search-input');
-	var autocomplete = new google.maps.places.Autocomplete(searchInput);
-	const map = new google.maps.Map(document.getElementById('map'), {
-		mapId: 'c905ad459d6961a8',
-		zoom: 12,
-		center: { lat: -23.5874, lng: -46.6576 },
-		zoomControl: true,
-		mapTypeControl: false,
-		scaleControl: true,
-		streetViewControl: true,
-		rotateControl: false,
-		fullscreenControl: true,
-	});
-	let listings = [];
 	let i = 0;
+	let listings = [];
+	const searchInput = document.getElementById('search-input');
+	const autocomplete = new google.maps.places.Autocomplete(searchInput);
 
 	// NOTE Get listings data
 	try {
@@ -70,7 +69,7 @@ async function initMap() {
 		);
 	}
 
-	plotMap(listings);
+	plotMap(map, listings);
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
@@ -191,7 +190,7 @@ function formatPrice(price) {
 	}).format(price);
 }
 
-function plotMap(listings) {
+function plotMap(map, listings) {
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 
 	listings = listings.filter(
@@ -342,7 +341,7 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 			);
 		}
 
-		plotMap(listings);
+		plotMap(map, listings);
 	}
 
 	$('#filter-modal').hide();
