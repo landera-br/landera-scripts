@@ -80,7 +80,6 @@ async function initMap() {
 		infoWindow.close();
 		const place = autocomplete.getPlace();
 
-		console.log(place);
 		if (!place.geometry || !place.geometry.location) {
 			window.alert('Não foi possível encontrar o endereço digitado.');
 			return;
@@ -225,12 +224,10 @@ function plotMap(map, infoWindow, listings) {
 
 	console.log(clusters);
 
-	if (Array.isArray(clusters) && clusters.length) {
-		// NOTE Calculate clusters
-		const renderer = {
-			render: function ({ count, position }) {
-				console.log(i);
-				console.log(clusters[i]);
+	// NOTE Calculate clusters
+	const renderer = {
+		render: function ({ count, position }) {
+			if (Array.isArray(clusters) && clusters.length) {
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clusters[i].id, Infinity);
 
@@ -262,14 +259,15 @@ function plotMap(map, infoWindow, listings) {
 
 				// NOTE Create cluster marker
 				return marker;
-			},
-		};
+			} else {
+				console.log('passou');
+				return undefined;
+			}
+		},
+	};
 
-		// NOTE Add clusters to the map
-		new markerClusterer.MarkerClusterer({ map, markers, renderer });
-	} else {
-		new markerClusterer.MarkerClusterer({ map, markers });
-	}
+	// NOTE Add clusters to the map
+	new markerClusterer.MarkerClusterer({ map, markers, renderer });
 
 	// NOTE When map is clicked
 	google.maps.event.addListener(map, 'click', function () {
