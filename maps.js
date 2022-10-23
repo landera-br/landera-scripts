@@ -36,6 +36,8 @@ async function initMap() {
 	const autocomplete = new google.maps.places.Autocomplete(searchInput);
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
+	let markerClusterer;
+	let clusters;
 
 	// NOTE Get listings data
 	try {
@@ -104,7 +106,9 @@ async function initMap() {
 		return marker;
 	});
 
-	markers = plotMap(markers, map, listings, infoWindow);
+	const clusterObj = plotMap(markers, map, listings, infoWindow);
+	markerClusterer = clusterObj.markerClusterer;
+	clusters = clusterObj.clusters;
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
@@ -134,8 +138,10 @@ async function initMap() {
 
 		if (offerType !== offerTypeOption) {
 			// NOTE Delete markers and clusters from the map
-			console.log(markers);
 			clearMarkers(markers);
+			console.log(markerClusterer);
+			console.log(clusters);
+			markerClusterer.removeMarkers(clusters);
 
 			listings = [];
 
@@ -200,7 +206,9 @@ async function initMap() {
 						return marker;
 					});
 
-					markers = plotMap(markers, map, listings, infoWindow);
+					const clusterObj = plotMap(markers, map, listings, infoWindow);
+					markerClusterer = clusterObj.markerClusterer;
+					clusters = clusterObj.clusters;
 					offerType = offerTypeOption;
 				}
 			} catch (error) {
@@ -308,6 +316,7 @@ function formatPrice(price) {
 }
 
 function plotMap(markers, map, listings, infoWindow) {
+	let markerClusterer;
 	i = 0;
 
 	// NOTE Get clusters data
@@ -338,8 +347,6 @@ function plotMap(markers, map, listings, infoWindow) {
 					zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
 				});
 
-				markers.push(marker);
-
 				zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
 				i++;
 
@@ -363,10 +370,10 @@ function plotMap(markers, map, listings, infoWindow) {
 	// NOTE Add clusters to the map
 	if (renderer.render) {
 		console.log('É definido');
-		new markerClusterer.MarkerClusterer({ map, markers, renderer });
+		markerClusterer = new markerClusterer.MarkerClusterer({ map, markers, renderer });
 	} else {
 		console.log('Não é definido');
-		new markerClusterer.MarkerClusterer({ map, markers });
+		markerClusterer = new markerClusterer.MarkerClusterer({ map, markers });
 	}
 
 	// NOTE When map is clicked
@@ -382,7 +389,7 @@ function plotMap(markers, map, listings, infoWindow) {
 			.filter((cluster) => cluster.type === 'Feature');
 	});
 
-	return markers;
+	return { markerClusterer, clusters };
 }
 
 // NOTE Listeners
