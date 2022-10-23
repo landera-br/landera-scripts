@@ -14,6 +14,8 @@ const initialMapProps = {
 	rotateControl: false,
 	fullscreenControl: true,
 };
+let clusters;
+const index = new Supercluster({ radius: 60, maxZoom: 16 });
 
 if (offerType === 'rent') {
 	$('#radio-offer-type-sale').prop('checked', false);
@@ -227,10 +229,9 @@ function plotMap(map, listings) {
 	});
 
 	// NOTE Get clusters data
-	const index = new Supercluster({ radius: 60, maxZoom: 16 });
 	index.load(listings);
 
-	let clusters = index
+	clusters = index
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((cluster) => cluster.type === 'Feature');
 
