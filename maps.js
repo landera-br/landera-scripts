@@ -239,6 +239,7 @@ function plotMap(map, listings) {
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
+			console.log(i);
 			// NOTE Get cluster leaves
 			const leaves = index.getLeaves(clusters[i].id, Infinity);
 
