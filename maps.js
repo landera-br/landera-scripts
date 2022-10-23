@@ -291,6 +291,8 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
 
 	if (offerType !== offerTypeOption) {
+		$('#filter-modal').hide();
+
 		// NOTE Recalculate markers
 		let listings;
 
@@ -301,7 +303,6 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 				{ method: 'GET' }
 			);
 
-			console.log('passou');
 			if (response.status !== 200) {
 				throw new Error('Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.');
 			} else {
@@ -329,6 +330,8 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 				});
 			}
 		} catch (error) {
+			console.log(error);
+			console.log(error.message);
 			return alert(
 				error.display && error.message
 					? error.message
@@ -342,5 +345,4 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	}
 
 	offerType = offerTypeOption;
-	$('#filter-modal').hide();
 });
