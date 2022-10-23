@@ -78,7 +78,7 @@ async function initMap() {
 	);
 
 	// NOTE Add markers to the map
-	let markers = listings.map((listing) => {
+	const markers = listings.map((listing) => {
 		const marker = new google.maps.Marker({
 			position: listing.location,
 			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
@@ -133,10 +133,10 @@ async function initMap() {
 		$('#filter-modal').hide();
 
 		if (offerType !== offerTypeOption) {
-			listings = [];
-			markers = [];
-
 			// NOTE Delete marker from the map
+			clearMarkers(markers);
+
+			listings = [];
 
 			// NOTE Get listings data
 			try {
@@ -171,6 +171,32 @@ async function initMap() {
 							parking_lots: element.parking_lots,
 							url: `listings/${element._id}`,
 						});
+					});
+
+					const markers = listings.map((listing) => {
+						const marker = new google.maps.Marker({
+							position: listing.location,
+							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+							label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
+						});
+
+						// NOTE Open info window when marker is clicked
+						if (isTouchDevice()) {
+							marker.addListener('click', () => displayCard(listing, marker, infoWindow));
+						} else {
+							marker.addListener('click', () => window.open(listing.url, '_blank'));
+							marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
+						}
+
+						// NOTE Close
+						marker.addListener('mouseout', () => {
+							const label = marker.getLabel();
+							label.color = 'black';
+							marker.setLabel(label);
+							if (infoWindow) infoWindow.close();
+						});
+
+						return marker;
 					});
 
 					plotMap(markers, map, listings, infoWindow);
