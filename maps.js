@@ -288,7 +288,7 @@ $('#btn-filter-reset').on('click', (e) => {
 
 $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	e.preventDefault();
-
+	let listings = [];
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
 
