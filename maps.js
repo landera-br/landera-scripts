@@ -265,6 +265,8 @@ function plotMap(map, infoWindow, listings) {
 
 		// NOTE Add clusters to the map
 		new markerClusterer.MarkerClusterer({ map, markers, renderer });
+	} else {
+		new markerClusterer.MarkerClusterer({ map, markers });
 	}
 
 	// NOTE When map is clicked
