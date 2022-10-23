@@ -275,13 +275,10 @@ $('#btn-maps').click(() => toggleMap());
 $('#search-form-block').submit(() => false);
 
 $('#radio-offer-type-sale').change(() => {
-	console.log('Entrou sale');
 	if (this.checked) searchParams.set('offer', 'sale');
 });
 
 $('#radio-offer-type-rent').change(() => {
-	console.log('Entrou rent');
-
 	if (this.checked) searchParams.set('offer', 'rent');
 });
 
@@ -292,7 +289,7 @@ $('#btn-filter-reset').on('click', (e) => {
 	$('#filter-modal').hide();
 });
 
-$('#btn-filter-confirm, btn-interest-close').on('click', (e) => {
+$('#btn-filter-confirm, #btn-interest-close').on('click', (e) => {
 	e.preventDefault();
 
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
@@ -301,7 +298,7 @@ $('#btn-filter-confirm, btn-interest-close').on('click', (e) => {
 	console.log(offerType);
 
 	if (offerType !== offerTypeOption) {
-		console.log('Redirect');
+		console.log('Recalculate markers');
 	}
 
 	$('#filter-modal').hide();
