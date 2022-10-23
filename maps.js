@@ -319,8 +319,8 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 
 	if (offerType !== offerTypeOption) {
 		let listings = [];
-		const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
-		const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
+		// const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
+		// const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 
 		// NOTE Get listings data
 		try {
@@ -355,7 +355,7 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 					});
 				});
 
-				plotMap(map, infoWindow, listings);
+				// plotMap(map, infoWindow, listings);
 				offerType = offerTypeOption;
 			}
 		} catch (error) {
