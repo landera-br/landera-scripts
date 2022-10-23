@@ -78,7 +78,6 @@ async function initMap() {
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
 		infoWindow.close();
-		console.log('Entrou0');
 
 		const place = autocomplete.getPlace();
 
@@ -87,12 +86,9 @@ async function initMap() {
 			return;
 		}
 
-		console.log('Entrou1');
 		if (place.geometry.viewport) {
-			console.log('Entrou2');
 			map.fitBounds(place.geometry.viewport);
 		} else {
-			console.log('Entrou3');
 			map.setCenter(place.geometry.location);
 			map.setZoom(17);
 		}
@@ -263,12 +259,22 @@ function plotMap(map, infoWindow, listings) {
 				// NOTE Create cluster marker
 				return marker;
 			} else {
-				return undefined;
+				return new google.maps.Marker({
+					position,
+					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+					label: {
+						text: count,
+						color: '#2AB24D',
+						fontSize: '14px',
+						fontWeight: 'bold',
+					},
+					zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
+				});
 			}
 		},
 	};
 
-	console.log('Entrou4');
+	console.log('Passou renderer');
 
 	// NOTE Add clusters to the map
 	if (renderer.render) {
