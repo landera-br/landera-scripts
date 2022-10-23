@@ -192,6 +192,7 @@ function formatPrice(price) {
 }
 
 function plotMap(map, listings) {
+	i = 0;
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 
 	listings = listings.filter(
@@ -232,6 +233,8 @@ function plotMap(map, listings) {
 	let clusters = index
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((cluster) => cluster.type === 'Feature');
+
+	console.log(clusters);
 
 	// NOTE Calculate clusters
 	const renderer = {
