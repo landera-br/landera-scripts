@@ -223,10 +223,13 @@ function plotMap(map, infoWindow, listings) {
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((cluster) => cluster.type === 'Feature');
 
+	console.log(clusters);
+
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
 			// NOTE Get cluster leaves
+			console.log(i);
 			const leaves = index.getLeaves(clusters[i].id, Infinity);
 
 			// NOTE Calculate average
