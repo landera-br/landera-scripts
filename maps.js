@@ -78,6 +78,8 @@ async function initMap() {
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
 		infoWindow.close();
+		console.log('Entrou0');
+
 		const place = autocomplete.getPlace();
 
 		if (!place.geometry || !place.geometry.location) {
@@ -85,9 +87,12 @@ async function initMap() {
 			return;
 		}
 
+		console.log('Entrou1');
 		if (place.geometry.viewport) {
+			console.log('Entrou2');
 			map.fitBounds(place.geometry.viewport);
 		} else {
+			console.log('Entrou3');
 			map.setCenter(place.geometry.location);
 			map.setZoom(17);
 		}
@@ -222,8 +227,6 @@ function plotMap(map, infoWindow, listings) {
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((cluster) => cluster.type === 'Feature');
 
-	console.log(clusters);
-
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
@@ -265,8 +268,9 @@ function plotMap(map, infoWindow, listings) {
 		},
 	};
 
+	console.log('Entrou4');
+
 	// NOTE Add clusters to the map
-	console.log(renderer.render);
 	if (renderer.render) {
 		console.log('É definido');
 		new markerClusterer.MarkerClusterer({ map, markers, renderer });
