@@ -228,6 +228,8 @@ function plotMap(map, infoWindow, listings) {
 	const renderer = {
 		render: function ({ count, position }) {
 			if (Array.isArray(clusters) && clusters.length) {
+				console.log('entrou1');
+
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clusters[i].id, Infinity);
 
@@ -260,14 +262,18 @@ function plotMap(map, infoWindow, listings) {
 				// NOTE Create cluster marker
 				return marker;
 			} else {
-				console.log('passou');
+				console.log('entrou2');
 				return undefined;
 			}
 		},
 	};
 
 	// NOTE Add clusters to the map
-	new markerClusterer.MarkerClusterer({ map, markers, renderer });
+	if (renderer.render) {
+		new markerClusterer.MarkerClusterer({ map, markers, renderer });
+	} else {
+		new markerClusterer.MarkerClusterer({ map, markers });
+	}
 
 	// NOTE When map is clicked
 	google.maps.event.addListener(map, 'click', function () {
