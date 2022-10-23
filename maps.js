@@ -293,19 +293,21 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	if (offerType !== offerTypeOption) {
 		// NOTE Recalculate markers
 		let listings;
-		console.log('Recalculate markers');
 
 		// NOTE Get listings data
 		try {
 			const response = await fetch(
-				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerType}`,
+				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerTypeOption}`,
 				{ method: 'GET' }
 			);
 
+			console.log('passou');
 			if (response.status !== 200) {
 				throw new Error('Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.');
 			} else {
 				const responseJson = await response.json();
+
+				console.log(responseJson);
 
 				responseJson.forEach((element) => {
 					listings.push({
