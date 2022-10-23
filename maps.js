@@ -225,10 +225,10 @@ function plotMap(map, infoWindow, listings) {
 
 	console.log(clusters);
 
-	// NOTE Calculate clusters
-	const renderer = {
-		render: function ({ count, position }) {
-			if (Array.isArray(clusters) && clusters.length) {
+	if (Array.isArray(clusters) && clusters.length) {
+		// NOTE Calculate clusters
+		const renderer = {
+			render: function ({ count, position }) {
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clusters[i].id, Infinity);
 
@@ -260,17 +260,12 @@ function plotMap(map, infoWindow, listings) {
 
 				// NOTE Create cluster marker
 				return marker;
-			} else {
-				return;
-			}
-		},
-	};
+			},
+		};
 
-	// NOTE Add clusters to the map
-	new markerClusterer.MarkerClusterer({ map, markers, renderer });
-
-	// google.maps.event.removeListener(mapClickListener);
-	// google.maps.event.removeListener(mapZoomListener);
+		// NOTE Add clusters to the map
+		new markerClusterer.MarkerClusterer({ map, markers, renderer });
+	}
 
 	// NOTE When map is clicked
 	google.maps.event.addListener(map, 'click', function () {
