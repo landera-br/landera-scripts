@@ -1,7 +1,7 @@
 let zIndex = 99;
 const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569];
 const searchParams = new URLSearchParams(window.location.search);
-const offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
+let offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
 let i = 0;
 
 if (offerType === 'rent') {
@@ -294,9 +294,6 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
 
-	console.log(offerTypeOption);
-	console.log(offerType);
-
 	if (offerType !== offerTypeOption) {
 		// NOTE Recalculate markers
 		let listings;
@@ -340,6 +337,8 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 					: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 			);
 		}
+
+		console.log(listings);
 
 		plotMap(map, listings);
 	}
