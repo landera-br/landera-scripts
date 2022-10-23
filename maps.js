@@ -36,7 +36,7 @@ async function initMap() {
 	const autocomplete = new google.maps.places.Autocomplete(searchInput);
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
-	let markerClusterer;
+	let clusterInstance;
 	let clusters;
 
 	// NOTE Get listings data
@@ -107,7 +107,7 @@ async function initMap() {
 	});
 
 	const clusterObj = plotMap(markers, map, listings, infoWindow);
-	markerClusterer = clusterObj.markerClusterer;
+	clusterInstance = clusterObj.clusterInstance;
 	clusters = clusterObj.clusters;
 
 	// NOTE When users search a place
@@ -139,9 +139,9 @@ async function initMap() {
 		if (offerType !== offerTypeOption) {
 			// NOTE Delete markers and clusters from the map
 			clearMarkers(markers);
-			console.log(markerClusterer);
+			console.log(clusterInstance);
 			console.log(clusters);
-			markerClusterer.removeMarkers(clusters);
+			clusterInstance.removeMarkers(clusters);
 
 			listings = [];
 
@@ -207,7 +207,7 @@ async function initMap() {
 					});
 
 					const clusterObj = plotMap(markers, map, listings, infoWindow);
-					markerClusterer = clusterObj.markerClusterer;
+					clusterInstance = clusterObj.clusterInstance;
 					clusters = clusterObj.clusters;
 					offerType = offerTypeOption;
 				}
@@ -316,7 +316,7 @@ function formatPrice(price) {
 }
 
 function plotMap(markers, map, listings, infoWindow) {
-	let markerClusterer;
+	let clusterInstance;
 	i = 0;
 
 	// NOTE Get clusters data
@@ -370,10 +370,10 @@ function plotMap(markers, map, listings, infoWindow) {
 	// NOTE Add clusters to the map
 	if (renderer.render) {
 		console.log('É definido');
-		markerClusterer = new markerClusterer.MarkerClusterer({ map, markers, renderer });
+		clusterInstance = new markerClusterer.MarkerClusterer({ map, markers, renderer });
 	} else {
 		console.log('Não é definido');
-		markerClusterer = new markerClusterer.MarkerClusterer({ map, markers });
+		clusterInstance = new markerClusterer.MarkerClusterer({ map, markers });
 	}
 
 	// NOTE When map is clicked
@@ -389,7 +389,7 @@ function plotMap(markers, map, listings, infoWindow) {
 			.filter((cluster) => cluster.type === 'Feature');
 	});
 
-	return { markerClusterer, clusters };
+	return { clusterInstance, clusters };
 }
 
 // NOTE Listeners
