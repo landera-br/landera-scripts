@@ -2,17 +2,6 @@ let zIndex = 99;
 const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569];
 const searchParams = new URLSearchParams(window.location.search);
 const offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
-const map = new google.maps.Map(document.getElementById('map'), {
-	mapId: 'c905ad459d6961a8',
-	zoom: 12,
-	center: { lat: -23.5874, lng: -46.6576 },
-	zoomControl: true,
-	mapTypeControl: false,
-	scaleControl: true,
-	streetViewControl: true,
-	rotateControl: false,
-	fullscreenControl: true,
-});
 
 if (offerType === 'rent') {
 	$('#radio-offer-type-sale').prop('checked', false);
@@ -32,6 +21,17 @@ async function initMap() {
 	let listings = [];
 	const searchInput = document.getElementById('search-input');
 	const autocomplete = new google.maps.places.Autocomplete(searchInput);
+	const map = new google.maps.Map(document.getElementById('map'), {
+		mapId: 'c905ad459d6961a8',
+		zoom: 12,
+		center: { lat: -23.5874, lng: -46.6576 },
+		zoomControl: true,
+		mapTypeControl: false,
+		scaleControl: true,
+		streetViewControl: true,
+		rotateControl: false,
+		fullscreenControl: true,
+	});
 
 	// NOTE Get listings data
 	try {
