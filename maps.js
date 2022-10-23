@@ -91,19 +91,6 @@ async function initMap() {
 			map.setZoom(17);
 		}
 	});
-
-	// NOTE When map is clicked
-	google.maps.event.addListener(map, 'click', function () {
-		if (infoWindow) infoWindow.close();
-	});
-
-	// NOTE When zoom is changed
-	google.maps.event.addListener(map, 'zoom_changed', function () {
-		i = 0;
-		clusters = index
-			.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
-			.filter((cluster) => cluster.type === 'Feature');
-	});
 }
 
 // NOTE Support functions
@@ -277,6 +264,21 @@ function plotMap(map, listings) {
 
 	// NOTE Add clusters to the map
 	new markerClusterer.MarkerClusterer({ map, markers, renderer });
+
+	google.maps.event.clearInstanceListeners(map);
+
+	// NOTE When map is clicked
+	google.maps.event.addListener(map, 'click', function () {
+		if (infoWindow) infoWindow.close();
+	});
+
+	// NOTE When zoom is changed
+	google.maps.event.addListener(map, 'zoom_changed', function () {
+		i = 0;
+		clusters = index
+			.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
+			.filter((cluster) => cluster.type === 'Feature');
+	});
 }
 
 // NOTE Listeners
