@@ -274,6 +274,14 @@ $('#btn-maps').click(() => toggleMap());
 
 $('#search-form-block').submit(() => false);
 
+$('#radio-offer-type-sale').change(function () {
+	if (this.checked) searchParams.set('offer', 'sale');
+});
+
+$('#radio-offer-type-rent').change(function () {
+	if (this.checked) searchParams.set('offer', 'rent');
+});
+
 $('#btn-filter').on('click', () => $('#filter-modal').show());
 
 $('#btn-filter-reset').on('click', (e) => {
