@@ -78,7 +78,7 @@ async function initMap() {
 	);
 
 	// NOTE Add markers to the map
-	const markers = listings.map((listing) => {
+	let markers = listings.map((listing) => {
 		const marker = new google.maps.Marker({
 			position: listing.location,
 			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
@@ -104,7 +104,7 @@ async function initMap() {
 		return marker;
 	});
 
-	plotMap(markers, map, listings, infoWindow);
+	markers = plotMap(markers, map, listings, infoWindow);
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
@@ -133,7 +133,8 @@ async function initMap() {
 		$('#filter-modal').hide();
 
 		if (offerType !== offerTypeOption) {
-			// NOTE Delete marker from the map
+			// NOTE Delete markers and clusters from the map
+			console.log(markers);
 			clearMarkers(markers);
 
 			listings = [];
@@ -173,7 +174,7 @@ async function initMap() {
 						});
 					});
 
-					const markers = listings.map((listing) => {
+					let markers = listings.map((listing) => {
 						const marker = new google.maps.Marker({
 							position: listing.location,
 							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
@@ -199,7 +200,7 @@ async function initMap() {
 						return marker;
 					});
 
-					plotMap(markers, map, listings, infoWindow);
+					markers = plotMap(markers, map, listings, infoWindow);
 					offerType = offerTypeOption;
 				}
 			} catch (error) {
@@ -337,6 +338,8 @@ function plotMap(markers, map, listings, infoWindow) {
 					zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
 				});
 
+				markers.push(marker);
+
 				zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
 				i++;
 
@@ -356,8 +359,6 @@ function plotMap(markers, map, listings, infoWindow) {
 			}
 		},
 	};
-
-	console.log('Passou renderer');
 
 	// NOTE Add clusters to the map
 	if (renderer.render) {
@@ -380,6 +381,8 @@ function plotMap(markers, map, listings, infoWindow) {
 			.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 			.filter((cluster) => cluster.type === 'Feature');
 	});
+
+	return markers;
 }
 
 // NOTE Listeners
