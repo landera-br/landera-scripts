@@ -35,6 +35,7 @@ async function initMap() {
 	const searchInput = document.getElementById('search-input');
 	const autocomplete = new google.maps.places.Autocomplete(searchInput);
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
+	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 
 	// NOTE Get listings data
 	try {
@@ -72,13 +73,14 @@ async function initMap() {
 		);
 	}
 
-	plotMap(map, listings);
+	plotMap(map, infoWindow, listings);
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
 		infoWindow.close();
 		const place = autocomplete.getPlace();
 
+		console.log(place);
 		if (!place.geometry || !place.geometry.location) {
 			window.alert('Não foi possível encontrar o endereço digitado.');
 			return;
@@ -180,9 +182,8 @@ function formatPrice(price) {
 	}).format(price);
 }
 
-function plotMap(map, listings) {
+function plotMap(map, infoWindow, listings) {
 	i = 0;
-	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 
 	listings = listings.filter(
 		(listing) => listing.location.lat && listing.location.lng && listing.price
@@ -296,6 +297,7 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	let listings = [];
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
+	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 
 	$('#filter-modal').hide();
 
@@ -339,7 +341,7 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 			);
 		}
 
-		plotMap(map, listings);
+		plotMap(map, infoWindow, listings);
 	}
 
 	offerType = offerTypeOption;
