@@ -265,7 +265,8 @@ function plotMap(map, listings) {
 	// NOTE Add clusters to the map
 	new markerClusterer.MarkerClusterer({ map, markers, renderer });
 
-	google.maps.event.clearInstanceListeners(map);
+	// google.maps.event.removeListener(mapClickListener);
+	// google.maps.event.removeListener(mapZoomListener);
 
 	// NOTE When map is clicked
 	google.maps.event.addListener(map, 'click', function () {
