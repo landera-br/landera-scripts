@@ -38,6 +38,7 @@ async function initMap() {
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 	let clusterInstance;
 	let clusters;
+	let clusterObj;
 
 	// NOTE Get listings data
 	try {
@@ -106,7 +107,7 @@ async function initMap() {
 		return marker;
 	});
 
-	const clusterObj = plotMap(markers, map, listings, infoWindow);
+	clusterObj = plotMap(markers, map, listings, infoWindow);
 	clusterInstance = clusterObj.clusterInstance;
 	clusters = clusterObj.clusters;
 
@@ -139,86 +140,84 @@ async function initMap() {
 		if (offerType !== offerTypeOption) {
 			// NOTE Delete markers and clusters from the map
 			clearMarkers(markers);
-			console.log(clusterInstance);
-			console.log(clusters);
 			clusterInstance.removeMarkers(clusters);
 			clusterInstance.clearMarkers();
 
 			listings = [];
 
 			// NOTE Get listings data
-			// try {
-			// 	const response = await fetch(
-			// 		`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerTypeOption}`,
-			// 		{ method: 'GET' }
-			// 	);
+			try {
+				const response = await fetch(
+					`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerTypeOption}`,
+					{ method: 'GET' }
+				);
 
-			// 	if (response.status !== 200) {
-			// 		$(`#radio-offer-type-${offerType}`).prop('checked', true);
+				if (response.status !== 200) {
+					$(`#radio-offer-type-${offerType}`).prop('checked', true);
 
-			// 		throw new Error(
-			// 			'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
-			// 		);
-			// 	} else {
-			// 		const responseJson = await response.json();
+					throw new Error(
+						'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
+					);
+				} else {
+					const responseJson = await response.json();
 
-			// 		responseJson.forEach((element) => {
-			// 			listings.push({
-			// 				price: element.offer_type.sale ? element.sales_price : element.rent_price,
-			// 				thumb_url: element.thumb_url,
-			// 				location: {
-			// 					lat: element.location.coordinates[1],
-			// 					lng: element.location.coordinates[0],
-			// 				},
-			// 				geometry: element.location,
-			// 				prop_type: element.prop_type,
-			// 				address: element.address,
-			// 				area: element.area,
-			// 				bedrooms: element.bedrooms,
-			// 				bathrooms: element.bathrooms,
-			// 				parking_lots: element.parking_lots,
-			// 				url: `listings/${element._id}`,
-			// 			});
-			// 		});
+					responseJson.forEach((element) => {
+						listings.push({
+							price: element.offer_type.sale ? element.sales_price : element.rent_price,
+							thumb_url: element.thumb_url,
+							location: {
+								lat: element.location.coordinates[1],
+								lng: element.location.coordinates[0],
+							},
+							geometry: element.location,
+							prop_type: element.prop_type,
+							address: element.address,
+							area: element.area,
+							bedrooms: element.bedrooms,
+							bathrooms: element.bathrooms,
+							parking_lots: element.parking_lots,
+							url: `listings/${element._id}`,
+						});
+					});
 
-			// 		let markers = listings.map((listing) => {
-			// 			const marker = new google.maps.Marker({
-			// 				position: listing.location,
-			// 				icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
-			// 				label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
-			// 			});
+					markers = listings.map((listing) => {
+						const marker = new google.maps.Marker({
+							position: listing.location,
+							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+							label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
+						});
 
-			// 			// NOTE Open info window when marker is clicked
-			// 			if (isTouchDevice()) {
-			// 				marker.addListener('click', () => displayCard(listing, marker, infoWindow));
-			// 			} else {
-			// 				marker.addListener('click', () => window.open(listing.url, '_blank'));
-			// 				marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
-			// 			}
+						// NOTE Open info window when marker is clicked
+						if (isTouchDevice()) {
+							marker.addListener('click', () => displayCard(listing, marker, infoWindow));
+						} else {
+							marker.addListener('click', () => window.open(listing.url, '_blank'));
+							marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
+						}
 
-			// 			// NOTE Close
-			// 			marker.addListener('mouseout', () => {
-			// 				const label = marker.getLabel();
-			// 				label.color = 'black';
-			// 				marker.setLabel(label);
-			// 				if (infoWindow) infoWindow.close();
-			// 			});
+						// NOTE Close
+						marker.addListener('mouseout', () => {
+							const label = marker.getLabel();
+							label.color = 'black';
+							marker.setLabel(label);
+							if (infoWindow) infoWindow.close();
+						});
 
-			// 			return marker;
-			// 		});
+						return marker;
+					});
 
-			// 		const clusterObj = plotMap(markers, map, listings, infoWindow);
-			// 		clusterInstance = clusterObj.clusterInstance;
-			// 		clusters = clusterObj.clusters;
-			// 		offerType = offerTypeOption;
-			// 	}
-			// } catch (error) {
-			// 	return alert(
-			// 		error.display && error.message
-			// 			? error.message
-			// 			: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
-			// 	);
-			// }
+					clusterObj = plotMap(markers, map, listings, infoWindow);
+					clusterInstance = clusterObj.clusterInstance;
+					clusters = clusterObj.clusters;
+					offerType = offerTypeOption;
+				}
+			} catch (error) {
+				return alert(
+					error.display && error.message
+						? error.message
+						: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
+				);
+			}
 		}
 	});
 }
