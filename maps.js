@@ -222,12 +222,9 @@ function plotMap(map, listings) {
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((cluster) => cluster.type === 'Feature');
 
-	console.log(clusters);
-
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
-			console.log(i);
 			// NOTE Get cluster leaves
 			const leaves = index.getLeaves(clusters[i].id, Infinity);
 
@@ -300,9 +297,9 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
 
-	if (offerType !== offerTypeOption) {
-		$('#filter-modal').hide();
+	$('#filter-modal').hide();
 
+	if (offerType !== offerTypeOption) {
 		// NOTE Get listings data
 		try {
 			const response = await fetch(
@@ -335,15 +332,12 @@ $('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 				});
 			}
 		} catch (error) {
-			console.log(error.message);
 			return alert(
 				error.display && error.message
 					? error.message
 					: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 			);
 		}
-
-		console.log(listings);
 
 		plotMap(map, listings);
 	}
