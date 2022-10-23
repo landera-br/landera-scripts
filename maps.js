@@ -93,6 +93,65 @@ async function initMap() {
 			map.setZoom(17);
 		}
 	});
+
+	$('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
+		e.preventDefault();
+		const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
+
+		$('#filter-modal').hide();
+
+		if (offerType !== offerTypeOption) {
+			let listings = [];
+			// const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
+			// const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
+
+			// NOTE Get listings data
+			try {
+				const response = await fetch(
+					`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerTypeOption}`,
+					{ method: 'GET' }
+				);
+
+				if (response.status !== 200) {
+					$(`#radio-offer-type-${offerType}`).prop('checked', true);
+
+					throw new Error(
+						'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
+					);
+				} else {
+					const responseJson = await response.json();
+
+					responseJson.forEach((element) => {
+						listings.push({
+							price: element.offer_type.sale ? element.sales_price : element.rent_price,
+							thumb_url: element.thumb_url,
+							location: {
+								lat: element.location.coordinates[1],
+								lng: element.location.coordinates[0],
+							},
+							geometry: element.location,
+							prop_type: element.prop_type,
+							address: element.address,
+							area: element.area,
+							bedrooms: element.bedrooms,
+							bathrooms: element.bathrooms,
+							parking_lots: element.parking_lots,
+							url: `listings/${element._id}`,
+						});
+					});
+
+					plotMap(map, infoWindow, listings);
+					offerType = offerTypeOption;
+				}
+			} catch (error) {
+				return alert(
+					error.display && error.message
+						? error.message
+						: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
+				);
+			}
+		}
+	});
 }
 
 // NOTE Support functions
@@ -259,17 +318,7 @@ function plotMap(map, infoWindow, listings) {
 				// NOTE Create cluster marker
 				return marker;
 			} else {
-				return new google.maps.Marker({
-					position,
-					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
-					label: {
-						text: count,
-						color: '#2AB24D',
-						fontSize: '14px',
-						fontWeight: 'bold',
-					},
-					zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
-				});
+				return undefined;
 			}
 		},
 	};
@@ -309,61 +358,4 @@ $('#btn-filter').on('click', () => $('#filter-modal').show());
 $('#btn-filter-reset').on('click', (e) => {
 	e.preventDefault();
 	$('#filter-modal').hide();
-});
-
-$('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
-	e.preventDefault();
-	const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
-
-	$('#filter-modal').hide();
-
-	if (offerType !== offerTypeOption) {
-		let listings = [];
-		// const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
-		// const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
-
-		// NOTE Get listings data
-		try {
-			const response = await fetch(
-				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerTypeOption}`,
-				{ method: 'GET' }
-			);
-
-			if (response.status !== 200) {
-				$(`#radio-offer-type-${offerType}`).prop('checked', true);
-
-				throw new Error('Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.');
-			} else {
-				const responseJson = await response.json();
-
-				responseJson.forEach((element) => {
-					listings.push({
-						price: element.offer_type.sale ? element.sales_price : element.rent_price,
-						thumb_url: element.thumb_url,
-						location: {
-							lat: element.location.coordinates[1],
-							lng: element.location.coordinates[0],
-						},
-						geometry: element.location,
-						prop_type: element.prop_type,
-						address: element.address,
-						area: element.area,
-						bedrooms: element.bedrooms,
-						bathrooms: element.bathrooms,
-						parking_lots: element.parking_lots,
-						url: `listings/${element._id}`,
-					});
-				});
-
-				// plotMap(map, infoWindow, listings);
-				offerType = offerTypeOption;
-			}
-		} catch (error) {
-			return alert(
-				error.display && error.message
-					? error.message
-					: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
-			);
-		}
-	}
 });
