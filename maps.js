@@ -2,6 +2,7 @@ let zIndex = 99;
 const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569];
 const searchParams = new URLSearchParams(window.location.search);
 const offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
+let i = 0;
 
 if (offerType === 'rent') {
 	$('#radio-offer-type-sale').prop('checked', false);
@@ -17,7 +18,6 @@ window.initMap = initMap;
 
 // NOTE When page is loaded
 async function initMap() {
-	let i = 0;
 	let listings = [];
 	const searchInput = document.getElementById('search-input');
 	const autocomplete = new google.maps.places.Autocomplete(searchInput);
