@@ -228,38 +228,41 @@ function plotMap(map, infoWindow, listings) {
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
-			// NOTE Get cluster leaves
-			console.log(i);
-			const leaves = index.getLeaves(clusters[i].id, Infinity);
+			if (Array.isArray(clusters) && clusters.length) {
+				// NOTE Get cluster leaves
+				const leaves = index.getLeaves(clusters[i].id, Infinity);
 
-			// NOTE Calculate average
-			const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
-			const marker = new google.maps.Marker({
-				position,
-				icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
-				label: {
-					text: `~${abbreviatePrice(average)}`,
-					color: '#2AB24D',
-					fontSize: '14px',
-					fontWeight: 'bold',
-				},
-				zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
-			});
-
-			zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
-			i++;
-
-			if (!isTouchDevice()) {
-				marker.addListener('mouseover', () => updateZIndex(marker));
-				marker.addListener('mouseout', () => {
-					const label = marker.getLabel();
-					label.color = '#2AB24D';
-					marker.setLabel(label);
+				// NOTE Calculate average
+				const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
+				const marker = new google.maps.Marker({
+					position,
+					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+					label: {
+						text: `~${abbreviatePrice(average)}`,
+						color: '#2AB24D',
+						fontSize: '14px',
+						fontWeight: 'bold',
+					},
+					zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
 				});
-			}
 
-			// NOTE Create cluster marker
-			return marker;
+				zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
+				i++;
+
+				if (!isTouchDevice()) {
+					marker.addListener('mouseover', () => updateZIndex(marker));
+					marker.addListener('mouseout', () => {
+						const label = marker.getLabel();
+						label.color = '#2AB24D';
+						marker.setLabel(label);
+					});
+				}
+
+				// NOTE Create cluster marker
+				return marker;
+			} else {
+				return;
+			}
 		},
 	};
 
