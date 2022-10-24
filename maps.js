@@ -253,9 +253,6 @@ function displayCard(listing, marker, infoWindow) {
 }
 
 function updateZIndex(marker) {
-	const label = marker.getLabel();
-	label.color = '#3782FF';
-	marker.setLabel(label);
 	marker.setZIndex(zIndex + 1);
 	zIndex += 1;
 }
@@ -342,7 +339,7 @@ function plotMap(markers, map, listings, infoWindow) {
 						text: `~${abbreviatePrice(average)}`,
 						color: 'black',
 						fontSize: '14px',
-						fontWeight: 'bold',
+						fontWeight: '500',
 					},
 					zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
 				});
