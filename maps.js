@@ -410,13 +410,9 @@ $('#btn-filter').on('click', () => {
 	});
 });
 
-// $('#search-input').keyup(() => {
-// 	console.log(this.value);
-// 	$('search-pointer').val(this.value);
-// });
-
-$('#search-input').bind('change paste keyup', () => {
-	console.log(this.value);
-	// console.log($(this).val());
-	$('search-pointer').val($(this).val());
+$('#search-input').on('input', () => {
+	// NOTE Add text to the search pointer
+	const text = $(this).val();
+	console.log(text);
+	$('search-pointer').val(text);
 });
