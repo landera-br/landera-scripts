@@ -99,7 +99,7 @@ async function initMap() {
 		// NOTE Close
 		marker.addListener('mouseout', () => {
 			const label = marker.getLabel();
-			label.color = 'black';
+			label.color = '#2AB24D';
 			marker.setLabel(label);
 			if (infoWindow) infoWindow.close();
 		});
@@ -198,7 +198,7 @@ async function initMap() {
 						// NOTE Close
 						marker.addListener('mouseout', () => {
 							const label = marker.getLabel();
-							label.color = 'black';
+							label.color = '#2AB24D';
 							marker.setLabel(label);
 							if (infoWindow) infoWindow.close();
 						});
@@ -340,7 +340,7 @@ function plotMap(markers, map, listings, infoWindow) {
 					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
 					label: {
 						text: `~${abbreviatePrice(average)}`,
-						color: '#2AB24D',
+						color: 'black',
 						fontSize: '14px',
 						fontWeight: 'bold',
 					},
@@ -354,7 +354,7 @@ function plotMap(markers, map, listings, infoWindow) {
 					marker.addListener('mouseover', () => updateZIndex(marker));
 					marker.addListener('mouseout', () => {
 						const label = marker.getLabel();
-						label.color = '#2AB24D';
+						label.color = 'black';
 						marker.setLabel(label);
 					});
 				}
@@ -369,10 +369,8 @@ function plotMap(markers, map, listings, infoWindow) {
 
 	// NOTE Add clusters to the map
 	if (renderer.render) {
-		console.log('É definido');
 		clusterInstance = new markerClusterer.MarkerClusterer({ map, markers, renderer });
 	} else {
-		console.log('Não é definido');
 		clusterInstance = new markerClusterer.MarkerClusterer({ map, markers });
 	}
 
