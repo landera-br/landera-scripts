@@ -410,7 +410,7 @@ $('#btn-filter').on('click', () => {
 	});
 });
 
-$('#search-input').on('input', () => {
+$('#search-input').change(() => {
 	console.log($(this).val());
 	// NOTE Add text to the search pointer
 	$('search-pointer').val($(this).val());
