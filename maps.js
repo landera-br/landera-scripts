@@ -3,6 +3,8 @@ const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 
 const searchParams = new URLSearchParams(window.location.search);
 let offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
 let i = 0;
+let clustersMarkers;
+const index = new Supercluster({ radius: 60, maxZoom: 16 });
 const initialMapProps = {
 	mapId: 'c905ad459d6961a8',
 	zoom: 12,
@@ -14,9 +16,8 @@ const initialMapProps = {
 	rotateControl: false,
 	fullscreenControl: true,
 };
-let clusters;
-const index = new Supercluster({ radius: 60, maxZoom: 16 });
 
+// NOTE Get offer type from URL params
 if (offerType === 'rent') {
 	$('#radio-offer-type-sale').prop('checked', false);
 	$('#radio-offer-type-rent').prop('checked', true);
@@ -36,8 +37,8 @@ async function initMap() {
 	const autocomplete = new google.maps.places.Autocomplete(searchInput);
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
-	let clusterInstance;
-	let clusters;
+	let clusterer;
+	let clustersMarkers;
 	let clusterObj;
 
 	// NOTE Get listings data
@@ -76,11 +77,12 @@ async function initMap() {
 		);
 	}
 
+	// NOTE Get data with lat/long
 	listings = listings.filter(
 		(listing) => listing.location.lat && listing.location.lng && listing.price
 	);
 
-	// NOTE Add markers to the map
+	// NOTE Create and add markers to the map
 	let markers = listings.map((listing) => {
 		const marker = new google.maps.Marker({
 			position: listing.location,
@@ -108,9 +110,10 @@ async function initMap() {
 		return marker;
 	});
 
-	clusterObj = plotMap(markers, map, listings, infoWindow);
-	clusterInstance = clusterObj.clusterInstance;
-	clusters = clusterObj.clusters;
+	// NOTE Plot map with clusters and store clusterer and clusters markers
+	clusterObj = plotMapWithClusters(markers, map, listings, infoWindow);
+	clusterer = clusterObj.clusterer;
+	clustersMarkers = clusterObj.clustersMarkers;
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
@@ -139,10 +142,10 @@ async function initMap() {
 		$('#filter-modal').hide();
 
 		if (offerType !== offerTypeOption) {
-			// NOTE Delete markers and clusters from the map
+			// NOTE Delete markers and clustersMarkers from the map
 			clearMarkers(markers);
-			clusterInstance.removeMarkers(clusters);
-			clusterInstance.clearMarkers();
+			clusterer.removeMarkers(clustersMarkers);
+			clusterer.clearMarkers();
 
 			listings = [];
 
@@ -208,9 +211,9 @@ async function initMap() {
 						return marker;
 					});
 
-					clusterObj = plotMap(markers, map, listings, infoWindow);
-					clusterInstance = clusterObj.clusterInstance;
-					clusters = clusterObj.clusters;
+					clusterObj = plotMapWithClusters(markers, map, listings, infoWindow);
+					clusterer = clusterObj.clusterer;
+					clustersMarkers = clusterObj.clustersMarkers;
 					offerType = offerTypeOption;
 				}
 			} catch (error) {
@@ -255,7 +258,6 @@ function displayCard(listing, marker, infoWindow) {
 }
 
 function updateZIndex(marker) {
-	console.log('Entrou updateZIndex');
 	let label = marker.getLabel();
 	label.fontWeight = 'bold';
 	marker.setLabel(label);
@@ -318,23 +320,23 @@ function formatPrice(price) {
 	}).format(price);
 }
 
-function plotMap(markers, map, listings, infoWindow) {
-	let clusterInstance;
+function plotMapWithClusters(markers, map, listings, infoWindow) {
+	let clusterer;
 	i = 0;
 
-	// NOTE Get clusters data
+	// NOTE Get clustersMarkers data
 	index.load(listings);
 
-	clusters = index
+	clustersMarkers = index
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
-		.filter((cluster) => cluster.type === 'Feature');
+		.filter((marker) => marker.type === 'Feature');
 
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
-			if (Array.isArray(clusters) && clusters.length) {
+			if (Array.isArray(clustersMarkers) && clustersMarkers.length) {
 				// NOTE Get cluster leaves
-				const leaves = index.getLeaves(clusters[i].id, Infinity);
+				const leaves = index.getLeaves(clustersMarkers[i].id, Infinity);
 
 				// NOTE Calculate average and add cluster marker
 				const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
@@ -373,9 +375,9 @@ function plotMap(markers, map, listings, infoWindow) {
 
 	// NOTE Add clusters to the map
 	if (renderer.render) {
-		clusterInstance = new markerClusterer.MarkerClusterer({ map, markers, renderer });
+		clusterer = new markerClusterer.MarkerClusterer({ map, markers, renderer });
 	} else {
-		clusterInstance = new markerClusterer.MarkerClusterer({ map, markers });
+		clusterer = new markerClusterer.MarkerClusterer({ map, markers });
 	}
 
 	// NOTE When map is clicked
@@ -386,12 +388,12 @@ function plotMap(markers, map, listings, infoWindow) {
 	// NOTE When zoom is changed
 	google.maps.event.addListener(map, 'zoom_changed', function () {
 		i = 0;
-		clusters = index
+		clustersMarkers = index
 			.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
-			.filter((cluster) => cluster.type === 'Feature');
+			.filter((marker) => marker.type === 'Feature');
 	});
 
-	return { clusterInstance, clusters };
+	return { clusterer, clustersMarkers };
 }
 
 // NOTE Listeners
