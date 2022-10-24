@@ -410,9 +410,13 @@ $('#btn-filter').on('click', () => {
 	});
 });
 
+// document.getElementById('search-input').addEventListener('input', () => {
+//   console.log(inputElem.value); // Log the new value after an input is made
+// });
+
 $('#search-input').on('input', () => {
+	console.log(mudou);
 	// NOTE Add text to the search pointer
-	const text = $(this).val();
-	console.log(text);
-	$('search-pointer').val(text);
+	console.log($('#search-input').val());
+	$('search-pointer').val($('#search-input').val());
 });
