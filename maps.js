@@ -409,8 +409,3 @@ $('#btn-filter').on('click', () => {
 		$('#filter-modal').hide();
 	});
 });
-
-$('#search-input').on('input', () => {
-	// NOTE Add text to the search pointer
-	$('#search-pointer').val($('#search-input').val());
-});
