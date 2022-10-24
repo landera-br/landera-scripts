@@ -415,7 +415,7 @@ $('#btn-filter').on('click', () => {
 // });
 
 $('#search-input').on('input', () => {
-	console.log(mudou);
+	console.log('mudou');
 	// NOTE Add text to the search pointer
 	console.log($('#search-input').val());
 	$('search-pointer').val($('#search-input').val());
