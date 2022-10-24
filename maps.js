@@ -229,7 +229,6 @@ async function initMap() {
 
 // NOTE Support functions
 function displayCard(listing, marker, infoWindow) {
-	console.log(offerType);
 	const contentString = `<a href="${
 		listing.url
 	}" target="_blank" class="listing-card maps" style="text-decoration:none;color:#1c1548;"><img src="${
@@ -409,4 +408,10 @@ $('#btn-filter').on('click', () => {
 		e.preventDefault();
 		$('#filter-modal').hide();
 	});
+});
+
+$('#search-input').on('input', () => {
+	console.log($(this).val());
+	// NOTE Add text to the search pointer
+	$('search-pointer').val($(this).val());
 });
