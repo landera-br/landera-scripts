@@ -100,6 +100,7 @@ async function initMap() {
 		marker.addListener('mouseout', () => {
 			const label = marker.getLabel();
 			label.color = '#2AB24D';
+			label.fontWeight = '500 !important';
 			marker.setLabel(label);
 			if (infoWindow) infoWindow.close();
 		});
@@ -199,6 +200,7 @@ async function initMap() {
 						marker.addListener('mouseout', () => {
 							const label = marker.getLabel();
 							label.color = '#2AB24D';
+							label.fontWeight = '500 !important';
 							marker.setLabel(label);
 							if (infoWindow) infoWindow.close();
 						});
@@ -254,7 +256,7 @@ function displayCard(listing, marker, infoWindow) {
 
 function updateZIndex(marker) {
 	const label = marker.getLabel();
-	label.fontWeight = 'bold';
+	label.fontWeight = 'bold !important';
 	marker.setLabel(label);
 	marker.setZIndex(zIndex + 1);
 	zIndex += 1;
@@ -355,6 +357,7 @@ function plotMap(markers, map, listings, infoWindow) {
 					marker.addListener('mouseout', () => {
 						const label = marker.getLabel();
 						label.color = 'black';
+						label.fontWeight = '500';
 						marker.setLabel(label);
 					});
 				}
