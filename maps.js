@@ -416,6 +416,7 @@ $('#btn-filter').on('click', () => {
 // });
 
 $('#search-input').bind('change paste keyup', () => {
+	console.log(this);
 	console.log($(this).val());
 	$('search-pointer').val($(this).val());
 });
