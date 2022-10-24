@@ -253,6 +253,9 @@ function displayCard(listing, marker, infoWindow) {
 }
 
 function updateZIndex(marker) {
+	const label = marker.getLabel();
+	label.fontWeight = 'bold';
+	marker.setLabel(label);
 	marker.setZIndex(zIndex + 1);
 	zIndex += 1;
 }
