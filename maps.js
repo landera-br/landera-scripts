@@ -118,7 +118,6 @@ async function initMap() {
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
 		infoWindow.close();
-
 		const place = autocomplete.getPlace();
 
 		if (!place.geometry || !place.geometry.location) {
@@ -158,7 +157,6 @@ async function initMap() {
 
 				if (response.status !== 200) {
 					$(`#radio-offer-type-${offerType}`).prop('checked', true);
-
 					throw new Error(
 						'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 					);
@@ -184,6 +182,7 @@ async function initMap() {
 						});
 					});
 
+					// NOTE Create and add markers to the map
 					markers = listings.map((listing) => {
 						const marker = new google.maps.Marker({
 							position: listing.location,
@@ -211,6 +210,7 @@ async function initMap() {
 						return marker;
 					});
 
+					// NOTE Plot map with clusters and store clusterer and clusters markers
 					clusterObj = plotMapWithClusters(markers, map, listings, infoWindow);
 					clusterer = clusterObj.clusterer;
 					clustersMarkers = clusterObj.clustersMarkers;
@@ -229,6 +229,7 @@ async function initMap() {
 
 // NOTE Support functions
 function displayCard(listing, marker, infoWindow) {
+	console.log(offerType);
 	const contentString = `<a href="${
 		listing.url
 	}" target="_blank" class="listing-card maps" style="text-decoration:none;color:#1c1548;"><img src="${
@@ -237,7 +238,7 @@ function displayCard(listing, marker, infoWindow) {
 		listing.thumb_url
 	} 600w" alt="" class="listing-thumbnail maps"><div class="listing-data maps"><div class="property-features maps"><div class="listing-price maps">${formatPrice(
 		listing.price
-	)}</div><div class="property-type maps">${
+	)}${offerType === 'rent' ? '/mês' : ''}</div><div class="property-type maps">${
 		listing.prop_type
 	}</div></div><div class="property-address maps"><div class="address truncate maps">${
 		listing.address
@@ -324,9 +325,9 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 	let clusterer;
 	i = 0;
 
-	// NOTE Get clustersMarkers data
 	index.load(listings);
 
+	// NOTE Get clustersMarkers data
 	clustersMarkers = index
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((marker) => marker.type === 'Feature');
