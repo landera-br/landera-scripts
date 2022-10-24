@@ -98,9 +98,9 @@ async function initMap() {
 
 		// NOTE Close
 		marker.addListener('mouseout', () => {
-			const label = marker.getLabel();
+			let label = marker.getLabel();
 			label.color = '#2AB24D';
-			label.fontWeight = '500 !important';
+			label.fontWeight = '500';
 			marker.setLabel(label);
 			if (infoWindow) infoWindow.close();
 		});
@@ -198,9 +198,9 @@ async function initMap() {
 
 						// NOTE Close
 						marker.addListener('mouseout', () => {
-							const label = marker.getLabel();
+							let label = marker.getLabel();
 							label.color = '#2AB24D';
-							label.fontWeight = '500 !important';
+							label.fontWeight = '500';
 							marker.setLabel(label);
 							if (infoWindow) infoWindow.close();
 						});
@@ -255,8 +255,9 @@ function displayCard(listing, marker, infoWindow) {
 }
 
 function updateZIndex(marker) {
-	const label = marker.getLabel();
-	label.fontWeight = 'bold !important';
+	console.log('Entrou updateZIndex');
+	let label = marker.getLabel();
+	label.fontWeight = 'bold';
 	marker.setLabel(label);
 	marker.setZIndex(zIndex + 1);
 	zIndex += 1;
@@ -355,7 +356,7 @@ function plotMap(markers, map, listings, infoWindow) {
 				if (!isTouchDevice()) {
 					marker.addListener('mouseover', () => updateZIndex(marker));
 					marker.addListener('mouseout', () => {
-						const label = marker.getLabel();
+						let label = marker.getLabel();
 						label.color = 'black';
 						label.fontWeight = '500';
 						marker.setLabel(label);
