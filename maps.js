@@ -34,7 +34,14 @@ window.initMap = initMap;
 async function initMap() {
 	let listings = [];
 	const searchInput = document.getElementById('search-input');
-	const autocomplete = new google.maps.places.Autocomplete(searchInput);
+	const options = {
+		bounds: defaultBounds,
+		componentRestrictions: { country: 'br' },
+		fields: ['address_components', 'geometry', 'icon', 'name'],
+		strictBounds: false,
+		types: ['establishment'],
+	};
+	const autocomplete = new google.maps.places.Autocomplete(searchInput, options);
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
 	let clusterer;
@@ -128,9 +135,8 @@ async function initMap() {
 		if (place.geometry.viewport) {
 			map.fitBounds(place.geometry.viewport);
 		} else {
-			console.log('Entrou');
 			map.setCenter(place.geometry.location);
-			map.setZoom(15);
+			map.setZoom(17);
 		}
 	});
 
