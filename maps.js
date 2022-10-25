@@ -17,15 +17,6 @@ const initialMapProps = {
 	fullscreenControl: true,
 };
 
-// NOTE Get offer type from URL params
-if (offerType === 'rent') {
-	$('#radio-offer-type-sale').prop('checked', false);
-	$('#radio-offer-type-rent').prop('checked', true);
-} else {
-	$('#radio-offer-type-sale').prop('checked', true);
-	$('#radio-offer-type-rent').prop('checked', false);
-}
-
 $('#search-form-block').show();
 
 window.initMap = initMap;
