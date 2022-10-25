@@ -34,13 +34,7 @@ window.initMap = initMap;
 async function initMap() {
 	let listings = [];
 	const searchInput = document.getElementById('search-input');
-	const options = {
-		bounds: defaultBounds,
-		componentRestrictions: { country: 'br' },
-		fields: ['address_components', 'geometry', 'icon', 'name'],
-		strictBounds: false,
-		types: ['establishment'],
-	};
+	const options = { componentRestrictions: { country: 'br' } };
 	const autocomplete = new google.maps.places.Autocomplete(searchInput, options);
 	const map = new google.maps.Map(document.getElementById('map'), initialMapProps);
 	const infoWindow = new google.maps.InfoWindow({ content: '', disableAutoPan: true });
