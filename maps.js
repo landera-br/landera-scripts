@@ -128,8 +128,9 @@ async function initMap() {
 		if (place.geometry.viewport) {
 			map.fitBounds(place.geometry.viewport);
 		} else {
+			console.log('Entrou');
 			map.setCenter(place.geometry.location);
-			map.setZoom(17);
+			map.setZoom(15);
 		}
 	});
 
@@ -157,9 +158,6 @@ async function initMap() {
 
 				if (response.status !== 200) {
 					$(`#radio-offer-type-${offerType}`).prop('checked', true);
-					throw new Error(
-						'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
-					);
 				} else {
 					const responseJson = await response.json();
 
@@ -217,11 +215,7 @@ async function initMap() {
 					offerType = offerTypeOption;
 				}
 			} catch (error) {
-				return alert(
-					error.display && error.message
-						? error.message
-						: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
-				);
+				return;
 			}
 		}
 	});
