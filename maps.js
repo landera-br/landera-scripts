@@ -78,7 +78,7 @@ async function initMap() {
 	let markers = listings.map((listing) => {
 		const marker = new google.maps.Marker({
 			position: listing.location,
-			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597beb103313107dd025e2_marker-bg-green.svg',
+			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597d5d1b4148ab95802a65_marker-bg-green.svg',
 			label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
 		});
 
@@ -175,7 +175,7 @@ async function initMap() {
 					markers = listings.map((listing) => {
 						const marker = new google.maps.Marker({
 							position: listing.location,
-							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597beb103313107dd025e2_marker-bg-green.svg',
+							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597d5d1b4148ab95802a65_marker-bg-green.svg',
 							label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
 						});
 
@@ -330,7 +330,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597c131566d0185be2acbc_marker-bg-blue.svg',
 					label: {
 						text: `~${abbreviatePrice(average)}`,
-						color: 'black',
+						color: '#3782FF',
 						fontSize: '14px',
 						fontWeight: '500',
 					},
@@ -344,7 +344,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 					marker.addListener('mouseover', () => updateZIndex(marker));
 					marker.addListener('mouseout', () => {
 						let label = marker.getLabel();
-						label.color = 'black';
+						label.color = '#3782FF';
 						label.fontWeight = '500';
 						marker.setLabel(label);
 					});
