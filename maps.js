@@ -78,7 +78,7 @@ async function initMap() {
 	let markers = listings.map((listing) => {
 		const marker = new google.maps.Marker({
 			position: listing.location,
-			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/635974594350597034fe64cd_marker-bg-test.svg',
 			label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
 		});
 
@@ -175,7 +175,7 @@ async function initMap() {
 					markers = listings.map((listing) => {
 						const marker = new google.maps.Marker({
 							position: listing.location,
-							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/635974594350597034fe64cd_marker-bg-test.svg',
 							label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
 						});
 
@@ -327,7 +327,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 				const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
 				const marker = new google.maps.Marker({
 					position,
-					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634a1c5e5cb8ac328de736c5_marker-bg.svg',
+					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/635974594350597034fe64cd_marker-bg-test.svg',
 					label: {
 						text: `~${abbreviatePrice(average)}`,
 						color: 'black',
