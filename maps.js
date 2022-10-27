@@ -395,3 +395,16 @@ $('#btn-filter').on('click', () => {
 		$('#filter-modal').hide();
 	});
 });
+
+$('#checkbox-land').change(() => {
+	console.log('check changed');
+	if ($(this).is(':checked')) {
+		console.log('checou');
+		$('.modal-land').show();
+		$('.modal-area').hide();
+	} else {
+		console.log('deschecou');
+		$('.modal-land').hide();
+		$('.modal-area').show();
+	}
+});
