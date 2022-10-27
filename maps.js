@@ -396,15 +396,8 @@ $('#btn-filter').on('click', () => {
 	});
 });
 
-$('#checkbox-land').change(() => {
-	console.log('check changed');
-	if ($(this).is(':checked')) {
-		console.log('checou');
-		$('.modal-land').show();
-		$('.modal-area').hide();
-	} else {
-		console.log('deschecou');
-		$('.modal-land').hide();
-		$('.modal-area').show();
-	}
+$('#checkbox-land').click(() => {
+	console.log(this.checked);
+	$('.modal-land').toggle(this.checked);
+	$('.modal-area').toggle(!this.checked);
 });
