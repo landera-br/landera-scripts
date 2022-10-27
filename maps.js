@@ -388,6 +388,7 @@ $('#search-form-block').submit(() => false);
 
 $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
+	$('#filter').scrollTop(0);
 
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
