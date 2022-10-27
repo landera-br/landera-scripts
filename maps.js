@@ -397,7 +397,6 @@ $('#btn-filter').on('click', () => {
 });
 
 $('#checkbox-land').click(() => {
-	console.log(this.checked);
-	$('.modal-land').toggle(this.checked);
-	$('.modal-area').toggle(!this.checked);
+	$('.modal-land').toggle($('#checkbox-land').is(':checked'));
+	$('.modal-area').toggle(!$('#checkbox-land').is(':checked'));
 });
