@@ -2,7 +2,7 @@ let zIndex = 99;
 const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569];
 const searchParams = new URLSearchParams(window.location.search);
 let offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
-let i = 0;
+let clustersCount = 0;
 let clustersMarkers;
 const index = new Supercluster({ radius: 60, maxZoom: 16 });
 const initialMapProps = {
@@ -301,7 +301,7 @@ function formatPrice(price) {
 
 function plotMapWithClusters(markers, map, listings, infoWindow) {
 	let clusterer;
-	i = 0;
+	clustersCount = 0;
 
 	index.load(listings);
 
@@ -315,7 +315,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 		render: function ({ count, position }) {
 			if (Array.isArray(clustersMarkers) && clustersMarkers.length) {
 				// NOTE Get cluster leaves
-				const leaves = index.getLeaves(clustersMarkers[i].id, Infinity);
+				const leaves = index.getLeaves(clustersMarkers[clustersCount].id, Infinity);
 
 				// NOTE Calculate average and add cluster marker
 				const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
@@ -332,7 +332,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 				});
 
 				zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
-				i++;
+				clustersCount++;
 
 				if (!isTouchDevice()) {
 					marker.addListener('mouseover', () => updateZIndex(marker));
@@ -366,7 +366,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 
 	// NOTE When zoom is changed
 	google.maps.event.addListener(map, 'zoom_changed', function () {
-		i = 0;
+		clustersCount = 0;
 		clustersMarkers = index
 			.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 			.filter((marker) => marker.type === 'Feature');
@@ -428,10 +428,10 @@ $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
 
-	$('.max-value').each(() => {
-		console.log($(this));
-		$(this).text(`${$(this).text()} +`);
-	});
+	var maxValues = document.getElementsByClassName('max-value');
+	for (var i = 0; i < maxValues.length; i++) {
+		maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+	}
 
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
