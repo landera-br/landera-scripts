@@ -4,7 +4,6 @@ const searchParams = new URLSearchParams(window.location.search);
 let offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
 let clustersCount = 0;
 let clustersMarkers;
-let sliderLoaded = false;
 const index = new Supercluster({ radius: 60, maxZoom: 16 });
 const initialMapProps = {
 	mapId: 'c905ad459d6961a8',
@@ -428,19 +427,16 @@ $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
 
-	if (!sliderLoaded) {
-		var maxValues = document.getElementsByClassName('max-value');
+	var maxValues = document.getElementsByClassName('max-value');
 
-		for (var i = 0; i < maxValues.length; i++) {
-			maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+	for (var i = 0; i < maxValues.length; i++) {
+		if (maxValues[i].textContent.slice(-1) !== '+') {
+			maxValues[i].innerHTML = `${maxValues[i].textContent}+`;
 		}
-
-		sliderLoaded = true;
 	}
 
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
 		$('#filter-modal').hide();
-		sliderLoaded = false;
 	});
 });
