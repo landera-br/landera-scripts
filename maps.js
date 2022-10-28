@@ -389,6 +389,30 @@ function buildFilterURL() {
 	if ($('#checkbox-third-party').is(':checked'))
 		url.concat('&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer');
 
+	url.concat(`&min_price=${$('#min-price').text()}`);
+	if ($('#max-price-input').hasClass('fs-cmsfilter_active'))
+		url.concat(`&max_price=${$('#max-price').text()}`);
+
+	url.concat(`&min_condo=${$('#min-condo').text()}`);
+	if ($('#max-condo-input').hasClass('fs-cmsfilter_active'))
+		url.concat(`&max_condo=${$('#max-condo').text()}`);
+
+	url.concat(`&min_area=${$('#min-area').text()}`);
+	if ($('#max-area-input').hasClass('fs-cmsfilter_active'))
+		url.concat(`&max_area=${$('#max-area').text()}`);
+
+	url.concat(`&min_bedrooms=${$('#min-bedrooms').text()}`);
+	if ($('#max-bedrooms-input').hasClass('fs-cmsfilter_active'))
+		url.concat(`&max_bedrooms=${$('#max-bedrooms').text()}`);
+
+	url.concat(`&min_bathrooms=${$('#min-bathrooms').text()}`);
+	if ($('#max-bathrooms-input').hasClass('fs-cmsfilter_active'))
+		url.concat(`&max_bathrooms=${$('#max-bathrooms').text()}`);
+
+	url.concat(`&min_parking_lots=${$('#min-parking-lots').text()}`);
+	if ($('#max-parking-lots-input').hasClass('fs-cmsfilter_active'))
+		url.concat(`&max_parking_lots=${$('#max-parking-lots').text()}`);
+
 	console.log(url);
 
 	return url;
