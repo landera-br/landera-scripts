@@ -389,6 +389,7 @@ function buildFilterURL() {
 	if ($('#checkbox-third-party').is(':checked'))
 		url.concat('&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer');
 
+	console.log('passou aqui');
 	url.concat(`&min_price=${$('#min-price').text()}`);
 	if ($('#max-price-input').hasClass('fs-cmsfilter_active'))
 		url.concat(`&max_price=${$('#max-price').text()}`);
@@ -427,7 +428,7 @@ $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
 
-	$('.max-values').each(() => {
+	$('.max-value').each(() => {
 		console.log($(this));
 		$(this).text(`${$(this).text()} +`);
 	});
