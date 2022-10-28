@@ -389,6 +389,8 @@ function buildFilterURL() {
 	if ($('#checkbox-third-party').is(':checked'))
 		url.concat('&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer');
 
+	console.log(url);
+
 	return url;
 }
 
@@ -401,7 +403,10 @@ $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
 
-	$('max-values').each(() => $(this).text(`${$(this).text()} +`));
+	$('.max-values').each(() => {
+		console.log($(this));
+		$(this).text(`${$(this).text()} +`);
+	});
 
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
