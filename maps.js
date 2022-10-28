@@ -128,86 +128,80 @@ async function initMap() {
 	// NOTE When filters are confirmed
 	$('#btn-filter-confirm, #btn-interest-close').on('click', async (e) => {
 		e.preventDefault();
-		const offerTypeOption = $('input[name=radio-offer-type]:checked', '#form-filter').val();
+		offerType = $('input[name=radio-offer-type]:checked', '#form-filter').val();
 
 		$('#filter-modal').hide();
 
-		if (offerType !== offerTypeOption) {
-			// NOTE Delete markers and clustersMarkers from the map
-			clearMarkers(markers);
-			clusterer.removeMarkers(clustersMarkers);
-			clusterer.clearMarkers();
+		// NOTE Delete markers and clustersMarkers from the map
+		clearMarkers(markers);
+		clusterer.removeMarkers(clustersMarkers);
+		clusterer.clearMarkers();
 
-			listings = [];
+		listings = [];
 
-			// NOTE Get listings data
-			try {
-				const response = await fetch(
-					`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerTypeOption}`,
-					{ method: 'GET' }
-				);
+		// NOTE Get listings data
+		try {
+			const response = await fetch(buildFilterURL(), { method: 'GET' });
 
-				if (response.status !== 200) {
-					$(`#radio-offer-type-${offerType}`).prop('checked', true);
-				} else {
-					const responseJson = await response.json();
+			if (response.status !== 200) {
+				$(`#radio-offer-type-${offerType}`).prop('checked', true);
+			} else {
+				const responseJson = await response.json();
 
-					responseJson.forEach((element) => {
-						listings.push({
-							price: element.offer_type.sale ? element.sales_price : element.rent_price,
-							thumb_url: element.thumb_url,
-							location: {
-								lat: element.location.coordinates[1],
-								lng: element.location.coordinates[0],
-							},
-							geometry: element.location,
-							prop_type: element.prop_type,
-							address: element.address,
-							area: element.area,
-							bedrooms: element.bedrooms,
-							bathrooms: element.bathrooms,
-							parking_lots: element.parking_lots,
-							url: `listings/${element._id}`,
-						});
+				responseJson.forEach((element) => {
+					listings.push({
+						price: element.offer_type.sale ? element.sales_price : element.rent_price,
+						thumb_url: element.thumb_url,
+						location: {
+							lat: element.location.coordinates[1],
+							lng: element.location.coordinates[0],
+						},
+						geometry: element.location,
+						prop_type: element.prop_type,
+						address: element.address,
+						area: element.area,
+						bedrooms: element.bedrooms,
+						bathrooms: element.bathrooms,
+						parking_lots: element.parking_lots,
+						url: `listings/${element._id}`,
+					});
+				});
+
+				// NOTE Create and add markers to the map
+				markers = listings.map((listing) => {
+					const marker = new google.maps.Marker({
+						position: listing.location,
+						icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597d5d1b4148ab95802a65_marker-bg-green.svg',
+						label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
 					});
 
-					// NOTE Create and add markers to the map
-					markers = listings.map((listing) => {
-						const marker = new google.maps.Marker({
-							position: listing.location,
-							icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597d5d1b4148ab95802a65_marker-bg-green.svg',
-							label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
-						});
+					// NOTE Open info window when marker is clicked
+					if (isTouchDevice()) {
+						marker.addListener('click', () => displayCard(listing, marker, infoWindow));
+					} else {
+						marker.addListener('click', () => window.open(listing.url, '_blank'));
+						marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
+					}
 
-						// NOTE Open info window when marker is clicked
-						if (isTouchDevice()) {
-							marker.addListener('click', () => displayCard(listing, marker, infoWindow));
-						} else {
-							marker.addListener('click', () => window.open(listing.url, '_blank'));
-							marker.addListener('mouseover', () => displayCard(listing, marker, infoWindow));
-						}
-
-						// NOTE Close
-						marker.addListener('mouseout', () => {
-							let label = marker.getLabel();
-							label.color = '#2AB24D';
-							label.fontWeight = '500';
-							marker.setLabel(label);
-							if (infoWindow) infoWindow.close();
-						});
-
-						return marker;
+					// NOTE Close
+					marker.addListener('mouseout', () => {
+						let label = marker.getLabel();
+						label.color = '#2AB24D';
+						label.fontWeight = '500';
+						marker.setLabel(label);
+						if (infoWindow) infoWindow.close();
 					});
 
-					// NOTE Plot map with clusters and store clusterer and clusters markers
-					clusterObj = plotMapWithClusters(markers, map, listings, infoWindow);
-					clusterer = clusterObj.clusterer;
-					clustersMarkers = clusterObj.clustersMarkers;
-					offerType = offerTypeOption;
-				}
-			} catch (error) {
-				return;
+					return marker;
+				});
+
+				// NOTE Plot map with clusters and store clusterer and clusters markers
+				clusterObj = plotMapWithClusters(markers, map, listings, infoWindow);
+				clusterer = clusterObj.clusterer;
+				clustersMarkers = clusterObj.clustersMarkers;
 			}
+		} catch (error) {
+			return;
 		}
 	});
 }
@@ -381,6 +375,23 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 	return { clusterer, clustersMarkers };
 }
 
+function buildFilterURL() {
+	let url = `https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerType}`;
+
+	// NOTE Prop Type
+	if ($('#checkbox-house').is(':checked')) url.concat('&prop_type[]=house');
+	if ($('#checkbox-apartment').is(':checked')) url.concat('&prop_type[]=apartment');
+	if ($('#checkbox-launch').is(':checked')) url.concat('&prop_type[]=launch');
+	if ($('#checkbox-land').is(':checked')) url.concat('&prop_type[]=land');
+
+	// NOTE Advertiser Class
+	if ($('#checkbox-owner').is(':checked')) url.concat('&advertiser_class[]=owner');
+	if ($('#checkbox-third-party').is(':checked'))
+		url.concat('&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer');
+
+	return url;
+}
+
 // NOTE Listeners
 $('#btn-maps').click(() => toggleMap());
 
@@ -390,13 +401,10 @@ $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
 
+	$('max-values').each(() => $(this).text(`${$(this).text()} +`));
+
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
 		$('#filter-modal').hide();
 	});
-});
-
-$('#checkbox-land').click(() => {
-	$('.modal-land').toggle($('#checkbox-land').is(':checked'));
-	$('.modal-area').toggle(!$('#checkbox-land').is(':checked'));
 });
