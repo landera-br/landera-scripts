@@ -16,6 +16,10 @@ const initialMapProps = {
 	rotateControl: false,
 	fullscreenControl: true,
 };
+var maxValues = document.getElementsByClassName('max-value');
+for (var i = 0; i < maxValues.length; i++) {
+	maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+}
 
 $('#search-form-block').show();
 
@@ -371,44 +375,42 @@ function buildFilterURL() {
 	let url = `https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/listings?offer_type=${offerType}`;
 
 	// NOTE Prop Type
-	if ($('#checkbox-house').is(':checked')) url.concat('&prop_type[]=house');
-	if ($('#checkbox-apartment').is(':checked')) url.concat('&prop_type[]=apartment');
-	if ($('#checkbox-launch').is(':checked')) url.concat('&prop_type[]=launch');
-	if ($('#checkbox-land').is(':checked')) url.concat('&prop_type[]=land');
+	if ($('#checkbox-house').is(':checked')) url = url.concat('&prop_type[]=house');
+	if ($('#checkbox-apartment').is(':checked')) url = url.concat('&prop_type[]=apartment');
+	if ($('#checkbox-launch').is(':checked')) url = url.concat('&prop_type[]=launch');
+	if ($('#checkbox-land').is(':checked')) url = url.concat('&prop_type[]=land');
 
 	// NOTE Advertiser Class
-	if ($('#checkbox-owner').is(':checked')) url.concat('&advertiser_class[]=owner');
+	if ($('#checkbox-owner').is(':checked')) url = url.concat('&advertiser_class[]=owner');
 	if ($('#checkbox-third-party').is(':checked'))
-		url.concat('&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer');
+		url = url.concat(
+			'&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer'
+		);
 
-	console.log('Ps 1');
-	url.concat(`&min_price=${$('#min-price').text()}`);
+	url = url.concat(`&min_price=${$('#min-price').text()}`);
 	if ($('#max-price-input').hasClass('fs-cmsfilter_active'))
-		url.concat(`&max_price=${$('#max-price').text()}`);
+		url = url.concat(`&max_price=${$('#max-price').text()}`);
 
-	url.concat(`&min_condo=${$('#min-condo').text()}`);
+	url = url.concat(`&min_condo=${$('#min-condo').text()}`);
 	if ($('#max-condo-input').hasClass('fs-cmsfilter_active'))
-		url.concat(`&max_condo=${$('#max-condo').text()}`);
+		url = url.concat(`&max_condo=${$('#max-condo').text()}`);
 
-	console.log('Ps 2');
-	url.concat(`&min_area=${$('#min-area').text()}`);
+	url = url.concat(`&min_area=${$('#min-area').text()}`);
 	if ($('#max-area-input').hasClass('fs-cmsfilter_active'))
-		url.concat(`&max_area=${$('#max-area').text()}`);
+		url = url.concat(`&max_area=${$('#max-area').text()}`);
 
-	url.concat(`&min_bedrooms=${$('#min-bedrooms').text()}`);
+	url = url.concat(`&min_bedrooms=${$('#min-bedrooms').text()}`);
 	if ($('#max-bedrooms-input').hasClass('fs-cmsfilter_active'))
-		url.concat(`&max_bedrooms=${$('#max-bedrooms').text()}`);
+		url = url.concat(`&max_bedrooms=${$('#max-bedrooms').text()}`);
 
-	url.concat(`&min_bathrooms=${$('#min-bathrooms').text()}`);
+	url = url.concat(`&min_bathrooms=${$('#min-bathrooms').text()}`);
 	if ($('#max-bathrooms-input').hasClass('fs-cmsfilter_active'))
-		url.concat(`&max_bathrooms=${$('#max-bathrooms').text()}`);
+		url = url.concat(`&max_bathrooms=${$('#max-bathrooms').text()}`);
 
-	console.log('Ps 3');
-	url.concat(`&min_parking_lots=${$('#min-parking-lots').text()}`);
+	url = url.concat(`&min_parking_lots=${$('#min-parking-lots').text()}`);
 	if ($('#max-parking-lots-input').hasClass('fs-cmsfilter_active'))
-		url.concat(`&max_parking_lots=${$('#max-parking-lots').text()}`);
+		url = url.concat(`&max_parking_lots=${$('#max-parking-lots').text()}`);
 
-	console.log('A URL aqui');
 	console.log(url);
 
 	return url;
@@ -422,11 +424,6 @@ $('#search-form-block').submit(() => false);
 $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
-
-	var maxValues = document.getElementsByClassName('max-value');
-	for (var i = 0; i < maxValues.length; i++) {
-		maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
-	}
 
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
