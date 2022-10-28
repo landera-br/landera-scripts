@@ -16,10 +16,6 @@ const initialMapProps = {
 	rotateControl: false,
 	fullscreenControl: true,
 };
-var maxValues = document.getElementsByClassName('max-value');
-for (var i = 0; i < maxValues.length; i++) {
-	maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
-}
 
 $('#search-form-block').show();
 
@@ -36,6 +32,11 @@ async function initMap() {
 	let clusterer;
 	let clustersMarkers;
 	let clusterObj;
+	var maxValues = document.getElementsByClassName('max-value');
+
+	for (var i = 0; i < maxValues.length; i++) {
+		maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+	}
 
 	// NOTE Get listings data
 	try {
@@ -257,6 +258,7 @@ function toggleMap() {
 		$('#listings-list').hide();
 		$('.list-properties').hide();
 		$('#google-maps').show();
+		$('.listing-options').css('justify-content', 'center');
 		$('#maps-toggle-icon').attr(
 			'src',
 			'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634d6ad6450741e8b50dba48_list.svg'
@@ -266,6 +268,7 @@ function toggleMap() {
 		$('#listings-list').show();
 		$('.list-properties').show();
 		$('#google-maps').hide();
+		$('.listing-options').css('justify-content', 'space-between');
 		$('#maps-toggle-icon').attr(
 			'src',
 			'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634d56286b88220739548a60_selector.svg'
