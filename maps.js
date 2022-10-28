@@ -4,6 +4,7 @@ const searchParams = new URLSearchParams(window.location.search);
 let offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
 let clustersCount = 0;
 let clustersMarkers;
+let sliderLoaded = false;
 const index = new Supercluster({ radius: 60, maxZoom: 16 });
 const initialMapProps = {
 	mapId: 'c905ad459d6961a8',
@@ -32,11 +33,6 @@ async function initMap() {
 	let clusterer;
 	let clustersMarkers;
 	let clusterObj;
-	var maxValues = document.getElementsByClassName('max-value');
-
-	for (var i = 0; i < maxValues.length; i++) {
-		maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
-	}
 
 	// NOTE Get listings data
 	try {
@@ -390,33 +386,37 @@ function buildFilterURL() {
 			'&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer'
 		);
 
-	url = url.concat(`&min_price=${$('#min-price').text()}`);
+	url = url.concat(`&min_price=${toNumber($('#min-price').text())}`);
 	if ($('#max-price-input').hasClass('fs-cmsfilter_active'))
-		url = url.concat(`&max_price=${$('#max-price').text()}`);
+		url = url.concat(`&max_price=${toNumber($('#max-price').text())}`);
 
-	url = url.concat(`&min_condo=${$('#min-condo').text()}`);
+	url = url.concat(`&min_condo=${toNumber($('#min-condo').text())}`);
 	if ($('#max-condo-input').hasClass('fs-cmsfilter_active'))
-		url = url.concat(`&max_condo=${$('#max-condo').text()}`);
+		url = url.concat(`&max_condo=${toNumber($('#max-condo').text())}`);
 
-	url = url.concat(`&min_area=${$('#min-area').text()}`);
+	url = url.concat(`&min_area=${toNumber($('#min-area').text())}`);
 	if ($('#max-area-input').hasClass('fs-cmsfilter_active'))
-		url = url.concat(`&max_area=${$('#max-area').text()}`);
+		url = url.concat(`&max_area=${toNumber($('#max-area').text())}`);
 
-	url = url.concat(`&min_bedrooms=${$('#min-bedrooms').text()}`);
+	url = url.concat(`&min_bedrooms=${toNumber($('#min-bedrooms').text())}`);
 	if ($('#max-bedrooms-input').hasClass('fs-cmsfilter_active'))
-		url = url.concat(`&max_bedrooms=${$('#max-bedrooms').text()}`);
+		url = url.concat(`&max_bedrooms=${toNumber($('#max-bedrooms').text())}`);
 
-	url = url.concat(`&min_bathrooms=${$('#min-bathrooms').text()}`);
+	url = url.concat(`&min_bathrooms=${toNumber($('#min-bathrooms').text())}`);
 	if ($('#max-bathrooms-input').hasClass('fs-cmsfilter_active'))
-		url = url.concat(`&max_bathrooms=${$('#max-bathrooms').text()}`);
+		url = url.concat(`&max_bathrooms=${toNumber($('#max-bathrooms').text())}`);
 
-	url = url.concat(`&min_parking_lots=${$('#min-parking-lots').text()}`);
+	url = url.concat(`&min_parking_lots=${toNumber($('#min-parking-lots').text())}`);
 	if ($('#max-parking-lots-input').hasClass('fs-cmsfilter_active'))
-		url = url.concat(`&max_parking_lots=${$('#max-parking-lots').text()}`);
+		url = url.concat(`&max_parking_lots=${toNumber($('#max-parking-lots').text())}`);
 
 	console.log(url);
 
 	return url;
+}
+
+function toNumber(str) {
+	return str.replace(/\D/g, '');
 }
 
 // NOTE Listeners
@@ -428,8 +428,19 @@ $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
 
+	if (!sliderLoaded) {
+		var maxValues = document.getElementsByClassName('max-value');
+
+		for (var i = 0; i < maxValues.length; i++) {
+			maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+		}
+
+		sliderLoaded = true;
+	}
+
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
 		$('#filter-modal').hide();
+		sliderLoaded = false;
 	});
 });
