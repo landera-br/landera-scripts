@@ -78,7 +78,7 @@ async function initMap() {
 	let markers = listings.map((listing) => {
 		const marker = new google.maps.Marker({
 			position: listing.location,
-			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597d5d1b4148ab95802a65_marker-bg-green.svg',
+			icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/635bf2aa250e39173a3fa746_marker-bg-green.svg',
 			label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
 		});
 
@@ -171,7 +171,7 @@ async function initMap() {
 				markers = listings.map((listing) => {
 					const marker = new google.maps.Marker({
 						position: listing.location,
-						icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597d5d1b4148ab95802a65_marker-bg-green.svg',
+						icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/635bf2aa250e39173a3fa746_marker-bg-green.svg',
 						label: { text: abbreviatePrice(listing.price), className: 'marker-label' },
 					});
 
@@ -253,28 +253,20 @@ function toggleMap() {
 		$('#listings-list').hide();
 		$('.list-properties').hide();
 		$('#google-maps').show();
-		$('.listing-options').css('justify-content', 'space-evenly');
-		$('.listing-options-buttons').css('flex-direction', 'row');
-		$('.maps-properties').css('margin', '0px 4px 0px 4px');
 		$('#maps-toggle-icon').attr(
 			'src',
 			'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634d6ad6450741e8b50dba48_list.svg'
 		);
 		$('#maps-toggle-text').text('Lista');
-		$('#map').css('height', 'calc(100vh - 126px)');
 	} else {
 		$('#listings-list').show();
 		$('.list-properties').show();
 		$('#google-maps').hide();
-		$('.listing-options').css('justify-content', 'space-between');
-		$('.listing-options-buttons').css('flex-direction', 'column');
-		$('.maps-properties').css('margin', '0px 0px 8px 0px');
 		$('#maps-toggle-icon').attr(
 			'src',
 			'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/634d56286b88220739548a60_selector.svg'
 		);
 		$('#maps-toggle-text').text('Mapa');
-		$('#map').css('height', 'calc(100vh - 74px)');
 	}
 }
 
@@ -321,7 +313,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 				const average = leaves.reduce((total, next) => total + next.price, 0) / leaves.length;
 				const marker = new google.maps.Marker({
 					position,
-					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/63597c131566d0185be2acbc_marker-bg-blue.svg',
+					icon: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/635bf2aa8fe6c52e24d6bd19_marker-bg-blue.svg',
 					label: {
 						text: `~${abbreviatePrice(average)}`,
 						color: '#3782FF',
@@ -389,7 +381,7 @@ function buildFilterURL() {
 	if ($('#checkbox-third-party').is(':checked'))
 		url.concat('&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer');
 
-	console.log('passou aqui');
+	console.log('Ps 1');
 	url.concat(`&min_price=${$('#min-price').text()}`);
 	if ($('#max-price-input').hasClass('fs-cmsfilter_active'))
 		url.concat(`&max_price=${$('#max-price').text()}`);
@@ -398,6 +390,7 @@ function buildFilterURL() {
 	if ($('#max-condo-input').hasClass('fs-cmsfilter_active'))
 		url.concat(`&max_condo=${$('#max-condo').text()}`);
 
+	console.log('Ps 2');
 	url.concat(`&min_area=${$('#min-area').text()}`);
 	if ($('#max-area-input').hasClass('fs-cmsfilter_active'))
 		url.concat(`&max_area=${$('#max-area').text()}`);
@@ -410,10 +403,12 @@ function buildFilterURL() {
 	if ($('#max-bathrooms-input').hasClass('fs-cmsfilter_active'))
 		url.concat(`&max_bathrooms=${$('#max-bathrooms').text()}`);
 
+	console.log('Ps 3');
 	url.concat(`&min_parking_lots=${$('#min-parking-lots').text()}`);
 	if ($('#max-parking-lots-input').hasClass('fs-cmsfilter_active'))
 		url.concat(`&max_parking_lots=${$('#max-parking-lots').text()}`);
 
+	console.log('A URL aqui');
 	console.log(url);
 
 	return url;
