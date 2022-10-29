@@ -1,7 +1,7 @@
 let zIndex = 99;
 const BRAZILIAN_BOUNDING_BOX = [-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569];
 const searchParams = new URLSearchParams(window.location.search);
-let offerType = searchParams.has('offer') ? searchParams.get('offer') : 'sale';
+let offerType = searchParams.get('offer') === 'rent' ? 'rent' : 'sale';
 let clustersCount = 0;
 let clustersMarkers;
 const index = new Supercluster({ radius: 60, maxZoom: 16 });
@@ -17,6 +17,7 @@ const initialMapProps = {
 	fullscreenControl: true,
 };
 
+$(`#radio-offer-type-${offerType}`).prop('checked', true);
 $('#search-form-block').show();
 
 window.initMap = initMap;
