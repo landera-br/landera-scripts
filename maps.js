@@ -17,7 +17,6 @@ const initialMapProps = {
 	fullscreenControl: true,
 };
 
-$(`#radio-offer-type-${offerType}`).prop('checked', true);
 $('#search-form-block').show();
 
 window.initMap = initMap;
@@ -33,6 +32,8 @@ async function initMap() {
 	let clusterer;
 	let clustersMarkers;
 	let clusterObj;
+
+	$(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 	// NOTE Get listings data
 	try {
