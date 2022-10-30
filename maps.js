@@ -18,6 +18,7 @@ const initialMapProps = {
 };
 
 $('#search-form-block').show();
+// $(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 window.initMap = initMap;
 
@@ -68,8 +69,6 @@ async function initMap() {
 				: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 		);
 	}
-
-	$(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 	// NOTE Get data with lat/long
 	listings = listings.filter(
