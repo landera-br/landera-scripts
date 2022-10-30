@@ -330,11 +330,6 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 	let clusterer;
 	clustersCount = 0;
 
-	console.log(markers);
-	console.log(map);
-	console.log(listings);
-	console.log(infoWindow);
-
 	index.load(listings);
 
 	// NOTE Get clustersMarkers data
@@ -347,8 +342,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 	const renderer = {
 		render: function ({ count, position }) {
 			if (Array.isArray(clustersMarkers) && clustersMarkers.length) {
-				console.log(clustersMarkers);
-				console.log(clustersCount);
+				console.log(`${clustersCount}/${clustersMarkers.length}`);
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clustersMarkers[clustersCount].id, Infinity);
 
