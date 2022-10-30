@@ -216,6 +216,26 @@ async function initMap() {
 			return;
 		}
 	});
+
+	$('#btn-filter').on('click', () => {
+		$('#filter-modal').show();
+		$('#filter').scrollTop(0);
+
+		$('#btn-filter-reset').on('click', (e) => {
+			e.preventDefault();
+			$(`#radio-offer-type-sale`).prop('checked', true);
+			$('#filter-modal').hide();
+			offerType = 'sale';
+
+			// NOTE Delete markers and clustersMarkers from the map
+			clearMarkers(markers);
+			clusterer.removeMarkers(clustersMarkers);
+			clusterer.clearMarkers();
+			listings = [];
+
+			initMap();
+		});
+	});
 }
 
 // NOTE Support functions
@@ -434,23 +454,3 @@ function toNumber(str) {
 $('#btn-maps').click(() => toggleMap());
 
 $('#search-form-block').submit(() => false);
-
-$('#btn-filter').on('click', () => {
-	$('#filter-modal').show();
-	$('#filter').scrollTop(0);
-
-	$('#btn-filter-reset').on('click', (e) => {
-		e.preventDefault();
-		$(`#radio-offer-type-sale`).prop('checked', true);
-		$('#filter-modal').hide();
-		offerType = 'sale';
-
-		// NOTE Delete markers and clustersMarkers from the map
-		clearMarkers(markers);
-		clusterer.removeMarkers(clustersMarkers);
-		clusterer.clearMarkers();
-		listings = [];
-
-		initMap();
-	});
-});
