@@ -34,6 +34,10 @@ async function initMap() {
 	let clustersMarkers;
 	let clusterObj;
 
+	setTimeout(() => {
+		$('.loading-section').slideToggle('slow');
+	}, 3000);
+
 	// NOTE Get listings data
 	try {
 		const response = await fetch(
@@ -107,10 +111,6 @@ async function initMap() {
 	clusterObj = plotMapWithClusters(markers, map, listings, infoWindow);
 	clusterer = clusterObj.clusterer;
 	clustersMarkers = clusterObj.clustersMarkers;
-
-	// NOTE Render section
-	console.log('Mostrar 4');
-	$('.loading-section').slideToggle('slow');
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
