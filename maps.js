@@ -18,7 +18,8 @@ const initialMapProps = {
 };
 
 $('#search-form-block').show();
-// $(`#radio-offer-type-${offerType}`).prop('checked', true);
+console.log('Mostrar 1');
+$(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 window.initMap = initMap;
 
@@ -33,6 +34,8 @@ async function initMap() {
 	let clusterer;
 	let clustersMarkers;
 	let clusterObj;
+
+	console.log('Mostrar 2');
 
 	// NOTE Get listings data
 	try {
@@ -69,6 +72,8 @@ async function initMap() {
 				: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 		);
 	}
+
+	console.log('Mostrar 3');
 
 	// NOTE Get data with lat/long
 	listings = listings.filter(
