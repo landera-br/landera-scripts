@@ -36,6 +36,13 @@ async function initMap() {
 
 	setTimeout(() => {
 		$('.loading-section').fadeOut();
+
+		var maxValues = document.getElementsByClassName('max-value');
+		for (var i = 0; i < maxValues.length; i++) {
+			if (maxValues[i].textContent.slice(-1) !== '+') {
+				maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+			}
+		}
 	}, 3000);
 
 	// NOTE Get listings data
@@ -432,17 +439,16 @@ $('#btn-filter').on('click', () => {
 	$('#filter-modal').show();
 	$('#filter').scrollTop(0);
 
-	var maxValues = document.getElementsByClassName('max-value');
-
-	for (var i = 0; i < maxValues.length; i++) {
-		if (maxValues[i].textContent.slice(-1) !== '+') {
-			maxValues[i].innerHTML = `${maxValues[i].textContent}+`;
-		}
-	}
-
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
 		$(`#radio-offer-type-sale`).prop('checked', true);
 		$('#filter-modal').hide();
+		var maxValues = document.getElementsByClassName('max-value');
+
+		for (var i = 0; i < maxValues.length; i++) {
+			if (maxValues[i].textContent.slice(-1) !== '+') {
+				maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+			}
+		}
 	});
 });
