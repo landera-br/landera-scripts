@@ -38,15 +38,14 @@ async function initMap() {
 	let clustersMarkers;
 	let clusterObj;
 
-	var maxValues = document.getElementsByClassName('max-value');
-
-	console.log(maxValues);
-	for (var i = 0; i < maxValues.length; i++) {
-		if (maxValues[i].textContent.slice(-1) !== '+') {
-			console.log('pas1');
-			maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+	setTimeout(() => {
+		var maxValues = document.getElementsByClassName('max-value');
+		for (var i = 0; i < maxValues.length; i++) {
+			if (maxValues[i].textContent.slice(-1) !== '+') {
+				maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+			}
 		}
-	}
+	}, 3000);
 
 	// NOTE Get listings data
 	try {
