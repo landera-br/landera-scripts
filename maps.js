@@ -33,8 +33,6 @@ async function initMap() {
 	let clustersMarkers;
 	let clusterObj;
 
-	$(`#radio-offer-type-${offerType}`).prop('checked', true);
-
 	// NOTE Get listings data
 	try {
 		const response = await fetch(
@@ -70,6 +68,8 @@ async function initMap() {
 				: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 		);
 	}
+
+	$(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 	// NOTE Get data with lat/long
 	listings = listings.filter(
