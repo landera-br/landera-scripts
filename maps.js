@@ -39,10 +39,10 @@ async function initMap() {
 	let clusterObj;
 
 	var maxValues = document.getElementsByClassName('max-value');
+
+	console.log('passou1');
 	for (var i = 0; i < maxValues.length; i++) {
-		if (maxValues[i].textContent.slice(-1) !== '+') {
-			maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
-		}
+		maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
 	}
 
 	// NOTE Get listings data
@@ -443,8 +443,14 @@ $('#btn-filter').on('click', () => {
 		e.preventDefault();
 		$(`#radio-offer-type-sale`).prop('checked', true);
 		$('#filter-modal').hide();
-
 		offerType = 'sale';
+
+		// NOTE Delete markers and clustersMarkers from the map
+		clearMarkers(markers);
+		clusterer.removeMarkers(clustersMarkers);
+		clusterer.clearMarkers();
+		listings = [];
+
 		initMap();
 	});
 });
