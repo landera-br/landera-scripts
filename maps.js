@@ -442,7 +442,7 @@ $('#btn-filter').on('click', () => {
 
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
-		$(`#radio-offer-type-${offerType}`).prop('checked', true);
+		$(`#radio-offer-type-sale`).prop('checked', true);
 		$('#filter-modal').hide();
 	});
 });
