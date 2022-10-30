@@ -20,6 +20,10 @@ const initialMapProps = {
 $('#search-form-block').show();
 $(`#radio-offer-type-${offerType}`).prop('checked', true);
 
+setTimeout(() => {
+	$('.loading-section').fadeOut();
+}, 3000);
+
 window.initMap = initMap;
 
 // NOTE When page is loaded
@@ -34,16 +38,12 @@ async function initMap() {
 	let clustersMarkers;
 	let clusterObj;
 
-	setTimeout(() => {
-		$('.loading-section').fadeOut();
-
-		var maxValues = document.getElementsByClassName('max-value');
-		for (var i = 0; i < maxValues.length; i++) {
-			if (maxValues[i].textContent.slice(-1) !== '+') {
-				maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
-			}
+	var maxValues = document.getElementsByClassName('max-value');
+	for (var i = 0; i < maxValues.length; i++) {
+		if (maxValues[i].textContent.slice(-1) !== '+') {
+			maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
 		}
-	}, 3000);
+	}
 
 	// NOTE Get listings data
 	try {
@@ -443,12 +443,8 @@ $('#btn-filter').on('click', () => {
 		e.preventDefault();
 		$(`#radio-offer-type-sale`).prop('checked', true);
 		$('#filter-modal').hide();
-		var maxValues = document.getElementsByClassName('max-value');
 
-		for (var i = 0; i < maxValues.length; i++) {
-			if (maxValues[i].textContent.slice(-1) !== '+') {
-				maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
-			}
-		}
+		offerType = 'sale';
+		initMap();
 	});
 });
