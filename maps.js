@@ -40,9 +40,12 @@ async function initMap() {
 
 	var maxValues = document.getElementsByClassName('max-value');
 
-	console.log('passou1');
+	console.log(maxValues);
 	for (var i = 0; i < maxValues.length; i++) {
-		maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+		if (maxValues[i].textContent.slice(-1) !== '+') {
+			console.log('pas1');
+			maxValues[i].innerHTML = `${maxValues[i].textContent} +`;
+		}
 	}
 
 	// NOTE Get listings data
