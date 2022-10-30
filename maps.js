@@ -35,7 +35,7 @@ async function initMap() {
 	let clusterObj;
 
 	setTimeout(() => {
-		$('.loading-section').slideToggle('slow');
+		$('.loading-section').fadeOut();
 	}, 3000);
 
 	// NOTE Get listings data
@@ -442,6 +442,7 @@ $('#btn-filter').on('click', () => {
 
 	$('#btn-filter-reset').on('click', (e) => {
 		e.preventDefault();
+		$(`#radio-offer-type-${offerType}`).prop('checked', true);
 		$('#filter-modal').hide();
 	});
 });
