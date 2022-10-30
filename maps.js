@@ -19,7 +19,6 @@ const initialMapProps = {
 
 $('#search-form-block').show();
 console.log('Mostrar 1');
-$(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 window.initMap = initMap;
 
@@ -112,6 +111,8 @@ async function initMap() {
 	clusterObj = plotMapWithClusters(markers, map, listings, infoWindow);
 	clusterer = clusterObj.clusterer;
 	clustersMarkers = clusterObj.clustersMarkers;
+
+	// $(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
