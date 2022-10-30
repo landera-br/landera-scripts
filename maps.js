@@ -112,7 +112,9 @@ async function initMap() {
 	clusterer = clusterObj.clusterer;
 	clustersMarkers = clusterObj.clustersMarkers;
 
-	// $(`#radio-offer-type-${offerType}`).prop('checked', true);
+	$(`#radio-offer-type-${offerType}`).prop('checked', true);
+
+	console.log('Mostrar 4');
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
