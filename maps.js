@@ -18,7 +18,7 @@ const initialMapProps = {
 };
 
 $('#search-form-block').show();
-console.log('Mostrar 1');
+$(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 window.initMap = initMap;
 
@@ -33,8 +33,6 @@ async function initMap() {
 	let clusterer;
 	let clustersMarkers;
 	let clusterObj;
-
-	console.log('Mostrar 2');
 
 	// NOTE Get listings data
 	try {
@@ -71,8 +69,6 @@ async function initMap() {
 				: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 		);
 	}
-
-	console.log('Mostrar 3');
 
 	// NOTE Get data with lat/long
 	listings = listings.filter(
@@ -112,9 +108,9 @@ async function initMap() {
 	clusterer = clusterObj.clusterer;
 	clustersMarkers = clusterObj.clustersMarkers;
 
-	$(`#radio-offer-type-${offerType}`).prop('checked', true);
-
+	// NOTE Render section
 	console.log('Mostrar 4');
+	$('.loading-section').slideToggle('slow');
 
 	// NOTE When users search a place
 	autocomplete.addListener('place_changed', () => {
