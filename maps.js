@@ -225,16 +225,7 @@ async function initMap() {
 		$('#btn-filter-reset').on('click', (e) => {
 			e.preventDefault();
 			$('#filter-modal').hide();
-			$(`#radio-offer-type-sale`).prop('checked', true);
-			offerType = 'sale';
-
-			// NOTE Delete markers and clustersMarkers from the map
-			clearMarkers(markers);
-			clusterer.removeMarkers(clustersMarkers);
-			clusterer.clearMarkers();
-			listings = [];
-
-			initMap();
+			location.reload();
 		});
 	});
 }
@@ -341,8 +332,7 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
-			if (Array.isArray(clustersMarkers) && clustersMarkers.length) {
-				console.log(`${clustersCount}/${clustersMarkers.length}`);
+			if (Array.isArray(clustersMarkers) && clustersMarkers.length < clustersCount) {
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clustersMarkers[clustersCount].id, Infinity);
 
