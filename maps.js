@@ -150,7 +150,6 @@ async function initMap() {
 		clearMarkers(markers);
 		clusterer.removeMarkers(clustersMarkers);
 		clusterer.clearMarkers();
-
 		listings = [];
 
 		// NOTE Get listings data
@@ -225,8 +224,8 @@ async function initMap() {
 
 		$('#btn-filter-reset').on('click', (e) => {
 			e.preventDefault();
-			$(`#radio-offer-type-sale`).prop('checked', true);
 			$('#filter-modal').hide();
+			$(`#radio-offer-type-sale`).prop('checked', true);
 			offerType = 'sale';
 
 			// NOTE Delete markers and clustersMarkers from the map
@@ -331,6 +330,11 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 	let clusterer;
 	clustersCount = 0;
 
+	console.log(markers);
+	console.log(map);
+	console.log(listings);
+	console.log(infoWindow);
+
 	index.load(listings);
 
 	// NOTE Get clustersMarkers data
@@ -338,10 +342,13 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((marker) => marker.type === 'Feature');
 
+	console.log();
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
 			if (Array.isArray(clustersMarkers) && clustersMarkers.length) {
+				console.log(clustersMarkers);
+				console.log(clustersCount);
 				// NOTE Get cluster leaves
 				const leaves = index.getLeaves(clustersMarkers[clustersCount].id, Infinity);
 
