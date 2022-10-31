@@ -17,6 +17,7 @@ const initialMapProps = {
 	fullscreenControl: true,
 };
 
+$('#search-input').val('Morumbi');
 $('#search-form-block').show();
 $(`#radio-offer-type-${offerType}`).prop('checked', true);
 
