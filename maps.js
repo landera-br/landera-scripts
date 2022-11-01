@@ -7,7 +7,7 @@ let clustersMarkers;
 const index = new Supercluster({ radius: 60, maxZoom: 16 });
 const initialMapProps = {
 	mapId: 'c905ad459d6961a8',
-	zoom: 13,
+	zoom: 14,
 	center: { lat: -23.5874, lng: -46.6576 },
 	zoomControl: true,
 	mapTypeControl: false,
