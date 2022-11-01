@@ -38,7 +38,11 @@ async function initMap() {
 	let clustersMarkers;
 	let clusterObj;
 
-	if (searchParams.get('address')) $('#search-input').val(decodeURI(searchParams.get('address')));
+	if (searchParams.has('address')) $('#search-input').val(decodeURI(searchParams.get('address')));
+
+	if (searchParams.has('lat') && searchParams.has('lng')) {
+		map.setCenter({ lat: searchParams.get('lat'), lng: searchParams.get('lng') });
+	}
 
 	setTimeout(() => {
 		var maxValues = document.getElementsByClassName('max-value');
@@ -137,7 +141,7 @@ async function initMap() {
 			map.fitBounds(place.geometry.viewport);
 		} else {
 			map.setCenter(place.geometry.location);
-			map.setZoom(17);
+			// map.setZoom(17);
 		}
 	});
 
@@ -330,7 +334,6 @@ function plotMapWithClusters(markers, map, listings, infoWindow) {
 		.getClusters(BRAZILIAN_BOUNDING_BOX, map.getZoom())
 		.filter((marker) => marker.type === 'Feature');
 
-	console.log();
 	// NOTE Calculate clusters
 	const renderer = {
 		render: function ({ count, position }) {
@@ -435,8 +438,6 @@ function buildFilterURL() {
 	url = url.concat(`&min_parking_lots=${toNumber($('#min-parking-lots').text())}`);
 	if ($('#max-parking-lots-input').hasClass('fs-cmsfilter_active'))
 		url = url.concat(`&max_parking_lots=${toNumber($('#max-parking-lots').text())}`);
-
-	console.log(url);
 
 	return url;
 }
