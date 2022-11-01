@@ -22,7 +22,7 @@ $(`#radio-offer-type-${offerType}`).prop('checked', true);
 
 setTimeout(() => {
 	$('.loading-section').fadeOut();
-}, 3000);
+}, 5000);
 
 window.initMap = initMap;
 
