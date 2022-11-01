@@ -41,7 +41,7 @@ async function initMap() {
 	if (searchParams.has('address')) $('#search-input').val(decodeURI(searchParams.get('address')));
 
 	if (searchParams.has('lat') && searchParams.has('lng')) {
-		map.setCenter({ lat: searchParams.get('lat'), lng: searchParams.get('lng') });
+		map.setCenter({ lat: Number(searchParams.get('lat')), lng: Number(searchParams.get('lng')) });
 	}
 
 	setTimeout(() => {
