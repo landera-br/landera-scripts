@@ -38,6 +38,8 @@ async function initMap() {
 	let clustersMarkers;
 	let clusterObj;
 
+	if (searchParams.get('address')) $('#search-input').val(decodeURI(searchParams.get('address')));
+
 	setTimeout(() => {
 		var maxValues = document.getElementsByClassName('max-value');
 		for (var i = 0; i < maxValues.length; i++) {
