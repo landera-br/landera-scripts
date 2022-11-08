@@ -290,7 +290,12 @@ let formData = new FormData();
 
 $('#field-cep').on('input', async function () {
 	// NOTE When CEP field changes
-	await cepIsReady($(this).val());
+	try {
+		await cepIsReady($(this).val());
+		$('#cep-valid').show();
+	} catch (error) {
+		$('#cep-invalid').show();
+	}
 });
 
 $('#btn-submit').on('click', async (e) => {
@@ -362,7 +367,11 @@ $('#select-favorite-broker').on('change', () => {
 async function cepIsReady(cep) {
 	let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
 	let city;
-	let brokers;
+	let brokers = [];
+
+	$('#cep-valid').hide();
+	$('#cep-invalid').hide();
+	$('#cep-loading').show();
 
 	if (plainCep.length === 8) {
 		// NOTE Validate CEP and get city
@@ -421,6 +430,7 @@ async function cepIsReady(cep) {
 
 		$('#custom-broker-wrapper').hide();
 		$('#field-favorite-broker').val('');
+		$('#cep-loading').hide();
 	}
 }
 
