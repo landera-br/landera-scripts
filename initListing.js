@@ -295,6 +295,7 @@ $('#field-cep').on('input', async function () {
 	try {
 		await cepIsReady($(this).val());
 	} catch (error) {
+		$('#cep-loading').hide();
 		$('#cep-invalid').show();
 	}
 });
