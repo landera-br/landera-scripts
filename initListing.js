@@ -290,9 +290,10 @@ let formData = new FormData();
 
 $('#field-cep').on('input', async function () {
 	// NOTE When CEP field changes
+	$('#cep-valid').hide();
+	$('#cep-invalid').hide();
 	try {
 		await cepIsReady($(this).val());
-		$('#cep-valid').show();
 	} catch (error) {
 		$('#cep-invalid').show();
 	}
@@ -371,8 +372,6 @@ function cepIsReady(cep) {
 		let brokers = [];
 
 		if (plainCep.length === 8) {
-			$('#cep-valid').hide();
-			$('#cep-invalid').hide();
 			$('#cep-loading').show();
 
 			// NOTE Validate CEP and get city
@@ -437,6 +436,7 @@ function cepIsReady(cep) {
 			);
 
 			$('#cep-loading').hide();
+			$('#cep-valid').show();
 			$('#custom-broker-wrapper').hide();
 			$('#field-favorite-broker').val('');
 		}
