@@ -384,12 +384,11 @@ function cepIsReady(cep) {
 				console.log(city);
 				if (!city) throw new Error();
 			} catch (error) {
-				console.log('entrouaqui');
 				reject({
 					message: 'Não foi possível encontrar o CEP! Por favor, tente outro número de CEP.',
 				});
+				return;
 			}
-			console.log('entrouaquitb');
 
 			// NOTE Filter brokers by city
 			try {
@@ -408,6 +407,7 @@ function cepIsReady(cep) {
 				reject({
 					message: 'Não foi possível encontrar o CEP! Por favor, tente outro número de CEP.',
 				});
+				return;
 			}
 
 			brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
