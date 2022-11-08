@@ -381,12 +381,15 @@ function cepIsReady(cep) {
 				});
 
 				city = (await response.json()).localidade;
+				console.log(city);
 				if (!city) throw new Error();
 			} catch (error) {
+				console.log('entrouaqui');
 				reject({
 					message: 'Não foi possível encontrar o CEP! Por favor, tente outro número de CEP.',
 				});
 			}
+			console.log('entrouaquitb');
 
 			// NOTE Filter brokers by city
 			try {
@@ -440,6 +443,7 @@ function cepIsReady(cep) {
 			$('#custom-broker-wrapper').hide();
 			$('#field-favorite-broker').val('');
 		}
+		resolve();
 	});
 }
 
