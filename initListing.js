@@ -364,75 +364,84 @@ $('#select-favorite-broker').on('change', () => {
 
 // NOTE Side functions
 
-async function cepIsReady(cep) {
-	let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
-	let city;
-	let brokers = [];
+export const cepIsReady = (cep) => {
+	return new Promise(async function (resolve, reject) {
+		let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
+		let city;
+		let brokers = [];
 
-	$('#cep-valid').hide();
-	$('#cep-invalid').hide();
-	$('#cep-loading').show();
+		if (plainCep.length === 8) {
+			$('#cep-valid').hide();
+			$('#cep-invalid').hide();
+			$('#cep-loading').show();
 
-	if (plainCep.length === 8) {
-		// NOTE Validate CEP and get city
-		try {
-			const response = await fetch(`https://viacep.com.br/ws/${plainCep}/json/`, { method: 'GET' });
-
-			city = (await response.json()).localidade;
-		} catch (error) {
-			console.log(error);
-		}
-
-		// NOTE Filter brokers by city
-		try {
-			const response = await fetch(
-				`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?city=${city}`,
-				{
+			// NOTE Validate CEP and get city
+			try {
+				const response = await fetch(`https://viacep.com.br/ws/${plainCep}/json/`, {
 					method: 'GET',
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
-					},
-				}
-			);
+				});
 
-			brokers = await response.json();
-		} catch (error) {
-			console.log(error);
-		}
+				city = (await response.json()).localidade;
+				if (!city) throw new Error();
+			} catch (error) {
+				reject({
+					message: 'Não foi possível encontrar o CEP! Por favor, tente outro número de CEP.',
+				});
+			}
 
-		brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
+			// NOTE Filter brokers by city
+			try {
+				const response = await fetch(
+					`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?city=${city}`,
+					{
+						method: 'GET',
+						headers: {
+							Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+						},
+					}
+				);
 
-		// NOTE Update favorite broker select
-		$('#select-favorite-broker').empty();
+				brokers = await response.json();
+			} catch (error) {
+				reject({
+					message: 'Não foi possível encontrar o CEP! Por favor, tente outro número de CEP.',
+				});
+			}
 
-		$('#select-favorite-broker').append(
-			$('<option>', {
-				value: '',
-				text: 'Sem preferência',
-			})
-		);
+			brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
 
-		$.each(brokers, function (i, item) {
+			// NOTE Update favorite broker select
+			$('#select-favorite-broker').empty();
+
 			$('#select-favorite-broker').append(
 				$('<option>', {
-					value: item.name,
-					text: item.name,
+					value: '',
+					text: 'Sem preferência',
 				})
 			);
-		});
 
-		$('#select-favorite-broker').append(
-			$('<option>', {
-				value: 'other',
-				text: 'Outra plataforma',
-			})
-		);
+			$.each(brokers, function (i, item) {
+				$('#select-favorite-broker').append(
+					$('<option>', {
+						value: item.name,
+						text: item.name,
+					})
+				);
+			});
 
-		$('#custom-broker-wrapper').hide();
-		$('#field-favorite-broker').val('');
-		$('#cep-loading').hide();
-	}
-}
+			$('#select-favorite-broker').append(
+				$('<option>', {
+					value: 'other',
+					text: 'Outra plataforma',
+				})
+			);
+
+			$('#cep-loading').hide();
+			$('#custom-broker-wrapper').hide();
+			$('#field-favorite-broker').val('');
+		}
+	});
+};
 
 function getFormData() {
 	const data = {
