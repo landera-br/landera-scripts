@@ -364,7 +364,7 @@ $('#select-favorite-broker').on('change', () => {
 
 // NOTE Side functions
 
-export const cepIsReady = (cep) => {
+function cepIsReady(cep) {
 	return new Promise(async function (resolve, reject) {
 		let plainCep = cep.replace(/[^\w\s]/gi, '').replace(/\D/g, ''); // only numbers
 		let city;
@@ -441,7 +441,7 @@ export const cepIsReady = (cep) => {
 			$('#field-favorite-broker').val('');
 		}
 	});
-};
+}
 
 function getFormData() {
 	const data = {
