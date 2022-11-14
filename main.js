@@ -131,7 +131,6 @@ async function signUpHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	$('#btn-sign-in').val('Aguarde...');
-
 	let user;
 
 	try {
@@ -167,24 +166,42 @@ async function signUpHandler(e) {
 }
 
 // NOTE Sign in handler
-function signInHandler(e) {
+async function signInHandler(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	$('#btn-sign-in').val('Aguarde...');
+	let user;
 
-	signInWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
-		.then((userCredential) => {
-			window.location = document.referrer;
-		})
-		.catch((error) => {
-			console.log(error.message);
-			$('#btn-sign-in').val('Entrar');
-			alert(
-				ERRORS.find((item) => item.code === error.code)?.message
-					? ERRORS.find((item) => item.code === error.code)?.message
-					: ERRORS.find((item) => item.code === 'other')?.message
-			);
-		});
+	try {
+		user = await signInWithEmailAndPassword(
+			auth,
+			$('#field-email').val(),
+			$('#field-password').val()
+		);
+	} catch (error) {
+		console.log(error.message);
+		$('#btn-sign-in').val('Entrar');
+		alert(
+			ERRORS.find((item) => item.code === error.code)?.message
+				? ERRORS.find((item) => item.code === error.code)?.message
+				: ERRORS.find((item) => item.code === 'other')?.message
+		);
+		return;
+	}
+
+	window.location = document.referrer;
+
+	console.log(user);
+
+	// NOTE Set MongoDB user
+	// try {
+	// 	await setUser(user, user.displayName);
+	// } catch (error) {
+	// 	console.log(error);
+	// 	$('#btn-sign-in').val('Entrar');
+	// 	alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+	// 	return;
+	// }
 }
 
 // NOTE Sign in with Google
