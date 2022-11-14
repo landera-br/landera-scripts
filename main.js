@@ -187,8 +187,6 @@ async function signInHandler(e) {
 		return;
 	}
 
-	window.location = document.referrer;
-
 	// NOTE Set MongoDB user
 	try {
 		await setUser(user, user.displayName);
@@ -198,6 +196,8 @@ async function signInHandler(e) {
 		alert('Não foi possível acessar conta. Por favor, tente novamente mais tarde.');
 		return;
 	}
+
+	window.location = document.referrer;
 }
 
 // NOTE Sign in with Google
@@ -340,7 +340,7 @@ onAuthStateChanged(auth, async (user) => {
 
 // NOTE Set user in DB
 async function setUser(user, name) {
-	console.log('entrou1');
+	name = name ? name : undefined;
 
 	const idToken = await user.getIdToken(true);
 
@@ -350,8 +350,6 @@ async function setUser(user, name) {
 		alert('Não foi possível recuperar os dados do cliente.');
 		return;
 	}
-
-	console.log('entrou2');
 
 	const payload = { fb_uid: user.uid, email: user.email, name };
 
@@ -377,7 +375,6 @@ async function setUser(user, name) {
 		localStorage.setItem('fb_uid', user.uid);
 		localStorage.setItem('pro_user', String(responseData.pro_user));
 	} catch (error) {
-		console.log(error);
 		console.log(error.message);
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
