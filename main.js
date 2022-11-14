@@ -173,11 +173,9 @@ async function signInHandler(e) {
 	let user;
 
 	try {
-		user = await signInWithEmailAndPassword(
-			auth,
-			$('#field-email').val(),
-			$('#field-password').val()
-		);
+		user = (
+			await signInWithEmailAndPassword(auth, $('#field-email').val(), $('#field-password').val())
+		).user;
 	} catch (error) {
 		console.log(error.message);
 		$('#btn-sign-in').val('Entrar');
