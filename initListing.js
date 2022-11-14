@@ -382,7 +382,6 @@ function cepIsReady(cep) {
 				});
 
 				city = (await response.json()).localidade;
-				console.log(city);
 				if (!city) throw new Error();
 			} catch (error) {
 				reject({
