@@ -340,6 +340,8 @@ onAuthStateChanged(auth, async (user) => {
 
 // NOTE Set user in DB
 async function setUser(user, name) {
+	console.log('entrou1');
+
 	const idToken = await user.getIdToken(true);
 
 	if (idToken && idToken !== 'undefined') {
@@ -348,6 +350,8 @@ async function setUser(user, name) {
 		alert('Não foi possível recuperar os dados do cliente.');
 		return;
 	}
+
+	console.log('entrou2');
 
 	const payload = { fb_uid: user.uid, email: user.email, name };
 
