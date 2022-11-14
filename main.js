@@ -189,17 +189,19 @@ async function signInHandler(e) {
 
 	window.location = document.referrer;
 
-	console.log(user);
+	console.log(user.displayName);
+	console.log(user.uid);
+	console.log(user.email);
 
 	// NOTE Set MongoDB user
-	// try {
-	// 	await setUser(user, user.displayName);
-	// } catch (error) {
-	// 	console.log(error);
-	// 	$('#btn-sign-in').val('Entrar');
-	// 	alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
-	// 	return;
-	// }
+	try {
+		await setUser(user, user.displayName);
+	} catch (error) {
+		console.log(error);
+		$('#btn-sign-in').val('Entrar');
+		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+		return;
+	}
 }
 
 // NOTE Sign in with Google
