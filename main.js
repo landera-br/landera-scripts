@@ -351,6 +351,8 @@ async function setUser(user, name) {
 
 	const payload = { fb_uid: user.uid, email: user.email, name };
 
+	console.log(payload);
+
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users', {
 			method: 'POST',
