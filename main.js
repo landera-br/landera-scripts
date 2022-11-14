@@ -189,17 +189,13 @@ async function signInHandler(e) {
 
 	window.location = document.referrer;
 
-	console.log(user.displayName);
-	console.log(user.uid);
-	console.log(user.email);
-
 	// NOTE Set MongoDB user
 	try {
 		await setUser(user, user.displayName);
 	} catch (error) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
-		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+		alert('Não foi possível acessar conta. Por favor, tente novamente mais tarde.');
 		return;
 	}
 }
@@ -232,7 +228,7 @@ async function googleSignInHandler(e) {
 	} catch (error) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
-		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+		alert('Não foi possível acessar conta. Por favor, tente novamente mais tarde.');
 		return;
 	}
 
@@ -265,7 +261,7 @@ async function fbSignInHandler(e) {
 	} catch (error) {
 		console.log(error);
 		$('#btn-sign-in').val('Entrar');
-		alert('Não foi possível cadastrar conta. Por favor, tente novamente mais tarde.');
+		alert('Não foi possível acessar conta. Por favor, tente novamente mais tarde.');
 		return;
 	}
 
@@ -367,7 +363,6 @@ async function setUser(user, name) {
 		});
 
 		const responseData = await response.json();
-		console.log(responseData);
 
 		// NOTE Save stripe_customer_id in cache
 		localStorage.setItem('stripe_customer_id', responseData.stripe_customer_id);
@@ -376,6 +371,8 @@ async function setUser(user, name) {
 		localStorage.setItem('fb_uid', user.uid);
 		localStorage.setItem('pro_user', String(responseData.pro_user));
 	} catch (error) {
+		console.log(error);
+		console.log(error.message);
 		alert('Não foi possível recuperar os dados do cliente.');
 	}
 }
