@@ -409,11 +409,9 @@ function buildFilterURL() {
 
 	// NOTE Advertiser Class
 	if ($('#checkbox-owner').is(':checked')) url = url.concat('&advertiser_class[]=owner');
+	if ($('#checkbox-agent').is(':checked')) url = url.concat('&advertiser_class[]=agent');
+	if ($('#checkbox-broker').is(':checked')) url = url.concat('&advertiser_class[]=broker');
 	if ($('#checkbox-developer').is(':checked')) url = url.concat('&advertiser_class[]=developer');
-	if ($('#checkbox-third-party').is(':checked'))
-		url = url.concat(
-			'&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer'
-		);
 
 	url = url.concat(`&min_price=${toNumber($('#min-price').text())}`);
 	if ($('#max-price-input').hasClass('fs-cmsfilter_active'))
