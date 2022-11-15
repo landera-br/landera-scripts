@@ -405,11 +405,11 @@ function buildFilterURL() {
 	// NOTE Prop Type
 	if ($('#checkbox-house').is(':checked')) url = url.concat('&prop_type[]=house');
 	if ($('#checkbox-apartment').is(':checked')) url = url.concat('&prop_type[]=apartment');
-	if ($('#checkbox-launch').is(':checked')) url = url.concat('&prop_type[]=launch');
 	if ($('#checkbox-land').is(':checked')) url = url.concat('&prop_type[]=land');
 
 	// NOTE Advertiser Class
 	if ($('#checkbox-owner').is(':checked')) url = url.concat('&advertiser_class[]=owner');
+	if ($('#checkbox-developer').is(':checked')) url = url.concat('&advertiser_class[]=developer');
 	if ($('#checkbox-third-party').is(':checked'))
 		url = url.concat(
 			'&advertiser_class[]=broker&advertiser_class[]=agent&advertiser_class[]=developer'
