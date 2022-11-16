@@ -24,8 +24,10 @@ let formData = new FormData();
 
 	imagesInput.addEventListener('change', function (e) {
 		let filenames = '';
+		const totalImages = imagesInput.files.length <= 25 ? imagesInput.files.length : 25;
+
 		formData.delete('secondary_images');
-		for (var i = 0; i < imagesInput.files.length; ++i) {
+		for (var i = 0; i < totalImages; ++i) {
 			formData.append('secondary_images', e.target.files[i]);
 			filenames = filenames.concat(imagesInput.files.item(i).name + '\n');
 		}
