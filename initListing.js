@@ -350,7 +350,7 @@ $('#btn-submit').on('click', async (e) => {
 			)
 		) {
 			$('#btn-submit').css('pointer-events', 'auto');
-			$('#btn-submit').val('Confirmar');
+			$('#btn-submit').val('Publicar');
 			resetFormData();
 		}
 	}

@@ -28,6 +28,10 @@ $('#form-interest').submit(async (e) => {
 	$('#form-interest').css('pointer-events', 'none');
 	$('#btn-interest-submit').val('Enviando...');
 
+	console.log('passou1');
+	console.log(localStorage.getItem('fb_token'));
+	console.log(localStorage.getItem('wf_inbox_id'));
+
 	// NOTE Create channel
 	try {
 		const response = await fetch(
@@ -47,12 +51,17 @@ $('#form-interest').submit(async (e) => {
 
 		channel = await response.json();
 	} catch (error) {
+		console.log(error);
+		console.log(error.message);
+
 		alert('Não foi possível enviar a mensagem. Por favor, tente novamente mais tarde.');
 
 		$('#form-interest').css('pointer-events', 'auto');
 		$('#btn-interest-submit').val('Enviar mensagem');
 		return;
 	}
+
+	console.log('passou2');
 
 	// NOTE Store message in Firestore
 	try {
