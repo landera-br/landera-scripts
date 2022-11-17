@@ -24,7 +24,7 @@ window.addEventListener('load', async function () {
 			}
 		);
 
-		if (response.status !== 200) window.location = '/';
+		// if (response.status !== 200) window.location = '/';
 	} catch (error) {
 		window.location = '/';
 	}

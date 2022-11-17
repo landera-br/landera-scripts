@@ -317,20 +317,13 @@ $('#btn-submit').on('click', async (e) => {
 			{
 				method: 'POST',
 				body: formData,
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
-				},
+				headers: { Authorization: `Bearer ${localStorage.getItem('fb_token')}` },
 			}
 		);
 
 		const responseData = await response.json();
 
-		if (
-			!response.ok ||
-			!Object.keys(responseData).length ||
-			responseData.ipfs_cid === '' ||
-			responseData.transaction_id === ''
-		) {
+		if (!response.ok || !Object.keys(responseData).length || responseData.transaction_id === '') {
 			throw responseData;
 		}
 
