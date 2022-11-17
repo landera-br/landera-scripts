@@ -9,26 +9,26 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './main.js';
 
-// window.addEventListener('load', async function () {
-// 	// NOTE Check if has authorization to read
-// 	try {
-// 		const response = await fetch(
-// 			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?inbox_id=${
-// 				window.location.pathname.split('/')[2]
-// 			}`,
-// 			{
-// 				method: 'GET',
-// 				headers: {
-// 					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
-// 				},
-// 			}
-// 		);
+window.addEventListener('load', async function () {
+	// NOTE Check if has authorization to read
+	try {
+		const response = await fetch(
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/users?inbox_id=${
+				window.location.pathname.split('/')[2]
+			}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+				},
+			}
+		);
 
-// 		// if (response.status !== 200) window.location = '/';
-// 	} catch (error) {
-// 		window.location = '/';
-// 	}
-// });
+		if (response.status !== 200) window.location = '/';
+	} catch (error) {
+		window.location = '/';
+	}
+});
 
 $('#buying-tab').on('click', async function () {
 	$('.chat').hide();
@@ -70,8 +70,6 @@ $('.btn-channel').on('click', async function () {
 		querySnapshot.forEach((doc) => {
 			messages.push(doc.data());
 		});
-
-		console.log(messages);
 
 		displayChat(messages, window.location.pathname.split('/')[2]);
 	});
