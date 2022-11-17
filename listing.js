@@ -28,14 +28,12 @@ $('#form-interest').submit(async (e) => {
 	$('#form-interest').css('pointer-events', 'none');
 	$('#btn-interest-submit').val('Enviando...');
 
-	console.log('passou1');
-	console.log(localStorage.getItem('fb_token'));
-	console.log(localStorage.getItem('wf_inbox_id'));
+	console.log(pathArray[2]);
 
 	// NOTE Create channel
 	try {
 		const response = await fetch(
-			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/channels/${listingId}`,
+			`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/channels/${pathArray[2]}`,
 			{
 				method: 'POST',
 				headers: {
