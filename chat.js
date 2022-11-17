@@ -66,9 +66,13 @@ $('.btn-channel').on('click', async function () {
 
 	onSnapshot(q, (querySnapshot) => {
 		let messages = [];
+
 		querySnapshot.forEach((doc) => {
 			messages.push(doc.data());
 		});
+
+		console.log(messages);
+
 		displayChat(messages, window.location.pathname.split('/')[2]);
 	});
 
