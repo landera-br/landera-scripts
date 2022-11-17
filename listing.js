@@ -3,13 +3,12 @@ import { db } from './main.js';
 
 const inputElement =
 	'<input type="text" class="text-field-8 w-input subscription-links" maxlength="256" name="field-2" data-name="Field 2" placeholder="Link do anúncio" required="">';
+const pathArray = window.location.pathname.split('/');
+const listingId = pathArray[2];
 
 // NOTE Interest open
 $('#btn-interest').on('click', async (e) => {
 	if (localStorage.getItem('fb_token') && localStorage.getItem('fb_token') !== 'undefined') {
-		const pathArray = window.location.pathname.split('/');
-		const listingId = pathArray[2];
-
 		$('#field-listing-id').val(listingId);
 		$('#form-modal').css('display', 'flex').show();
 	} else {
