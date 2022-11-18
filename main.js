@@ -301,8 +301,6 @@ onAuthStateChanged(auth, async (user) => {
 		// NOTE User has signed in
 		const idToken = await user.getIdToken(true);
 
-		console.log(idToken);
-
 		localStorage.setItem('fb_token', idToken);
 
 		privateElements.forEach(function (element) {
