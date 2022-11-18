@@ -302,7 +302,7 @@ $('#field-cep').on('input', async function () {
 	}
 });
 
-$('#btn-next').on('click', () => $('html, body').animate({ scrollTop: 0 }, 400));
+$('.btn-control').on('click', () => $('html, body').animate({ scrollTop: 0 }, 400));
 
 $('#btn-submit').on('click', async (e) => {
 	// NOTE When form is submitted
