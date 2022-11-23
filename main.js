@@ -36,6 +36,10 @@ const ERRORS = [
 		message: 'Não foi possível acessar sua conta. Tente novamente mais tarde.',
 	},
 	{
+		code: 'auth/popup-blocked',
+		message: 'Popup bloqueado pelo navegador. Habilite o uso de popups ou utilize outro navegador.',
+	},
+	{
 		code: 'auth/email-already-exists',
 		message: 'Usuário já existe. Faça o login ou crie uma outra conta.',
 	},
