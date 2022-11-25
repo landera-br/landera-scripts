@@ -458,7 +458,7 @@ function setCookie() {
 		$('#cookie-tab').show();
 	} else {
 		$('#cookie-tab').hide();
-		$('#cookie-popup').show();
+		setTimeout(() => $('#cookie-popup').fadeIn(), 3000);
 	}
 }
 
