@@ -52,7 +52,6 @@ $('.btn-channel').on('click', async function () {
 	$('#header-date').text(`Atualizado em ${$(this).parent().parent().find('.updated-at').text()}`);
 	$('#header-initials').text($(this).find('.initials').text());
 	$('#header-initials').css('background-color', $(this).find('.initials').css('background-color'));
-	console.log('Entrou');
 	$('#btn-listing-redirect').attr(
 		'href',
 		`https://www.landera.com.br/listings/${$(this).find('#listing-id').text()}`
