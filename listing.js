@@ -2,7 +2,7 @@ import { addDoc, collection } from 'https://www.gstatic.com/firebasejs/9.9.4/fir
 import { db } from './main.js';
 
 const inputElement =
-	'<input type="text" class="text-field-8 w-input subscription-links" maxlength="256" name="field-2" data-name="Field 2" placeholder="Link do anúncio" required="">';
+	'<input type="text" class="text-field-8 w-input subscription-links" maxlength="256" name="field-2" data-name="Field 2" placeholder="Insira o link do anúncio" required="">';
 const pathArray = window.location.pathname.split('/');
 const listingId = pathArray[2];
 
@@ -144,9 +144,9 @@ $('#form-subscription').submit(async (e) => {
 		alert(
 			error.display && error.message
 				? error.message
-				: 'Não foi possível realizar inscrição. Tente novamente mais tarde!'
+				: 'Plataforma imobiliária inválida! Só é permitida a divulgação deste imóvel em plataformas parceiras.'
 		);
-		$('#btn-subscription-submit').val('Inscrever-se');
+		$('#btn-subscription-submit').val('Confirmar');
 		$('#btn-subscription-submit').css('pointer-events', 'auto');
 		return false;
 	}
@@ -176,10 +176,10 @@ $('#form-subscription').submit(async (e) => {
 		alert(
 			error.display && error.message
 				? error.message
-				: 'Não foi possível realizar inscrição. Tente novamente mais tarde!'
+				: 'Não foi possível realizar inscrição! Tente novamente mais tarde.'
 		);
 
-		$('#btn-subscription-submit').val('Inscrever-se');
+		$('#btn-subscription-submit').val('Confirmar');
 		$('#btn-subscription-submit').css('pointer-events', 'auto');
 		return false;
 	}
