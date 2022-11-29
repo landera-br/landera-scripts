@@ -40,7 +40,7 @@ $('#selling-tab').on('click', async () => {
 	$('.chat-placeholder').fadeIn();
 });
 
-$('.btn-channel').on('click', async () => {
+$('.btn-channel').on('click', async function () {
 	$('.chat-placeholder').hide();
 
 	const channelId = $(this).attr('data-channelId');
