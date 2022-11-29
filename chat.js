@@ -59,6 +59,9 @@ $('.btn-channel').on('click', async () => {
 	$('#btn-listing-redirect').attr('target', '_blank');
 	$(this).find('.unread-status').css('background-color', 'white');
 
+	console.log(channelId);
+	console.log(localStorage.getItem('fb_uid'));
+
 	// NOTE Listen to Firestore data
 	const q = query(
 		collection(db, 'messages'),
