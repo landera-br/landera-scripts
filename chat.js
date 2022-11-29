@@ -9,7 +9,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './main.js';
 
-window.addEventListener('load', async () => {
+window.addEventListener('load', async function () {
 	// NOTE Check if has authorization to read
 	try {
 		const response = await fetch(
@@ -30,12 +30,12 @@ window.addEventListener('load', async () => {
 	}
 });
 
-$('#buying-tab').on('click', async () => {
+$('#buying-tab').on('click', async function () {
 	$('.chat').hide();
 	$('.chat-placeholder').fadeIn();
 });
 
-$('#selling-tab').on('click', async () => {
+$('#selling-tab').on('click', async function () {
 	$('.chat').hide();
 	$('.chat-placeholder').fadeIn();
 });
@@ -58,11 +58,6 @@ $('.btn-channel').on('click', async function () {
 	);
 	$('#btn-listing-redirect').attr('target', '_blank');
 	$(this).find('.unread-status').css('background-color', 'white');
-
-	console.log($(this).parent().parent().find('.updated-at').text());
-	console.log($(this).find('.chatter-name').text());
-	console.log(channelId);
-	console.log($('.btn-channel'));
 
 	// NOTE Listen to Firestore data
 	const q = query(
@@ -110,7 +105,7 @@ $('.btn-channel').on('click', async function () {
 	}
 });
 
-$('.chat-form').submit(async (e) => {
+$('.chat-form').submit(async function (e) {
 	e.preventDefault();
 	$('.chat-form').css('pointer-events', 'none');
 
@@ -164,7 +159,7 @@ $('.chat-form').submit(async (e) => {
 	$('.chat-form').css('pointer-events', 'auto');
 });
 
-$('#back').on('click', async () => {
+$('#back').on('click', async function () {
 	if ($(this).width() < 767) {
 		$('#inboxes').show();
 		$('#chat').hide();
@@ -185,6 +180,7 @@ function displayChat(messages, inboxId) {
 		}
 	});
 
+	console.log($(this).width());
 	if ($(this).width() < 767) {
 		$('#inboxes').hide();
 	}
