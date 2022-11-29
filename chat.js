@@ -180,8 +180,9 @@ function displayChat(messages, inboxId) {
 		}
 	});
 
-	console.log($(this).width());
-	if ($(this).width() < 767) {
+	console.log(screen.width);
+
+	if (screen.width < 767) {
 		$('#inboxes').hide();
 	}
 
