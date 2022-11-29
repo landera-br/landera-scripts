@@ -9,7 +9,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.9.4/firebase-firestore.js';
 import { db } from './main.js';
 
-window.addEventListener('load', async function () {
+window.addEventListener('load', async () => {
 	// NOTE Check if has authorization to read
 	try {
 		const response = await fetch(
@@ -30,17 +30,17 @@ window.addEventListener('load', async function () {
 	}
 });
 
-$('#buying-tab').on('click', async function () {
+$('#buying-tab').on('click', async () => {
 	$('.chat').hide();
 	$('.chat-placeholder').fadeIn();
 });
 
-$('#selling-tab').on('click', async function () {
+$('#selling-tab').on('click', async () => {
 	$('.chat').hide();
 	$('.chat-placeholder').fadeIn();
 });
 
-$('.btn-channel').on('click', async function () {
+$('.btn-channel').on('click', async () => {
 	$('.chat-placeholder').hide();
 
 	const channelId = $(this).attr('data-channelId');
@@ -159,6 +159,13 @@ $('.chat-form').submit(async (e) => {
 	$('.chat-form').css('pointer-events', 'auto');
 });
 
+$('#back').on('click', async () => {
+	if ($(this).width() < 767) {
+		$('#inboxes').show();
+		$('#chat').hide();
+	}
+});
+
 function displayChat(messages, inboxId) {
 	$('#messages').empty();
 
@@ -173,7 +180,11 @@ function displayChat(messages, inboxId) {
 		}
 	});
 
-	$('.chat').css('display', 'flex');
+	if ($(this).width() < 767) {
+		$('#inboxes').hide();
+	}
+
+	$('#chat').show();
 
 	// Scroll to bottom
 	$('.chat').animate({ scrollTop: $(document).height() }, 1000);
