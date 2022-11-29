@@ -59,8 +59,10 @@ $('.btn-channel').on('click', async () => {
 	$('#btn-listing-redirect').attr('target', '_blank');
 	$(this).find('.unread-status').css('background-color', 'white');
 
+	console.log($(this).parent().parent().find('.updated-at').text());
+	console.log($(this).find('.chatter-name').text());
 	console.log(channelId);
-	console.log($(this));
+	console.log($('.btn-channel'));
 
 	// NOTE Listen to Firestore data
 	const q = query(
