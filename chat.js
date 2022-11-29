@@ -60,7 +60,7 @@ $('.btn-channel').on('click', async () => {
 	$(this).find('.unread-status').css('background-color', 'white');
 
 	console.log(channelId);
-	console.log(localStorage.getItem('fb_uid'));
+	console.log($(this));
 
 	// NOTE Listen to Firestore data
 	const q = query(
