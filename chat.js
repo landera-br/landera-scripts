@@ -160,7 +160,7 @@ $('.chat-form').submit(async function (e) {
 });
 
 $('#back').on('click', async function () {
-	if ($(this).width() < 767) {
+	if (screen.width < 767) {
 		$('#inboxes').show();
 		$('#chat').hide();
 	}
@@ -179,8 +179,6 @@ function displayChat(messages, inboxId) {
 			).appendTo('#messages');
 		}
 	});
-
-	console.log(screen.width);
 
 	if (screen.width < 767) {
 		$('#inboxes').hide();
