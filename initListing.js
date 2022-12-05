@@ -387,6 +387,8 @@ function cepIsReady(cep) {
 				return;
 			}
 
+			console.log('passou');
+
 			// NOTE Filter brokers by city
 			try {
 				const response = await fetch(
@@ -401,6 +403,7 @@ function cepIsReady(cep) {
 
 				brokers = await response.json();
 			} catch (error) {
+				console.log(error);
 				reject({
 					message: 'Não foi possível encontrar o CEP! Por favor, tente outro número de CEP.',
 				});
@@ -408,6 +411,8 @@ function cepIsReady(cep) {
 			}
 
 			brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
+
+			console.log(brokers);
 
 			// NOTE Update favorite broker select
 			$('#select-favorite-broker').empty();
