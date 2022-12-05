@@ -387,8 +387,6 @@ function cepIsReady(cep) {
 				return;
 			}
 
-			console.log(city);
-
 			// NOTE Filter brokers by city
 			try {
 				const response = await fetch(
@@ -401,9 +399,14 @@ function cepIsReady(cep) {
 					}
 				);
 
-				console.log(response);
+				console.log(response.status);
 
-				brokers = await response.json();
+				if (response.status !== 200) {
+					brokers = [];
+				} else {
+					brokers = await response.json();
+					brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
+				}
 			} catch (error) {
 				console.log(error);
 				reject({
@@ -411,8 +414,6 @@ function cepIsReady(cep) {
 				});
 				return;
 			}
-
-			brokers.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)); // sort objects by name
 
 			console.log(brokers);
 

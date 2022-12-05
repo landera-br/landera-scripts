@@ -126,13 +126,6 @@ $('.chat-form').submit(async function (e) {
 			text: $('#input-message').val(),
 		});
 	} catch (error) {
-		console.log($('#header-channel').text());
-		console.log(localStorage.getItem('fb_uid'));
-		console.log(window.location.pathname.split('/')[2]);
-		console.log($('#header-chatter-uid').text());
-		console.log($('#header-chatter-inbox-id').text());
-		console.log([localStorage.getItem('fb_uid'), $('#header-chatter-uid').text()]);
-		console.log($('#input-message').val());
 		console.log(error);
 		alert('Não foi possível enviar a mensagem. Por favor, tente novamente mais tarde.');
 	}
