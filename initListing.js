@@ -387,7 +387,7 @@ function cepIsReady(cep) {
 				return;
 			}
 
-			console.log('passou');
+			console.log(city);
 
 			// NOTE Filter brokers by city
 			try {
@@ -400,6 +400,8 @@ function cepIsReady(cep) {
 						},
 					}
 				);
+
+				console.log(response);
 
 				brokers = await response.json();
 			} catch (error) {
