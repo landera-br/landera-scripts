@@ -499,7 +499,7 @@ function getFormData() {
 				cep: $('#field-cep').val(),
 				city: $('#field-city').val(),
 				hood: $('#field-hood').val(),
-				state: $('#field-state').val(),
+				state: $('#select-state').val(),
 				street_name: $('#field-street-name').val(),
 				street_number: Number($('#field-street-number').val()),
 				addon: $('#field-addon').val(),
