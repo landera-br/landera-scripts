@@ -3,7 +3,6 @@ $(document).ready(function () {
 	// Select all elements with the class "slider-wrapper" and loop through them
 	const sliderWrappers = document.getElementsByClassName('slider-wrapper');
 	for (const sliderWrapper of sliderWrappers) {
-		console.log(sliderWrapper);
 		// Get the source of the before and after image within the current "slider-wrapper" element
 		const before = sliderWrapper.querySelectorAll('img')[0].src;
 		const after = sliderWrapper.querySelectorAll('img')[1].src;
@@ -88,11 +87,35 @@ function updateSlides(index = null) {
 	swiper.removeAllSlides();
 
 	if (index) {
+		const slide = slides_content[index];
 		// Update single slide
+		if (slide.state === 'input' && slide.before) {
+			// Add input slide
+			swiper.addSlide(
+				0,
+				`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`
+			);
+			return;
+		}
+
+		if (slide.state === 'result' && slide.before && slide.after) {
+			// Add result slide
+			swiper.addSlide(
+				0,
+				`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`
+			);
+			return;
+		}
+
+		// Add loading slide
+		swiper.addSlide(
+			0,
+			`<div class="swiper-slide"><div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`
+		);
 	} else {
 		// Update all slides based on slides_content
 		for (const slide of slides_content) {
-			if (slide.state === 'input') {
+			if (slide.state === 'input' && slide.before) {
 				// Add input slide
 				swiper.addSlide(
 					0,
@@ -101,7 +124,7 @@ function updateSlides(index = null) {
 				continue;
 			}
 
-			if (slide.state === 'result') {
+			if (slide.state === 'result' && slide.before && slide.after) {
 				// Add result slide
 				swiper.addSlide(
 					0,
@@ -111,14 +134,14 @@ function updateSlides(index = null) {
 			}
 
 			// Add loading slide
-			console.log('Loading slide added');
 			swiper.addSlide(
 				0,
 				`<div class="swiper-slide"><div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`
 			);
 		}
 
-		swiper.slideReset(0, false);
+		// Reset swiper to first slide
+		swiper.slideTo(0, 0, false);
 	}
 }
 
@@ -149,6 +172,7 @@ $(document).on('click', '.thumb-block', function () {
 });
 
 $(document).on('click', '#btn-add-images', function () {
-	$('.result-canvas').hide();
-	$('.uploadcare-section').show();
+	$('.uploadcare-section').css('display', 'flex');
+	$('.swiper-wrapper').css('display', 'none');
+	swiper.removeAllSlides();
 });
