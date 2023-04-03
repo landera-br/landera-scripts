@@ -72,8 +72,8 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	}
 
 	$('.done-btn').click(() => {
-		$('.uploadcare-section').hide();
-		$('.swiper-wrapper').show();
+		$('.uploadcare-section').css('display', 'none');
+		$('.swiper-wrapper').css('display', 'flex');
 
 		// Loop through images and add to slides_content
 		for (const image of images) {
