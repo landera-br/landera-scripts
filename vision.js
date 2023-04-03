@@ -52,6 +52,14 @@ $(document).ready(function () {
 		tagify = new Tagify(inputStyle, {
 			duplicates: true,
 		});
+
+	const swiper = new Swiper('.swiper', {
+		// Navigation arrows
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+		},
+	});
 });
 
 // Actions
@@ -65,7 +73,7 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 
 	$('.done-btn').click(() => {
 		$('.uploadcare-section').hide();
-		$('.result-canvas').show();
+		$('.swiper-wrapper').show();
 
 		// Loop through images and add to slides_content
 		for (const image of images) {
