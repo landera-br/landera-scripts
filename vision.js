@@ -52,7 +52,7 @@ $(document).ready(function () {
 			duplicates: true,
 		});
 
-	var tag = $('.rooms-embed .tagify .tagify__tag');
+	var input = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text');
 	var btn_generate = $('.btn-generate');
 
 	//Define a function to check the tag value and toggle the button class
@@ -71,7 +71,7 @@ $(document).ready(function () {
 	}
 
 	//Attach an event listener to the tag element for any change in value
-	tag.on('edit:updated', checkInput);
+	input.on('DOMSubtreeModified', checkInput);
 });
 
 // Actions
