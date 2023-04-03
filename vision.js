@@ -72,18 +72,21 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 			slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
 		}
 
-		console.log(slides_content);
-
 		// Update slides
+		updateSlides();
 	});
 });
 
 function updateSlides(slide = null) {
-	let mask = (document.getElementById('mask').innerHTML = '');
+	let mask = document.getElementById('mask');
+
+	mask.innerHTML = '';
 
 	if (slide) {
 		// Update slide
 	} else {
+		console.log('Updating all slides');
+
 		// Update all slides based on slides_content
 		for (const slide of slides_content) {
 			if (slide.state === 'input') {
