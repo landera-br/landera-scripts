@@ -52,13 +52,14 @@ $(document).ready(function () {
 			duplicates: true,
 		});
 
-	var input = $("input[name='rooms']");
+	var tag = $('.rooms-embed .tagify .tagify__tag');
 	var btn_generate = $('.btn-generate');
 
 	//Define a function to check the input value and toggle the button class
 	function checkInput() {
 		//Get the input value
-		var value = input.val();
+		var value = tag.attr('value');
+		console.log(value);
 		//If the value is empty or whitespace
 		if (!value.trim()) {
 			//Add the class "disabled" to the button
