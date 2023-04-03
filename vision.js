@@ -71,7 +71,7 @@ $(document).ready(function () {
 	}
 
 	//Attach an event listener to the tag element for any change in value
-	tag.on('change', checkInput);
+	tag.on('edit:updated', checkInput);
 });
 
 // Actions
