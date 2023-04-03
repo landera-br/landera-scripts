@@ -78,9 +78,9 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 });
 
 function updateSlides(slide = null) {
-	let mask = document.getElementById('mask');
+	let swiper = document.getElementById('swiper-wrapper');
 
-	mask.innerHTML = '';
+	swiper.innerHTML = '';
 
 	if (slide) {
 		// Update single slide
@@ -89,18 +89,18 @@ function updateSlides(slide = null) {
 		for (const slide of slides_content) {
 			if (slide.state === 'input') {
 				// Add input slide
-				mask.innerHTML += `<div class="result-slide w-slide" aria-label="2 of 3" role="group" style="transform: translateX(-1150px); opacity: 1; transition: transform 500ms ease 0s;"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`;
+				swiper.innerHTML += `<div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div>`;
 				continue;
 			}
 
 			if (slide.state === 'result') {
 				// Add result slide
-				mask.innerHTML += ``;
+				swiper.innerHTML += `<div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div>`;
 				continue;
 			}
 
 			// Add loading slide
-			mask.innerHTML += `<div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div>`;
+			swiper.innerHTML += `<div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`;
 		}
 	}
 }
