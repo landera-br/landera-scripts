@@ -73,7 +73,7 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 		}
 
 		// Update slides
-		// updateSlides();
+		updateSlides();
 	});
 });
 
