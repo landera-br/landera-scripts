@@ -51,6 +51,26 @@ $(document).ready(function () {
 		tagify = new Tagify(inputStyle, {
 			duplicates: true,
 		});
+
+	var input = $("input[name='rooms']");
+	var btn_generate = $('.btn-generate');
+
+	//Define a function to check the input value and toggle the button class
+	function checkInput() {
+		//Get the input value
+		var value = input.val();
+		//If the value is empty or whitespace
+		if (!value.trim()) {
+			//Add the class "disabled" to the button
+			btn_generate.addClass('disabled');
+		} else {
+			//Remove the class "disabled" from the button
+			btn_generate.removeClass('disabled');
+		}
+	}
+
+	//Attach an event listener to the input element for any change in value
+	input.on('input', checkInput);
 });
 
 // Actions
@@ -93,7 +113,7 @@ function updateSlides(index = null) {
 			// Add input slide
 			swiper.addSlide(
 				0,
-				`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`
+				`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate disabled w-button">Gerar imagem</a></div></div>`
 			);
 			return;
 		}
@@ -102,7 +122,7 @@ function updateSlides(index = null) {
 			// Add result slide
 			swiper.addSlide(
 				0,
-				`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`
+				`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate disabled w-button">Regerar imagem</a></div></div>`
 			);
 			return;
 		}
@@ -119,7 +139,7 @@ function updateSlides(index = null) {
 				// Add input slide
 				swiper.addSlide(
 					0,
-					`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`
+					`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate disabled w-button">Gerar imagem</a></div></div>`
 				);
 				continue;
 			}
@@ -128,7 +148,7 @@ function updateSlides(index = null) {
 				// Add result slide
 				swiper.addSlide(
 					0,
-					`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`
+					`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate disabled w-button">Regerar imagem</a></div></div>`
 				);
 				continue;
 			}
