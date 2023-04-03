@@ -69,7 +69,7 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 
 		// Loop through images and add to slides_content
 		for (const image of images) {
-			slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
+			slides_content.push({ state: 'test', before: image.cdnUrl, after: '' });
 		}
 
 		// Update slides
