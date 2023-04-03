@@ -52,19 +52,18 @@ $(document).ready(function () {
 		tagify = new Tagify(inputStyle, {
 			duplicates: true,
 		});
-
-	const swiper = new Swiper('.swiper', {
-		// Navigation arrows
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev',
-		},
-	});
 });
 
 // Actions
 let images;
 let slides_content = [];
+const swiper = new Swiper('.swiper', {
+	// Navigation arrows
+	navigation: {
+		nextEl: '.swiper-button-next',
+		prevEl: '.swiper-button-prev',
+	},
+});
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	if (e.detail.ctx === 'upload-context') {
@@ -85,12 +84,10 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	});
 });
 
-function updateSlides(slide = null) {
-	let swiper = document.getElementById('swiper-wrapper');
+function updateSlides(index = null) {
+	swiper.removeAllSlides();
 
-	swiper.innerHTML = '';
-
-	if (slide) {
+	if (index) {
 		// Update single slide
 	} else {
 		// Update all slides based on slides_content
@@ -108,7 +105,11 @@ function updateSlides(slide = null) {
 			}
 
 			// Add loading slide
-			swiper.innerHTML += `<div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`;
+			swiper.addSlide(
+				0,
+				`<div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`
+			);
+			// swiper.innerHTML += `<div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`;
 		}
 	}
 }
