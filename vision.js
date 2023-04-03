@@ -55,9 +55,9 @@ $(document).ready(function () {
 	var tag = $('.rooms-embed .tagify .tagify__tag');
 	var btn_generate = $('.btn-generate');
 
-	//Define a function to check the input value and toggle the button class
+	//Define a function to check the tag value and toggle the button class
 	function checkInput() {
-		//Get the input value
+		//Get the tag value
 		var value = tag.attr('value');
 		console.log(value);
 		//If the value is empty or whitespace
@@ -70,8 +70,8 @@ $(document).ready(function () {
 		}
 	}
 
-	//Attach an event listener to the input element for any change in value
-	input.on('input', checkInput);
+	//Attach an event listener to the tag element for any change in value
+	tag.on('change', checkInput);
 });
 
 // Actions
