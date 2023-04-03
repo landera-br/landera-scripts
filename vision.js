@@ -89,7 +89,7 @@ function updateSlides(slide = null) {
 		for (const slide of slides_content) {
 			if (slide.state === 'input') {
 				// Add input slide
-				mask.innerHTML += ``;
+				mask.innerHTML += `<div class="result-slide w-slide" aria-label="2 of 3" role="group" style="transform: translateX(-1150px); opacity: 1; transition: transform 500ms ease 0s;"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`;
 				continue;
 			}
 
