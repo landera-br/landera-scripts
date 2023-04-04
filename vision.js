@@ -106,7 +106,7 @@ async function generate(url) {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'text/plain',
+				'Content-Type': 'application/json',
 				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 			},
 			body: JSON.stringify(payload),
@@ -124,6 +124,38 @@ async function generate(url) {
 	slides_content[swiper.activeIndex].after = responseData.image;
 	updateSlides(swiper.activeIndex);
 	reloadSliders();
+}
+
+function getBase64ImageFromURL(url) {
+	// Create a new image element
+	var img = new Image();
+	// Set the crossOrigin attribute to anonymous to avoid security issues
+	img.crossOrigin = 'anonymous';
+	// Set the src attribute to the image URL
+	img.src = url;
+	// Create a promise that resolves with the base64 data when the image is loaded
+	return new Promise(function (resolve, reject) {
+		// Attach an onload event handler that draws the image on a canvas and gets the data URL
+		img.onload = function () {
+			// Create a canvas element
+			var canvas = document.createElement('canvas');
+			// Set the canvas width and height to the image width and height
+			canvas.width = img.width;
+			canvas.height = img.height;
+			// Get the canvas context
+			var ctx = canvas.getContext('2d');
+			// Draw the image on the canvas
+			ctx.drawImage(img, 0, 0);
+			// Get the data URL of the canvas as a PNG image
+			var dataURL = canvas.toDataURL('image/png');
+			// Return the data URL without the prefix
+			resolve(dataURL.replace(/^data:image\/(png|jpg);base64,/, ''));
+		};
+		// Attach an onerror event handler that rejects the promise with an error message
+		img.onerror = function () {
+			reject('The image could not be loaded.');
+		};
+	});
 }
 
 function stringToHTML(str) {
@@ -177,14 +209,6 @@ function reloadSliders() {
 		// Initialize the BeerSlider plugin on the current element, passing in the "start" data attribute as the option
 		new BeerSlider(beerSlider, { start: beerSlider.dataset.start });
 	}
-}
-
-function base64Encode(str) {
-	return btoa(
-		encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
-			return String.fromCharCode('0x' + p1);
-		})
-	);
 }
 
 // NOTE Listeners
