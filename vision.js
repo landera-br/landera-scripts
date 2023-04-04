@@ -174,7 +174,7 @@ async function generate(url) {
 	// }
 }
 
-$(document).on('click', '#btn-generate', function () {
+$(document).on('click', '.btn-generate', function () {
 	console.log('Generate button clicked');
 	generate(slides_content[swiper.activeIndex].before);
 });
