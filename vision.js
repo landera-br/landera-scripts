@@ -249,7 +249,7 @@ $(document).on('click', '.thumb-block', function () {
 });
 
 $(document).on('click', '.btn-add-images', function () {
-	$('.uploadcare-section').css('display', 'flex');
-	$('.swiper-wrapper').css('display', 'none');
+	$('.uploadcare-section').css('display', 'flex !important');
+	$('.swiper-wrapper').css('display', 'none !important');
 	swiper.removeAllSlides();
 });
