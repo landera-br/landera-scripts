@@ -72,7 +72,6 @@ function updateSlides(index = null) {
 		);
 
 		console.log('Foi pro loading');
-		console.log(index);
 		swiper.slideTo(index, 0, false);
 	} else {
 		swiper.removeAllSlides();
@@ -247,8 +246,8 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	});
 });
 
-$(document).on('click', '.btn-generate', function () {
-	generate(slides_content[swiper.activeIndex].before);
+$(document).on('click', '.btn-generate', async function () {
+	await generate(slides_content[swiper.activeIndex].before);
 });
 
 $(document).on('click', '.thumb-block', function () {
