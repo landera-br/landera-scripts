@@ -105,6 +105,7 @@ async function generate(url) {
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
 			method: 'POST',
+			maxBodyLength: Infinity,
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -116,8 +117,10 @@ async function generate(url) {
 		responseData = await response.json();
 	} catch (error) {
 		console.log(error.message);
-		alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
+		return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	}
+
+	console.log(responseData);
 
 	slides_content[swiper.activeIndex].state = 'result';
 	slides_content[swiper.activeIndex].after = responseData.image;
