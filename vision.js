@@ -84,15 +84,17 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 });
 
 function updateSlides(index = null) {
-	swiper.removeAllSlides();
-
 	if (index) {
+		// Remove single slide
+		swiper.removeSlide(index);
+
 		const slide = slides_content[index];
+
 		// Update single slide
 		if (slide.state === 'input' && slide.before) {
 			// Add input slide
 			swiper.addSlide(
-				0,
+				index,
 				`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`
 			);
 			return;
@@ -101,7 +103,7 @@ function updateSlides(index = null) {
 		if (slide.state === 'result' && slide.before && slide.after) {
 			// Add result slide
 			swiper.addSlide(
-				0,
+				index,
 				`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`
 			);
 			return;
@@ -109,10 +111,12 @@ function updateSlides(index = null) {
 
 		// Add loading slide
 		swiper.addSlide(
-			0,
+			index,
 			`<div class="swiper-slide"><div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`
 		);
 	} else {
+		swiper.removeAllSlides();
+
 		// Update all slides based on slides_content
 		for (const slide of slides_content) {
 			if (slide.state === 'input' && slide.before) {
@@ -146,15 +150,14 @@ function updateSlides(index = null) {
 }
 
 async function generate(url) {
-	// Transform image to base64
+	slides_content[swiper.activeIndex].state = 'loading';
+	updateSlides(swiper.activeIndex);
+
 	const image = await getBase64ImageFromURL(url);
 	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
 	const style = getStyles();
 
 	const payload = { image, room, style };
-
-	console.log(url);
-	console.log(payload);
 
 	// try {
 	// 	const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
@@ -172,6 +175,13 @@ async function generate(url) {
 	// 	console.log(error.message);
 	// 	alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	// }
+
+	setTimeout(() => {}, 10000);
+
+	slides_content[swiper.activeIndex].state = 'result';
+	slides_content[swiper.activeIndex].after =
+		'https://ucarecdn.com/e13b8244-ecbe-4251-b9b1-3b3606ca017a/';
+	updateSlides(swiper.activeIndex);
 }
 
 $(document).on('click', '.btn-generate', function () {
