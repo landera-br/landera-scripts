@@ -68,7 +68,9 @@ function updateSlides(index = null) {
 		// Add loading slide
 		swiper.addSlide(
 			index,
-			`<div class="swiper-slide"><div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`
+			stringToHTML(
+				`<div class="swiper-slide"><div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`
+			)
 		);
 
 		console.log('Foi pro loading');
@@ -176,6 +178,12 @@ function getBase64ImageFromURL(url) {
 			reject('The image could not be loaded.');
 		};
 	});
+}
+
+function stringToHTML(str) {
+	var parser = new DOMParser();
+	var doc = parser.parseFromString(str, 'text/html');
+	return doc.body.firstChild;
 }
 
 function getStyles() {
