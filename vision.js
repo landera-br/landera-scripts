@@ -39,6 +39,7 @@ const swiper = new Swiper('.swiper', {
 
 function updateSlides(index = null) {
 	// Check if index is null and if it is an integer
+	console.log(index);
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
 		swiper.removeSlide(index);
@@ -67,6 +68,8 @@ function updateSlides(index = null) {
 			index,
 			`<div class="swiper-slide"><div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`
 		);
+
+		swiper.slideTo(index, 0, false);
 	} else {
 		swiper.removeAllSlides();
 
