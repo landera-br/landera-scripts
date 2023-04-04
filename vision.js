@@ -85,10 +85,11 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 
 function updateSlides(index = null) {
 	if (index) {
-		// Remove single slide
-		swiper.removeSlide(index);
+		console.log(index);
 
 		const slide = slides_content[index];
+
+		console.log(slide);
 
 		// Update single slide
 		if (slide.state === 'input' && slide.before) {
@@ -150,6 +151,7 @@ function updateSlides(index = null) {
 }
 
 async function generate(url) {
+	console.log(url);
 	slides_content[swiper.activeIndex].state = 'loading';
 	updateSlides(swiper.activeIndex);
 
