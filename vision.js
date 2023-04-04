@@ -145,14 +145,15 @@ function updateSlides(index = null) {
 	}
 }
 
-async function generate(img) {
+async function generate(url) {
 	// Transform image to base64
-	const image = await getBase64ImageFromURL(img);
+	const image = await getBase64ImageFromURL(url);
 	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
 	const style = getStyles();
 
 	const payload = { image, room, style };
 
+	console.log(url);
 	console.log(payload);
 
 	// try {
@@ -175,7 +176,7 @@ async function generate(img) {
 
 $(document).on('click', '#btn-generate', function () {
 	console.log('Generate button clicked');
-	generate();
+	generate(slides_content[swiper.activeIndex].before);
 });
 
 $(document).on('click', '.thumb-block', function () {
@@ -183,7 +184,7 @@ $(document).on('click', '.thumb-block', function () {
 	$(this).find('.style-title').toggleClass('transition');
 });
 
-$(document).on('click', '#btn-add-images', function () {
+$(document).on('click', '.btn-add-images', function () {
 	$('.uploadcare-section').css('display', 'flex');
 	$('.swiper-wrapper').css('display', 'none');
 	swiper.removeAllSlides();
