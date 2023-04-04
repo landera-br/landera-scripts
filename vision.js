@@ -96,18 +96,17 @@ async function generate(url) {
 	updateSlides(swiper.activeIndex);
 
 	const image = await getBase64ImageFromURL(url);
+	const encodedImage = base64Encode(image);
 	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
 	const style = getStyles();
 
-	const payload = { image, room, style };
+	const payload = { image: encodedImage, room, style };
 
 	console.log(payload);
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
 			method: 'POST',
-			maxBodyLength: Infinity,
 			headers: {
-				Accept: 'application/json',
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 			},
@@ -211,6 +210,14 @@ function reloadSliders() {
 		// Initialize the BeerSlider plugin on the current element, passing in the "start" data attribute as the option
 		new BeerSlider(beerSlider, { start: beerSlider.dataset.start });
 	}
+}
+
+function base64Encode(str) {
+	return btoa(
+		encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
+			return String.fromCharCode('0x' + p1);
+		})
+	);
 }
 
 // NOTE Listeners
