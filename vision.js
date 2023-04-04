@@ -51,27 +51,6 @@ $(document).ready(function () {
 		tagify = new Tagify(inputStyle, {
 			duplicates: true,
 		});
-
-	var input = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text');
-	var btn_generate = $('.btn-generate');
-
-	//Define a function to check the tag value and toggle the button class
-	function checkInput() {
-		//Get the tag value
-		var value = tag.attr('value');
-		console.log(value);
-		//If the value is empty or whitespace
-		if (!value.trim()) {
-			//Add the class "disabled" to the button
-			btn_generate.addClass('disabled');
-		} else {
-			//Remove the class "disabled" from the button
-			btn_generate.removeClass('disabled');
-		}
-	}
-
-	//Attach an event listener to the tag element for any change in value
-	input.on('DOMSubtreeModified', checkInput);
 });
 
 // Actions
@@ -114,7 +93,7 @@ function updateSlides(index = null) {
 			// Add input slide
 			swiper.addSlide(
 				0,
-				`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate disabled w-button">Gerar imagem</a></div></div>`
+				`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`
 			);
 			return;
 		}
@@ -123,7 +102,7 @@ function updateSlides(index = null) {
 			// Add result slide
 			swiper.addSlide(
 				0,
-				`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate disabled w-button">Regerar imagem</a></div></div>`
+				`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`
 			);
 			return;
 		}
@@ -140,7 +119,7 @@ function updateSlides(index = null) {
 				// Add input slide
 				swiper.addSlide(
 					0,
-					`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate disabled w-button">Gerar imagem</a></div></div>`
+					`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`
 				);
 				continue;
 			}
@@ -149,7 +128,7 @@ function updateSlides(index = null) {
 				// Add result slide
 				swiper.addSlide(
 					0,
-					`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate disabled w-button">Regerar imagem</a></div></div>`
+					`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${slide.after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`
 				);
 				continue;
 			}
@@ -167,25 +146,37 @@ function updateSlides(index = null) {
 }
 
 async function generate(img) {
-	const payload = {};
+	// Transform image to base64
+	const image = await getBase64ImageFromURL(img);
+	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
+	const style = getStyles();
 
-	try {
-		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
-			},
-			body: JSON.stringify(payload),
-		});
+	const payload = { image, room, style };
 
-		const responseData = await response.json();
-	} catch (error) {
-		console.log(error.message);
-		alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
-	}
+	console.log(payload);
+
+	// try {
+	// 	const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
+	// 		method: 'POST',
+	// 		headers: {
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/json',
+	// 			Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+	// 		},
+	// 		body: JSON.stringify(payload),
+	// 	});
+
+	// 	const responseData = await response.json();
+	// } catch (error) {
+	// 	console.log(error.message);
+	// 	alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
+	// }
 }
+
+$(document).on('click', '#btn-generate', function () {
+	console.log('Generate button clicked');
+	generate();
+});
 
 $(document).on('click', '.thumb-block', function () {
 	$(this).toggleClass('selected');
@@ -197,3 +188,53 @@ $(document).on('click', '#btn-add-images', function () {
 	$('.swiper-wrapper').css('display', 'none');
 	swiper.removeAllSlides();
 });
+
+// Define a function that takes an image URL as an input and returns a base64-encoded image
+function getBase64ImageFromURL(url) {
+	// Create a new image element
+	var img = new Image();
+	// Set the crossOrigin attribute to anonymous to avoid security issues
+	img.crossOrigin = 'anonymous';
+	// Set the src attribute to the image URL
+	img.src = url;
+	// Create a promise that resolves with the base64 data when the image is loaded
+	return new Promise(function (resolve, reject) {
+		// Attach an onload event handler that draws the image on a canvas and gets the data URL
+		img.onload = function () {
+			// Create a canvas element
+			var canvas = document.createElement('canvas');
+			// Set the canvas width and height to the image width and height
+			canvas.width = img.width;
+			canvas.height = img.height;
+			// Get the canvas context
+			var ctx = canvas.getContext('2d');
+			// Draw the image on the canvas
+			ctx.drawImage(img, 0, 0);
+			// Get the data URL of the canvas as a PNG image
+			var dataURL = canvas.toDataURL('image/png');
+			// Return the data URL without the prefix
+			resolve(dataURL.replace(/^data:image\/(png|jpg);base64,/, ''));
+		};
+		// Attach an onerror event handler that rejects the promise with an error message
+		img.onerror = function () {
+			reject('The image could not be loaded.');
+		};
+	});
+}
+
+// Get styles
+function getStyles() {
+	// Check if there are elements with class .thumb-block .selected
+	if ($('.thumb-block.selected').length > 0) {
+		var styles = [];
+
+		// Get preset styles and separate them by comma
+		$('.thumb-block.selected').each(function () {
+			styles.push($(this).find('.style-title').text());
+		});
+		return styles.join(', ');
+	} else {
+		// Get custom styles
+		return $('.style-embed .tagify .tagify__tag .tagify__tag-text').text();
+	}
+}
