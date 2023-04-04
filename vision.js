@@ -1,26 +1,6 @@
-// Load components
+// NOTE Document ready functions
 $(document).ready(function () {
-	// Select all elements with the class "slider-wrapper" and loop through them
-	const sliderWrappers = document.getElementsByClassName('slider-wrapper');
-	for (const sliderWrapper of sliderWrappers) {
-		// Get the source of the before and after image within the current "slider-wrapper" element
-		const before = sliderWrapper.querySelectorAll('img')[0].src;
-		const after = sliderWrapper.querySelectorAll('img')[1].src;
-		// Create a template for the beer slider using the before and after image sources
-		const template = `
-        <div class="beer-slider slider-label" data-beer-label="Depois">
-          <img src="${after}">
-          <div class="beer-reveal slider-label" data-beer-label="Antes">
-            <img src="${before}">
-          </div>
-        </div>
-      `;
-		// Remove the after and the before images, on this sequence
-		sliderWrapper.querySelectorAll('img')[1].remove();
-		sliderWrapper.querySelectorAll('img')[0].remove();
-		// Append the template to the current "image-wrapper" element
-		sliderWrapper.insertAdjacentHTML('afterbegin', template);
-	}
+	reloadSliders();
 
 	// Select all elements with the class "beer-slider" and loop through them
 	const beerSliders = document.getElementsByClassName('beer-slider');
@@ -53,8 +33,8 @@ $(document).ready(function () {
 		});
 });
 
-// Actions
-let images;
+// NOTE Global variables
+let images = [];
 let slides_content = [];
 const swiper = new Swiper('.swiper', {
 	// Navigation arrows
@@ -64,24 +44,7 @@ const swiper = new Swiper('.swiper', {
 	},
 });
 
-window.addEventListener('LR_DATA_OUTPUT', (e) => {
-	if (e.detail.ctx === 'upload-context') {
-		images = e.detail.data;
-	}
-
-	$('.done-btn').click(() => {
-		$('.uploadcare-section').css('display', 'none');
-		$('.swiper-wrapper').css('display', 'flex');
-
-		// Loop through images and add to slides_content
-		for (const image of images) {
-			slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
-		}
-
-		// Update slides
-		updateSlides();
-	});
-});
+// NOTE Support functions
 
 function updateSlides(index = null) {
 	// Check if index is null and if it is an integer
@@ -176,7 +139,7 @@ async function generate(url) {
 	// }
 
 	// Wait 10 seconds
-	await new Promise((resolve) => setTimeout(resolve, 10000));
+	await new Promise((resolve) => setTimeout(resolve, 5000));
 
 	console.log('Generated');
 
@@ -184,24 +147,9 @@ async function generate(url) {
 	slides_content[swiper.activeIndex].after =
 		'https://ucarecdn.com/e13b8244-ecbe-4251-b9b1-3b3606ca017a/';
 	updateSlides(swiper.activeIndex);
+	reloadSliders();
 }
 
-$(document).on('click', '.btn-generate', function () {
-	generate(slides_content[swiper.activeIndex].before);
-});
-
-$(document).on('click', '.thumb-block', function () {
-	$(this).toggleClass('selected');
-	$(this).find('.style-title').toggleClass('transition');
-});
-
-$(document).on('click', '.btn-add-images', function () {
-	$('.uploadcare-section').css('display', 'flex');
-	$('.swiper-wrapper').css('display', 'none');
-	swiper.removeAllSlides();
-});
-
-// Define a function that takes an image URL as an input and returns a base64-encoded image
 function getBase64ImageFromURL(url) {
 	// Create a new image element
 	var img = new Image();
@@ -234,7 +182,6 @@ function getBase64ImageFromURL(url) {
 	});
 }
 
-// Get styles
 function getStyles() {
 	// Check if there are elements with class .thumb-block .selected
 	if ($('.thumb-block.selected').length > 0) {
@@ -250,3 +197,63 @@ function getStyles() {
 		return $('.style-embed .tagify .tagify__tag .tagify__tag-text').text();
 	}
 }
+
+function reloadSliders() {
+	// Rerender sliders
+	const sliderWrappers = document.getElementsByClassName('slider-wrapper');
+	for (const sliderWrapper of sliderWrappers) {
+		// Get the source of the before and after image within the current "slider-wrapper" element
+		const before = sliderWrapper.querySelectorAll('img')[0].src;
+		const after = sliderWrapper.querySelectorAll('img')[1].src;
+		// Create a template for the beer slider using the before and after image sources
+		const template = `
+        <div class="beer-slider slider-label" data-beer-label="Depois">
+          <img src="${after}">
+          <div class="beer-reveal slider-label" data-beer-label="Antes">
+            <img src="${before}">
+          </div>
+        </div>
+      `;
+		// Remove the after and the before images, on this sequence
+		sliderWrapper.querySelectorAll('img')[1].remove();
+		sliderWrapper.querySelectorAll('img')[0].remove();
+		// Append the template to the current "image-wrapper" element
+		sliderWrapper.insertAdjacentHTML('afterbegin', template);
+	}
+}
+
+// NOTE Listeners
+
+window.addEventListener('LR_DATA_OUTPUT', (e) => {
+	if (e.detail.ctx === 'upload-context') {
+		images = e.detail.data;
+	}
+
+	$('.done-btn').click(() => {
+		$('.uploadcare-section').css('display', 'none');
+		$('.swiper-wrapper').css('display', 'flex');
+
+		// Loop through images and add to slides_content
+		for (const image of images) {
+			slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
+		}
+
+		// Update slides
+		updateSlides();
+	});
+});
+
+$(document).on('click', '.btn-generate', function () {
+	generate(slides_content[swiper.activeIndex].before);
+});
+
+$(document).on('click', '.thumb-block', function () {
+	$(this).toggleClass('selected');
+	$(this).find('.style-title').toggleClass('transition');
+});
+
+$(document).on('click', '.btn-add-images', function () {
+	$('.uploadcare-section').css('display', 'flex');
+	$('.swiper-wrapper').css('display', 'none');
+	swiper.removeAllSlides();
+});
