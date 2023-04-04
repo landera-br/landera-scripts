@@ -248,8 +248,8 @@ $(document).on('click', '.thumb-block', function () {
 	$(this).find('.style-title').toggleClass('transition');
 });
 
-$(document).on('click', '.btn-add-images', function () {
-	$('.uploadcare-section').css('display', 'flex !important');
-	$('.swiper-wrapper').css('display', 'none !important');
+$(document).on('click', '#btn-add-images', function () {
+	$('.uploadcare-section').css('display', 'flex');
+	$('.swiper-wrapper').css('display', 'none');
 	swiper.removeAllSlides();
 });
