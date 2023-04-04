@@ -31,7 +31,7 @@ const LOADING_SLIDE = `<div class="swiper-slide"><div class="loading-wrapper"><l
 const INPUT_SLIDE = (before) =>
 	`<div class="swiper-slide"><div class="image-wrapper"><img src="${before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`;
 const RESULT_SLIDE = (before, after) =>
-	`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`;
+	`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="data:image/png;base64,${after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`;
 const swiper = new Swiper('.swiper', {
 	// Navigation arrows
 	navigation: {
@@ -44,7 +44,6 @@ const swiper = new Swiper('.swiper', {
 
 function updateSlides(index = null) {
 	// Check if index is null and if it is an integer
-	console.log(index);
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
 		swiper.removeSlide(index);
@@ -53,22 +52,17 @@ function updateSlides(index = null) {
 		if (slide.state === 'input' && slide.before) {
 			// Update input slide
 			swiper.addSlide(index, stringToHTML(INPUT_SLIDE(slide.before)));
-			// swiper.slideTo(index, 0, false);
 			return;
 		}
 
 		if (slide.state === 'result' && slide.before && slide.after) {
 			// Add result slide
 			swiper.addSlide(index, stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
-			// swiper.slideTo(index, 0, false);
 			return;
 		}
 
 		// Add loading slide
 		swiper.addSlide(index, stringToHTML(LOADING_SLIDE));
-
-		console.log('Foi pro loading');
-		// swiper.slideTo(index, 0, false);
 	} else {
 		swiper.removeAllSlides();
 
@@ -96,8 +90,9 @@ function updateSlides(index = null) {
 }
 
 async function generate(url) {
+	var responseData = null;
+
 	slides_content[swiper.activeIndex].state = 'loading';
-	console.log(slides_content);
 	updateSlides(swiper.activeIndex);
 
 	const image = await getBase64ImageFromURL(url);
@@ -106,29 +101,26 @@ async function generate(url) {
 
 	const payload = { image, room, style };
 
-	// try {
-	// 	const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 			Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
-	// 		},
-	// 		body: JSON.stringify(payload),
-	// 	});
+	console.log(payload);
+	try {
+		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+			},
+			body: JSON.stringify(payload),
+		});
 
-	// 	const responseData = await response.json();
-	// } catch (error) {
-	// 	console.log(error.message);
-	// 	alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
-	// }
-
-	// Wait 10 seconds
-	await new Promise((resolve) => setTimeout(resolve, 5000));
+		responseData = await response.json();
+	} catch (error) {
+		console.log(error.message);
+		alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
+	}
 
 	slides_content[swiper.activeIndex].state = 'result';
-	slides_content[swiper.activeIndex].after =
-		'https://ucarecdn.com/e13b8244-ecbe-4251-b9b1-3b3606ca017a/';
+	slides_content[swiper.activeIndex].after = responseData.image;
 	updateSlides(swiper.activeIndex);
 	reloadSliders();
 }
