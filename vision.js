@@ -1,14 +1,5 @@
 // NOTE Document ready functions
 $(document).ready(function () {
-	reloadSliders();
-
-	// Select all elements with the class "beer-slider" and loop through them
-	const beerSliders = document.getElementsByClassName('beer-slider');
-	for (const beerSlider of beerSliders) {
-		// Initialize the BeerSlider plugin on the current element, passing in the "start" data attribute as the option
-		new BeerSlider(beerSlider, { start: beerSlider.dataset.start });
-	}
-
 	var inputRooms = document.querySelector('input[name=rooms]'),
 		tagify = new Tagify(inputRooms, {
 			whitelist: [
@@ -141,8 +132,6 @@ async function generate(url) {
 	// Wait 10 seconds
 	await new Promise((resolve) => setTimeout(resolve, 5000));
 
-	console.log('Generated');
-
 	slides_content[swiper.activeIndex].state = 'result';
 	slides_content[swiper.activeIndex].after =
 		'https://ucarecdn.com/e13b8244-ecbe-4251-b9b1-3b3606ca017a/';
@@ -219,6 +208,13 @@ function reloadSliders() {
 		sliderWrapper.querySelectorAll('img')[0].remove();
 		// Append the template to the current "image-wrapper" element
 		sliderWrapper.insertAdjacentHTML('afterbegin', template);
+	}
+
+	// Select all elements with the class "beer-slider" and loop through them
+	const beerSliders = document.getElementsByClassName('beer-slider');
+	for (const beerSlider of beerSliders) {
+		// Initialize the BeerSlider plugin on the current element, passing in the "start" data attribute as the option
+		new BeerSlider(beerSlider, { start: beerSlider.dataset.start });
 	}
 }
 
