@@ -84,18 +84,14 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 });
 
 function updateSlides(index = null) {
-	console.log(index);
 	// Check if index is null and if it is an integer
 	if (index !== null && Number.isInteger(index)) {
-		console.log(index);
-
 		const slide = slides_content[index];
-
-		console.log(slide);
+		swiper.removeSlide(index);
 
 		// Update single slide
 		if (slide.state === 'input' && slide.before) {
-			// Add input slide
+			// Update input slide
 			swiper.addSlide(
 				index,
 				`<div class="swiper-slide"><div class="image-wrapper"><img src="${slide.before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`
@@ -153,7 +149,6 @@ function updateSlides(index = null) {
 }
 
 async function generate(url) {
-	console.log(url);
 	slides_content[swiper.activeIndex].state = 'loading';
 	updateSlides(swiper.activeIndex);
 
@@ -180,8 +175,9 @@ async function generate(url) {
 	// 	alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	// }
 
-	console.log(payload);
-	setTimeout(() => {}, 10000);
+	// Wait 10 seconds
+	await new Promise((resolve) => setTimeout(resolve, 10000));
+
 	console.log('Generated');
 
 	slides_content[swiper.activeIndex].state = 'result';
@@ -191,7 +187,6 @@ async function generate(url) {
 }
 
 $(document).on('click', '.btn-generate', function () {
-	console.log('Generate button clicked');
 	generate(slides_content[swiper.activeIndex].before);
 });
 
