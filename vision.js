@@ -84,7 +84,9 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 });
 
 function updateSlides(index = null) {
-	if (index) {
+	console.log(index);
+	// Check if index is null and if it is an integer
+	if (index !== null && Number.isInteger(index)) {
 		console.log(index);
 
 		const slide = slides_content[index];
@@ -178,7 +180,9 @@ async function generate(url) {
 	// 	alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	// }
 
+	console.log(payload);
 	setTimeout(() => {}, 10000);
+	console.log('Generated');
 
 	slides_content[swiper.activeIndex].state = 'result';
 	slides_content[swiper.activeIndex].after =
