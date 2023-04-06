@@ -272,6 +272,8 @@ $(document).on('click', '.thumb-block', function () {
 $(document).on('click', '#btn-add-images', function () {
 	$('.uploadcare-section').css('display', 'flex');
 	$('.swiper-wrapper').css('display', 'none');
+	images = [];
+	slides_content = [];
 	swiper.removeAllSlides();
 });
 
