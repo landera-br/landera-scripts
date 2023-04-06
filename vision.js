@@ -275,6 +275,10 @@ $(document).on('click', '#btn-add-images', function () {
 	images = [];
 	slides_content = [];
 	swiper.removeAllSlides();
+
+	// Reset file uploader
+	const element = document.querySelector('lr-file-uploader-inline');
+	element.reset(true);
 });
 
 $(document).on('click', '.btn-free-download', function () {
