@@ -126,7 +126,7 @@ async function generate(url) {
 		const interval = setInterval(async () => {
 			console.log('Checking status...');
 			try {
-				statusResult = await fetch(
+				const response = await fetch(
 					`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision/${jobResult.id}`,
 					{
 						method: 'GET',
