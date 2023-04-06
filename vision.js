@@ -109,7 +109,7 @@ async function generate(url) {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 			},
-			body: JSON.stringify(payload),
+			body: payload,
 		});
 
 		responseData = await response.json();
