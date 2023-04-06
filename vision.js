@@ -27,7 +27,7 @@ $(document).ready(function () {
 // NOTE Global variables
 let images = [];
 let slides_content = [];
-const LOADING_SLIDE = `<div class="swiper-slide"><div class="loading-wrapper"><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh; transform: rotate(-90deg);" loop autoplay></lottie-player></div></div>`;
+const LOADING_SLIDE = `<div class="swiper-slide"><div class="loading-wrapper"><h1 class="generating-heading">Gerando imagem...</h1><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh;transform: rotate(-90deg);margin-top: -40px;" loop="" autoplay=""></lottie-player></div></div>`;
 const INPUT_SLIDE = (before) =>
 	`<div class="swiper-slide"><div class="image-wrapper"><img src="${before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`;
 const RESULT_SLIDE = (before, after) =>
@@ -150,6 +150,7 @@ async function generate(url) {
 					slides_content[ACTIVE_INDEX].after = statusResult.output.image;
 					updateSlides(ACTIVE_INDEX);
 					reloadSliders();
+					swiper.slideTo(ACTIVE_INDEX, 0, false);
 				} else {
 					attemptCount++;
 					if (attemptCount >= MAX_ATTEMPTS) {
