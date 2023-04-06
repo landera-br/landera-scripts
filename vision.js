@@ -95,7 +95,7 @@ async function generate(url) {
 	slides_content[swiper.activeIndex].state = 'loading';
 	updateSlides(swiper.activeIndex);
 
-	const image = await getBase64ImageFromURL(url);
+	const image = url;
 	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
 	const style = getStyles();
 
@@ -126,42 +126,6 @@ async function generate(url) {
 	slides_content[swiper.activeIndex].after = responseData.image;
 	updateSlides(swiper.activeIndex);
 	reloadSliders();
-}
-
-async function getBase64ImageFromURL(url) {
-	// Create a new image element
-	var img = new Image();
-
-	// Set the crossOrigin attribute to anonymous to avoid security issues
-	img.crossOrigin = 'anonymous';
-
-	// Set the src attribute to the image URL
-	img.src = url;
-
-	// Wait for the image to load
-	await new Promise((resolve, reject) => {
-		img.onload = resolve;
-		img.onerror = reject;
-	});
-
-	// Create a canvas element
-	var canvas = document.createElement('canvas');
-
-	// Set the canvas width and height to the image width and height
-	canvas.width = img.width;
-	canvas.height = img.height;
-
-	// Get the canvas context
-	var ctx = canvas.getContext('2d');
-
-	// Draw the image on the canvas
-	ctx.drawImage(img, 0, 0);
-
-	// Get the data URL of the canvas as a PNG image
-	var dataURL = canvas.toDataURL('image/png');
-
-	// Return the base64 data without the prefix
-	return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
 }
 
 function stringToHTML(str) {
