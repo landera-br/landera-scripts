@@ -246,23 +246,21 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	if (e.detail.ctx === 'upload-context') {
 		images = e.detail.data;
 	}
+});
 
-	console.log(images);
+$(document).on('click', '.done-btn', function () {
+	console.log('Clicou');
+	$('.uploadcare-section').css('display', 'none');
+	$('.swiper-wrapper').css('display', 'flex');
 
-	$('.done-btn').click(() => {
-		console.log('Clicou');
-		$('.uploadcare-section').css('display', 'none');
-		$('.swiper-wrapper').css('display', 'flex');
+	// Loop through images and add to slides_content
+	for (const image of images) {
+		console.log('Adding image to slides_content...');
+		slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
+	}
 
-		// Loop through images and add to slides_content
-		for (const image of images) {
-			console.log('Adding image to slides_content...');
-			slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
-		}
-
-		// Update slides
-		updateSlides();
-	});
+	// Update slides
+	updateSlides();
 });
 
 $(document).on('click', '.btn-generate', async function () {
