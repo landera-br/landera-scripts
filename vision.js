@@ -69,6 +69,7 @@ function updateSlides(index = null) {
 		swiper.removeAllSlides();
 
 		// Update all slides based on slides_content
+		console.log(slides_content.length);
 		for (const slide of slides_content) {
 			if (slide.state === 'input' && slide.before) {
 				// Add input slide
@@ -255,6 +256,7 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 
 		// Loop through images and add to slides_content
 		for (const image of images) {
+			console.log('Adding image to slides_content...');
 			slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
 		}
 
