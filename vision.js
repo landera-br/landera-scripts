@@ -270,15 +270,16 @@ $(document).on('click', '.thumb-block', function () {
 });
 
 $(document).on('click', '#btn-add-images', function () {
-	$('.uploadcare-section').css('display', 'flex');
-	$('.swiper-wrapper').css('display', 'none');
-	images = [];
-	slides_content = [];
-	swiper.removeAllSlides();
+	if ('.uploadcare-section'.css('display') === 'none') {
+		$('.uploadcare-section').css('display', 'flex');
+		$('.swiper-wrapper').css('display', 'none');
+		images = [];
+		slides_content = [];
+		swiper.removeAllSlides();
 
-	// Reset file uploader
-	const element = document.querySelector('lr-file-uploader-inline');
-	element.reset(true);
+		// Reset file uploader
+		$('.cancel-btn').click();
+	}
 });
 
 $(document).on('click', '.btn-free-download', function () {
