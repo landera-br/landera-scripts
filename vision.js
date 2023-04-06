@@ -95,6 +95,7 @@ async function generate(url) {
 	const style = getStyles();
 	const payload = { image, room, style };
 	var jobResult = null;
+	var statusResult = null;
 	const maxAttempts = 10;
 	const intervalTime = 5000; // 5 seconds
 	let attemptCount = 0;
@@ -125,7 +126,7 @@ async function generate(url) {
 		const interval = setInterval(async () => {
 			console.log('Checking status...');
 			try {
-				const statusResult = await fetch(
+				statusResult = await fetch(
 					`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision/${jobResult.id}`,
 					{
 						method: 'GET',
@@ -134,6 +135,8 @@ async function generate(url) {
 						},
 					}
 				);
+
+				statusResult = await response.json();
 
 				console.log(statusResult);
 
