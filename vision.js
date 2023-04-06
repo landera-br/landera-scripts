@@ -256,3 +256,12 @@ $(document).on('click', '#btn-add-images', function () {
 	$('.swiper-wrapper').css('display', 'none');
 	swiper.removeAllSlides();
 });
+
+$(document).on('click', '.btn-free-download', function () {
+	const base64 = slides_content[swiper.activeIndex].after;
+	const filename = 'image.png';
+	const link = document.createElement('a');
+	link.href = base64;
+	link.download = filename;
+	link.click();
+});
