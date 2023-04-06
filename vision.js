@@ -109,7 +109,7 @@ async function generate(url) {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
 			},
-			body: btoa(payload),
+			body: JSON.stringify(payload),
 		});
 
 		console.log(response);
@@ -128,36 +128,40 @@ async function generate(url) {
 	reloadSliders();
 }
 
-function getBase64ImageFromURL(url) {
+async function getBase64ImageFromURL(url) {
 	// Create a new image element
 	var img = new Image();
+
 	// Set the crossOrigin attribute to anonymous to avoid security issues
 	img.crossOrigin = 'anonymous';
+
 	// Set the src attribute to the image URL
 	img.src = url;
-	// Create a promise that resolves with the base64 data when the image is loaded
-	return new Promise(function (resolve, reject) {
-		// Attach an onload event handler that draws the image on a canvas and gets the data URL
-		img.onload = function () {
-			// Create a canvas element
-			var canvas = document.createElement('canvas');
-			// Set the canvas width and height to the image width and height
-			canvas.width = img.width;
-			canvas.height = img.height;
-			// Get the canvas context
-			var ctx = canvas.getContext('2d');
-			// Draw the image on the canvas
-			ctx.drawImage(img, 0, 0);
-			// Get the data URL of the canvas as a PNG image
-			var dataURL = canvas.toDataURL('image/png');
-			// Return the data URL without the prefix
-			resolve(dataURL.replace(/^data:image\/(png|jpg);base64,/, ''));
-		};
-		// Attach an onerror event handler that rejects the promise with an error message
-		img.onerror = function () {
-			reject('The image could not be loaded.');
-		};
+
+	// Wait for the image to load
+	await new Promise((resolve, reject) => {
+		img.onload = resolve;
+		img.onerror = reject;
 	});
+
+	// Create a canvas element
+	var canvas = document.createElement('canvas');
+
+	// Set the canvas width and height to the image width and height
+	canvas.width = img.width;
+	canvas.height = img.height;
+
+	// Get the canvas context
+	var ctx = canvas.getContext('2d');
+
+	// Draw the image on the canvas
+	ctx.drawImage(img, 0, 0);
+
+	// Get the data URL of the canvas as a PNG image
+	var dataURL = canvas.toDataURL('image/png');
+
+	// Return the base64 data without the prefix
+	return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
 }
 
 function stringToHTML(str) {
