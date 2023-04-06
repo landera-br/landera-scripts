@@ -46,6 +46,8 @@ function updateSlides(index = null) {
 	// Check if index is null and if it is an integer
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
+		console.log(slide);
+		console.log(index);
 		swiper.removeSlide(index);
 
 		// Update single slide
@@ -96,7 +98,7 @@ async function generate(url) {
 	const payload = { image, room, style };
 	var jobResult = null;
 	var statusResult = null;
-	const maxAttempts = 10;
+	const maxAttempts = 12;
 	const intervalTime = 5000; // 5 seconds
 	let attemptCount = 0;
 
@@ -145,7 +147,7 @@ async function generate(url) {
 					clearInterval(interval);
 
 					slides_content[swiper.activeIndex].state = 'result';
-					slides_content[swiper.activeIndex].after = statusResult.image;
+					slides_content[swiper.activeIndex].after = statusResult.output.image;
 					updateSlides(swiper.activeIndex);
 					reloadSliders();
 				} else {
