@@ -270,7 +270,7 @@ $(document).on('click', '.thumb-block', function () {
 });
 
 $(document).on('click', '#btn-add-images', function () {
-	if ('.uploadcare-section'.css('display') === 'none') {
+	if ($('.uploadcare-section').css('display') === 'none') {
 		$('.uploadcare-section').css('display', 'flex');
 		$('.swiper-wrapper').css('display', 'none');
 		images = [];
