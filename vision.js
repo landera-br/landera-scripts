@@ -242,9 +242,12 @@ function downloadFile(base64) {
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
+	console.log(e.detail);
 	if (e.detail.ctx === 'upload-context') {
 		images = e.detail.data;
 	}
+
+	console.log(images);
 
 	$('.done-btn').click(() => {
 		$('.uploadcare-section').css('display', 'none');
