@@ -99,7 +99,7 @@ async function generate(url) {
 	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
 	const style = getStyles();
 
-	const payload = { image: `data:image/png;base64,${image}`, room, style };
+	const payload = { image, room, style };
 
 	console.log(payload);
 	try {
