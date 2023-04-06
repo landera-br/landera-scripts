@@ -243,7 +243,6 @@ function downloadFile(base64) {
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
-	console.log(e.detail);
 	if (e.detail.ctx === 'upload-context') {
 		images = e.detail.data;
 	}
@@ -251,6 +250,7 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	console.log(images);
 
 	$('.done-btn').click(() => {
+		console.log('Clicou');
 		$('.uploadcare-section').css('display', 'none');
 		$('.swiper-wrapper').css('display', 'flex');
 
