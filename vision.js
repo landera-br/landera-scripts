@@ -221,6 +221,24 @@ function reloadSliders() {
 	}
 }
 
+function downloadFile(base64) {
+	const blobData = atob(base64);
+	const arrayBuffer = new ArrayBuffer(blobData.length);
+	const uint8Array = new Uint8Array(arrayBuffer);
+
+	for (let i = 0; i < blobData.length; i++) {
+		uint8Array[i] = blobData.charCodeAt(i);
+	}
+
+	const blob = new Blob([uint8Array], { type: 'application/octet-stream' });
+	const url = URL.createObjectURL(blob);
+	const link = document.createElement('a');
+	link.setAttribute('href', url);
+	link.setAttribute('download', 'landera-vision.png');
+	link.click();
+	URL.revokeObjectURL(url);
+}
+
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
@@ -258,10 +276,5 @@ $(document).on('click', '#btn-add-images', function () {
 });
 
 $(document).on('click', '.btn-free-download', function () {
-	const base64 = slides_content[swiper.activeIndex].after;
-	const filename = 'image.png';
-	const link = document.createElement('a');
-	link.href = base64;
-	link.download = filename;
-	link.click();
+	downloadFile(slides_content[swiper.activeIndex].after);
 });
