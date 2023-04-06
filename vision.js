@@ -46,8 +46,6 @@ function updateSlides(index = null) {
 	// Check if index is null and if it is an integer
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
-		console.log(slide);
-		console.log(index);
 		swiper.removeSlide(index);
 
 		// Update single slide
@@ -65,6 +63,7 @@ function updateSlides(index = null) {
 
 		// Add loading slide
 		swiper.addSlide(index, stringToHTML(LOADING_SLIDE));
+		swiper.slideTo(index, 0, false);
 	} else {
 		swiper.removeAllSlides();
 
@@ -106,6 +105,7 @@ async function generate(url) {
 	slides_content[swiper.activeIndex].state = 'loading';
 	updateSlides(swiper.activeIndex);
 
+	console.log('Generating image...');
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
 			method: 'POST',
@@ -121,8 +121,6 @@ async function generate(url) {
 		console.log(error.message);
 		return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	}
-
-	console.log(jobResult);
 
 	// If the request is successful, try to get the image every 5 seconds with a maximum of 10 attempts
 	if (jobResult.status === 'IN_QUEUE' || jobResult.status === 'IN_PROGRESS') {
