@@ -98,12 +98,13 @@ async function generate(url) {
 	const payload = { image, room, style };
 	var jobResult = null;
 	var statusResult = null;
-	const maxAttempts = 12;
-	const intervalTime = 5000; // 5 seconds
+	const MAX_ATTEMPTS = 12;
+	const INTERVAL_TIME = 5000; // 5 seconds
 	let attemptCount = 0;
+	const ACTIVE_INDEX = swiper.activeIndex;
 
-	slides_content[swiper.activeIndex].state = 'loading';
-	updateSlides(swiper.activeIndex);
+	slides_content[ACTIVE_INDEX].state = 'loading';
+	updateSlides(ACTIVE_INDEX);
 
 	console.log('Generating image...');
 	try {
@@ -145,13 +146,13 @@ async function generate(url) {
 					console.log('Image generated!');
 					clearInterval(interval);
 
-					slides_content[swiper.activeIndex].state = 'result';
-					slides_content[swiper.activeIndex].after = statusResult.output.image;
-					updateSlides(swiper.activeIndex);
+					slides_content[ACTIVE_INDEX].state = 'result';
+					slides_content[ACTIVE_INDEX].after = statusResult.output.image;
+					updateSlides(ACTIVE_INDEX);
 					reloadSliders();
 				} else {
 					attemptCount++;
-					if (attemptCount >= maxAttempts) {
+					if (attemptCount >= MAX_ATTEMPTS) {
 						clearInterval(interval);
 						return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 					}
@@ -161,7 +162,7 @@ async function generate(url) {
 				clearInterval(interval);
 				return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 			}
-		}, intervalTime);
+		}, INTERVAL_TIME);
 	} else {
 		return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	}
