@@ -83,8 +83,8 @@ async function initMap() {
 		}
 	} catch (error) {
 		return alert(
-			error.display && error.message
-				? error.message
+			error.message && error.message.error
+				? error.message.error
 				: 'Não foi possível recuperar dados de imóveis. Tente novamente mais tarde.'
 		);
 	}

@@ -90,18 +90,18 @@ function updateSlides(index = null) {
 }
 
 async function generate(url) {
-	var responseData = null;
+	const image = url;
+	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
+	const style = getStyles();
+	const payload = { image, room, style };
+	var jobResult = null;
+	const maxAttempts = 10;
+	const intervalTime = 5000; // 5 seconds
+	let attemptCount = 0;
 
 	slides_content[swiper.activeIndex].state = 'loading';
 	updateSlides(swiper.activeIndex);
 
-	const image = url;
-	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
-	const style = getStyles();
-
-	const payload = { image, room, style };
-
-	console.log(payload);
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
 			method: 'POST',
@@ -112,20 +112,55 @@ async function generate(url) {
 			body: JSON.stringify(payload),
 		});
 
-		console.log(response);
-
-		responseData = await response.json();
+		jobResult = await response.json();
 	} catch (error) {
 		console.log(error.message);
 		return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	}
 
-	console.log(responseData);
+	console.log(jobResult);
 
-	slides_content[swiper.activeIndex].state = 'result';
-	slides_content[swiper.activeIndex].after = responseData.image;
-	updateSlides(swiper.activeIndex);
-	reloadSliders();
+	// If the request is successful, try to get the image every 5 seconds with a maximum of 10 attempts
+	if (jobResult.status === 'IN_QUEUE' || jobResult.status === 'IN_PROGRESS') {
+		const interval = setInterval(async () => {
+			console.log('Checking status...');
+			try {
+				const statusResult = await fetch(
+					`https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision/${jobResult.id}`,
+					{
+						method: 'GET',
+						headers: {
+							Authorization: `Bearer ${localStorage.getItem('fb_token')}`,
+						},
+					}
+				);
+
+				console.log(statusResult);
+
+				if (statusResult.status === 'COMPLETED') {
+					console.log('Image generated!');
+					clearInterval(interval);
+
+					slides_content[swiper.activeIndex].state = 'result';
+					slides_content[swiper.activeIndex].after = statusResult.image;
+					updateSlides(swiper.activeIndex);
+					reloadSliders();
+				} else {
+					attemptCount++;
+					if (attemptCount >= maxAttempts) {
+						clearInterval(interval);
+						return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
+					}
+				}
+			} catch (error) {
+				console.log(error.message);
+				clearInterval(interval);
+				return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
+			}
+		}, intervalTime);
+	} else {
+		return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
+	}
 }
 
 function stringToHTML(str) {

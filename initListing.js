@@ -339,8 +339,8 @@ $('#btn-submit').on('click', async (e) => {
 	} catch (error) {
 		if (
 			!alert(
-				error.display && error.message
-					? error.message
+				error.message && error.message.error
+					? error.message.error
 					: 'Não foi possível enviar o formulário. Tente novamente mais tarde.'
 			)
 		) {

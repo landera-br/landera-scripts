@@ -52,13 +52,13 @@ $('#btn-submit').on('click', async (e) => {
 		const responseData = await response.json();
 
 		if (!response.ok || !Object.keys(responseData).length)
-			throw responseData.display && responseData.message
+			throw responseData.message && responseData.message.error
 				? responseData
 				: 'Ocorreu um erro ao preencher o formulário. Por favor, preencha todos os campos e tente novamente.';
 
 		window.location.replace(responseData.checkout_url);
 	} catch (error) {
-		if (!alert(error.display && error.message ? error.message : error)) {
+		if (!alert(error.message && error.message.error ? error.message.error : error)) {
 			$('#btn-submit').val('Registrar');
 			$('#btn-submit').css('pointer-events', 'auto');
 		}

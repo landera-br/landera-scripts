@@ -137,8 +137,8 @@ $('#form-subscription').submit(async (e) => {
 		listedOn = await response.json();
 	} catch (error) {
 		alert(
-			error.display && error.message
-				? error.message
+			error.message && error.message.error
+				? error.message.error
 				: 'Plataforma imobiliária inválida! Só é permitida a divulgação deste imóvel em plataformas parceiras.'
 		);
 		$('#btn-subscription-submit').val('Confirmar');
@@ -169,8 +169,8 @@ $('#form-subscription').submit(async (e) => {
 		if (response.status !== 200) throw new Error();
 	} catch (error) {
 		alert(
-			error.display && error.message
-				? error.message
+			error.message && error.message.error
+				? error.message.error
 				: 'Não foi possível realizar inscrição! Tente novamente mais tarde.'
 		);
 
@@ -209,8 +209,8 @@ $('#btn-download').on('click', async (e) => {
 		}
 	} catch (error) {
 		alert(
-			error.display && error.message
-				? error.message
+			error.message && error.message.error
+				? error.message.error
 				: 'Não foi fazer o download das imagens. Tente novamente mais tarde!'
 		);
 		return;
