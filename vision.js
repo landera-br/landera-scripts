@@ -294,8 +294,8 @@ $(document).on('click', '.done-btn', function () {
 		console.log('Adding image to slides_content...');
 
 		// Append slides to slides
-		$('#slides').append(
-			`<div id="slide" class="slide w-slide" aria-label="1 of 1" role="group" style="transform: translateX(0px); opacity: 1;"><div class="slide-content-wrapper"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg" loading="lazy" sizes="400.0000305175781px" srcset="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min-p-500.jpg 500w, https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg 600w" alt="" class="image-64"></div></div>`
+		$('#mask').append(
+			`<div class="slide w-slide" aria-label="1 of 1" role="group" style="transform: translateX(0px); opacity: 1;"><div class="slide-content-wrapper"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg" loading="lazy" sizes="400.0000305175781px" srcset="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min-p-500.jpg 500w, https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg 600w" alt="" class="image-64"></div></div>`
 		);
 	}
 
