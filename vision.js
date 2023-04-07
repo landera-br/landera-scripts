@@ -65,7 +65,7 @@ function updateSlides(index = null) {
 			var beforeimage = new Image();
 			var afterimage = new Image();
 			beforeimage.src = slide.before;
-			afterimage.src = slide.after;
+			afterimage.src = `data:image/png;base64,${slide.after}`;
 
 			var loadedImages = 0; // a counter variable to keep track of loaded images
 
@@ -113,7 +113,7 @@ function updateSlides(index = null) {
 				var beforeimage = new Image();
 				var afterimage = new Image();
 				beforeimage.src = slide.before;
-				afterimage.src = slide.after;
+				afterimage.src = `data:image/png;base64,${slide.after}`;
 
 				var loadedImages = 0; // a counter variable to keep track of loaded images
 
