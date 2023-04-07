@@ -51,13 +51,26 @@ function updateSlides(index = null) {
 		// Update single slide
 		if (slide.state === 'input' && slide.before) {
 			// Update input slide
-			swiper.addSlide(index, stringToHTML(INPUT_SLIDE(slide.before)));
+			var currentimage = new Image();
+			currentimage.src = slide.before;
+
+			currentimage.onload = function () {
+				swiper.addSlide(index, stringToHTML(INPUT_SLIDE(currentimage.src)));
+			};
 			return;
 		}
 
 		if (slide.state === 'result' && slide.before && slide.after) {
 			// Add result slide
-			swiper.addSlide(index, stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
+			var beforeimage = new Image();
+			var afterimage = new Image();
+			beforeimage.src = slide.before;
+			afterimage.src = slide.after;
+
+			currentimage.onload = function () {
+				swiper.addSlide(index, stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
+			};
+
 			return;
 		}
 
@@ -71,23 +84,26 @@ function updateSlides(index = null) {
 		console.log(slides_content.length);
 		for (const slide of slides_content) {
 			if (slide.state === 'input' && slide.before) {
-				var currentimage = new Image(); // create a new image element
-				currentimage.src = slide.before; // set the source of the image
+				// Add input slide
+				var currentimage = new Image();
+				currentimage.src = slide.before;
 
 				currentimage.onload = function () {
-					// define a function to run when the image is loaded
 					swiper.appendSlide(stringToHTML(INPUT_SLIDE(currentimage.src))); // append the image to the page
 				};
-
-				// Add input slide
-				// swiper.appendSlide(stringToHTML(INPUT_SLIDE(slide.before)));
-
 				continue;
 			}
 
 			if (slide.state === 'result' && slide.before && slide.after) {
 				// Add result slide
-				swiper.appendSlide(stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
+				var beforeimage = new Image();
+				var afterimage = new Image();
+				beforeimage.src = slide.before;
+				afterimage.src = slide.after;
+
+				currentimage.onload = function () {
+					swiper.appendSlide(stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
+				};
 				continue;
 			}
 
