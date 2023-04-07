@@ -50,14 +50,42 @@ function updateSlides(index = null) {
 
 		// Update single slide
 		if (slide.state === 'input' && slide.before) {
-			// Update input slide
-			swiper.addSlide(index, stringToHTML(INPUT_SLIDE(slide.before)));
+			const img = new Image();
+
+			img.addEventListener('load', () => {
+				// Update input slide
+				swiper.addSlide(index, stringToHTML(INPUT_SLIDE(slide.before)));
+			});
+
+			// Set the source of the image element to the 'before' URL
+			img.src = slide.before;
+
 			return;
 		}
 
 		if (slide.state === 'result' && slide.before && slide.after) {
 			// Add result slide
-			swiper.addSlide(index, stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
+			const beforeImg = new Image();
+			const afterImg = new Image();
+
+			let loadedCount = 0;
+
+			const checkLoaded = () => {
+				loadedCount++;
+				if (loadedCount === 2) {
+					// Both images have loaded, append the slide to the swiper
+					swiper.addSlide(index, stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
+				}
+			};
+
+			// Add event listeners for the 'load' event on both image elements
+			beforeImg.addEventListener('load', checkLoaded);
+			afterImg.addEventListener('load', checkLoaded);
+
+			// Set the sources of the image elements to the 'before' URL and 'after' base64 string, respectively
+			beforeImg.src = slide.before;
+			afterImg.src = `data:image/png;base64,${slide.after}`;
+
 			return;
 		}
 
