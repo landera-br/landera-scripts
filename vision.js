@@ -31,7 +31,7 @@ const LOADING_SLIDE = `<div class="swiper-slide"><div class="loading-wrapper"><h
 const INPUT_SLIDE = (before) =>
 	`<div class="swiper-slide"><div class="image-wrapper"><img src="${before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate w-button">Gerar imagem</a></div></div>`;
 const RESULT_SLIDE = (before, after) =>
-	`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`;
+	`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${before}" loading="lazy" alt=""><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="data:image/png;base64,${after}" loading="lazy" alt=""><a href="#" class="btn-free-download w-button">Download</a><a href="#" class="btn-generate w-button">Regerar imagem</a></div></div>`;
 const swiper = new Swiper('.swiper', {
 	// Navigation arrows
 	navigation: {
@@ -51,40 +51,13 @@ function updateSlides(index = null) {
 		// Update single slide
 		if (slide.state === 'input' && slide.before) {
 			// Update input slide
-			var currentimage = new Image();
-			currentimage.src = slide.before;
-
-			currentimage.onload = function () {
-				swiper.addSlide(index, stringToHTML(INPUT_SLIDE(currentimage.src)));
-			};
+			swiper.addSlide(index, stringToHTML(INPUT_SLIDE(slide.before)));
 			return;
 		}
 
 		if (slide.state === 'result' && slide.before && slide.after) {
 			// Add result slide
-			var beforeimage = new Image();
-			var afterimage = new Image();
-			beforeimage.src = slide.before;
-			afterimage.src = `data:image/png;base64,${slide.after}`;
-
-			var loadedImages = 0; // a counter variable to keep track of loaded images
-
-			beforeimage.onload = function () {
-				loadedImages++; // increment the counter when beforeimage is loaded
-				if (loadedImages == 2) {
-					// check if both images are loaded
-					swiper.addSlide(index, stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src))); // add the slide
-				}
-			};
-
-			afterimage.onload = function () {
-				loadedImages++; // increment the counter when afterimage is loaded
-				if (loadedImages == 2) {
-					// check if both images are loaded
-					swiper.addSlide(index, stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src))); // add the slide
-				}
-			};
-
+			swiper.addSlide(index, stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
 			return;
 		}
 
@@ -99,39 +72,14 @@ function updateSlides(index = null) {
 		for (const slide of slides_content) {
 			if (slide.state === 'input' && slide.before) {
 				// Add input slide
-				var currentimage = new Image();
-				currentimage.src = slide.before;
+				swiper.appendSlide(stringToHTML(INPUT_SLIDE(slide.before)));
 
-				currentimage.onload = function () {
-					swiper.appendSlide(stringToHTML(INPUT_SLIDE(currentimage.src))); // append the image to the page
-				};
 				continue;
 			}
 
 			if (slide.state === 'result' && slide.before && slide.after) {
 				// Add result slide
-				var beforeimage = new Image();
-				var afterimage = new Image();
-				beforeimage.src = slide.before;
-				afterimage.src = `data:image/png;base64,${slide.after}`;
-
-				var loadedImages = 0; // a counter variable to keep track of loaded images
-
-				beforeimage.onload = function () {
-					loadedImages++; // increment the counter when beforeimage is loaded
-					if (loadedImages == 2) {
-						// check if both images are loaded
-						swiper.appendSlide(stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
-					}
-				};
-
-				afterimage.onload = function () {
-					loadedImages++; // increment the counter when afterimage is loaded
-					if (loadedImages == 2) {
-						// check if both images are loaded
-						swiper.appendSlide(stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
-					}
-				};
+				swiper.appendSlide(stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
 				continue;
 			}
 
