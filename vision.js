@@ -287,7 +287,7 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 
 $(document).on('click', '.done-btn', function () {
 	$('.uploadcare-section').css('display', 'none');
-	$('#slider-container').css('display', 'flex');
+	$('#slider-container').css('display', 'block');
 
 	// Loop through images and add to #slides
 	for (const image of images) {
@@ -295,7 +295,7 @@ $(document).on('click', '.done-btn', function () {
 
 		// Append slides to slides
 		$('#mask').append(
-			`<div class="slide w-slide" aria-label="1 of 1" role="group" style="transform: translateX(0px); opacity: 1;"><div class="slide-content-wrapper"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg" loading="lazy" sizes="400.0000305175781px" srcset="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min-p-500.jpg 500w, https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg 600w" alt="" class="image-64"></div></div>`
+			`<div data-w-id="e34c7fa4-dbf6-0952-5d2f-804b77c587cc" class="slide w-slide" aria-label="1 of 2" role="group" style="transform: translateX(0px); opacity: 1;"><div class="slide-content-wrapper" style="opacity: 1; filter: blur(0px); transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg" loading="lazy" sizes="400.0000305175781px" srcset="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min-p-500.jpg 500w, https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg 600w" alt="" class="image-64"></div></div>`
 		);
 	}
 
