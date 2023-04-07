@@ -286,18 +286,21 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 });
 
 $(document).on('click', '.done-btn', function () {
-	console.log('Clicou');
 	$('.uploadcare-section').css('display', 'none');
 	$('.swiper-wrapper').css('display', 'flex');
 
-	// Loop through images and add to slides_content
+	// Loop through images and add to #slides
 	for (const image of images) {
 		console.log('Adding image to slides_content...');
-		slides_content.push({ state: 'input', before: image.cdnUrl, after: '' });
+
+		// Append slides to slides
+		$('#slides').append(
+			`<div class="slide-content-wrapper" style="opacity: 1; filter: blur(0px); transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg" loading="lazy" sizes="400.0000305175781px" srcset="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min-p-500.jpg 500w, https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg 600w" alt="" class="image-64"></div>`
+		);
 	}
 
 	// Update slides
-	updateSlides();
+	// updateSlides();
 });
 
 $(document).on('click', '.btn-generate', async function () {
