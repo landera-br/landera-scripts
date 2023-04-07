@@ -75,6 +75,7 @@ function updateSlides(index = null) {
 				if (loadedCount === 2) {
 					// Both images have loaded, append the slide to the swiper
 					swiper.addSlide(index, stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
+					reloadSliders();
 				}
 			};
 
@@ -186,7 +187,6 @@ async function generate(url) {
 					slides_content[ACTIVE_INDEX].state = 'result';
 					slides_content[ACTIVE_INDEX].after = statusResult.output.image;
 					updateSlides(ACTIVE_INDEX);
-					reloadSliders();
 					swiper.slideTo(ACTIVE_INDEX, 0, false);
 				} else {
 					attemptCount++;
