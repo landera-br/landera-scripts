@@ -71,8 +71,17 @@ function updateSlides(index = null) {
 		console.log(slides_content.length);
 		for (const slide of slides_content) {
 			if (slide.state === 'input' && slide.before) {
+				var currentimage = new Image(); // create a new image element
+				currentimage.src = slide.before; // set the source of the image
+
+				currentimage.onload = function () {
+					// define a function to run when the image is loaded
+					swiper.appendSlide(stringToHTML(INPUT_SLIDE(currentimage.src))); // append the image to the page
+				};
+
 				// Add input slide
-				swiper.appendSlide(stringToHTML(INPUT_SLIDE(slide.before)));
+				// swiper.appendSlide(stringToHTML(INPUT_SLIDE(slide.before)));
+
 				continue;
 			}
 
