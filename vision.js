@@ -67,8 +67,22 @@ function updateSlides(index = null) {
 			beforeimage.src = slide.before;
 			afterimage.src = slide.after;
 
-			currentimage.onload = function () {
-				swiper.addSlide(index, stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
+			var loadedImages = 0; // a counter variable to keep track of loaded images
+
+			beforeimage.onload = function () {
+				loadedImages++; // increment the counter when beforeimage is loaded
+				if (loadedImages == 2) {
+					// check if both images are loaded
+					swiper.addSlide(index, stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src))); // add the slide
+				}
+			};
+
+			afterimage.onload = function () {
+				loadedImages++; // increment the counter when afterimage is loaded
+				if (loadedImages == 2) {
+					// check if both images are loaded
+					swiper.addSlide(index, stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src))); // add the slide
+				}
 			};
 
 			return;
@@ -101,8 +115,22 @@ function updateSlides(index = null) {
 				beforeimage.src = slide.before;
 				afterimage.src = slide.after;
 
-				currentimage.onload = function () {
-					swiper.appendSlide(stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
+				var loadedImages = 0; // a counter variable to keep track of loaded images
+
+				beforeimage.onload = function () {
+					loadedImages++; // increment the counter when beforeimage is loaded
+					if (loadedImages == 2) {
+						// check if both images are loaded
+						swiper.appendSlide(stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
+					}
+				};
+
+				afterimage.onload = function () {
+					loadedImages++; // increment the counter when afterimage is loaded
+					if (loadedImages == 2) {
+						// check if both images are loaded
+						swiper.appendSlide(stringToHTML(RESULT_SLIDE(beforeimage.src, afterimage.src)));
+					}
 				};
 				continue;
 			}
