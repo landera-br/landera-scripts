@@ -311,7 +311,7 @@ $(document).on('click', '.done-btn', function () {
 
 		slide.append(slideContent);
 
-		$('#mask').append(firstSlide).append(secondSlide);
+		$('#mask').append(slide);
 
 		// Append slides to slides
 		// $('#mask').append(
