@@ -284,7 +284,6 @@ $(document).on('click', '.done-btn', function () {
 	updateSlides();
 });
 
-// Increment current slide index
 $(document).on('click', '.slider-right-arrow', function () {
 	currentSlide++;
 
@@ -292,6 +291,10 @@ $(document).on('click', '.slider-right-arrow', function () {
 		// Hide slider right arrow
 		$('.slider-right-arrow').css('display', 'none');
 	}
+});
+
+$(document).on('click', '.slider-left-arrow', function () {
+	currentSlide--;
 });
 
 $(document).on('click', '.btn-generate', async function () {
