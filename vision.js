@@ -274,6 +274,11 @@ $(document).on('click', '.done-btn', function () {
 	// Maximum of 20 images
 	images.splice(20);
 
+	// Hide slider right arrow if there are less than 2 images
+	if (images.length < 2) {
+		$('.slider-right-arrow').css('display', 'none');
+	}
+
 	// Loop uploaded images and update slides_content
 	images.forEach((image) => {
 		slides_content.push({
