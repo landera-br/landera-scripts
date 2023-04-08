@@ -33,6 +33,8 @@ const IMAGE = (image) => `<img src="${image}" alt="slide-image" />`;
 // NOTE Support functions
 
 function updateSlides(index = null) {
+	console.log(slides_content);
+
 	// Check if index is null and if it is an integer
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
@@ -85,22 +87,26 @@ function updateSlides(index = null) {
 		swiper.slideTo(index, 0, false);
 	} else {
 		// Update all slides based on slides_content
-		for (const slide of slides_content) {
+		slides_content.forEach((slide, index) => {
 			if (slide.state === 'input' && slide.before) {
 				// Update input slide
 				$('.slide-content-wrapper').append(IMAGE(slide.before));
-				continue;
 			}
 
 			if (slide.state === 'result' && slide.after) {
 				// Add result slide
 				$('.slide-content-wrapper').append(IMAGE(slide.after));
-				continue;
 			}
 
-			// Add loading class
-			console.log('Loading class added');
-		}
+			if (slide.state === 'loading') {
+				// Add loading class
+			}
+
+			console.log('Unhiding slide');
+
+			// Unhide slide
+			$('.slide-content-wrapper')[index].style.display = 'block';
+		});
 	}
 }
 
