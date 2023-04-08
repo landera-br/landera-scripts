@@ -27,18 +27,8 @@ $(document).ready(function () {
 // NOTE Global variables
 let images = [];
 let slides_content = [];
-const LOADING_SLIDE = `<div class="swiper-slide"><div class="loading-wrapper"><h1 class="generating-heading">Gerando imagem...</h1><lottie-player src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6429e6622b8b8c1d86661637_ab-%5Baint%20(2).json" background="transparent" speed="1" style="width: 50vh;transform: rotate(-90deg);margin-top: -40px;" loop="" autoplay=""></lottie-player></div></div>`;
-const INPUT_SLIDE = (before) =>
-	`<div class="swiper-slide"><div class="image-wrapper"><img src="${before}" loading="lazy" sizes="(max-width: 479px) 66vw, (max-width: 767px) 79vw, (max-width: 991px) 59vw, (max-width: 1279px) 62vw, (max-width: 1439px) 64vw, (max-width: 1919px) 67vw, 73vw" alt="" class="image-61"><a href="#" class="btn-generate link-block-11 link w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="btn-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"/></svg><div class="text-block-70">Criar ambiente</div></a></div></div>`;
-const RESULT_SLIDE = (before, after) =>
-	`<div class="swiper-slide"><div class="slider-wrapper"><img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="${before}" loading="lazy" alt=""> <img sizes="(max-width: 479px) 66vw, (max-width: 767px) 600px, (max-width: 821px) 73vw, (max-width: 1279px) 59vw, (max-width: 1439px) 600px, (max-width: 1919px) 42vw, 37vw" src="data:image/png;base64,${after}" loading="lazy" alt=""><a href="#" class="btn-generate link-block-11 link w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="btn-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg><div class="text-block-70">Recriar ambiente</div></a></div></div>`;
-const swiper = new Swiper('.swiper', {
-	// Navigation arrows
-	navigation: {
-		nextEl: '.swiper-button-next',
-		prevEl: '.swiper-button-prev',
-	},
-});
+let currentSlide = 0;
+const IMAGE = (image) => `<img src="${image}" alt="slide-image" />`;
 
 // NOTE Support functions
 
@@ -94,38 +84,23 @@ function updateSlides(index = null) {
 		swiper.addSlide(index, stringToHTML(LOADING_SLIDE));
 		swiper.slideTo(index, 0, false);
 	} else {
-		swiper.removeAllSlides();
-
 		// Update all slides based on slides_content
-		console.log(slides_content.length);
 		for (const slide of slides_content) {
 			if (slide.state === 'input' && slide.before) {
-				const img = new Image();
-
-				// Add input slide
-				img.addEventListener('load', () => {
-					// Append the slide to the swiper
-					swiper.appendSlide(stringToHTML(INPUT_SLIDE(slide.before)));
-				});
-
-				// Set the source of the image element to the 'before' URL
-				img.src = slide.before;
-
+				// Update input slide
+				$('.slide-content-wrapper').append(IMAGE(slide.before));
 				continue;
 			}
 
-			if (slide.state === 'result' && slide.before && slide.after) {
+			if (slide.state === 'result' && slide.after) {
 				// Add result slide
-				swiper.appendSlide(stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
+				$('.slide-content-wrapper').append(IMAGE(slide.after));
 				continue;
 			}
 
-			// Add loading slide
-			swiper.appendSlide(stringToHTML(LOADING_SLIDE));
+			// Add loading class
+			console.log('Loading class added');
 		}
-
-		// Reset swiper to first slide
-		swiper.slideTo(0, 0, false);
 	}
 }
 
@@ -206,12 +181,6 @@ async function generate(url) {
 	}
 }
 
-function stringToHTML(str) {
-	var parser = new DOMParser();
-	var doc = parser.parseFromString(str, 'text/html');
-	return doc.body.firstChild;
-}
-
 function getStyles() {
 	// Check if there are elements with class .thumb-block .selected
 	if ($('.thumb-block.selected').length > 0) {
@@ -277,80 +246,6 @@ function downloadFile(base64) {
 	URL.revokeObjectURL(url);
 }
 
-function addSlides(images) {
-	console.log(images.length);
-
-	// Create the slider container element
-	var sliderContainer = $('<div>').addClass('slider-4 w-slider').attr({
-		'data-delay': '4000',
-		'data-animation': 'slide',
-		'data-autoplay': 'false',
-		'data-easing': 'ease',
-		'data-hide-arrows': 'true',
-		'data-disable-swipe': 'false',
-		'data-autoplay-limit': '0',
-		'data-nav-spacing': '3',
-		'data-duration': '500',
-		'data-infinite': 'false',
-		role: 'region',
-	});
-
-	// Create the slider mask element
-	var sliderMask = $('<div>').addClass('mask-3 w-slider-mask').appendTo(sliderContainer);
-
-	// Create each slide and append it to the slider mask element
-	for (var i = 0; i < images.length; i++) {
-		var slide = $('<div>').addClass('slide w-slide').appendTo(sliderMask);
-		var slideContentWrapper = $('<div>').addClass('slide-content-wrapper').appendTo(slide);
-		$('<img>').attr('src', images[i].cdnUr).appendTo(slideContentWrapper);
-	}
-
-	// Create the slider arrows and nav dots
-	$('<div>')
-		.addClass('slider-left-arrow w-slider-arrow-left')
-		.attr({
-			role: 'button',
-			tabindex: '0',
-			'aria-controls': 'mask',
-			'aria-label': 'previous slide',
-			style: 'display: none;',
-		})
-		.append($('<div>').addClass('slider-icon w-icon-slider-left'))
-		.appendTo(sliderContainer);
-
-	$('<div>')
-		.addClass('slider-right-arrow w-slider-arrow-right')
-		.attr({
-			role: 'button',
-			tabindex: '0',
-			'aria-controls': 'mask',
-			'aria-label': 'next slide',
-		})
-		.append($('<div>').addClass('slider-icon w-icon-slider-right'))
-		.appendTo(sliderContainer);
-
-	var sliderNav = $('<div>').addClass('w-slider-nav w-round').appendTo(sliderContainer);
-
-	for (var i = 0; i < images.length; i++) {
-		$('<div>')
-			.addClass('w-slider-dot' + (i == 0 ? ' w-active' : ''))
-			.attr({
-				role: 'button',
-				tabindex: '0',
-				'aria-controls': 'mask',
-				'aria-label': 'Show slide ' + (i + 1) + ' of ' + images.length,
-			})
-			.css({
-				'margin-left': '3px',
-				'margin-right': '3px',
-			})
-			.appendTo(sliderNav);
-	}
-
-	// Append the slider container to the DOM
-	$('#slider-target').append(sliderContainer);
-}
-
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
@@ -363,8 +258,17 @@ $(document).on('click', '.done-btn', function () {
 	$('.uploadcare-section').css('display', 'none');
 	$('#slider-container').css('display', 'block');
 
-	// Create the slides
-	addSlides(images);
+	// Loop uploaded images and update slides_content
+	images.forEach((image) => {
+		slides_content.push({
+			before: image.cdnUrl,
+			after: '',
+			state: 'input',
+		});
+	});
+
+	// Update slides
+	updateSlides();
 });
 
 $(document).on('click', '.btn-generate', async function () {
