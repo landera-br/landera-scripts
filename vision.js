@@ -277,6 +277,80 @@ function downloadFile(base64) {
 	URL.revokeObjectURL(url);
 }
 
+function addSlides(images) {
+	console.log(images.length);
+
+	// Create the slider container element
+	var sliderContainer = $('<div>').addClass('slider-4 w-slider').attr({
+		'data-delay': '4000',
+		'data-animation': 'slide',
+		'data-autoplay': 'false',
+		'data-easing': 'ease',
+		'data-hide-arrows': 'true',
+		'data-disable-swipe': 'false',
+		'data-autoplay-limit': '0',
+		'data-nav-spacing': '3',
+		'data-duration': '500',
+		'data-infinite': 'false',
+		role: 'region',
+	});
+
+	// Create the slider mask element
+	var sliderMask = $('<div>').addClass('mask-3 w-slider-mask').appendTo(sliderContainer);
+
+	// Create each slide and append it to the slider mask element
+	for (var i = 0; i < images.length; i++) {
+		var slide = $('<div>').addClass('slide w-slide').appendTo(sliderMask);
+		var slideContentWrapper = $('<div>').addClass('slide-content-wrapper').appendTo(slide);
+		$('<img>').attr('src', images[i].cdnUr).appendTo(slideContentWrapper);
+	}
+
+	// Create the slider arrows and nav dots
+	$('<div>')
+		.addClass('slider-left-arrow w-slider-arrow-left')
+		.attr({
+			role: 'button',
+			tabindex: '0',
+			'aria-controls': 'mask',
+			'aria-label': 'previous slide',
+			style: 'display: none;',
+		})
+		.append($('<div>').addClass('slider-icon w-icon-slider-left'))
+		.appendTo(sliderContainer);
+
+	$('<div>')
+		.addClass('slider-right-arrow w-slider-arrow-right')
+		.attr({
+			role: 'button',
+			tabindex: '0',
+			'aria-controls': 'mask',
+			'aria-label': 'next slide',
+		})
+		.append($('<div>').addClass('slider-icon w-icon-slider-right'))
+		.appendTo(sliderContainer);
+
+	var sliderNav = $('<div>').addClass('w-slider-nav w-round').appendTo(sliderContainer);
+
+	for (var i = 0; i < images.length; i++) {
+		$('<div>')
+			.addClass('w-slider-dot' + (i == 0 ? ' w-active' : ''))
+			.attr({
+				role: 'button',
+				tabindex: '0',
+				'aria-controls': 'mask',
+				'aria-label': 'Show slide ' + (i + 1) + ' of ' + images.length,
+			})
+			.css({
+				'margin-left': '3px',
+				'margin-right': '3px',
+			})
+			.appendTo(sliderNav);
+	}
+
+	// Append the slider container to the DOM
+	$('#mask').append(sliderContainer);
+}
+
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
@@ -289,38 +363,8 @@ $(document).on('click', '.done-btn', function () {
 	$('.uploadcare-section').css('display', 'none');
 	$('#slider-container').css('display', 'block');
 
-	// Loop through images and add to #slides
-	for (const image of images) {
-		console.log('Adding image to slides_content...');
-		var slide = $('<div>')
-			.addClass('slide w-slide')
-			.attr('aria-label', '1 of 2')
-			.attr('role', 'group')
-			.css('transform', 'translateX(0px)')
-			.css('opacity', 1);
-
-		var slideContent = $('<div>')
-			.addClass('slide-content-wrapper')
-			.css('opacity', 1)
-			.css('filter', 'blur(0px)')
-			.css(
-				'transform',
-				'translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)'
-			)
-			.css('transform-style', 'preserve-3d');
-
-		slide.append(slideContent);
-
-		$('#mask').append(slide);
-
-		// Append slides to slides
-		// $('#mask').append(
-		// 	`<div data-w-id="e34c7fa4-dbf6-0952-5d2f-804b77c587cc" class="slide w-slide" aria-label="1 of 2" role="group" style="transform: translateX(0px); opacity: 1;"><div class="slide-content-wrapper" style="opacity: 1; filter: blur(0px); transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg" loading="lazy" sizes="400.0000305175781px" srcset="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min-p-500.jpg 500w, https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64272f6330147f71d7bfae68_colonial-min.jpg 600w" alt="" class="image-64"></div></div>`
-		// );
-	}
-
-	// Update slides
-	// updateSlides();
+	// Create the slides
+	addSlides(images);
 });
 
 $(document).on('click', '.btn-generate', async function () {
