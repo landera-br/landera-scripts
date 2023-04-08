@@ -90,19 +90,17 @@ function updateSlides(index = null) {
 		slides_content.forEach((slide, index) => {
 			if (slide.state === 'input' && slide.before) {
 				// Update input slide
-				$('.slide-content-wrapper').append(IMAGE(slide.before));
+				$('.slide-content-wrapper')[index].innerHTML = IMAGE(slide.before);
 			}
 
 			if (slide.state === 'result' && slide.after) {
-				// Add result slide
-				$('.slide-content-wrapper').append(IMAGE(slide.after));
+				// Update result slide
+				$('.slide-content-wrapper')[index].innerHTML = IMAGE(slide.after);
 			}
 
 			if (slide.state === 'loading') {
 				// Add loading class
 			}
-
-			console.log('Unhiding slide');
 
 			// Unhide slide
 			$('.slide-content-wrapper')[index].style.display = 'block';
