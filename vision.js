@@ -103,7 +103,7 @@ function updateSlides(index = null) {
 			}
 
 			// Unhide slide
-			$('.slide-content-wrapper')[index].style.display = 'block';
+			$('.slide-content-wrapper')[index].style.display = 'flex';
 		});
 	}
 }
@@ -260,7 +260,7 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 
 $(document).on('click', '.done-btn', function () {
 	$('.uploadcare-section').css('display', 'none');
-	$('#slider-container').css('display', 'block');
+	$('#slider-container').css('display', 'flex');
 
 	// Loop uploaded images and update slides_content
 	images.forEach((image) => {
