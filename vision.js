@@ -271,6 +271,9 @@ $(document).on('click', '.done-btn', function () {
 	$('.uploadcare-section').css('display', 'none');
 	$('#slider-container').css('display', 'flex');
 
+	// Maximum of 20 images
+	images.splice(20);
+
 	// Loop uploaded images and update slides_content
 	images.forEach((image) => {
 		slides_content.push({
