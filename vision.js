@@ -348,7 +348,7 @@ function addSlides(images) {
 	}
 
 	// Append the slider container to the DOM
-	$('#mask').append(sliderContainer);
+	$('#slider-target').append(sliderContainer);
 }
 
 // NOTE Listeners
