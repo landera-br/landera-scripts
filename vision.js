@@ -27,8 +27,8 @@ $(document).ready(function () {
 // NOTE Global variables
 let images = [];
 let slides_content = [];
-let currentSlide = 0;
-const IMAGE = (image) => `<img src="${image}" alt="slide-image" />`;
+let currentSlide = 1;
+const IMAGE = (image) => `<img src="${image}" class="slider-image" alt="slide-image" />`;
 
 // NOTE Support functions
 
@@ -273,6 +273,16 @@ $(document).on('click', '.done-btn', function () {
 
 	// Update slides
 	updateSlides();
+});
+
+// Increment current slide index
+$(document).on('click', '.slider-right-arrow', function () {
+	currentSlide++;
+
+	if (currentSlide >= slides_content.length) {
+		// Hide slider right arrow
+		$('.slider-right-arrow').css('display', 'none');
+	}
 });
 
 $(document).on('click', '.btn-generate', async function () {
