@@ -275,6 +275,7 @@ function startLoading() {
 		}
 	}
 
+	loadingProgress.style.display = 'flex';
 	requestAnimationFrame(updateWidth);
 }
 
