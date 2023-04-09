@@ -322,6 +322,9 @@ $(document).on('click', '#btn-add-images', function () {
 		// Hide slides
 		$('.slide-content-wrapper').css('display', 'none');
 
+		// Unhide slider right arrow
+		$('.slider-right-arrow').css('display', 'flex');
+
 		// Reset file uploader
 		$('.cancel-btn').click();
 	}
