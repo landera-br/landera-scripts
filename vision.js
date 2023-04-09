@@ -255,8 +255,30 @@ function downloadFile(base64) {
 }
 
 function startLoading() {
+	var elem = document.getElementsByClassName('loading-bar')[0];
 	var loadingProgress = document.getElementsByClassName('loading-progress')[0];
+	var startTime;
+
 	loadingProgress.style.display = 'flex';
+
+	function updateWidth(timestamp) {
+		if (!startTime) {
+			startTime = timestamp;
+		}
+		var elapsedTime = timestamp - startTime;
+		var progress = elapsedTime / 45000; // 45 seconds
+		var width = Math.min(progress * 100, 100);
+		elem.style.width = width + '%';
+		if (width < 100) {
+			requestAnimationFrame(updateWidth);
+		} else {
+			loadingProgress.style.display = 'none';
+			elem.style.width = '0%';
+			startTime = null;
+		}
+	}
+
+	requestAnimationFrame(updateWidth);
 }
 
 // NOTE Listeners
