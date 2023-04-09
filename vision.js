@@ -255,33 +255,27 @@ function downloadFile(base64) {
 }
 
 function startLoading() {
-	var requestId;
 	var elem = document.getElementsByClassName('loading-bar')[0];
-
-	// Unhide loading bar
-	$('.loading-progress').css('display', 'flex');
+	var loadingProgress = document.getElementsByClassName('loading-progress')[0];
+	var startTime;
 
 	function updateWidth(timestamp) {
-		var startTime = timestamp;
-		function animate() {
-			var elapsedTime = timestamp - startTime;
-			var progress = elapsedTime / 45000; // 45 seconds
-			var width = Math.min(progress * 100, 100);
-			console.log(progress);
-			console.log(width);
-			elem.style.width = width + '%';
-			if (width < 100) {
-				requestId = requestAnimationFrame(animate);
-			} else {
-				cancelAnimationFrame(requestId);
-				// Hide loading bar
-				$('.loading-progress').css('display', 'none');
-			}
+		if (!startTime) {
+			startTime = timestamp;
+			loadingProgress.style.display = 'flex';
 		}
-		requestId = requestAnimationFrame(animate);
+		var elapsedTime = timestamp - startTime;
+		var progress = elapsedTime / 45000; // 45 seconds
+		var width = Math.min(progress * 100, 100);
+		elem.style.width = width + '%';
+		if (width < 100) {
+			requestAnimationFrame(updateWidth);
+		} else {
+			loadingProgress.style.display = 'none';
+		}
 	}
 
-	requestId = requestAnimationFrame(updateWidth);
+	requestAnimationFrame(updateWidth);
 }
 
 // NOTE Listeners
