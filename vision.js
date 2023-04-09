@@ -324,8 +324,10 @@ $(document).on('click', '#btn-add-images', function () {
 		// Unhide slider right arrow
 		$('.slider-right-arrow').css('display', 'flex');
 
+		console.log('current_slide ', current_slide);
 		// Reset slide position (click on left arrow)
 		for (let i = 0; i < current_slide; i++) {
+			console.log('voltou');
 			$('.slider-left-arrow').click();
 		}
 
