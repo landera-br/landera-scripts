@@ -2,7 +2,8 @@
 let images = [];
 let slides_content = [];
 let current_slide = 0;
-const IMAGE = (image) => `<img src="${image}" class="slider-image" alt="slide-image" />`;
+const IMAGE = (image) =>
+	`<img src="${image}" class="slider-image" alt="slide-image" /><div class="loading-bar-wrapper"><div class="loading-bar"></div></div>`;
 var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	whitelist: [
 		'Cozinha',
@@ -21,7 +22,7 @@ var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 });
 
 var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
-	duplicates: true,
+	duplicates: false,
 });
 
 // NOTE Support functions
