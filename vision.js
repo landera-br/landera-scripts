@@ -314,7 +314,6 @@ $(document).on('click', '#btn-add-images', function () {
 		$('#slider-container').css('display', 'none');
 		images = [];
 		slides_content = [];
-		current_slide = 0;
 
 		// Remove all images
 		$('.slide-content-wrapper').html('');
@@ -324,6 +323,13 @@ $(document).on('click', '#btn-add-images', function () {
 
 		// Unhide slider right arrow
 		$('.slider-right-arrow').css('display', 'flex');
+
+		// Reset slide position (click on left arrow)
+		for (let i = 0; i < current_slide; i++) {
+			$('.slider-left-arrow').click();
+		}
+
+		current_slide = 0;
 
 		// Reset file uploader
 		$('.cancel-btn').click();
