@@ -27,7 +27,7 @@ $(document).ready(function () {
 // NOTE Global variables
 let images = [];
 let slides_content = [];
-let currentSlide = 1;
+let currentSlide = 0;
 const IMAGE = (image) => `<img src="${image}" class="slider-image" alt="slide-image" />`;
 
 // NOTE Support functions
@@ -295,7 +295,7 @@ $(document).on('click', '.done-btn', function () {
 $(document).on('click', '.slider-right-arrow', function () {
 	currentSlide++;
 
-	if (currentSlide >= slides_content.length) {
+	if (currentSlide >= slides_content.length - 1) {
 		// Hide slider right arrow
 		$('.slider-right-arrow').css('display', 'none');
 	}
@@ -317,10 +317,16 @@ $(document).on('click', '.thumb-block', function () {
 $(document).on('click', '#btn-add-images', function () {
 	if ($('.uploadcare-section').css('display') === 'none') {
 		$('.uploadcare-section').css('display', 'flex');
-		$('.swiper-wrapper').css('display', 'none');
+		$('#slider-container').css('display', 'none');
 		images = [];
 		slides_content = [];
-		swiper.removeAllSlides();
+		currentSlide = 0;
+
+		// Remove all images
+		$('.slide-content-wrapper').html('');
+
+		// Hide slides
+		$('.slide-content-wrapper').css('display', 'none');
 
 		// Reset file uploader
 		$('.cancel-btn').click();
@@ -328,5 +334,5 @@ $(document).on('click', '#btn-add-images', function () {
 });
 
 $(document).on('click', '.btn-free-download', function () {
-	downloadFile(slides_content[swiper.activeIndex].after);
+	downloadFile(slides_content[currentSlide].after);
 });
