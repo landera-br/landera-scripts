@@ -1,34 +1,28 @@
-// NOTE Document ready functions
-$(document).ready(function () {
-	var inputRooms = document.querySelector('input[name=rooms]'),
-		tagify = new Tagify(inputRooms, {
-			whitelist: [
-				'Cozinha',
-				'Home Theater',
-				'Jardim',
-				'Lavanderia',
-				'Quarto',
-				'Piscina',
-				'Varanda',
-				'Sala de estar',
-				'Sala de jantar',
-				'Suite',
-			],
-			mode: 'select',
-			enforceWhitelist: false,
-		});
-
-	var inputStyle = document.querySelector('input[name=style]'),
-		tagify = new Tagify(inputStyle, {
-			duplicates: true,
-		});
-});
-
 // NOTE Global variables
 let images = [];
 let slides_content = [];
-let currentSlide = 0;
+let current_slide = 0;
 const IMAGE = (image) => `<img src="${image}" class="slider-image" alt="slide-image" />`;
+var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
+	whitelist: [
+		'Cozinha',
+		'Home Theater',
+		'Jardim',
+		'Lavanderia',
+		'Quarto',
+		'Piscina',
+		'Varanda',
+		'Sala de estar',
+		'Sala de jantar',
+		'Suite',
+	],
+	mode: 'select',
+	enforceWhitelist: false,
+});
+
+var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
+	duplicates: true,
+});
 
 // NOTE Support functions
 
@@ -293,16 +287,16 @@ $(document).on('click', '.done-btn', function () {
 });
 
 $(document).on('click', '.slider-right-arrow', function () {
-	currentSlide++;
+	current_slide++;
 
-	if (currentSlide >= slides_content.length - 1) {
+	if (current_slide >= slides_content.length - 1) {
 		// Hide slider right arrow
 		$('.slider-right-arrow').css('display', 'none');
 	}
 });
 
 $(document).on('click', '.slider-left-arrow', function () {
-	currentSlide--;
+	current_slide--;
 });
 
 $(document).on('click', '.btn-generate', async function () {
@@ -310,8 +304,8 @@ $(document).on('click', '.btn-generate', async function () {
 });
 
 $(document).on('click', '.thumb-block', function () {
-	$(this).toggleClass('selected');
-	$(this).find('.style-title').toggleClass('transition');
+	// Add keyword to styles
+	tagify_styles.addTags([$(this).find('.style-title').text()]);
 });
 
 $(document).on('click', '#btn-add-images', function () {
@@ -320,7 +314,7 @@ $(document).on('click', '#btn-add-images', function () {
 		$('#slider-container').css('display', 'none');
 		images = [];
 		slides_content = [];
-		currentSlide = 0;
+		current_slide = 0;
 
 		// Remove all images
 		$('.slide-content-wrapper').html('');
@@ -334,5 +328,5 @@ $(document).on('click', '#btn-add-images', function () {
 });
 
 $(document).on('click', '.btn-free-download', function () {
-	downloadFile(slides_content[currentSlide].after);
+	downloadFile(slides_content[current_slide].after);
 });
