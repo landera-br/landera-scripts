@@ -254,6 +254,34 @@ function downloadFile(base64) {
 	URL.revokeObjectURL(url);
 }
 
+function startLoading() {
+	var requestId;
+	var elem = document.getElementsByClassName('loading-bar')[0];
+
+	// Unhide loading bar
+	$('.loading-progress').css('display', 'absolute');
+
+	function updateWidth(timestamp) {
+		var startTime = timestamp;
+		function animate() {
+			var elapsedTime = timestamp - startTime;
+			var progress = elapsedTime / 45000; // 45 seconds
+			var width = Math.min(progress * 100, 100);
+			elem.style.width = width + '%';
+			if (width < 100) {
+				requestId = requestAnimationFrame(animate);
+			} else {
+				cancelAnimationFrame(requestId);
+				// Hide loading bar
+				$('.loading-progress').css('display', 'none');
+			}
+		}
+		requestId = requestAnimationFrame(animate);
+	}
+
+	requestId = requestAnimationFrame(updateWidth);
+}
+
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
