@@ -267,6 +267,8 @@ function startLoading() {
 			var elapsedTime = timestamp - startTime;
 			var progress = elapsedTime / 45000; // 45 seconds
 			var width = Math.min(progress * 100, 100);
+			console.log(progress);
+			console.log(width);
 			elem.style.width = width + '%';
 			if (width < 100) {
 				requestId = requestAnimationFrame(animate);
