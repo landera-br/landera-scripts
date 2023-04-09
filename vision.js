@@ -257,29 +257,25 @@ function downloadFile(base64) {
 function startLoading() {
 	var elem = document.getElementsByClassName('loading-bar')[0];
 	var loadingProgress = document.getElementsByClassName('loading-progress')[0];
-	var startTime;
+	var startTime = performance.now();
+	var animationFrame;
 
-	// Set a transition on the loading bar element
-	elem.style.transition = 'width 45s linear';
-
-	function updateWidth(timestamp) {
-		if (!startTime) {
-			startTime = timestamp;
-			loadingProgress.style.display = 'flex';
-		}
-		var elapsedTime = timestamp - startTime;
+	function updateWidth() {
+		var elapsedTime = performance.now() - startTime;
 		var progress = elapsedTime / 45000; // 45 seconds
 		var width = Math.min(progress * 100, 100);
 		elem.style.width = width + '%';
-		if (width < 100) {
-			requestAnimationFrame(updateWidth);
-		} else {
+
+		if (progress >= 1) {
 			loadingProgress.style.display = 'none';
-			elem.style.transition = ''; // Remove the transition after it's complete
+			cancelAnimationFrame(animationFrame);
+		} else {
+			loadingProgress.style.display = 'flex';
+			animationFrame = requestAnimationFrame(updateWidth);
 		}
 	}
 
-	requestAnimationFrame(updateWidth);
+	animationFrame = requestAnimationFrame(updateWidth);
 }
 
 // NOTE Listeners
