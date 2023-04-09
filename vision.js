@@ -324,14 +324,8 @@ $(document).on('click', '#btn-add-images', function () {
 		// Unhide slider right arrow
 		$('.slider-right-arrow').css('display', 'flex');
 
-		console.log('current_slide ', current_slide);
-		// Reset slide position (click on left arrow)
-		for (let i = 0; i < current_slide; i++) {
-			console.log('voltou');
-			$('.slider-left-arrow').click();
-		}
-
-		current_slide = 0;
+		// Reset slide position
+		while (current_slide > 0) $('.slider-left-arrow').click();
 
 		// Reset file uploader
 		$('.cancel-btn').click();
