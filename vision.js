@@ -255,27 +255,8 @@ function downloadFile(base64) {
 }
 
 function startLoading() {
-	var elem = document.getElementsByClassName('loading-bar')[0];
 	var loadingProgress = document.getElementsByClassName('loading-progress')[0];
-	var startTime = performance.now();
-	var animationFrame;
-
-	function updateWidth() {
-		var elapsedTime = performance.now() - startTime;
-		var progress = elapsedTime / 45000; // 45 seconds
-		var width = Math.min(progress * 100, 100);
-		elem.style.width = width + '%';
-
-		if (progress >= 1) {
-			loadingProgress.style.display = 'none';
-			cancelAnimationFrame(animationFrame);
-		} else {
-			loadingProgress.style.display = 'flex';
-			animationFrame = requestAnimationFrame(updateWidth);
-		}
-	}
-
-	animationFrame = requestAnimationFrame(updateWidth);
+	loadingProgress.style.display = 'flex';
 }
 
 // NOTE Listeners
