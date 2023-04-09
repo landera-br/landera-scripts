@@ -259,6 +259,9 @@ function startLoading() {
 	var loadingProgress = document.getElementsByClassName('loading-progress')[0];
 	var startTime;
 
+	// Set a transition on the loading bar element
+	elem.style.transition = 'width 45s linear';
+
 	function updateWidth(timestamp) {
 		if (!startTime) {
 			startTime = timestamp;
@@ -272,10 +275,10 @@ function startLoading() {
 			requestAnimationFrame(updateWidth);
 		} else {
 			loadingProgress.style.display = 'none';
+			elem.style.transition = ''; // Remove the transition after it's complete
 		}
 	}
 
-	loadingProgress.style.display = 'flex';
 	requestAnimationFrame(updateWidth);
 }
 
