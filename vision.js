@@ -259,7 +259,7 @@ function startLoading() {
 	var elem = document.getElementsByClassName('loading-bar')[0];
 
 	// Unhide loading bar
-	$('.loading-progress').css('display', 'absolute');
+	$('.loading-progress').css('display', 'flex');
 
 	function updateWidth(timestamp) {
 		var startTime = timestamp;
