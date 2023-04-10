@@ -33,81 +33,33 @@ function updateSlides(index = null) {
 	// Check if index is null and if it is an integer
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
-		swiper.removeSlide(index);
 
-		// Update single slide
-		if (slide.state === 'input' && slide.before) {
-			const img = new Image();
+		if (slide.after) {
+			var image = new Image();
 
-			img.addEventListener('load', () => {
-				// Update input slide
-				swiper.addSlide(index, stringToHTML(INPUT_SLIDE(slide.before)));
-			});
-
-			// Set the source of the image element to the 'before' URL
-			img.src = slide.before;
-
-			return;
-		}
-
-		if (slide.state === 'result' && slide.before && slide.after) {
-			// Add result slide
-			const beforeImg = new Image();
-			const afterImg = new Image();
-
-			let loadedCount = 0;
-
-			const checkLoaded = () => {
-				loadedCount++;
-				if (loadedCount === 2) {
-					// Both images have loaded, append the slide to the swiper
-					swiper.addSlide(index, stringToHTML(RESULT_SLIDE(slide.before, slide.after)));
-					reloadSliders();
-				}
+			image.src = slide.after;
+			image.onload = function () {
+				// Update result slide
+				$('.slide-content-wrapper')[index].innerHTML = IMAGE(
+					`data:image/png;base64,${slide.after}`
+				);
 			};
-
-			// Add event listeners for the 'load' event on both image elements
-			beforeImg.addEventListener('load', checkLoaded);
-			afterImg.addEventListener('load', checkLoaded);
-
-			// Set the sources of the image elements to the 'before' URL and 'after' base64 string, respectively
-			beforeImg.src = slide.before;
-			afterImg.src = `data:image/png;base64,${slide.after}`;
-
-			return;
 		}
-
-		// Add loading slide
-		swiper.addSlide(index, stringToHTML(LOADING_SLIDE));
-		swiper.slideTo(index, 0, false);
 	} else {
 		// Update all slides based on slides_content
 		slides_content.forEach((slide, index) => {
-			var image = new Image();
+			if (slide.before) {
+				var image = new Image();
 
-			if (slide.state === 'input' && slide.before) {
 				image.src = slide.before;
 				image.onload = function () {
 					// Update input slide
 					$('.slide-content-wrapper')[index].innerHTML = IMAGE(slide.before);
 				};
-			}
 
-			if (slide.state === 'result' && slide.after) {
-				image.src = slide.after;
-				image.onload = function () {
-					// Update result slide
-					$('.slide-content-wrapper')[index].innerHTML = IMAGE(slide.after);
-				};
+				// Unhide slide
+				$('.slide-content-wrapper')[index].style.display = 'flex';
 			}
-
-			if (slide.state === 'loading') {
-				// Add loading class
-				$('.slide-content-wrapper')[index].classList.add('loading');
-			}
-
-			// Unhide slide
-			$('.slide-content-wrapper')[index].style.display = 'flex';
 		});
 	}
 }
@@ -119,15 +71,14 @@ async function generate(url) {
 	const payload = { image, room, style };
 	var jobResult = null;
 	var statusResult = null;
-	const MAX_ATTEMPTS = 12;
+	const MAX_ATTEMPTS = 12; // 1 minute
 	const INTERVAL_TIME = 5000; // 5 seconds
 	let attemptCount = 0;
-	const ACTIVE_INDEX = swiper.activeIndex;
-
-	slides_content[ACTIVE_INDEX].state = 'loading';
-	updateSlides(ACTIVE_INDEX);
 
 	console.log('Generating image...');
+
+	startLoading();
+
 	try {
 		const response = await fetch('https://landera-network-7ikj4ovbfa-uc.a.run.app/api/v1/vision', {
 			method: 'POST',
@@ -166,11 +117,10 @@ async function generate(url) {
 				if (statusResult.status === 'COMPLETED') {
 					console.log('Image generated!');
 					clearInterval(interval);
+					stopLoading();
 
-					slides_content[ACTIVE_INDEX].state = 'result';
-					slides_content[ACTIVE_INDEX].after = statusResult.output.image;
-					updateSlides(ACTIVE_INDEX);
-					swiper.slideTo(ACTIVE_INDEX, 0, false);
+					slides_content[current_slide].after = statusResult.output.image;
+					updateSlides(current_slide);
 				} else {
 					attemptCount++;
 					if (attemptCount >= MAX_ATTEMPTS) {
@@ -254,15 +204,18 @@ function downloadFile(base64) {
 	URL.revokeObjectURL(url);
 }
 
-function startLoading(index = 0) {
-	$('.slider-image')[index].style.filter = 'brightness(0.5)';
+function startLoading() {
+	$('.slider-image')[current_slide].style.filter = 'brightness(0.5)';
 
 	// Add loading bar to slide
 	$('.slide')
-		.eq(index)
+		.eq(current_slide)
 		.append(
 			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
 		);
+
+	// Hide output menu
+	if ($('.output-menu').length > 0) $('.output-menu').css('display', 'none');
 
 	// Set opacity of .battery-square_power-unit to 1 every 4 seconds
 	var units = document.querySelectorAll('.battery-square_power-unit');
@@ -273,12 +226,30 @@ function startLoading(index = 0) {
 		if (unitIndex >= units.length) {
 			clearInterval(batteryInterval);
 		}
-	}, 400);
+	}, 4000);
 }
 
-function stopLoading(index = 0) {
-	$('.slide').eq(index).find('.loader-rectangle_component').remove();
-	$('.slider-image')[index].style.filter = 'brightness(1)';
+function stopLoading() {
+	$('.slide').eq(current_slide).find('.loader-rectangle_component').remove();
+	$('.slider-image')[current_slide].style.filter = 'brightness(1)';
+	// Show output menu, if exists
+	if ($('.output-menu').length > 0) $('.output-menu').css('display', 'flex');
+}
+
+function addOutputMenu() {
+	$('.slide')
+		.eq(current_slide)
+		.append(
+			`<div class="output-menu"><div class="output-options"><div class="menu-button"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6336fd9ad65bc35bb14a118b_download.svg" loading="lazy" width="20" height="20" alt=""></div><div class="menu-button"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64341bc10a05bcee6478ce40_full.svg" loading="lazy" width="20" height="20" alt=""></div></div><div class="regenerate"><div class="menu-button btn-regenerate"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/642ffbce908513dcb14b19ce_reset.svg" loading="lazy" width="20" height="20" alt=""></div></div></div>`
+		);
+
+	// Add event listeners
+	$('.btn-regenerate').on('click', function () {
+		// Remove output menu
+		$('.output-menu').remove();
+		// Remove output image
+		$('.slider-image')[current_slide].src = slides_content[current_slide].before;
+	});
 }
 
 // NOTE Listeners
@@ -306,7 +277,6 @@ $(document).on('click', '.done-btn', function () {
 		slides_content.push({
 			before: image.cdnUrl,
 			after: '',
-			state: 'input',
 		});
 	});
 
