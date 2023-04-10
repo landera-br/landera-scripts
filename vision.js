@@ -254,18 +254,24 @@ function downloadFile(base64) {
 	URL.revokeObjectURL(url);
 }
 
-function startLoading() {
+function startLoading(index) {
 	var elem = document.querySelector('.loading-bar');
-	var loadingProgress = document.querySelector('.loading-progress');
+	var loadingProgress = document.querySelector('.loading-progress')[index];
 	loadingProgress.style.display = 'flex';
-
 	var start = null;
+
+	// Decrease slider-image brightness
+	$('.slider-image')[index].style.filter = 'brightness(0.5)';
+
 	function updateWidth(timestamp) {
 		if (!start) start = timestamp;
 		var progress = (timestamp - start) / 45000; // 45 seconds
 		elem.style.width = Math.min(progress * 100, 100) + '%';
 		if (progress < 1) requestAnimationFrame(updateWidth);
-		else loadingProgress.style.display = 'none';
+		else {
+			loadingProgress.style.display = 'none';
+			$('.slider-image')[index].style.filter = 'brightness(1)';
+		}
 	}
 
 	requestAnimationFrame(updateWidth);
