@@ -35,10 +35,12 @@ function updateSlides(index = null) {
 		if (slide.after) {
 			var image = new Image();
 
-			image.src = slide.after;
+			image.src = `data:image/png;base64,${slide.after}`;
 			image.onload = function () {
 				// Update result slide
-				$('.slide-content-wrapper')[index].innerHTML = IMAGE(slide.after);
+				$('.slide-content-wrapper')[index].innerHTML = IMAGE(
+					`data:image/png;base64,${slide.after}`
+				);
 			};
 
 			addOutputMenu(index);
@@ -114,7 +116,7 @@ async function generate(url) {
 					clearInterval(interval);
 					stopLoading();
 
-					slides_content[INDEX].after = `data:image/png;base64,${statusResult.output.image}`;
+					slides_content[INDEX].after = statusResult.output.image;
 					updateSlides(INDEX);
 				} else {
 					attemptCount++;
@@ -205,7 +207,7 @@ function displayOutput() {
 	var data = JSON.parse(document.getElementById('lightbox').querySelector('script').textContent);
 
 	// Update the URLs of the items in the data object
-	data.items[0].url = slides_content[current_slide].after;
+	data.items[0].url = `data:image/png;base64,${slides_content[current_slide].after}`;
 	data.items[1].url = slides_content[current_slide].before;
 
 	// Replace the lightbox element's JSON data with the updated data object
@@ -238,7 +240,7 @@ function addOutputMenu() {
 		if (slides_content[current_slide].after === '') {
 			alert('Por favor, aguarde a imagem ser processada.');
 		} else {
-			displayOutputImage();
+			displayOutput();
 		}
 	});
 }
