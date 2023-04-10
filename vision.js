@@ -255,17 +255,29 @@ function downloadFile(base64) {
 }
 
 function startLoading(index = 0) {
+	$('.slider-image')[index].style.filter = 'brightness(0.5)';
+
 	// Add loading bar to slide
 	$('.slide')
 		.eq(index)
 		.append(
 			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
 		);
+
+	// Set opacity of .battery-square_power-unit to 1 every 4 seconds
+	var units = document.querySelectorAll('.battery-square_power-unit');
+	var unitIndex = 0;
+	var batteryInterval = setInterval(function () {
+		units[unitIndex].style.opacity = '1';
+		unitIndex++;
+		if (unitIndex >= units.length) {
+			clearInterval(batteryInterval);
+		}
+	}, 400);
 }
 
 function stopLoading(index = 0) {
-	var loadingProgress = document.querySelectorAll('.loading-progress')[index];
-	loadingProgress.style.display = 'none';
+	$('.slide').eq(index).find('.loader-rectangle_component').remove();
 	$('.slider-image')[index].style.filter = 'brightness(1)';
 }
 
