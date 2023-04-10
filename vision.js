@@ -77,6 +77,7 @@ async function generate(url) {
 
 	console.log('Generating image...');
 
+	console.log(payload);
 	startLoading();
 
 	try {
@@ -94,6 +95,8 @@ async function generate(url) {
 		console.log(error.message);
 		return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	}
+
+	console.log('Passou');
 
 	// If the request is successful, try to get the image every 5 seconds with a maximum of 10 attempts
 	if (jobResult.status === 'IN_QUEUE' || jobResult.status === 'IN_PROGRESS') {
@@ -298,7 +301,7 @@ $(document).on('click', '.slider-left-arrow', function () {
 });
 
 $(document).on('click', '.btn-generate', async function () {
-	await generate(slides_content[swiper.activeIndex].before);
+	await generate(slides_content[current_slide].before);
 });
 
 $(document).on('click', '.thumb-block', function () {
