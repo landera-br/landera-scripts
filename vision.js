@@ -254,9 +254,9 @@ function downloadFile(base64) {
 	URL.revokeObjectURL(url);
 }
 
-function startLoading(index) {
-	var elem = document.querySelector('.loading-bar');
-	var loadingProgress = document.querySelector('.loading-progress')[index];
+function startLoading(index = 0) {
+	var elem = document.querySelectorAll('.loading-bar')[index];
+	var loadingProgress = document.querySelectorAll('.loading-progress')[index];
 	loadingProgress.style.display = 'flex';
 	var start = null;
 
