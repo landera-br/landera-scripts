@@ -255,26 +255,18 @@ function downloadFile(base64) {
 }
 
 function startLoading(index = 0) {
-	var elem = document.querySelectorAll('.loading-bar')[index];
+	// Add loading bar to slide
+	$('.slide')
+		.eq(index)
+		.append(
+			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
+		);
+}
+
+function stopLoading(index = 0) {
 	var loadingProgress = document.querySelectorAll('.loading-progress')[index];
-	loadingProgress.style.display = 'flex';
-	var start = null;
-
-	// Decrease slider-image brightness
-	$('.slider-image')[index].style.filter = 'brightness(0.5)';
-
-	function updateWidth(timestamp) {
-		if (!start) start = timestamp;
-		var progress = (timestamp - start) / 45000; // 45 seconds
-		elem.style.width = Math.min(progress * 100, 100) + '%';
-		if (progress < 1) requestAnimationFrame(updateWidth);
-		else {
-			loadingProgress.style.display = 'none';
-			$('.slider-image')[index].style.filter = 'brightness(1)';
-		}
-	}
-
-	requestAnimationFrame(updateWidth);
+	loadingProgress.style.display = 'none';
+	$('.slider-image')[index].style.filter = 'brightness(1)';
 }
 
 // NOTE Listeners
