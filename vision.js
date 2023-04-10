@@ -2,8 +2,6 @@
 let images = [];
 let slides_content = [];
 let current_slide = 0;
-const IMAGE = (image) =>
-	`<img src="${image}" class="slider-image" alt="slide-image" /><div class="loading-progress"><div class="loading-bar"></div></div>`;
 var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	whitelist: [
 		'Cozinha',
@@ -20,16 +18,16 @@ var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	mode: 'select',
 	enforceWhitelist: false,
 });
-
 var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
 	duplicates: false,
 });
+const IMAGE = (image) =>
+	`<img src="${image}" class="slider-image" alt="slide-image" /><div class="loading-progress"><div class="loading-bar"></div></div>`;
+const OUTPUT_MENU = `<div class="output-menu"><div class="output-options"><div class="menu-button btn-free-download"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6336fd9ad65bc35bb14a118b_download.svg" loading="lazy" width="20" height="20" alt=""></div><div class="menu-button btn-full-screen"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64341bc10a05bcee6478ce40_full.svg" loading="lazy" width="20" height="20" alt=""></div></div><div class="regenerate"><div class="menu-button btn-regenerate"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/642ffbce908513dcb14b19ce_reset.svg" loading="lazy" width="20" height="20" alt=""></div></div></div>`;
 
 // NOTE Support functions
 
 function updateSlides(index = null) {
-	console.log(slides_content);
-
 	// Check if index is null and if it is an integer
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
@@ -37,12 +35,13 @@ function updateSlides(index = null) {
 		if (slide.after) {
 			var image = new Image();
 
-			console.log('Updating slide...');
 			image.src = slide.after;
 			image.onload = function () {
 				// Update result slide
 				$('.slide-content-wrapper')[index].innerHTML = IMAGE(slide.after);
 			};
+
+			addOutputMenu(index);
 		}
 	} else {
 		// Update all slides based on slides_content
@@ -73,10 +72,8 @@ async function generate(url) {
 	const MAX_ATTEMPTS = 12; // 1 minute
 	const INTERVAL_TIME = 5000; // 5 seconds
 	let attemptCount = 0;
+	const INDEX = current_slide;
 
-	console.log('Generating image...');
-
-	console.log(payload);
 	startLoading();
 
 	try {
@@ -95,8 +92,6 @@ async function generate(url) {
 		return alert('Não foi possível gerar imagens no momento. Tente novamente mais tarde.');
 	}
 
-	console.log('Passou');
-
 	// If the request is successful, try to get the image every 5 seconds with a maximum of 10 attempts
 	if (jobResult.status === 'IN_QUEUE' || jobResult.status === 'IN_PROGRESS') {
 		const interval = setInterval(async () => {
@@ -114,17 +109,13 @@ async function generate(url) {
 
 				statusResult = await response.json();
 
-				console.log(statusResult);
-
 				if (statusResult.status === 'COMPLETED') {
 					console.log('Image generated!');
 					clearInterval(interval);
 					stopLoading();
 
-					slides_content[
-						current_slide
-					].after = `data:image/png;base64,${statusResult.output.image}`;
-					updateSlides(current_slide);
+					slides_content[INDEX].after = `data:image/png;base64,${statusResult.output.image}`;
+					updateSlides(INDEX);
 				} else {
 					attemptCount++;
 					if (attemptCount >= MAX_ATTEMPTS) {
@@ -221,7 +212,7 @@ function startLoading() {
 	// Hide output menu
 	if ($('.output-menu').length > 0) $('.output-menu').css('display', 'none');
 
-	// Set opacity of .battery-square_power-unit to 1 every 4 seconds
+	// Set opacity of .battery-square_power-unit to 1 every 3 seconds
 	var units = document.querySelectorAll('.battery-square_power-unit');
 	var unitIndex = 0;
 	var batteryInterval = setInterval(function () {
@@ -241,19 +232,25 @@ function stopLoading() {
 }
 
 function addOutputMenu() {
-	$('.slide')
-		.eq(current_slide)
-		.append(
-			`<div class="output-menu"><div class="output-options"><div class="menu-button"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6336fd9ad65bc35bb14a118b_download.svg" loading="lazy" width="20" height="20" alt=""></div><div class="menu-button"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64341bc10a05bcee6478ce40_full.svg" loading="lazy" width="20" height="20" alt=""></div></div><div class="regenerate"><div class="menu-button btn-regenerate"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/642ffbce908513dcb14b19ce_reset.svg" loading="lazy" width="20" height="20" alt=""></div></div></div>`
-		);
+	$('.slide').eq(current_slide).append(OUTPUT_MENU);
 
 	// Add event listeners
-	$('.btn-regenerate').on('click', function () {
+	$('.btn-regenerate').on('click', async function () {
 		// Remove output menu
 		$('.output-menu').remove();
-		// Remove output image
-		$('.slider-image')[current_slide].src = slides_content[current_slide].before;
+
+		await generate(slides_content[current_slide].before);
 	});
+
+	$('.btn-free-download').on('click', function () {
+		if (slides_content[current_slide].after === '') {
+			alert('Por favor, aguarde a imagem ser processada.');
+		} else {
+			downloadFile(slides_content[current_slide].after);
+		}
+	});
+
+	$('.btn-full-screen').on('click', function () {});
 }
 
 // NOTE Listeners
@@ -334,6 +331,33 @@ $(document).on('click', '#btn-add-images', function () {
 	}
 });
 
-$(document).on('click', '.btn-free-download', function () {
-	downloadFile(slides_content[current_slide].after);
-});
+// Find the lightbox element
+const lightbox = document.querySelector('.hidden-lightbox-link');
+
+// Get the Webflow lightbox instance
+const instance = window.Webflow.require('lightbox');
+
+function displayOutput() {
+	// Find the lightbox element
+	const lightbox = document.querySelector('.hidden-lightbox-link');
+
+	// Get the Webflow lightbox instance
+	const instance = window.Webflow.require('lightbox');
+
+	// Open the lightbox
+	instance.open(lightbox, {
+		show: true,
+		index: 0,
+		group: '',
+		items: [
+			{
+				src: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6410af648adfbb559c4138af_img-2.png',
+				type: 'image',
+			},
+			{
+				src: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6410af651f522438099c9d5d_img-1.png',
+				type: 'image',
+			},
+		],
+	});
+}
