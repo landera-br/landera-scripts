@@ -174,7 +174,7 @@ function startLoading() {
 	$('.slider-image')[current_slide].style.filter = 'brightness(0.5)';
 
 	// Add loading bar to slide
-	$('.slide')
+	$('.slide-content-wrapper')
 		.eq(current_slide)
 		.append(
 			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
@@ -196,7 +196,7 @@ function startLoading() {
 }
 
 function stopLoading() {
-	$('.slide').eq(current_slide).find('.loader-rectangle_component').remove();
+	$('.slide-content-wrapper').eq(current_slide).find('.loader-rectangle_component').remove();
 	$('.slider-image')[current_slide].style.filter = 'brightness(1)';
 	// Show output menu, if exists
 	if ($('.output-menu').length > 0) $('.output-menu').css('display', 'flex');
@@ -218,7 +218,7 @@ function displayOutput() {
 }
 
 function addOutputMenu() {
-	$('.slide').eq(current_slide).append(OUTPUT_MENU);
+	$('.slide-content-wrapper').eq(current_slide).append(OUTPUT_MENU);
 
 	// Add event listeners
 	$('.btn-regenerate').on('click', async function () {
