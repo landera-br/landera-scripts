@@ -216,29 +216,27 @@ function displayOutput() {
 	lightboxLink.click();
 }
 
-function addOutputMenu() {
-	console.log('Entrou');
-	console.log(current_slide);
-	$('.slide-content-wrapper').eq(current_slide).append(OUTPUT_MENU);
+function addOutputMenu(index) {
+	$('.slide-content-wrapper').eq(index).append(OUTPUT_MENU);
 
 	// Add event listeners
 	$('.btn-regenerate').on('click', async function () {
 		// Remove output menu
 		$('.output-menu').remove();
 
-		await generate(slides_content[current_slide].before);
+		await generate(slides_content[index].before);
 	});
 
 	$('.btn-free-download').on('click', function () {
-		if (slides_content[current_slide].after === '') {
+		if (slides_content[index].after === '') {
 			alert('Por favor, aguarde a imagem ser processada.');
 		} else {
-			downloadFile(slides_content[current_slide].after);
+			downloadFile(slides_content[index].after);
 		}
 	});
 
 	$('.btn-full-screen').on('click', function () {
-		if (slides_content[current_slide].after === '') {
+		if (slides_content[index].after === '') {
 			alert('Por favor, aguarde a imagem ser processada.');
 		} else {
 			displayOutput();
