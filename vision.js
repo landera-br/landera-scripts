@@ -41,9 +41,8 @@ function updateSlides(index = null) {
 				$('.slide-content-wrapper')[index].innerHTML = IMAGE(
 					`data:image/png;base64,${slide.after}`
 				);
+				addOutputMenu(index);
 			};
-
-			addOutputMenu(index);
 		}
 	} else {
 		// Update all slides based on slides_content
@@ -218,6 +217,8 @@ function displayOutput() {
 }
 
 function addOutputMenu() {
+	console.log('Entrou');
+	console.log(current_slide);
 	$('.slide-content-wrapper').eq(current_slide).append(OUTPUT_MENU);
 
 	// Add event listeners
