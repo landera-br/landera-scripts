@@ -37,12 +37,11 @@ function updateSlides(index = null) {
 		if (slide.after) {
 			var image = new Image();
 
+			console.log('Updating slide...');
 			image.src = slide.after;
 			image.onload = function () {
 				// Update result slide
-				$('.slide-content-wrapper')[index].innerHTML = IMAGE(
-					`data:image/png;base64,${slide.after}`
-				);
+				$('.slide-content-wrapper')[index].innerHTML = IMAGE(slide.after);
 			};
 		}
 	} else {
@@ -122,7 +121,9 @@ async function generate(url) {
 					clearInterval(interval);
 					stopLoading();
 
-					slides_content[current_slide].after = statusResult.output.image;
+					slides_content[
+						current_slide
+					].after = `data:image/png;base64,${statusResult.output.image}`;
 					updateSlides(current_slide);
 				} else {
 					attemptCount++;
@@ -214,7 +215,7 @@ function startLoading() {
 	$('.slide')
 		.eq(current_slide)
 		.append(
-			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
+			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
 		);
 
 	// Hide output menu
@@ -229,7 +230,7 @@ function startLoading() {
 		if (unitIndex >= units.length) {
 			clearInterval(batteryInterval);
 		}
-	}, 4000);
+	}, 3000);
 }
 
 function stopLoading() {
