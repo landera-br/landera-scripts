@@ -150,37 +150,6 @@ function getStyles() {
 	}
 }
 
-function reloadSliders() {
-	// Rerender sliders
-	const sliderWrappers = document.getElementsByClassName('slider-wrapper');
-	for (const sliderWrapper of sliderWrappers) {
-		// Get the source of the before and after image within the current "slider-wrapper" element
-		const before = sliderWrapper.querySelectorAll('img')[0].src;
-		const after = sliderWrapper.querySelectorAll('img')[1].src;
-		// Create a template for the beer slider using the before and after image sources
-		const template = `
-        <div class="beer-slider slider-label" data-beer-label="Depois">
-          <img src="${after}">
-          <div class="beer-reveal slider-label" data-beer-label="Antes">
-            <img src="${before}">
-          </div>
-        </div>
-      `;
-		// Remove the after and the before images, on this sequence
-		sliderWrapper.querySelectorAll('img')[1].remove();
-		sliderWrapper.querySelectorAll('img')[0].remove();
-		// Append the template to the current "image-wrapper" element
-		sliderWrapper.insertAdjacentHTML('afterbegin', template);
-	}
-
-	// Select all elements with the class "beer-slider" and loop through them
-	const beerSliders = document.getElementsByClassName('beer-slider');
-	for (const beerSlider of beerSliders) {
-		// Initialize the BeerSlider plugin on the current element, passing in the "start" data attribute as the option
-		new BeerSlider(beerSlider, { start: beerSlider.dataset.start });
-	}
-}
-
 function downloadFile(base64) {
 	const blobData = atob(base64);
 	const arrayBuffer = new ArrayBuffer(blobData.length);
@@ -231,6 +200,21 @@ function stopLoading() {
 	if ($('.output-menu').length > 0) $('.output-menu').css('display', 'flex');
 }
 
+function displayOutput() {
+	// Update lightbox JSON
+	var data = JSON.parse(document.getElementById('lightbox').querySelector('script').textContent);
+
+	// Update the URLs of the items in the data object
+	data.items[0].url = slides_content[current_slide].after;
+	data.items[1].url = slides_content[current_slide].before;
+
+	// Replace the lightbox element's JSON data with the updated data object
+	document.getElementById('lightbox').querySelector('script').textContent = JSON.stringify(data);
+
+	var lightboxLink = $('#lightbox-trigger');
+	lightboxLink.click();
+}
+
 function addOutputMenu() {
 	$('.slide').eq(current_slide).append(OUTPUT_MENU);
 
@@ -250,7 +234,13 @@ function addOutputMenu() {
 		}
 	});
 
-	$('.btn-full-screen').on('click', function () {});
+	$('.btn-full-screen').on('click', function () {
+		if (slides_content[current_slide].after === '') {
+			alert('Por favor, aguarde a imagem ser processada.');
+		} else {
+			displayOutputImage();
+		}
+	});
 }
 
 // NOTE Listeners
@@ -330,34 +320,3 @@ $(document).on('click', '#btn-add-images', function () {
 		$('.cancel-btn').click();
 	}
 });
-
-// Find the lightbox element
-const lightbox = document.querySelector('.hidden-lightbox-link');
-
-// Get the Webflow lightbox instance
-const instance = window.Webflow.require('lightbox');
-
-function displayOutput() {
-	// Find the lightbox element
-	const lightbox = document.querySelector('.hidden-lightbox-link');
-
-	// Get the Webflow lightbox instance
-	const instance = window.Webflow.require('lightbox');
-
-	// Open the lightbox
-	instance.open(lightbox, {
-		show: true,
-		index: 0,
-		group: '',
-		items: [
-			{
-				src: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6410af648adfbb559c4138af_img-2.png',
-				type: 'image',
-			},
-			{
-				src: 'https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6410af651f522438099c9d5d_img-1.png',
-				type: 'image',
-			},
-		],
-	});
-}
