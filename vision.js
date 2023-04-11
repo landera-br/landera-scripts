@@ -202,15 +202,37 @@ function stopLoading() {
 }
 
 function displayOutput() {
-	// Update lightbox JSON
-	var data = JSON.parse(document.getElementById('lightbox').querySelector('script').textContent);
+	// Get the lightbox element
+	var lightbox = document.getElementById('lightbox');
 
-	// Update the URLs of the items in the data object
-	data.items[0].url = `data:image/png;base64,${slides_content[current_slide].after}`;
-	data.items[1].url = slides_content[current_slide].before;
+	// Get the lightbox's JSON script
+	var script = lightbox.querySelector('script.w-json');
 
-	// Replace the lightbox element's JSON data with the updated data object
-	document.getElementById('lightbox').querySelector('script').textContent = JSON.stringify(data);
+	// Parse the JSON script to get the current items
+	var items = JSON.parse(script.innerHTML).items;
+
+	// Remove all existing media from the items array
+	items.length = 0;
+
+	items.push({
+		_id: 'after',
+		fileName: 'after.png',
+		url: `data:image/png;base64,${slides_content[current_slide].after}`,
+		type: 'image',
+	});
+
+	items.push({
+		_id: 'before',
+		fileName: 'before.png',
+		url: slides_content[current_slide].before,
+		type: 'image',
+	});
+
+	// Update the JSON script with the new items array
+	script.innerHTML = JSON.stringify({ items: items });
+
+	// Initialize Webflow lightbox
+	Webflow.require('lightbox').ready();
 
 	var lightboxLink = $('#lightbox-trigger');
 	lightboxLink.click();
@@ -236,7 +258,7 @@ function addOutputMenu(index) {
 	});
 
 	$('.btn-full-screen').on('click', function () {
-		if (slides_content[index].after === '') {
+		if (slides_content[index].after === '' || slides_content[index].after === undefined) {
 			alert('Por favor, aguarde a imagem ser processada.');
 		} else {
 			displayOutput();
