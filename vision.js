@@ -310,7 +310,7 @@ $(document).on('click', '.btn-generate', async function () {
 
 $(document).on('click', '.thumb-block', function () {
 	// Add keyword to styles
-	tagify_styles.addTags([$(this).find('.style-title').text()]);
+	tagify_styles.addTags([`estilo ${$(this).find('.style-title').text()}`]);
 });
 
 $(document).on('click', '#btn-add-images', function () {
