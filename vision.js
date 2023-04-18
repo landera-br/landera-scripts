@@ -3,18 +3,7 @@ let images = [];
 let slides_content = [];
 let current_slide = 0;
 var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
-	whitelist: [
-		'Cozinha',
-		'Home Theater',
-		'Jardim',
-		'Lavanderia',
-		'Quarto',
-		'Piscina',
-		'Varanda',
-		'Sala de estar',
-		'Sala de jantar',
-		'Suite',
-	],
+	whitelist: ['Automático', 'Cozinha', 'Quarto', 'Sala de estar', 'Sala de jantar'],
 	mode: 'select',
 	enforceWhitelist: false,
 });
