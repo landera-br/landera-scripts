@@ -184,7 +184,7 @@ function startLoading() {
 		if (unitIndex >= units.length) {
 			clearInterval(batteryInterval);
 		}
-	}, 3000);
+	}, 2000);
 }
 
 function stopLoading() {
