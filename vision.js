@@ -54,10 +54,13 @@ function updateSlides(index = null) {
 }
 
 async function generate(url) {
+	// Get payload data
 	const image = url;
 	const room = $('.rooms-embed .tagify .tagify__tag .tagify__tag-text').text();
 	const style = getStyles();
-	const payload = { image, room, style };
+	const creative = $('#creativemode').is(':checked');
+
+	const payload = { image, room, style, creative };
 	var jobResult = null;
 	var statusResult = null;
 	const MAX_ATTEMPTS = 12; // 1 minute
