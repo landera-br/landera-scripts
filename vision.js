@@ -311,6 +311,8 @@ $(document).on('click', '.thumb-block', function () {
 });
 
 $(document).on('click', '#btn-add-images', function () {
+	$('lr-drop-area').click();
+
 	if ($('.uploadcare-section').css('display') === 'none') {
 		$('.uploadcare-section').css('display', 'flex');
 		$('#slider-container').css('display', 'none');
