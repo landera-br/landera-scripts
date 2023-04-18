@@ -129,19 +129,7 @@ async function generate(url) {
 }
 
 function getStyles() {
-	// Check if there are elements with class .thumb-block .selected
-	if ($('.thumb-block.selected').length > 0) {
-		var styles = [];
-
-		// Get preset styles and separate them by comma
-		$('.thumb-block.selected').each(function () {
-			styles.push($(this).find('.style-title').text());
-		});
-		return styles.join(', ');
-	} else {
-		// Get custom styles
-		return $('.style-embed .tagify .tagify__tag .tagify__tag-text').text();
-	}
+	return $('.style-embed .tagify .tagify__tag .tagify__tag-text').text();
 }
 
 function downloadFile(base64) {
@@ -184,7 +172,7 @@ function startLoading() {
 		if (unitIndex >= units.length) {
 			clearInterval(batteryInterval);
 		}
-	}, 2000);
+	}, 3000);
 }
 
 function stopLoading() {
