@@ -7,6 +7,9 @@ var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	mode: 'select',
 	enforceWhitelist: false,
 });
+
+tagify_rooms.setValue('Automático');
+
 var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
 	duplicates: false,
 });
