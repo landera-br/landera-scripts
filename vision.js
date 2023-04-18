@@ -130,7 +130,14 @@ async function generate(url) {
 }
 
 function getStyles() {
-	return $('.style-embed .tagify .tagify__tag .tagify__tag-text').text();
+	var tags = $('.style-wrapper .tagify .tagify__tag .tagify__tag-text')
+		.map(function () {
+			return $(this).text();
+		})
+		.get()
+		.join(', ');
+
+	return tags;
 }
 
 function downloadFile(base64) {
