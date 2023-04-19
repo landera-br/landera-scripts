@@ -159,14 +159,18 @@ function downloadFile(base64) {
 }
 
 function startLoading() {
+	const POWER_UNITS = 17; // Set the desired number of power units here
+	let powerUnitsHtml = '';
+
 	$('.slider-image')[current_slide].style.filter = 'brightness(0.5)';
 
-	// Add loading bar to slide
+	for (let i = 0; i < POWER_UNITS; i++) {
+		powerUnitsHtml += '<div class="battery-square_power-unit"></div>';
+	}
+
 	$('.slide-content-wrapper')
 		.eq(current_slide)
-		.append(
-			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
-		);
+		.append(`<div class="loader-rectangle_component">${powerUnitsHtml}</div>`);
 
 	// Hide output menu
 	if ($('.output-menu').length > 0) $('.output-menu').css('display', 'none');
