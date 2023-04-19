@@ -64,7 +64,7 @@ async function generate(url) {
 	const payload = { image, room, style, creative };
 	var jobResult = null;
 	var statusResult = null;
-	const MAX_ATTEMPTS = 12; // 1 minute
+	const MAX_ATTEMPTS = 18; // 90 seconds
 	const INTERVAL_TIME = 5000; // 5 seconds
 	let attemptCount = 0;
 	const INDEX = current_slide;
@@ -333,4 +333,8 @@ $(document).on('click', '#btn-add-images', function () {
 		// Reset file uploader
 		$('.cancel-btn').click();
 	}
+});
+
+$(document).on('mouseenter', '.tippy', function () {
+	tippy(this);
 });
