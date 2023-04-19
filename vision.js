@@ -165,7 +165,7 @@ function startLoading() {
 	$('.slide-content-wrapper')
 		.eq(current_slide)
 		.append(
-			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
+			`<div class="loader-rectangle_component"><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div><div class="battery-square_power-unit"></div></div>`
 		);
 
 	// Hide output menu
