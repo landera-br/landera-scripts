@@ -278,7 +278,10 @@ function addOutputMenu(index) {
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
-	if (e.detail.ctx === 'upload-context') images.push(e.detail.data);
+	if (e.detail.ctx === 'upload-context') {
+		console.log('Append image to images array');
+		images.push(e.detail.data);
+	}
 });
 
 $(document).ready(function () {
@@ -297,6 +300,8 @@ $(document).on('click', '.done-btn', function () {
 
 	// Maximum of 20 images
 	images.splice(20);
+
+	console.log(images);
 
 	// Hide slider right arrow if there are less than 2 images
 	if (images.length < 2) {
@@ -344,7 +349,7 @@ $(document).on('click', '#btn-add-images', function () {
 		$('.uploadcare-section').css('display', 'flex');
 		$('#slider-container').css('display', 'none');
 		// images = [];
-		// slides_content = [];
+		slides_content = [];
 
 		// // Remove all images
 		// $('.slide-content-wrapper').html('');
