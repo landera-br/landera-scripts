@@ -294,8 +294,14 @@ function activateCanvas() {
 	// (used to help calculate mouseX/mouseY)
 	var $canvas = $('.canvas').eq(current_slide);
 	var canvasOffset = $canvas.offset();
-	var offsetX = canvasOffset.left;
-	var offsetY = canvasOffset.top;
+
+	// var offsetX = canvasOffset.left;
+	// var offsetY = canvasOffset.top;
+	var offsetX = canvasOffset.left + document.body.scrollLeft + document.documentElement.scrollLeft;
+	var offsetY = canvasOffset.top + document.body.scrollTop + document.documentElement.scrollTop;
+	offsetX -= $canvas[0].clientLeft;
+	offsetY -= $canvas[0].clientTop;
+
 	var scrollX = $canvas.scrollLeft();
 	var scrollY = $canvas.scrollTop();
 
