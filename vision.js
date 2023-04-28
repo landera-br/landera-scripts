@@ -27,8 +27,7 @@ var third_obj = new Tagify(document.querySelector('input[name=obj-3]'), TAGIFY_O
 var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
 	duplicates: false,
 });
-const IMAGE_CANVAS = (image) =>
-	`<div class="canvasWrapper"><canvas class="overlay"></canvas><canvas class="canvas"></canvas><img src="${image}" class="slider-image" alt="slide-image"/></div>`;
+const IMAGE_CANVAS = (image) => `<img src="${image}" class="slider-image" alt="slide-image"/>`;
 
 const OUTPUT_MENU = `<div class="output-menu"><div class="output-options"><div class="menu-button btn-free-download tippy" data-tippy-animation="scale" data-tippy-content="Baixar gratuitamente" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6336fd9ad65bc35bb14a118b_download.svg" loading="lazy" width="20" height="20" alt=""></div><div class="menu-button btn-full-screen tippy" data-tippy-animation="scale" data-tippy-content="Ver antes/depois" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64341bc10a05bcee6478ce40_full.svg" loading="lazy" width="20" height="20" alt=""></div></div><div class="regenerate"><div class="menu-button btn-regenerate tippy" data-tippy-animation="scale" data-tippy-content="Recriar imagem" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/642ffbce908513dcb14b19ce_reset.svg" loading="lazy" width="20" height="20" alt=""></div></div></div>`;
 
@@ -274,128 +273,6 @@ function addOutputMenu(index) {
 		} else {
 			displayOutput();
 		}
-	});
-}
-
-function activateCanvas() {
-	// get references to the canvas and context
-	var canvas = document.getElementsByClassName('canvas')[current_slide];
-	var overlay = document.getElementsByClassName('overlay')[current_slide];
-	var ctx = canvas.getContext('2d');
-	var ctxo = overlay.getContext('2d');
-
-	// style the context
-	ctx.strokeStyle = '#3782ff';
-	ctx.lineWidth = 3;
-	ctxo.strokeStyle = '#3782ff';
-	ctxo.lineWidth = 3;
-
-	// calculate where the canvas is on the window
-	// (used to help calculate mouseX/mouseY)
-	var $canvas = $('.canvas').eq(current_slide);
-	var canvasOffset = $canvas.offset();
-
-	// var offsetX = canvasOffset.left;
-	// var offsetY = canvasOffset.top;
-	var offsetX = canvasOffset.left + document.body.scrollLeft + document.documentElement.scrollLeft;
-	var offsetY = canvasOffset.top + document.body.scrollTop + document.documentElement.scrollTop;
-	offsetX -= $canvas[0].clientLeft;
-	offsetY -= $canvas[0].clientTop;
-
-	var scrollX = $canvas.scrollLeft();
-	var scrollY = $canvas.scrollTop();
-
-	// this flage is true when the user is dragging the mouse
-	var isDown = false;
-
-	// these vars will hold the starting mouse position
-	var startX;
-	var startY;
-
-	var prevStartX = 0;
-	var prevStartY = 0;
-
-	var prevWidth = 0;
-	var prevHeight = 0;
-
-	function handleMouseDown(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		// save the starting x/y of the rectangle
-		startX = parseInt(e.clientX - offsetX);
-		startY = parseInt(e.clientY - offsetY);
-
-		// set a flag indicating the drag has begun
-		isDown = true;
-	}
-
-	function handleMouseUp(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		// the drag is over, clear the dragging flag
-		isDown = false;
-		ctxo.strokeRect(prevStartX, prevStartY, prevWidth, prevHeight);
-	}
-
-	function handleMouseOut(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		// the drag is over, clear the dragging flag
-		isDown = false;
-	}
-
-	function handleMouseMove(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		// if we're not dragging, just return
-		if (!isDown) {
-			return;
-		}
-
-		// get the current mouse position
-		mouseX = parseInt(e.clientX - offsetX);
-		mouseY = parseInt(e.clientY - offsetY);
-
-		// put your mousemove stuff here
-
-		// calculate the rectangle width/height based
-		// on starting vs current mouse position
-		var width = mouseX - startX;
-		var height = mouseY - startY;
-
-		// clear the canvas
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-		// draw a new rect from the start position
-		// to the current mouse position
-		ctx.strokeRect(startX, startY, width, height);
-
-		prevStartX = startX;
-		prevStartY = startY;
-
-		prevWidth = width;
-		prevHeight = height;
-	}
-
-	// listen for mouse events
-	$('.canvas').mousedown(function (e) {
-		handleMouseDown(e);
-	});
-
-	$('.canvas').mousemove(function (e) {
-		handleMouseMove(e);
-	});
-
-	$('.canvas').mouseup(function (e) {
-		handleMouseUp(e);
-	});
-
-	$('.canvas').mouseout(function (e) {
-		handleMouseOut(e);
 	});
 }
 
