@@ -3,10 +3,18 @@ let images = [];
 let slides_content = [];
 let current_slide = 0;
 var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
-	whitelist: ['Automático', 'Cozinha', 'Quarto', 'Sala de estar', 'Sala de jantar'],
+	whitelist: ['Armário', 'Cadeira', 'Janela', 'Mesa', 'Porta', 'Sofá', 'TV'],
 	mode: 'select',
 	enforceWhitelist: false,
 });
+const TAGIFY_OBJECTS = {
+	whitelist: ['Cozinha', 'Quarto', 'Sala de estar', 'Sala de jantar'],
+	mode: 'select',
+	enforceWhitelist: false,
+};
+var first_obj = new Tagify(document.querySelector('input[name=obj-1]'), TAGIFY_OBJECTS);
+var second_obj = new Tagify(document.querySelector('input[name=obj-2]'), TAGIFY_OBJECTS);
+var third_obj = new Tagify(document.querySelector('input[name=obj-3]'), TAGIFY_OBJECTS);
 
 var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
 	duplicates: false,
