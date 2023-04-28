@@ -346,7 +346,7 @@ $(document).on('click', '#btn-add-images', function () {
 		$('.uploadcare-section').css('display', 'flex');
 		$('#slider-container').css('display', 'none');
 		// images = [];
-		slides_content = [];
+		// slides_content = [];
 
 		// // Remove all images
 		// $('.slide-content-wrapper').html('');
