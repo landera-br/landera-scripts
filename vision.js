@@ -2,16 +2,16 @@
 let images = [];
 let slides_content = [];
 let current_slide = 0;
-var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
-	whitelist: ['Armário', 'Cadeira', 'Janela', 'Mesa', 'Porta', 'Sofá', 'TV'],
-	mode: 'select',
-	enforceWhitelist: false,
-});
-const TAGIFY_OBJECTS = {
+const tagify_rooms = {
 	whitelist: ['Cozinha', 'Quarto', 'Sala de estar', 'Sala de jantar'],
 	mode: 'select',
 	enforceWhitelist: false,
 };
+var TAGIFY_OBJECTS = new Tagify(document.querySelector('input[name=rooms]'), {
+	whitelist: ['Armário', 'Cadeira', 'Janela', 'Mesa', 'Porta', 'Sofá', 'TV'],
+	mode: 'select',
+	enforceWhitelist: false,
+});
 var first_obj = new Tagify(document.querySelector('input[name=obj-1]'), TAGIFY_OBJECTS);
 var second_obj = new Tagify(document.querySelector('input[name=obj-2]'), TAGIFY_OBJECTS);
 var third_obj = new Tagify(document.querySelector('input[name=obj-3]'), TAGIFY_OBJECTS);
@@ -273,6 +273,16 @@ window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	if (e.detail.ctx === 'upload-context') {
 		images = e.detail.data;
 	}
+});
+
+$(document).ready(function () {
+	$('#unfurnished').change(function () {
+		if (this.checked) {
+			$('.room-input').show();
+		} else {
+			$('.room-input').hide();
+		}
+	});
 });
 
 $(document).on('click', '.done-btn', function () {
