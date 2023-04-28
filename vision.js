@@ -279,8 +279,8 @@ function addOutputMenu(index) {
 
 function activateCanvas() {
 	// get references to the canvas and context
-	var canvas = document.getElementsByClassName('canvas');
-	var overlay = document.getElementsByClassName('overlay');
+	var canvas = document.getElementsByClassName('canvas')[current_slide];
+	var overlay = document.getElementsByClassName('overlay')[current_slide];
 	var ctx = canvas.getContext('2d');
 	var ctxo = overlay.getContext('2d');
 
@@ -292,7 +292,7 @@ function activateCanvas() {
 
 	// calculate where the canvas is on the window
 	// (used to help calculate mouseX/mouseY)
-	var $canvas = $('#canvas');
+	var $canvas = $('.canvas')[current_slide];
 	var canvasOffset = $canvas.offset();
 	var offsetX = canvasOffset.left;
 	var offsetY = canvasOffset.top;
