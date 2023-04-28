@@ -278,9 +278,7 @@ function addOutputMenu(index) {
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
-	if (e.detail.ctx === 'upload-context') {
-		images = e.detail.data;
-	}
+	if (e.detail.ctx === 'upload-context') images.push(e.detail.data);
 });
 
 $(document).ready(function () {
