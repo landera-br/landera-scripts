@@ -279,8 +279,7 @@ function addOutputMenu(index) {
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	if (e.detail.ctx === 'upload-context') {
-		console.log('Append image to images array');
-		images.push(e.detail.data);
+		images = e.detail.data;
 	}
 });
 
@@ -300,8 +299,6 @@ $(document).on('click', '.done-btn', function () {
 
 	// Maximum of 20 images
 	images.splice(20);
-
-	console.log(images);
 
 	// Hide slider right arrow if there are less than 2 images
 	if (images.length < 2) {
