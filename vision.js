@@ -279,9 +279,10 @@ function addOutputMenu(index) {
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
 	if (e.detail.ctx === 'upload-context') {
-		console.log(e.detail.data);
-		console.log(images);
-		images = e.detail.data;
+		// Push e.detail.data[] values to images array~
+		e.detail.data.forEach((image) => {
+			images.push(image);
+		});
 	}
 });
 
@@ -347,7 +348,6 @@ $(document).on('click', '#btn-add-images', function () {
 	if ($('.uploadcare-section').css('display') === 'none') {
 		$('.uploadcare-section').css('display', 'flex');
 		$('#slider-container').css('display', 'none');
-		// images = [];
 		slides_content = [];
 
 		// // Remove all images
