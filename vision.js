@@ -61,6 +61,7 @@ function updateSlides(index = null) {
 				image.onload = function () {
 					// Update input slide
 					$('.slide-content-wrapper')[index].innerHTML = IMAGE_CANVAS(slide.before);
+					activateCanvas();
 				};
 
 				// Unhide slide
@@ -68,8 +69,6 @@ function updateSlides(index = null) {
 			}
 		});
 	}
-
-	activateCanvas();
 	tippy('.tippy');
 }
 
@@ -287,9 +286,9 @@ function activateCanvas() {
 
 	// style the context
 	ctx.strokeStyle = '#3782ff';
-	ctx.lineWidth = 2;
+	ctx.lineWidth = 3;
 	ctxo.strokeStyle = '#3782ff';
-	ctxo.lineWidth = 2;
+	ctxo.lineWidth = 3;
 
 	// calculate where the canvas is on the window
 	// (used to help calculate mouseX/mouseY)
