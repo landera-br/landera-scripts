@@ -8,7 +8,15 @@ const TAGIFY_OBJECTS = {
 	enforceWhitelist: false,
 };
 var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
-	whitelist: ['Cozinha', 'Quarto', 'Sala de estar', 'Sala de jantar'],
+	whitelist: [
+		'Banheiro',
+		'Cozinha',
+		'Escritório',
+		'Quarto',
+		'Sala de estar',
+		'Sala de jantar',
+		'Varanda',
+	],
 	mode: 'select',
 	enforceWhitelist: false,
 });
@@ -337,11 +345,11 @@ $(document).on('click', '#btn-add-images', function () {
 	if ($('.uploadcare-section').css('display') === 'none') {
 		$('.uploadcare-section').css('display', 'flex');
 		$('#slider-container').css('display', 'none');
-		images = [];
-		slides_content = [];
+		// images = [];
+		// slides_content = [];
 
-		// Remove all images
-		$('.slide-content-wrapper').html('');
+		// // Remove all images
+		// $('.slide-content-wrapper').html('');
 
 		// Hide slides
 		$('.slide-content-wrapper').css('display', 'none');
