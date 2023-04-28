@@ -292,7 +292,7 @@ function activateCanvas() {
 
 	// calculate where the canvas is on the window
 	// (used to help calculate mouseX/mouseY)
-	var $canvas = $('.canvas')[current_slide];
+	var $canvas = $('.canvas').eq(current_slide);
 	var canvasOffset = $canvas.offset();
 	var offsetX = canvasOffset.left;
 	var offsetY = canvasOffset.top;
