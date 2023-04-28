@@ -28,7 +28,7 @@ var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
 	duplicates: false,
 });
 const IMAGE_CANVAS = (image) =>
-	`<div id = "canvasWrapper"><canvas id="overlay" width=300 height=300></canvas><canvas id="canvas" width=300 height=300></canvas><img src="${image}" class="slider-image" alt="slide-image"/></div>`;
+	`<div id = "canvasWrapper"><canvas id="overlay"></canvas><canvas id="canvas"></canvas><img src="${image}" class="slider-image" alt="slide-image"/></div>`;
 
 const OUTPUT_MENU = `<div class="output-menu"><div class="output-options"><div class="menu-button btn-free-download tippy" data-tippy-animation="scale" data-tippy-content="Baixar gratuitamente" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6336fd9ad65bc35bb14a118b_download.svg" loading="lazy" width="20" height="20" alt=""></div><div class="menu-button btn-full-screen tippy" data-tippy-animation="scale" data-tippy-content="Ver antes/depois" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64341bc10a05bcee6478ce40_full.svg" loading="lazy" width="20" height="20" alt=""></div></div><div class="regenerate"><div class="menu-button btn-regenerate tippy" data-tippy-animation="scale" data-tippy-content="Recriar imagem" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/642ffbce908513dcb14b19ce_reset.svg" loading="lazy" width="20" height="20" alt=""></div></div></div>`;
 
