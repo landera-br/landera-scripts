@@ -1,4 +1,6 @@
 // NOTE Global variables
+const IMAGE_CANVAS = (image) => `<img src="${image}" class="slider-image" alt="slide-image"/>`;
+const OUTPUT_MENU = `<div class="output-menu"><div class="output-options"><div class="menu-button btn-free-download tippy" data-tippy-animation="scale" data-tippy-content="Baixar gratuitamente" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6336fd9ad65bc35bb14a118b_download.svg" loading="lazy" width="20" height="20" alt=""></div><div class="menu-button btn-full-screen tippy" data-tippy-animation="scale" data-tippy-content="Ver antes/depois" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64341bc10a05bcee6478ce40_full.svg" loading="lazy" width="20" height="20" alt=""></div></div><div class="regenerate"><div class="menu-button btn-regenerate tippy" data-tippy-animation="scale" data-tippy-content="Recriar imagem" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/642ffbce908513dcb14b19ce_reset.svg" loading="lazy" width="20" height="20" alt=""></div></div></div>`;
 let images = [];
 let slides_content = [];
 let current_slide = 0;
@@ -7,7 +9,8 @@ const TAGIFY_OBJECTS = {
 	mode: 'select',
 	enforceWhitelist: false,
 };
-var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
+const ELEMENTS_PLACEHOLDER = [null, null, null];
+let tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	whitelist: [
 		'Banheiro',
 		'Cozinha',
@@ -20,16 +23,13 @@ var tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	mode: 'select',
 	enforceWhitelist: false,
 });
-var first_obj = new Tagify(document.querySelector('input[name=obj-1]'), TAGIFY_OBJECTS);
-var second_obj = new Tagify(document.querySelector('input[name=obj-2]'), TAGIFY_OBJECTS);
-var third_obj = new Tagify(document.querySelector('input[name=obj-3]'), TAGIFY_OBJECTS);
-
-var tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
+let first_obj = new Tagify(document.querySelector('input[name=obj-1]'), TAGIFY_OBJECTS);
+let second_obj = new Tagify(document.querySelector('input[name=obj-2]'), TAGIFY_OBJECTS);
+let third_obj = new Tagify(document.querySelector('input[name=obj-3]'), TAGIFY_OBJECTS);
+let tagify_styles = new Tagify(document.querySelector('input[name=style]'), {
 	duplicates: false,
 });
-const IMAGE_CANVAS = (image) => `<img src="${image}" class="slider-image" alt="slide-image"/>`;
-
-const OUTPUT_MENU = `<div class="output-menu"><div class="output-options"><div class="menu-button btn-free-download tippy" data-tippy-animation="scale" data-tippy-content="Baixar gratuitamente" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/6336fd9ad65bc35bb14a118b_download.svg" loading="lazy" width="20" height="20" alt=""></div><div class="menu-button btn-full-screen tippy" data-tippy-animation="scale" data-tippy-content="Ver antes/depois" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/64341bc10a05bcee6478ce40_full.svg" loading="lazy" width="20" height="20" alt=""></div></div><div class="regenerate"><div class="menu-button btn-regenerate tippy" data-tippy-animation="scale" data-tippy-content="Recriar imagem" data-tippy-placement="bottom" data-tippy-followcursor="false" data-tippy-arrow="true" data-tippy-interactive="true"><img src="https://uploads-ssl.webflow.com/62752e31ab07d3826583c09d/642ffbce908513dcb14b19ce_reset.svg" loading="lazy" width="20" height="20" alt=""></div></div></div>`;
+let elements = [];
 
 // NOTE Support functions
 
@@ -60,7 +60,6 @@ function updateSlides(index = null) {
 				image.onload = function () {
 					// Update input slide
 					$('.slide-content-wrapper')[index].innerHTML = IMAGE_CANVAS(slide.before);
-					activateCanvas();
 				};
 
 				// Unhide slide
@@ -276,6 +275,140 @@ function addOutputMenu(index) {
 	});
 }
 
+function restartCanvas(index) {
+	const selector = '.slider-image';
+	let images = document.querySelectorAll(selector);
+
+	if (index !== undefined) {
+		images = [images[index]];
+	}
+
+	images.forEach((image) => {
+		const canvas = document.createElement('canvas');
+		canvas.style.top = image.offsetTop + 'px';
+		canvas.style.left = image.offsetLeft + 'px';
+		canvas.width = image.width;
+		canvas.height = image.height;
+
+		// Remove previous canvas, if any
+		const previousCanvas = image.parentNode.querySelector('canvas');
+		if (previousCanvas) {
+			previousCanvas.parentNode.removeChild(previousCanvas);
+		}
+
+		image.parentNode.appendChild(canvas);
+
+		const ctx = canvas.getContext('2d');
+		ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+		let boxes = [];
+		let currentBox = null;
+		let boxCount = 0;
+		const colors = ['#3782ff', '#2AB24D', '#DB4437'];
+		const boxFillOpacity = 0.3;
+
+		function drawBox(box) {
+			const LABEL = 'ELEMENTO';
+			ctx.strokeStyle = box.color;
+			ctx.fillStyle = `${box.color}${Math.round(boxFillOpacity * 255).toString(16)}`;
+			ctx.lineWidth = 2;
+			ctx.strokeRect(box.x, box.y, box.width, box.height);
+			ctx.fillRect(box.x, box.y, box.width, box.height);
+			ctx.fillStyle = box.color;
+			ctx.fillRect(box.x, box.y, ctx.measureText(LABEL).width + 8, 20);
+			ctx.fillStyle = '#fff';
+			ctx.font = '500 14px Eudoxussans';
+			ctx.letterSpacing = '2px';
+			ctx.fillText(LABEL.toUpperCase(), box.x + 5, box.y + 15);
+		}
+
+		function handleMouseDown(event) {
+			if (boxCount >= colors.length) {
+				return;
+			}
+			if (currentBox) {
+				drawBox(currentBox);
+				boxes.push(currentBox);
+				currentBox = null;
+				boxCount++;
+				if (boxCount >= colors.length) {
+					canvas.removeEventListener('mousemove', handleMouseMove);
+				}
+				console.log('boxes', boxes);
+				// Update elements block
+				updateElements(current_slide, boxes.length - 1, '');
+			} else {
+				const { offsetX, offsetY } = event;
+				currentBox = {
+					x: offsetX,
+					y: offsetY,
+					width: 0,
+					height: 0,
+					color: colors[boxCount],
+				};
+			}
+		}
+
+		function handleMouseMove(event) {
+			if (currentBox) {
+				const { offsetX, offsetY } = event;
+				currentBox.width = offsetX - currentBox.x;
+				currentBox.height = offsetY - currentBox.y;
+
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+				boxes.forEach(drawBox);
+				drawBox(currentBox);
+			}
+		}
+
+		function handleMouseUp(event) {
+			if (currentBox) {
+				const { offsetX, offsetY } = event;
+				currentBox.width = offsetX - currentBox.x;
+				currentBox.height = offsetY - currentBox.y;
+
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+				boxes.forEach(drawBox);
+				drawBox(currentBox);
+			}
+		}
+
+		canvas.addEventListener('mousedown', handleMouseDown);
+		canvas.addEventListener('mousemove', handleMouseMove);
+		canvas.addEventListener('mouseup', handleMouseUp);
+	});
+}
+
+function updateElements(canvas_index = -1, element_index = 0, element_text = '') {
+	if (canvas_index === -1) {
+		// Restart elements
+		elements[current_slide] = ELEMENTS_PLACEHOLDER;
+
+		// Hide elements block
+		$('.elements-input-block').css('display', 'none');
+
+		// Show elements placeholder
+		$('.elements-placeholder').css('display', 'flex');
+		return;
+	}
+
+	elements[canvas_index][element_index] = element_text;
+
+	// Hide elements placeholder
+	$('.elements-placeholder').css('display', 'none');
+
+	elements[canvas_index][element_index] = element_text;
+
+	$('.element-input-wrapper').each(function (elementWrapper) {
+		elementWrapper.css('display', elements[canvas_index][element_index] === null ? 'none' : 'flex');
+	});
+
+	// Show elements block
+	$('.elements-input-block').css('display', 'flex');
+}
+
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
@@ -295,6 +428,11 @@ $(document).ready(function () {
 			$('.room-input').hide();
 		}
 	});
+});
+
+$(document).on('click', '#elements-reset', function () {
+	updateElements(-1);
+	restartCanvas(current_slide);
 });
 
 $(document).on('click', '.done-btn', function () {
