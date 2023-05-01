@@ -9,7 +9,7 @@ const TAGIFY_OBJECTS = {
 	mode: 'select',
 	enforceWhitelist: false,
 };
-const ELEMENTS_PLACEHOLDER = [null, null, null];
+const ELEMENTS_PLACEHOLDER = [];
 let tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	whitelist: [
 		'Banheiro',
@@ -381,8 +381,8 @@ function restartCanvas(index) {
 	});
 }
 
-function updateElements(canvas_index = -1, element_index = 0, element_text = '') {
-	if (canvas_index === -1) {
+function updateElements(element_index = 0, element_text = '') {
+	if (element_index === -1) {
 		// Restart elements
 		elements[current_slide] = ELEMENTS_PLACEHOLDER;
 
@@ -394,15 +394,18 @@ function updateElements(canvas_index = -1, element_index = 0, element_text = '')
 		return;
 	}
 
-	elements[canvas_index][element_index] = element_text;
+	elements[current_slide][element_index] = element_text;
 
 	// Hide elements placeholder
 	$('.elements-placeholder').css('display', 'none');
 
-	elements[canvas_index][element_index] = element_text;
+	elements[current_slide][element_index] = element_text;
 
 	$('.element-input-wrapper').each(function (elementWrapper) {
-		elementWrapper.css('display', elements[canvas_index][element_index] === null ? 'none' : 'flex');
+		elementWrapper.css(
+			'display',
+			elements[current_slide][element_index] === null ? 'none' : 'flex'
+		);
 	});
 
 	// Show elements block
@@ -457,6 +460,7 @@ $(document).on('click', '.done-btn', function () {
 
 	// Update slides
 	updateSlides();
+	restartCanvas();
 });
 
 $(document).on('click', '.slider-right-arrow', function () {
