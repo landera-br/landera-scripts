@@ -407,8 +407,10 @@ function updateElements(element_index = 0, element_text = '') {
 	// Show/Hide elements inputs
 	$('.element-input-wrapper').each(function (index, element) {
 		$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
-		$(this).find('input').focus();
 	});
+
+	// Focus on the last element input with display not none
+	$('.element-input-wrapper[style*="flex"]:last').focus();
 
 	// Show elements block
 	$('.elements-input-block').css('display', 'flex');
