@@ -411,6 +411,9 @@ function updateElements(element_index = 0, element_text = '') {
 		$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
 	});
 
+	// Focus on the last element input
+	$('.element-input-wrapper').last().find('input').focus();
+
 	// Show elements block
 	$('.elements-input-block').css('display', 'flex');
 }
