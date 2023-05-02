@@ -404,15 +404,11 @@ function updateElements(element_index = 0, element_text = '') {
 	// Update elements array
 	elements[current_slide][element_index] = element_text;
 
-	console.log(elements[current_slide]);
-
 	// Show/Hide elements inputs
 	$('.element-input-wrapper').each(function (index, element) {
 		$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
+		$(this).find('input').focus();
 	});
-
-	// Focus on the last element input
-	$('.element-input-wrapper').last().find('input').focus();
 
 	// Show elements block
 	$('.elements-input-block').css('display', 'flex');
