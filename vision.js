@@ -32,7 +32,7 @@ let elements = [];
 
 // NOTE Support functions
 
-function updateSlides(index = null) {
+function updateSlides(callback, index = null) {
 	// Check if index is null and if it is an integer
 	if (index !== null && Number.isInteger(index)) {
 		const slide = slides_content[index];
@@ -59,6 +59,7 @@ function updateSlides(index = null) {
 				image.onload = function () {
 					// Update input slide
 					$('.slide-content-wrapper')[index].innerHTML = IMAGE_CANVAS(slide.before);
+					if (callback) callback();
 				};
 
 				// Unhide slide
@@ -457,11 +458,10 @@ $(document).on('click', '.done-btn', function () {
 		elements.push([]);
 	});
 
-	// Update slides
-	updateSlides();
-
-	console.log('Restarting canvas...');
-	restartCanvas();
+	updateSlides(() => {
+		// Call restartCanvas after all images have been loaded
+		restartCanvas();
+	});
 });
 
 $(document).on('click', '.slider-right-arrow', function () {
