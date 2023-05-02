@@ -401,10 +401,14 @@ function updateElements(element_index = 0, element_text = '') {
 	// Hide elements placeholder
 	$('.elements-placeholder').css('display', 'none');
 
+	// Update elements array
 	elements[current_slide][element_index] = element_text;
 
-	$('.element-input-wrapper').each(function () {
-		$(this).css('display', elements[current_slide][element_index] === null ? 'none' : 'flex');
+	console.log(elements[current_slide]);
+
+	// Show/Hide elements inputs
+	$('.element-input-wrapper').each(function (index) {
+		$(this).css('display', elements[current_slide][index] === null ? 'none' : 'flex');
 	});
 
 	// Show elements block
