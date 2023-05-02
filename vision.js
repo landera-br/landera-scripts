@@ -403,7 +403,7 @@ function updateElements(element_index = 0, element_text = '') {
 
 	elements[current_slide][element_index] = element_text;
 
-	$('.element-input-wrapper').each(function (elementWrapper) {
+	$('.element-input-wrapper').each(function (index, elementWrapper) {
 		elementWrapper.css(
 			'display',
 			elements[current_slide][element_index] === null ? 'none' : 'flex'
@@ -463,6 +463,7 @@ $(document).on('click', '.done-btn', function () {
 
 	// Update slides
 	updateSlides();
+	console.log('Restarting canvas...');
 	restartCanvas();
 });
 
