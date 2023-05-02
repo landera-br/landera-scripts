@@ -279,8 +279,6 @@ function restartCanvas(index) {
 	const selector = '.slider-image';
 	let images = document.querySelectorAll(selector);
 
-	console.log(images);
-
 	if (index !== undefined) {
 		images = [images[index]];
 	}
@@ -336,9 +334,16 @@ function restartCanvas(index) {
 				if (boxCount >= colors.length) {
 					canvas.removeEventListener('mousemove', handleMouseMove);
 				}
-				console.log('boxes', boxes);
+
+				const elementContent = boxes.map((box) => {
+					return {
+						...box,
+						text: '',
+					};
+				});
+
 				// Update elements block
-				updateElements(boxes.length - 1, '');
+				updateElements(boxes.length - 1, elementContent);
 			} else {
 				const { offsetX, offsetY } = event;
 				currentBox = {
@@ -383,7 +388,7 @@ function restartCanvas(index) {
 	});
 }
 
-function updateElements(element_index = 0, element_text = '') {
+function updateElements(element_index = 0, element_content) {
 	if (element_index === -1) {
 		// Restart elements
 		elements[current_slide] = [];
@@ -396,13 +401,13 @@ function updateElements(element_index = 0, element_text = '') {
 		return;
 	}
 
-	elements[current_slide][element_index] = element_text;
+	elements[current_slide][element_index] = element_content;
 
 	// Hide elements placeholder
 	$('.elements-placeholder').css('display', 'none');
 
 	// Update elements array
-	elements[current_slide][element_index] = element_text;
+	elements[current_slide][element_index] = element_content;
 
 	// Show/Hide elements inputs
 	$('.element-input-wrapper').each(function (index, element) {
@@ -420,6 +425,8 @@ function updateElements(element_index = 0, element_text = '') {
 			}
 		});
 	});
+
+	console.log(elements);
 }
 
 // NOTE Listeners
