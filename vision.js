@@ -412,11 +412,13 @@ function updateElements(element_index = 0, element_text = '') {
 	// Show elements block
 	$('.elements-input-block').css('display', 'flex');
 
-	// Focus on the last element input with display not none
-	$('.element-input-wrapper').each(function (index, element) {
-		if ($(this).css('display') !== 'none') {
-			$(this).find('input').focus();
-		}
+	// Wait for the input to be rendered before focusing on it
+	requestAnimationFrame(function () {
+		$('.element-input-wrapper').each(function (index, element) {
+			if ($(this).css('display') !== 'none') {
+				$(this).find('input').focus();
+			}
+		});
 	});
 }
 
