@@ -419,7 +419,7 @@ function updateElements(element_index = 0, element_text = '') {
 				$(this).find('input').focus();
 			}
 		});
-	}, 3000);
+	}, 500);
 }
 
 // NOTE Listeners
