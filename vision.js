@@ -338,7 +338,7 @@ function restartCanvas(index) {
 				}
 				console.log('boxes', boxes);
 				// Update elements block
-				updateElements(current_slide, boxes.length - 1, '');
+				updateElements(boxes.length - 1, '');
 			} else {
 				const { offsetX, offsetY } = event;
 				currentBox = {
@@ -407,8 +407,8 @@ function updateElements(element_index = 0, element_text = '') {
 	console.log(elements[current_slide]);
 
 	// Show/Hide elements inputs
-	$('.element-input-wrapper').each(function (index) {
-		$(this).css('display', elements[current_slide][index] === null ? 'none' : 'flex');
+	$('.element-input-wrapper').each(function (index, element) {
+		$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
 	});
 
 	// Show elements block
