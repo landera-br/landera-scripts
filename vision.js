@@ -9,7 +9,6 @@ const TAGIFY_OBJECTS = {
 	mode: 'select',
 	enforceWhitelist: false,
 };
-const ELEMENTS_PLACEHOLDER = [];
 let tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	whitelist: [
 		'Banheiro',
@@ -384,7 +383,7 @@ function restartCanvas(index) {
 function updateElements(element_index = 0, element_text = '') {
 	if (element_index === -1) {
 		// Restart elements
-		elements[current_slide] = ELEMENTS_PLACEHOLDER;
+		elements[current_slide] = [];
 
 		// Hide elements block
 		$('.elements-input-block').css('display', 'none');
@@ -393,6 +392,9 @@ function updateElements(element_index = 0, element_text = '') {
 		$('.elements-placeholder').css('display', 'flex');
 		return;
 	}
+
+	console.log(element_index);
+	console.log(elements);
 
 	elements[current_slide][element_index] = element_text;
 
@@ -456,6 +458,7 @@ $(document).on('click', '.done-btn', function () {
 			before: image.cdnUrl,
 			after: '',
 		});
+		elements.push([]);
 	});
 
 	// Update slides
