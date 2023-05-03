@@ -389,6 +389,8 @@ function restartCanvas(index) {
 }
 
 function updateElements(element_index = 0, element_content) {
+	console.log('Conteúdo do elemento:');
+	console.log(element_content);
 	if (element_index === -1) {
 		// Restart elements
 		elements[current_slide] = [];
@@ -400,8 +402,6 @@ function updateElements(element_index = 0, element_content) {
 		$('.elements-placeholder').css('display', 'flex');
 		return;
 	}
-
-	elements[current_slide][element_index] = element_content;
 
 	// Hide elements placeholder
 	$('.elements-placeholder').css('display', 'none');
