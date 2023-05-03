@@ -275,14 +275,16 @@ function addOutputMenu(index) {
 	});
 }
 
-function restartCanvas(index) {
+function resetCanvas(slide_index) {
 	const selector = '.slider-image';
 	let images = document.querySelectorAll(selector);
 
-	if (index !== undefined) {
-		images = [images[index]];
+	if (slide_index !== undefined) {
+		// Update specific image, else update all
+		images = [images[slide_index]];
 	}
 
+	// Reset all slides
 	images.forEach((image) => {
 		const canvas = document.createElement('canvas');
 		canvas.style.top = image.offsetTop + 'px';
@@ -305,29 +307,13 @@ function restartCanvas(index) {
 		let currentBox = null;
 		let boxCount = 0;
 		const colors = ['#3782ff', '#2AB24D', '#DB4437'];
-		const boxFillOpacity = 0.3;
-
-		function drawBox(box) {
-			const LABEL = 'ELEMENTO';
-			ctx.strokeStyle = box.color;
-			ctx.fillStyle = `${box.color}${Math.round(boxFillOpacity * 255).toString(16)}`;
-			ctx.lineWidth = 2;
-			ctx.strokeRect(box.x, box.y, box.width, box.height);
-			ctx.fillRect(box.x, box.y, box.width, box.height);
-			ctx.fillStyle = box.color;
-			ctx.fillRect(box.x, box.y, ctx.measureText(LABEL).width + 8, 20);
-			ctx.fillStyle = '#fff';
-			ctx.font = '500 14px Eudoxussans';
-			ctx.letterSpacing = '2px';
-			ctx.fillText(LABEL.toUpperCase(), box.x + 5, box.y + 15);
-		}
 
 		function handleMouseDown(event) {
 			if (boxCount >= colors.length) {
 				return;
 			}
 			if (currentBox) {
-				drawBox(currentBox);
+				drawBoxes(canvas, [currentBox]);
 				boxes.push(currentBox);
 				currentBox = null;
 				boxCount++;
@@ -352,6 +338,7 @@ function restartCanvas(index) {
 					width: 0,
 					height: 0,
 					color: colors[boxCount],
+					label: 'ELEMENTO',
 				};
 			}
 		}
@@ -364,8 +351,8 @@ function restartCanvas(index) {
 
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-				boxes.forEach(drawBox);
-				drawBox(currentBox);
+				boxes.forEach((box) => drawBoxes(canvas, [box]));
+				drawBoxes(canvas, [currentBox]);
 			}
 		}
 
@@ -377,14 +364,33 @@ function restartCanvas(index) {
 
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-				boxes.forEach(drawBox);
-				drawBox(currentBox);
+				boxes.forEach((box) => drawBoxes(canvas, [box]));
+				drawBoxes(canvas, [currentBox]);
 			}
 		}
 
 		canvas.addEventListener('mousedown', handleMouseDown);
 		canvas.addEventListener('mousemove', handleMouseMove);
 		canvas.addEventListener('mouseup', handleMouseUp);
+	});
+}
+
+function drawBoxes(canvas, boxes) {
+	const boxFillOpacity = 0.3;
+	const ctx = canvas.getContext('2d');
+
+	boxes.forEach((box) => {
+		ctx.strokeStyle = box.color;
+		ctx.fillStyle = `${box.color}${Math.round(boxFillOpacity * 255).toString(16)}`;
+		ctx.lineWidth = 2;
+		ctx.strokeRect(box.x, box.y, box.width, box.height);
+		ctx.fillRect(box.x, box.y, box.width, box.height);
+		ctx.fillStyle = box.color;
+		ctx.fillRect(box.x, box.y, ctx.measureText(box.label).width + 8, 20);
+		ctx.fillStyle = '#fff';
+		ctx.font = '500 14px Eudoxussans';
+		ctx.letterSpacing = '2px';
+		ctx.fillText(box.label.toUpperCase(), box.x + 5, box.y + 15);
 	});
 }
 
@@ -450,7 +456,12 @@ $(document).ready(function () {
 
 $(document).on('click', '#elements-reset', function () {
 	updateElements(-1);
-	restartCanvas(current_slide);
+	resetCanvas(current_slide);
+});
+
+// Listen to .element-input text changes
+$(document).on('input', '.element-input', function () {
+	console.log('New input value: ' + $(this).val());
 });
 
 $(document).on('click', '.done-btn', function () {
@@ -475,8 +486,8 @@ $(document).on('click', '.done-btn', function () {
 	});
 
 	updateSlides(() => {
-		// Call restartCanvas after all images have been loaded
-		restartCanvas();
+		// Call resetCanvas after all images have been loaded
+		resetCanvas();
 	});
 });
 
