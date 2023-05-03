@@ -343,7 +343,7 @@ function restartCanvas(index) {
 				});
 
 				// Update elements block
-				updateElements(boxes.length - 1, elementContent);
+				updateElements(boxes.length - 1, elementContent[boxes.length - 1]);
 			} else {
 				const { offsetX, offsetY } = event;
 				currentBox = {
@@ -389,8 +389,6 @@ function restartCanvas(index) {
 }
 
 function updateElements(element_index = 0, element_content) {
-	console.log('Conteúdo do elemento:');
-	console.log(element_content);
 	if (element_index === -1) {
 		// Restart elements
 		elements[current_slide] = [];
