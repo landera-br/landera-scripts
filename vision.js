@@ -313,6 +313,7 @@ function resetCanvas(slide_index) {
 				return;
 			}
 			if (currentBox) {
+				// Finish drawing current box
 				drawBoxes(canvas, [currentBox]);
 				boxes.push(currentBox);
 				currentBox = null;
@@ -321,16 +322,10 @@ function resetCanvas(slide_index) {
 					canvas.removeEventListener('mousemove', handleMouseMove);
 				}
 
-				const elementContent = boxes.map((box) => {
-					return {
-						...box,
-						text: '',
-					};
-				});
-
 				// Update elements block
-				updateElements(boxes.length - 1, elementContent[boxes.length - 1]);
+				updateElements(boxes.length - 1, boxes[boxes.length - 1]);
 			} else {
+				// Start drawing new box
 				const { offsetX, offsetY } = event;
 				currentBox = {
 					x: offsetX,
@@ -461,7 +456,25 @@ $(document).on('click', '#elements-reset', function () {
 
 // Listen to .element-input text changes
 $(document).on('input', '.element-input', function () {
-	console.log('New input value: ' + $(this).val());
+	resetCanvas(current_slide);
+
+	if ($(this).hasClass('blue')) {
+		elements[current_slide][0].label = $(this).val();
+	}
+
+	if ($(this).hasClass('green')) {
+		elements[current_slide][1].label = $(this).val();
+	}
+
+	if ($(this).hasClass('red')) {
+		elements[current_slide][2].label = $(this).val();
+	}
+
+	console.log(elements[current_slide]);
+
+	// Get current_slide canvas
+	const canvas = document.querySelectorAll('canvas')[current_slide];
+	drawBoxes(canvas, elements[current_slide]);
 });
 
 $(document).on('click', '.done-btn', function () {
