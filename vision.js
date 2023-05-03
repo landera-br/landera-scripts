@@ -364,9 +364,12 @@ function resetCanvas(slide_index) {
 			}
 		}
 
-		canvas.addEventListener('mousedown', handleMouseDown);
-		canvas.addEventListener('mousemove', handleMouseMove);
-		canvas.addEventListener('mouseup', handleMouseUp);
+		// Check if elements[current_slide].length < 3
+		if (elements[current_slide].length < 3) {
+			canvas.addEventListener('mousedown', handleMouseDown);
+			canvas.addEventListener('mousemove', handleMouseMove);
+			canvas.addEventListener('mouseup', handleMouseUp);
+		}
 	});
 }
 
@@ -413,6 +416,13 @@ function updateElements(element_index = 0, element_content) {
 	// Show/Hide elements inputs
 	$('.element-input-wrapper').each(function (index, element) {
 		$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
+	});
+
+	// Clear last input with display flex
+	$('.element-input-wrapper').each(function (index, element) {
+		if ($(this).css('display') === 'flex') {
+			$(this).find('input').val('');
+		}
 	});
 
 	// Show elements block
