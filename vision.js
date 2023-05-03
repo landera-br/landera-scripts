@@ -375,17 +375,19 @@ function drawBoxes(canvas, boxes) {
 	const ctx = canvas.getContext('2d');
 
 	boxes.forEach((box) => {
+		console.log(box.label);
+		console.log(ctx.measureText(box.label.toUpperCase()).width + 8);
 		ctx.strokeStyle = box.color;
+		ctx.font = '700 14px Eudoxussans';
+		ctx.letterSpacing = '2px';
 		ctx.fillStyle = `${box.color}${Math.round(boxFillOpacity * 255).toString(16)}`;
 		ctx.lineWidth = 2;
 		ctx.strokeRect(box.x, box.y, box.width, box.height);
 		ctx.fillRect(box.x, box.y, box.width, box.height);
 		ctx.fillStyle = box.color;
-		ctx.fillRect(box.x, box.y, ctx.measureText(box.label).width + 8, 20);
+		ctx.fillRect(box.x, box.y, ctx.measureText(box.label.toUpperCase()).width + 16, 20);
 		ctx.fillStyle = '#fff';
-		ctx.font = '500 14px Eudoxussans';
-		ctx.letterSpacing = '2px';
-		ctx.fillText(box.label.toUpperCase(), box.x + 5, box.y + 15);
+		ctx.fillText(box.label.toUpperCase(), box.x + 8, box.y + 15);
 	});
 }
 
@@ -454,7 +456,6 @@ $(document).on('click', '#elements-reset', function () {
 	resetCanvas(current_slide);
 });
 
-// Listen to .element-input text changes
 $(document).on('input', '.element-input', function () {
 	resetCanvas(current_slide);
 
