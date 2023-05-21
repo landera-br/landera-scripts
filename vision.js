@@ -314,7 +314,6 @@ function resetCanvas(slide_index) {
 			}
 			if (currentBox) {
 				// Finish drawing current box
-				drawBoxes(canvas, [currentBox]);
 				boxes.push(currentBox);
 				currentBox = null;
 				boxCount++;
@@ -464,7 +463,7 @@ $(document).on('click', '#elements-reset', function () {
 });
 
 $(document).on('input', '.element-input', function () {
-	// resetCanvas(current_slide);
+	resetCanvas(current_slide);
 
 	if ($(this).hasClass('blue')) {
 		elements[current_slide][0].label = $(this).val();
