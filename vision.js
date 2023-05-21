@@ -364,7 +364,6 @@ function resetCanvas(slide_index) {
 			}
 		}
 
-		// Check if elements[current_slide].length < 3
 		if (elements[current_slide].length < 3) {
 			canvas.addEventListener('mousedown', handleMouseDown);
 			canvas.addEventListener('mousemove', handleMouseMove);
@@ -378,8 +377,6 @@ function drawBoxes(canvas, boxes) {
 	const ctx = canvas.getContext('2d');
 
 	boxes.forEach((box) => {
-		console.log(box.label);
-		console.log(ctx.measureText(box.label.toUpperCase()).width + 8);
 		ctx.strokeStyle = box.color;
 		ctx.font = '700 14px Eudoxussans';
 		ctx.letterSpacing = '2px';
@@ -467,7 +464,7 @@ $(document).on('click', '#elements-reset', function () {
 });
 
 $(document).on('input', '.element-input', function () {
-	resetCanvas(current_slide);
+	// resetCanvas(current_slide);
 
 	if ($(this).hasClass('blue')) {
 		elements[current_slide][0].label = $(this).val();
