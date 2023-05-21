@@ -303,10 +303,6 @@ function resetCanvas(slide_index, reset_boxes = true) {
 		const ctx = canvas.getContext('2d');
 		ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-		console.log(boxes);
-		console.log(currentBox);
-		console.log(boxCount);
-
 		if (reset_boxes) {
 			boxes = [];
 			currentBox = null;
@@ -379,7 +375,7 @@ function resetCanvas(slide_index, reset_boxes = true) {
 }
 
 function drawBoxes(canvas, boxes) {
-	const boxFillOpacity = 0.3;
+	const boxFillOpacity = 0.5;
 	const ctx = canvas.getContext('2d');
 
 	boxes.forEach((box) => {
