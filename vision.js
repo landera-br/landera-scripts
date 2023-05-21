@@ -275,7 +275,7 @@ function addOutputMenu(index) {
 	});
 }
 
-function resetCanvas(slide_index) {
+function resetCanvas(slide_index, reset_boxes = true) {
 	const selector = '.slider-image';
 	let images = document.querySelectorAll(selector);
 
@@ -303,9 +303,16 @@ function resetCanvas(slide_index) {
 		const ctx = canvas.getContext('2d');
 		ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-		let boxes = [];
-		let currentBox = null;
-		let boxCount = 0;
+		console.log(boxes);
+		console.log(currentBox);
+		console.log(boxCount);
+
+		if (reset_boxes) {
+			boxes = [];
+			currentBox = null;
+			boxCount = 0;
+		}
+
 		const colors = ['#3782ff', '#2AB24D', '#DB4437'];
 
 		function handleMouseDown(event) {
@@ -432,8 +439,6 @@ function updateElements(element_index = 0, element_content) {
 			}
 		});
 	});
-
-	console.log(elements);
 }
 
 // NOTE Listeners
@@ -463,7 +468,7 @@ $(document).on('click', '#elements-reset', function () {
 });
 
 $(document).on('input', '.element-input', function () {
-	resetCanvas(current_slide);
+	resetCanvas(current_slide, false);
 
 	if ($(this).hasClass('blue')) {
 		elements[current_slide][0].label = $(this).val();
@@ -476,8 +481,6 @@ $(document).on('input', '.element-input', function () {
 	if ($(this).hasClass('red')) {
 		elements[current_slide][2].label = $(this).val();
 	}
-
-	console.log(elements[current_slide]);
 
 	// Get current_slide canvas
 	const canvas = document.querySelectorAll('canvas')[current_slide];
