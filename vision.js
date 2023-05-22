@@ -442,6 +442,29 @@ function updateElements(element_index = 0, element_content) {
 	});
 }
 
+function updateElementInput() {
+	if (elements[current_slide].length !== 0) {
+		// Hide .elements-placeholder and show .elements-input-block
+		$('.elements-placeholder').css('display', 'none');
+		$('.elements-input-block').css('display', 'flex');
+
+		// Update .element-input display and value
+		$('.element-input-wrapper').each(function (index, element) {
+			$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
+			$(this).find('.element-input').val(elements[current_slide][index].label);
+		});
+
+		if (current_slide >= slides_content.length - 1) {
+			// Hide slider right arrow
+			$('.slider-right-arrow').css('display', 'none');
+		}
+	} else {
+		// Hide .elements-input-block and show .elements-placeholder
+		$('.elements-input-block').css('display', 'none');
+		$('.elements-placeholder').css('display', 'flex');
+	}
+}
+
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
@@ -520,29 +543,15 @@ $(document).on('click', '.slider-right-arrow', function () {
 	boxes = elements[current_slide];
 	boxCount = boxes.length;
 
-	if (elements[current_slide].length !== 0) {
-		// Update .element-input display and value
-		$('.element-input-wrapper').each(function (index, element) {
-			console.log(elements[current_slide][index]);
-			$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
-			$(this).find('.element-input').val(elements[current_slide][index].label);
-		});
-
-		if (current_slide >= slides_content.length - 1) {
-			// Hide slider right arrow
-			$('.slider-right-arrow').css('display', 'none');
-		}
-	} else {
-		// Hide .elements-input-block and show .elements-placeholder
-		$('.elements-input-block').css('display', 'none');
-		$('.elements-placeholder').css('display', 'flex');
-	}
+	updateElementInput();
 });
 
 $(document).on('click', '.slider-left-arrow', function () {
 	current_slide--;
 	boxes = elements[current_slide];
 	boxCount = boxes.length;
+
+	updateElementInput();
 });
 
 $(document).on('click', '.btn-generate', async function () {
