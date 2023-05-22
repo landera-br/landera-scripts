@@ -312,7 +312,7 @@ function resetCanvas(slide_index, reset_boxes = true) {
 		}
 	});
 
-	updateCanvasListeners(canvas, ctx);
+	updateCanvasListeners(ctx);
 }
 
 function handleMouseDown(event, canvas, ctx) {
@@ -389,7 +389,7 @@ function drawBoxes(canvas, boxes) {
 	});
 }
 
-function updateCanvasListeners(canvas, ctx) {
+function updateCanvasListeners(ctx) {
 	// Remove all canvas event listeners
 	const canvas = document.querySelectorAll('canvas');
 	canvas.forEach((canvas) => {
