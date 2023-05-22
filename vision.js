@@ -454,7 +454,8 @@ function updateElementInput() {
 			$(this)
 				.find('.element-input')
 				.val(
-					elements[current_slide][index]?.label && elements[current_slide][index] !== 'ELEMENTO'
+					elements[current_slide][index]?.label &&
+						elements[current_slide][index]?.label !== 'ELEMENTO'
 						? elements[current_slide][index].label
 						: ''
 				);
@@ -540,28 +541,16 @@ $(document).on('click', '.done-btn', function () {
 });
 
 $(document).on('click', '.slider-right-arrow', function () {
-	console.log('Clicou!');
-	console.log(currentBox);
-
 	// If a box is still being drawn, finish it
 	if (currentBox) {
 		boxCount++;
-		boxes.push({
-			color: currentBox.color,
-			height: currentBox.height,
-			label: 'ELEMENTO',
-			width: currentBox.width,
-			x: currentBox.x,
-			y: currentBox.y,
-		});
+		elements[current_slide].push(currentBox);
 		currentBox = null;
 	}
 
 	current_slide++;
 	boxes = elements[current_slide];
 	boxCount = boxes?.length || 0;
-
-	console.log(boxes);
 
 	if (current_slide >= slides_content.length - 1) {
 		// Hide slider right arrow
@@ -572,28 +561,16 @@ $(document).on('click', '.slider-right-arrow', function () {
 });
 
 $(document).on('click', '.slider-left-arrow', function () {
-	console.log('Clicou!');
-	console.log(currentBox);
-
 	// If a box is still being drawn, finish it
 	if (currentBox) {
 		boxCount++;
-		boxes.push({
-			color: currentBox.color,
-			height: currentBox.height,
-			label: 'ELEMENTO',
-			width: currentBox.width,
-			x: currentBox.x,
-			y: currentBox.y,
-		});
+		elements[current_slide].push(currentBox);
 		currentBox = null;
 	}
 
 	current_slide--;
 	boxes = elements[current_slide];
 	boxCount = boxes.length;
-
-	console.log(boxes);
 
 	updateElementInput();
 });
