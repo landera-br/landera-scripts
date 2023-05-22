@@ -312,10 +312,10 @@ function resetCanvas(slide_index, reset_boxes = true) {
 		}
 	});
 
-	updateCanvasListeners(ctx);
+	updateCanvasListeners();
 }
 
-function handleMouseDown(event, canvas, ctx) {
+function handleMouseDown(event, canvas) {
 	if (boxCount >= BOX_COLORS.length) {
 		return;
 	}
@@ -344,7 +344,10 @@ function handleMouseDown(event, canvas, ctx) {
 	}
 }
 
-function handleMouseMove(event, canvas, ctx) {
+function handleMouseMove(event, canvas) {
+	// Get canvas context
+	const ctx = canvas.getContext('2d');
+
 	if (currentBox) {
 		const { offsetX, offsetY } = event;
 		currentBox.width = offsetX - currentBox.x;
@@ -357,7 +360,10 @@ function handleMouseMove(event, canvas, ctx) {
 	}
 }
 
-function handleMouseUp(event, canvas, ctx) {
+function handleMouseUp(event, canvas) {
+	// Get canvas context
+	const ctx = canvas.getContext('2d');
+
 	if (currentBox) {
 		const { offsetX, offsetY } = event;
 		currentBox.width = offsetX - currentBox.x;
@@ -389,7 +395,7 @@ function drawBoxes(canvas, boxes) {
 	});
 }
 
-function updateCanvasListeners(ctx) {
+function updateCanvasListeners() {
 	// Remove all canvas event listeners
 	const canvas = document.querySelectorAll('canvas');
 	canvas.forEach((canvas) => {
@@ -401,9 +407,9 @@ function updateCanvasListeners(ctx) {
 	// Add event listeners to the current canvas
 	if (elements[current_slide].length < MAX_BOXES) {
 		const currentCanvas = canvas[current_slide];
-		currentCanvas.addEventListener('mousedown', handleMouseDown.bind(null, canvas, ctx));
-		currentCanvas.addEventListener('mousemove', handleMouseMove.bind(null, canvas, ctx));
-		currentCanvas.addEventListener('mouseup', handleMouseUp.bind(null, canvas, ctx));
+		currentCanvas.addEventListener('mousedown', handleMouseDown.bind(null, currentCanvas));
+		currentCanvas.addEventListener('mousemove', handleMouseMove.bind(null, currentCanvas));
+		currentCanvas.addEventListener('mouseup', handleMouseUp.bind(null, currentCanvas));
 	}
 }
 
