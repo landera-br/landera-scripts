@@ -451,13 +451,14 @@ function updateElementInput() {
 		// Update .element-input display and value
 		$('.element-input-wrapper').each(function (index, element) {
 			$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
-			$(this).find('.element-input').val(elements[current_slide][index].label);
+			$(this)
+				.find('.element-input')
+				.val(
+					elements[current_slide][index]?.label || elements[current_slide][index] !== 'ELEMENTO'
+						? elements[current_slide][index].label
+						: ''
+				);
 		});
-
-		if (current_slide >= slides_content.length - 1) {
-			// Hide slider right arrow
-			$('.slider-right-arrow').css('display', 'none');
-		}
 	} else {
 		// Hide .elements-input-block and show .elements-placeholder
 		$('.elements-input-block').css('display', 'none');
@@ -541,8 +542,12 @@ $(document).on('click', '.done-btn', function () {
 $(document).on('click', '.slider-right-arrow', function () {
 	current_slide++;
 	boxes = elements[current_slide];
-	boxCount = boxes.length;
+	boxCount = boxes?.length || 0;
 
+	if (current_slide >= slides_content.length - 1) {
+		// Hide slider right arrow
+		$('.slider-right-arrow').css('display', 'none');
+	}
 	updateElementInput();
 });
 
