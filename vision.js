@@ -417,10 +417,15 @@ function updateElements(element_index = 0, element_content) {
 		$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
 	});
 
-	// Clear last input with display flex
+	// Loop through all the `.element-input-wrapper` elements and clear last input with display flex
 	$('.element-input-wrapper').each(function (index, element) {
-		if ($(this).css('display') === 'flex') {
-			$(this).find('input').val('');
+		// Check if the display of the current `.element-input-wrapper` is `'flex'`
+		if ($(element).css('display') === 'flex') {
+			// Check if the current `.element-input-wrapper` is the last one with a display of `'flex'`
+			if ($(element).nextAll('.element-input-wrapper[style*="display: flex"]').length === 0) {
+				// Find the input element inside the current `.element-input-wrapper` and set its value to an empty string
+				$(element).find('.element-input').val('');
+			}
 		}
 	});
 
