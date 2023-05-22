@@ -454,7 +454,7 @@ function updateElementInput() {
 			$(this)
 				.find('.element-input')
 				.val(
-					elements[current_slide][index]?.label || elements[current_slide][index] !== 'ELEMENTO'
+					elements[current_slide][index]?.label && elements[current_slide][index] !== 'ELEMENTO'
 						? elements[current_slide][index].label
 						: ''
 				);
