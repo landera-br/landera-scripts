@@ -9,6 +9,8 @@ const TAGIFY_OBJECTS = {
 	mode: 'select',
 	enforceWhitelist: false,
 };
+const MAX_BOXES = 3;
+const BOX_COLORS = ['#3782ff', '#2AB24D', '#DB4437'];
 let tagify_rooms = new Tagify(document.querySelector('input[name=rooms]'), {
 	whitelist: [
 		'Banheiro',
@@ -308,70 +310,64 @@ function resetCanvas(slide_index, reset_boxes = true) {
 			boxCount = 0;
 			currentBox = null;
 		}
-
-		const colors = ['#3782ff', '#2AB24D', '#DB4437'];
-
-		function handleMouseDown(event) {
-			if (boxCount >= colors.length) {
-				return;
-			}
-			if (currentBox) {
-				// Finish drawing current box
-				boxes.push(currentBox);
-				currentBox = null;
-				boxCount++;
-				if (boxCount >= colors.length) {
-					canvas.removeEventListener('mousemove', handleMouseMove);
-				}
-
-				// Update elements block
-				updateElements(boxes.length - 1, boxes[boxes.length - 1]);
-			} else {
-				// Start drawing new box
-				const { offsetX, offsetY } = event;
-				currentBox = {
-					x: offsetX,
-					y: offsetY,
-					width: 0,
-					height: 0,
-					color: colors[boxCount],
-					label: 'ELEMENTO',
-				};
-			}
-		}
-
-		function handleMouseMove(event) {
-			if (currentBox) {
-				const { offsetX, offsetY } = event;
-				currentBox.width = offsetX - currentBox.x;
-				currentBox.height = offsetY - currentBox.y;
-
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
-				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-				boxes.forEach((box) => drawBoxes(canvas, [box]));
-				drawBoxes(canvas, [currentBox]);
-			}
-		}
-
-		function handleMouseUp(event) {
-			if (currentBox) {
-				const { offsetX, offsetY } = event;
-				currentBox.width = offsetX - currentBox.x;
-				currentBox.height = offsetY - currentBox.y;
-
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
-				ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-				boxes.forEach((box) => drawBoxes(canvas, [box]));
-				drawBoxes(canvas, [currentBox]);
-			}
-		}
-
-		if (elements[current_slide].length < 3) {
-			canvas.addEventListener('mousedown', handleMouseDown);
-			canvas.addEventListener('mousemove', handleMouseMove);
-			canvas.addEventListener('mouseup', handleMouseUp);
-		}
 	});
+
+	updateCanvasListeners();
+}
+
+function handleMouseDown(event) {
+	if (boxCount >= BOX_COLORS.length) {
+		return;
+	}
+	if (currentBox) {
+		// Finish drawing current box
+		boxes.push(currentBox);
+		currentBox = null;
+		boxCount++;
+		if (boxCount >= BOX_COLORS.length) {
+			canvas.removeEventListener('mousemove', handleMouseMove);
+		}
+
+		// Update elements block
+		updateElements(boxes.length - 1, boxes[boxes.length - 1]);
+	} else {
+		// Start drawing new box
+		const { offsetX, offsetY } = event;
+		currentBox = {
+			x: offsetX,
+			y: offsetY,
+			width: 0,
+			height: 0,
+			color: BOX_COLORS[boxCount],
+			label: 'ELEMENTO',
+		};
+	}
+}
+
+function handleMouseMove(event) {
+	if (currentBox) {
+		const { offsetX, offsetY } = event;
+		currentBox.width = offsetX - currentBox.x;
+		currentBox.height = offsetY - currentBox.y;
+
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+		boxes.forEach((box) => drawBoxes(canvas, [box]));
+		drawBoxes(canvas, [currentBox]);
+	}
+}
+
+function handleMouseUp(event) {
+	if (currentBox) {
+		const { offsetX, offsetY } = event;
+		currentBox.width = offsetX - currentBox.x;
+		currentBox.height = offsetY - currentBox.y;
+
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+		boxes.forEach((box) => drawBoxes(canvas, [box]));
+		drawBoxes(canvas, [currentBox]);
+	}
 }
 
 function drawBoxes(canvas, boxes) {
@@ -391,6 +387,24 @@ function drawBoxes(canvas, boxes) {
 		ctx.fillStyle = '#fff';
 		ctx.fillText(box.label.toUpperCase(), box.x + 8, box.y + 15);
 	});
+}
+
+function updateCanvasListeners() {
+	// Remove all canvas event listeners
+	const canvas = document.querySelectorAll('canvas');
+	canvas.forEach((canvas) => {
+		canvas.removeEventListener('mousedown', handleMouseDown);
+		canvas.removeEventListener('mousemove', handleMouseMove);
+		canvas.removeEventListener('mouseup', handleMouseUp);
+	});
+
+	// Add event listeners to the current canvas
+	if (elements[current_slide].length < MAX_BOXES) {
+		const currentCanvas = canvas[current_slide];
+		currentCanvas.addEventListener('mousedown', handleMouseDown);
+		currentCanvas.addEventListener('mousemove', handleMouseMove);
+		currentCanvas.addEventListener('mouseup', handleMouseUp);
+	}
 }
 
 function updateElements(element_index = 0, element_content) {
