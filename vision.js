@@ -378,6 +378,8 @@ function drawBoxes(canvas, boxes) {
 	const boxFillOpacity = 0.5;
 	const ctx = canvas.getContext('2d');
 
+	console.log('Desenhando');
+
 	boxes.forEach((box) => {
 		ctx.strokeStyle = box.color;
 		ctx.font = '700 14px Eudoxussans';
@@ -543,6 +545,15 @@ $(document).on('click', '.slider-right-arrow', function () {
 	// If a box is still being drawn, finish it
 	if (currentBox) {
 		currentBox = null;
+		boxCount++;
+		boxes.push({
+			color: currentBox.color,
+			height: currentBox.height,
+			label: 'ELEMENTO',
+			width: currentBox.width,
+			x: currentBox.x,
+			y: currentBox.y,
+		});
 	}
 
 	current_slide++;
@@ -558,9 +569,18 @@ $(document).on('click', '.slider-right-arrow', function () {
 });
 
 $(document).on('click', '.slider-left-arrow', function () {
-	// If a box is still being drawn, remove it
+	// If a box is still being drawn, finish it
 	if (currentBox) {
 		currentBox = null;
+		boxCount++;
+		boxes.push({
+			color: currentBox.color,
+			height: currentBox.height,
+			label: 'ELEMENTO',
+			width: currentBox.width,
+			x: currentBox.x,
+			y: currentBox.y,
+		});
 	}
 
 	current_slide--;
