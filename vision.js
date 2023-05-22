@@ -540,6 +540,12 @@ $(document).on('click', '.done-btn', function () {
 });
 
 $(document).on('click', '.slider-right-arrow', function () {
+	// If a box is still being drawn, remove it
+	if (currentBox) {
+		boxes.pop();
+		currentBox = null;
+	}
+
 	current_slide++;
 	boxes = elements[current_slide];
 	boxCount = boxes?.length || 0;
@@ -548,10 +554,17 @@ $(document).on('click', '.slider-right-arrow', function () {
 		// Hide slider right arrow
 		$('.slider-right-arrow').css('display', 'none');
 	}
+
 	updateElementInput();
 });
 
 $(document).on('click', '.slider-left-arrow', function () {
+	// If a box is still being drawn, remove it
+	if (currentBox) {
+		boxes.pop();
+		currentBox = null;
+	}
+
 	current_slide--;
 	boxes = elements[current_slide];
 	boxCount = boxes.length;
