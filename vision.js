@@ -407,6 +407,7 @@ function updateCanvasListeners() {
 	// Add event listeners to the current canvas
 	if (elements[current_slide].length < MAX_BOXES) {
 		const currentCanvas = canvas[current_slide];
+		console.log(currentCanvas);
 		currentCanvas.addEventListener('mousedown', handleMouseDown.bind(null, currentCanvas));
 		currentCanvas.addEventListener('mousemove', handleMouseMove.bind(null, currentCanvas));
 		currentCanvas.addEventListener('mouseup', handleMouseUp.bind(null, currentCanvas));
