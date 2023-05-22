@@ -544,7 +544,6 @@ $(document).on('click', '.done-btn', function () {
 $(document).on('click', '.slider-right-arrow', function () {
 	// If a box is still being drawn, finish it
 	if (currentBox) {
-		currentBox = null;
 		boxCount++;
 		boxes.push({
 			color: currentBox.color,
@@ -554,6 +553,7 @@ $(document).on('click', '.slider-right-arrow', function () {
 			x: currentBox.x,
 			y: currentBox.y,
 		});
+		currentBox = null;
 	}
 
 	current_slide++;
@@ -571,7 +571,6 @@ $(document).on('click', '.slider-right-arrow', function () {
 $(document).on('click', '.slider-left-arrow', function () {
 	// If a box is still being drawn, finish it
 	if (currentBox) {
-		currentBox = null;
 		boxCount++;
 		boxes.push({
 			color: currentBox.color,
@@ -581,6 +580,7 @@ $(document).on('click', '.slider-left-arrow', function () {
 			x: currentBox.x,
 			y: currentBox.y,
 		});
+		currentBox = null;
 	}
 
 	current_slide--;
