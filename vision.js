@@ -453,11 +453,7 @@ function updateElementInput() {
 			$(this).css('display', elements[current_slide][index] === undefined ? 'none' : 'flex');
 			$(this)
 				.find('.element-input')
-				.val(
-					elements[current_slide][index]?.label && elements[current_slide][index] !== 'ELEMENTO'
-						? elements[current_slide][index].label
-						: ''
-				);
+				.val(elements[current_slide][index]?.label ? elements[current_slide][index].label : '');
 		});
 	} else {
 		// Hide .elements-input-block and show .elements-placeholder
@@ -542,7 +538,6 @@ $(document).on('click', '.done-btn', function () {
 $(document).on('click', '.slider-right-arrow', function () {
 	// If a box is still being drawn, remove it
 	if (currentBox) {
-		boxes.pop();
 		currentBox = null;
 	}
 
@@ -561,7 +556,6 @@ $(document).on('click', '.slider-right-arrow', function () {
 $(document).on('click', '.slider-left-arrow', function () {
 	// If a box is still being drawn, remove it
 	if (currentBox) {
-		boxes.pop();
 		currentBox = null;
 	}
 
