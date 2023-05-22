@@ -445,7 +445,6 @@ function updateElements(element_index = 0, element_content) {
 // NOTE Listeners
 
 window.addEventListener('LR_DATA_OUTPUT', (e) => {
-	images = [];
 	if (e.detail.ctx === 'upload-context') {
 		// Push e.detail.data[] values to images array
 		e.detail.data.forEach((image) => {
@@ -565,4 +564,8 @@ $(document).on('click', '#btn-add-images', function () {
 
 $(document).on('mouseenter', '.tippy', function () {
 	tippy(this);
+});
+
+$(document).on('click', '.add-more-btn', function () {
+	images = [];
 });
