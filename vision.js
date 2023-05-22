@@ -305,8 +305,8 @@ function resetCanvas(slide_index, reset_boxes = true) {
 
 		if (reset_boxes) {
 			boxes = [];
-			currentBox = null;
 			boxCount = 0;
+			currentBox = null;
 		}
 
 		const colors = ['#3782ff', '#2AB24D', '#DB4437'];
@@ -517,6 +517,8 @@ $(document).on('click', '.done-btn', function () {
 
 $(document).on('click', '.slider-right-arrow', function () {
 	current_slide++;
+	boxes = elements[current_slide];
+	boxCount = boxes.length;
 
 	if (current_slide >= slides_content.length - 1) {
 		// Hide slider right arrow
@@ -526,6 +528,8 @@ $(document).on('click', '.slider-right-arrow', function () {
 
 $(document).on('click', '.slider-left-arrow', function () {
 	current_slide--;
+	boxes = elements[current_slide];
+	boxCount = boxes.length;
 });
 
 $(document).on('click', '.btn-generate', async function () {
@@ -568,4 +572,5 @@ $(document).on('mouseenter', '.tippy', function () {
 
 $(document).on('click', '.add-more-btn', function () {
 	images = [];
+	$('lr-drop-area').click();
 });
