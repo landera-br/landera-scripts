@@ -378,8 +378,6 @@ function drawBoxes(canvas, boxes) {
 	const boxFillOpacity = 0.5;
 	const ctx = canvas.getContext('2d');
 
-	console.log('Desenhando');
-
 	boxes.forEach((box) => {
 		ctx.strokeStyle = box.color;
 		ctx.font = '700 14px Eudoxussans';
@@ -542,6 +540,9 @@ $(document).on('click', '.done-btn', function () {
 });
 
 $(document).on('click', '.slider-right-arrow', function () {
+	console.log('Clicou!');
+	console.log(currentBox);
+
 	// If a box is still being drawn, finish it
 	if (currentBox) {
 		boxCount++;
@@ -560,6 +561,8 @@ $(document).on('click', '.slider-right-arrow', function () {
 	boxes = elements[current_slide];
 	boxCount = boxes?.length || 0;
 
+	console.log(boxes);
+
 	if (current_slide >= slides_content.length - 1) {
 		// Hide slider right arrow
 		$('.slider-right-arrow').css('display', 'none');
@@ -569,6 +572,9 @@ $(document).on('click', '.slider-right-arrow', function () {
 });
 
 $(document).on('click', '.slider-left-arrow', function () {
+	console.log('Clicou!');
+	console.log(currentBox);
+
 	// If a box is still being drawn, finish it
 	if (currentBox) {
 		boxCount++;
@@ -586,6 +592,8 @@ $(document).on('click', '.slider-left-arrow', function () {
 	current_slide--;
 	boxes = elements[current_slide];
 	boxCount = boxes.length;
+
+	console.log(boxes);
 
 	updateElementInput();
 });
